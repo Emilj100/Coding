@@ -2,4 +2,4 @@
 name = input("What's your name? ")
 
 # Say hello to user
-Print ("hello," + name)
+print("hello," + name)
