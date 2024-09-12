@@ -2,7 +2,7 @@
 name = input("What's your name? ")
 
 # Remove whitespace from str
-name = name.strip(",")
+name = name.strip()
 
 # Say hello to user
 print(f"hello, {name}")
