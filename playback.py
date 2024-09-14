@@ -1,5 +1,5 @@
 def convert(text):
-    return modified_text
+    return 
 
 def main():
     user_input = input("Hi, how are you? ")
