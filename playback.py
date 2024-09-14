@@ -1,4 +1,4 @@
 def convert():
-    replace(":)", "🙂")
+    name = name.replace(":)", "🙂")
 
 convert()
