@@ -1,6 +1,6 @@
 name = input("Hi, how are you?")
 
-name = name.casefold()
+name = name.partition()
 
 print(name)
 
