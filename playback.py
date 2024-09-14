@@ -1,5 +1,6 @@
 def convert(text):
-    return 
+    text = text.replace(":)", )
+    return text
 
 def main():
     user_input = input("Hi, how are you? ")
