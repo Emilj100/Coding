@@ -1,10 +1,16 @@
-# Spørger brugeren hvad m er
-M = input("What is M?")
+def main():
+    dollars = dollars_to_float(input("How much was the meal? "))
+    percent = percent_to_float(input("What percentage would you like to tip? "))
+    tip = dollars * percent
+    print(f"Leave ${tip:.2f}")
 
-# C's værdi
-C = 300000000
 
-# Regnestykket
-E = int(M) * int(C*C)
+def dollars_to_float(d):
+    # TODO
 
-print(E)
+
+def percent_to_float(p):
+    # TODO
+
+
+main()
