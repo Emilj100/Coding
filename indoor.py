@@ -1,6 +1,6 @@
 name = input("Hi, how are you?")
 
-name = name.partition()
+name = name.center(3)
 
 print(name)
 
