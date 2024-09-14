@@ -1,2 +1,4 @@
 def convert():
-    
+    replace(":)", "🙂")
+
+convert()
