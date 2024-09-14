@@ -1,10 +1,10 @@
 def convert(text):
-    text = text.replace(":)", "🙂")
+    text = text.replace(":)", "🙂").replace(":(", "🙁")
     return text
 
 def main():
-    user_input = input("Hi, how are you? ")
-    result = convert(user_input)
+    user = input("Hi, how are you? ")
+    result = convert(user)
     print(result)
 
 main()
