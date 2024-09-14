@@ -1,6 +1,6 @@
 name = input("Hi, how are you?")
 
-name = name.center(3)
+name = name.replace()
 
 print(name)
 
