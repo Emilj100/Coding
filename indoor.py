@@ -4,4 +4,6 @@ x = x.removeprefix("$")
 
 y = float(x)
 
-print(y)
+z = int(y)
+
+print(z)
