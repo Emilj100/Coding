@@ -4,6 +4,6 @@ x = x.removesuffix("%")
 
 z = float(x)
 
-y = int(dollars) * int()
+y = int(z) / int(100)
 
 print(z)
