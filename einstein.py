@@ -18,6 +18,10 @@ def percent_to_float(p):
 
     c = float(b)
 
+    x = int(dollars_to_float) * int(c)
+
+    return x
+
 
 
 main()
