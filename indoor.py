@@ -2,8 +2,8 @@ x = input("How much would you like to tip? ")
 
 x = x.removesuffix("%")
 
-z = float(x)
+z = int(x) / int(100)
 
-y = int(z) / int(100)
+y = float(z)
 
-print(z)
+print(y)
