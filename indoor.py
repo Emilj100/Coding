@@ -2,8 +2,8 @@ x = input("How much was the meal? ")
 
 x = x.removeprefix("$")
 
-z = int(x)
+z = float(x)
 
-y = float(z)
+y = int(z)
 
 print(y)
