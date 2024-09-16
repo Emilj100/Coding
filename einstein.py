@@ -20,9 +20,7 @@ def percent_to_float(p):
 
     c = int(x) / int(100)
 
-    x = float(c)
-
-    return x
+    return c
 
 
 main()

@@ -4,6 +4,4 @@ x = x.removesuffix("%")
 
 z = int(x) / int(100)
 
-y = float(z)
-
-print(y)
+print(z)
