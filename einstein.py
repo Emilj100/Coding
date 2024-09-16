@@ -16,14 +16,13 @@ def dollars_to_float(d):
 
 
 def percent_to_float(p):
-    b = p.removeprefix("$")
+    b = p.removesuffix("%")
 
-    c = float(b)
+    c = int(x) / int(100)
 
-    x = int() * int(c)
+    x = float(c)
 
     return x
-
 
 
 main()
