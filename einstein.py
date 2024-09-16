@@ -10,6 +10,8 @@ def dollars_to_float(d):
 
     z = float(a)
 
+    int(z)
+
     return z
 
 
