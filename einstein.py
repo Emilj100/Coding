@@ -14,6 +14,9 @@ def dollars_to_float(d):
 
 
 def percent_to_float(p):
+    b = p.removeprefix("$")
+
+    float
 
 
 
