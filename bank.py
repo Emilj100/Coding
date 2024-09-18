@@ -1,6 +1,6 @@
 def main():
     name = input("Hi there")
-    if dollars(name):
+    if "ello" in name:
         print("$0")
     elif funktion(name):
         print("$20")
@@ -10,10 +10,6 @@ def main():
 
 def funktion(x):
     return x.startswith("H")
-
-def dollars(z):
-    return z.endswith("ello")
-
 
 
 main()
