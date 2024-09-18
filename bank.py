@@ -1,5 +1,6 @@
 name = input("Hi there")
 
+name = name. 
 
 match name:
     case "Hello" | "forty two" | "forty-two":
