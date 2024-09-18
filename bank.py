@@ -1,6 +1,5 @@
 name = input("Hi there")
 
-if name == "Hello"
-name = name.strip("ello")
+name = name.startswith()
 
-print(name)
+
