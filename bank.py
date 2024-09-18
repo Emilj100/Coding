@@ -8,8 +8,7 @@ def main():
 
 
 def funktion(x):
-    x = x.startswith("H"):
-    return True
+    return x.startswith("H")
 
 main ()
 
