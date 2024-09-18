@@ -8,7 +8,6 @@ def main():
         print("$100")
 
 
-
 def funktion(x):
     return x.startswith("H")
 
