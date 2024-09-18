@@ -2,7 +2,8 @@ expression = ("Expression:")
 
 x, y, z = expression.split(" ")
 
-x,
+x = float(x)
+y = float(y)
 
 if y == "+":
     name = x + z
