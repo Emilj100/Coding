@@ -1,9 +1,9 @@
 def main():
     name = input("Hi there")
-    if funktion(name):
-        print("$20")
-    elif dollars(name):
+    if dollars(name):
         print("$0")
+    elif funktion(name):
+        print("$20")
     else:
         print("$100")
 
