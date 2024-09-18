@@ -1,4 +1,4 @@
-name = input().strip().lower()
+name = input("hi").strip().lower()
 
 if name.endswith(".gif"):
     print("image/gif")
