@@ -2,4 +2,8 @@ name = input("What is the answer to the great question of life, the universe, an
 
 name = name.strip().casefold()
 
-print(name)
+match name:
+    case "42" | "forty Two" | "forty-two":
+        print("Yes")
+    case _:
+        print("No")
