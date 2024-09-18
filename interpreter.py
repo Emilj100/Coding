@@ -1,11 +1,17 @@
-expression = ("Expression:")
+expression = input("Expression:")
 
 x, y, z = expression.split(" ")
 
 x = float(x)
-y = float(y)
+z = float(z)
 
 if y == "+":
     name = x + z
+elif y == "-":
+    name = x - z
+elif y == "*":
+    name = x * z
+else:
+    name = x / z
 
 print(name)
