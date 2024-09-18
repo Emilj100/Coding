@@ -11,8 +11,8 @@ elif name.endswith(".png"):
 elif name.endswith(".pdf"):
     print("application/pdf")
 elif name.endswith(".txt"):
-    print("image/txt")
+    print("text/plain")
 elif name.endswith(".zip"):
-    print("image/zip")
+    print("application/zip")
 else:
     print("application/octet-stream")
