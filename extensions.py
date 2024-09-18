@@ -16,5 +16,5 @@ match name:
     case ".zip":
         print("image/zip")
     case _:
-        print()
+        print("application/octet-stream")
 
