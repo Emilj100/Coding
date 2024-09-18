@@ -9,7 +9,7 @@ elif name.endswith(".jpeg"):
 elif name.endswith(".png"):
     print("image/png")
 elif name.endswith(".pdf"):
-    print("image/pdf")
+    print("application/pdf")
 elif name.endswith(".txt"):
     print("image/txt")
 elif name.endswith(".zip"):
