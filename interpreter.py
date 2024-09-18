@@ -2,6 +2,9 @@ expression = ("Expression:")
 
 x, y, z = expression.split(" ")
 
-name = int(x) y int(z)
+x,
+
+if y == "+":
+    name = x + z
 
 print(name)
