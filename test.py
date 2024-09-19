@@ -12,7 +12,8 @@ time = convert(time)
 
 
 def convert(test):
-    
+    hours, minutes = time.split(":")
+    return float(hours) + float(minutes) / 60
 
 
 if __name__ == "__main__":
