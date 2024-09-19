@@ -12,8 +12,8 @@ def main():
         print("dinner time")
 
 
-def convert(test):
-    hours, minutes = test.split(":")
+def convert(time):
+    hours, minutes = time.split(":")
     return float(hours) + float(minutes) / 60
 
 if __name__ == "__main__":
