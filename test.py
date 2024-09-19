@@ -1,7 +1,7 @@
 
 def main():
     time = input("What time is it? ")
-    
+
     time = convert(time)
 
     if 7.0 <= time <= 8.0:
@@ -13,7 +13,7 @@ def main():
 
 
 def convert(test):
-    hours, minutes = time.split(":")
+    hours, minutes = test.split(":")
     return float(hours) + float(minutes) / 60
 
 
