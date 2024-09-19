@@ -16,5 +16,5 @@ def convert(test):
     hours, minutes = test.split(":")
     return float(hours) + float(minutes) / 60
 
-
-main()
+if __name__ == "__main__":
+    main()
