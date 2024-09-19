@@ -1,7 +1,9 @@
-while True:
-    n = int(input("What's n? "))
-    if n > 0:
-        break
+def main():
+    meow(3)
 
-for _ in range(n):
-    print("meow")
+
+
+def meow(n):
+    for _ in range(n):
+        print("meow")
+
