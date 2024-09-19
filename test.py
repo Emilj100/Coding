@@ -1,6 +1,7 @@
 
 def main():
-    time = input("What time is it? ").strip()
+    time = input("What time is it? ")
+    
     time = convert(time)
 
     if 7.0 <= time <= 8.0:
