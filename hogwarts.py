@@ -1,2 +1,2 @@
-students = ["Hermione", "Harry", "Ron"]
-houses = 
+students = ["Hermione", "Harry", "Ron", "Draco"]
+houses = ["Gryffindor", "Gryffinder", "Gryffindor", "Slytherin"]
