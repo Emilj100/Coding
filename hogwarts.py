@@ -5,4 +5,7 @@ students = {
     "Draco": "Slytherin",
 }
 
-print(students)
+print(students["Hermione"])
+print(students["Harry"])
+print(students["Ron"])
+print(students["Draco"])
