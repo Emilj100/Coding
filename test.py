@@ -5,9 +5,12 @@ def main():
 def uppercase(case):
     for c in case:
         print(c, end="")
-        case.isupper()
-        if True:
-            print("Godt")
+        c.isupper()
+        if c.isupper():
+            print("godt")
+        else:
+            print("nej")
+
 
 
 
