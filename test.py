@@ -4,14 +4,10 @@ def main():
 
 def uppercase(case):
     for c in case:
-        print(c, end="")
-        c.isupper()
         if c.isupper():
-            print("godt")
+            print("_")
         else:
-            print("nej")
-
-
+            print(c, end="")
 
 
 
