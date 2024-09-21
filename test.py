@@ -8,8 +8,6 @@ def uppercase(case):
         case.isupper()
         if True:
             print("Godt")
-        else:
-            print("no")
 
 
 
