@@ -4,4 +4,4 @@ user_input = uppercase(user_input)
 
 def uppercase(case):
     case = case.isupper()
-    return case 
+    return case
