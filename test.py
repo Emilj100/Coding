@@ -5,7 +5,9 @@ def main():
 def uppercase(case):
     for c in case:
         if c.isupper():
-            print("_", c, sep="")
+            print("_", end="")
+            c.lower()
+            print(c, sep="")
         else:
             print(c, end="")
 
