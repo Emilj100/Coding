@@ -5,5 +5,13 @@ def main():
 def uppercase(case):
     for c in case:
         print(c, end="")
+        case.isupper()
+        if True:
+            print("Godt")
+        else:
+            print("no")
+
+
+
 
 main()
