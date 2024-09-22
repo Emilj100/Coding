@@ -5,4 +5,7 @@ coin = int(input("Insert Coin"))
 due = 50
 
 while due <= 0:
-    if coin == 25, 10, 5
+    if coin == 25 or coin == 10 or coin == 5:
+        print("rigtigt")
+    else:
+        print("forkert")
