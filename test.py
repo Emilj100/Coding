@@ -1,15 +1,19 @@
 def main():
     camel_case = input("Please write a name in camelCase")
-    camel_case = uppercase(camel_case)
+    snake_case = uppercase(camel_case)
+    print(snake_case)
 
 def uppercase(case):
+    result = ""
     for c in case:
         if c.isupper():
-            print("_", end="")
-            c = c.lower()
-            print(c, end="", sep="")
+            result += "_"
+            result += c.lower()
         else:
-            print(c, end="")
+            result += c
+
+    return result
+
 
 
 
