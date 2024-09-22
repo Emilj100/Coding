@@ -1,5 +1,5 @@
 # Beder brugeren om at indsætte et mønt
-coin = int(input("Insert Coin"))
+coin = int(input("Insert Coin: "))
 
 # Viser hvor meget brugeren skylder (Starter med 50 cents)
 due = 50
@@ -7,7 +7,6 @@ due = 50
 
 while due >= 0:
     if coin == 25 or coin == 10 or coin == 5:
-        return due - coin
-    else:
-        return False
-
+        print("Amount Due:", due - coin)
+        coin = int(input("Insert Coin: "))
+        
