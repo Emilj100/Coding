@@ -1,14 +1,15 @@
-# Beder brugeren om at indsætte et mønt
-coin = int(input("Insert Coin"))
 
-# Viser hvor meget brugeren skylder (Starter med 50 cents)
+def main():
+    coin = int(input("Insert Coin: "))
+    coin = machine(coin)
+
 due = 50
 
+def machine(cash):
+    while due >= 0:
+        if cash == 25 or cash == 10 or cash == 5:
+            return due - cash
+        else:
+            return False
 
-while due >= 0:
-    if coin == 25 or coin == 10 or coin == 5:
-        print("Amount Due:", due - coin)
-      
-    else:
-        print("forkert")
-
+main()
