@@ -2,5 +2,7 @@
 coin = int(input("Insert Coin"))
 
 # Viser hvor meget brugeren skylder (Starter med 50 cents)
-Due = 50
+due = 50
 
+while due <= 0:
+    if coin == 25, 10, 5
