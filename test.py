@@ -1,5 +1,5 @@
 def main():
-    camel_case = input("Please write a name in camelCase")
+    camel_case = input("Please write a name in camelCase: ").strip()
     snake_case = uppercase(camel_case)
     print(snake_case)
 
