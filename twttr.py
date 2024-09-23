@@ -5,6 +5,7 @@ def main():
 
 def short(short_version):
     for c in short_version:
+        
     print(c, end="")
 
 main()
