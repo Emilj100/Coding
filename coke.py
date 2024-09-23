@@ -9,7 +9,7 @@ while due > 0:
     else:
         coin = int(input("Insert Coin: "))
 
-while due == 0:
+while due <= 0:
     if due == 0:
         due + coin
         print("Change Owed: ", due)
