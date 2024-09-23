@@ -7,6 +7,7 @@ while due > 0:
     if coin == 25 or coin == 10 or coin == 5:
         due = due - coin
     else:
+        print("Amount Due:", due)
         coin = int(input("Insert Coin: "))
 
 if due < 0:
