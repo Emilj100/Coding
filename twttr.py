@@ -4,9 +4,13 @@ def main():
     print(new_version)
 
 def short(short_version):
+    result = ""
     for c in short_version:
-        if c = [a]
-
-    print(c, end="")
+        if c = ["a", "e", "i", "o", "A", "E", "I", "O", "U"]:
+            result -= c
+        else:
+            result += c
+            
+    return result
 
 main()
