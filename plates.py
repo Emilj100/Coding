@@ -7,7 +7,8 @@ def main():
 
 
 def is_valid(s):
-    for 
+    for c in s:
+        
 
 
 
