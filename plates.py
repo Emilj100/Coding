@@ -8,10 +8,10 @@ def main():
 
 def is_valid(s):
         # Sikre at de 2 første tegn er bogstaver
-    if s[0:2].isalpha():
+    if not s[0:2].isalpha():
         #Sikre at der maks er 6 tegn i nummberpladen
-        if len(s) <= 6:
-                return True
+        if not len(s) <= 6:
+                return False
     else:
          return False
 
