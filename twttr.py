@@ -8,4 +8,9 @@ def short(short_version):
     for c in short_version:
         if c == ["a", "e", "i", "o", "A", "E", "I", "O", "U"]:
             result -= c
-            return result
+        else:
+            result += c
+
+    return result
+
+main()
