@@ -11,7 +11,8 @@ while due > 0:
         due = due - coin
         print("Amount Due:", due)
     elif due == 0:
-        print("due")
+        due + coin
+        print("Change Owed: ", due)
     else:
         coin = int(input("Insert Coin: "))
 
