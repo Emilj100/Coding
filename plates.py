@@ -4,8 +4,6 @@ def main():
         print("Valid")
     else:
         print("Invalid")
-# Sikre at de 2 første tegn er bogstaver
-      #Sikre at der maks er 6 tegn i nummberpladen
 
 def is_valid(s):
     # Sikre at de 2 første tegn er bogstaver
