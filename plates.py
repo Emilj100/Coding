@@ -8,6 +8,7 @@ def main():
 
 def is_valid(s):
     for c in s:
+        found_digit = c.isdigit()
 
 
 
