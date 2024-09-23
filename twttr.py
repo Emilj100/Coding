@@ -6,7 +6,7 @@ def main():
 def short(short_version):
     result = ""
     for c in short_version:
-        if c not in ["a", "e", "i", "o", "A", "E", "I", "O", "U"]:
+        if c not in ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]:
             result += c
 
     return result
