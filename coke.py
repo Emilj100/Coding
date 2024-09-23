@@ -11,7 +11,9 @@ while due > 0:
         due = due - coin
         print("Amount Due:", due)
     else:
-        print("Prøv igen")
-        break
+        coin = int(input("Insert Coin: "))
+
+
+
 
 
