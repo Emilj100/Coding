@@ -18,7 +18,7 @@ def is_valid(s):
     for c in s:
          # Tjekker hvornår der er tal i nummerpladen
          found_digit = c.isdigit()
-         if found_digit == 0:
+    if found_digit == 0:
               return False
          elif c.isalpha():
               return False
