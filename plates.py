@@ -11,7 +11,7 @@ def is_valid(s):
         found_digit = c.isdigit()
         if found_digit == 0:
             break
-        elif found_digit.isalpha():
+        elif c.isalpha():
             return False
 
 
