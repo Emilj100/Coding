@@ -5,7 +5,8 @@ def main():
 
 def short(short_version):
     for c in short_version:
-        
+        if c = [a]
+
     print(c, end="")
 
 main()
