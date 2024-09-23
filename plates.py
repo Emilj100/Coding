@@ -7,18 +7,21 @@ def main():
 
 
 def is_valid(s):
-    for c in s:
         # Sikre at de 2 første tegn er bogstaver
-        if s[0:2].isalpha():
-            #Sikre at der maks er 6 tegn i nummberpladen
-            if len(s) <= 6:
+    if s[0:2].isalpha():
+        #Sikre at der maks er 6 tegn i nummberpladen
+        if len(s) <= 6:
                 return True
-    # Tjekker hvornår der er tal i nummerpladen
-    found_digit = c.isdigit()
-    if found_digit == 0:
-        return False
-    elif c.isalpha():
-        return False
+    else:
+         return False
+
+    for c in s:
+         # Tjekker hvornår der er tal i nummerpladen
+         found_digit = c.isdigit()
+         if found_digit == 0:
+              return False
+         elif c.isalpha():
+              return False
 
 
 
