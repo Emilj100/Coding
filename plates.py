@@ -12,15 +12,9 @@ def is_valid(s):
         if found_digit == 0:
             break
         elif found_digit.isalpha():
-            return
+            return False
 
 
-
-
-
-if s[0:2].isalpha():
-     if len(s) <= 6:
-         return True
 
 
 main()
