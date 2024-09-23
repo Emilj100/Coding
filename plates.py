@@ -10,7 +10,7 @@ def is_valid(s):
     for c in s:
         found_digit = c.isdigit()
         if found_digit == 0:
-            break
+            return False
         elif c.isalpha():
             return False
 
