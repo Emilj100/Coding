@@ -11,6 +11,8 @@ def is_valid(s):
         found_digit = c.isdigit()
         if found_digit == 0:
             return False
+        elif found_digit.isalpha():
+            return False
 
 
 
