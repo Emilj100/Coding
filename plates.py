@@ -18,6 +18,8 @@ def is_valid(s):
     found_digit = False
 
     for c in s:
+        if c == "," or c == " " or c == ".":
+            return False
         if c.isdigit():
             if not found_digit:
                 found_digit = True
