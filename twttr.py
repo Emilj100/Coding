@@ -1,7 +1,7 @@
 def main():
     full_version = input("Input: ")
     new_version = short(full_version)
-    print("Output: ", new_version)
+    print(new_version)
 
 def short(short_version):
     result = ""
