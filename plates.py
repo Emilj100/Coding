@@ -8,16 +8,16 @@ def main():
 
 def is_valid(s):
     for c in s:
-        found_digit = c.isdigit()
-        if found_digit == 0:
-            return False
-        elif c.isalpha():
-            return False
+        if s[0:2].isalpha():
+            if len(s) <= 6:
+                return True
+    found_digit = c.isdigit()
+    if found_digit == 0:
+        return False
+    elif c.isalpha():
+        return False
 
 
 
-if s[0:2].isalpha():
-     if len(s) <= 6:
-         return True
 
 main()
