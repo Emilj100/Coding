@@ -10,7 +10,6 @@ while due > 0:
         due = due - coin
         print("Amount Due:", due)
         coin = int(input("Insert Coin: "))
-        due = due - coin
     else:
         print("Prøv igen")
         break
