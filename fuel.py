@@ -1,5 +1,7 @@
 try:
-    x, y = int(input("Fraction: ")).split("/")
+    x, y = (input("Fraction: ").split("/"))
+    x = int(x)
+    y = int(y)
 except ValueError:
     ...
 except ZeroDivisionError:
