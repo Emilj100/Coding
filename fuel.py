@@ -17,7 +17,4 @@ while True:
     except ZeroDivisionError:
         pass
     else:
-        pass
-
-
-    print(procent, "%", sep="")
+        print(procent, "%", sep="")
