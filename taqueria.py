@@ -11,10 +11,14 @@ items = {
     "Tortilla Salad": 8.00
 }
 
+x = False
+
 while True:
     item = input("Item: ").title()
 
     if item == "Control-d":
         break
-    if item in items:
-        print("Total: ", "$", items[item], sep="")
+
+    x = items[item] + x
+
+    print(x)
