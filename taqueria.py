@@ -11,3 +11,9 @@ items = {
     "Tortilla Salad": 8.00
 }
 
+while True:
+    item = input("Item: ").title()
+
+    if item == "Control-d":
+        break
+    
