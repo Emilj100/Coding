@@ -7,8 +7,10 @@ while True:
 
         if procent <= 1:
             print("E")
+            break
         if procent >= 99:
             print("F")
+            break
         if x > y:
             pass
 
@@ -18,3 +20,4 @@ while True:
         pass
     else:
         print(procent, "%", sep="")
+        break
