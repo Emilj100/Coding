@@ -21,4 +21,4 @@ while True:
 
     x = items[item] + x
 
-    print(x)
+    print(f"${x}")
