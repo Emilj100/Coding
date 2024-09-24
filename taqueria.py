@@ -16,7 +16,7 @@ x = False
 while True:
     item = input("Item: ").title()
 
-    if item == "Control-d":
+    if item == "Control-D":
         break
 
     x = items[item] + x
