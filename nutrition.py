@@ -1,29 +1,28 @@
 user_input = input("Item: ").lower()
 
 fruits = {
-    "Apple": "Calories: 130",
-    "Avocado": "Calories: 50",
-    "Banana": "Calories: 110",
-    "Cantaloupe": "Calories: 50",
-    "Grapefruit": "Calories: 60",
-    "Grapes": "Calories: 90",
-    "Honeydew Melon": "Calories: 50",
-    "Kiwifruit": "Calories: 90",
-    "Lemon": "Calories: 15",
-    "Lime": "Calories: 20",
-    "Nectarine": "Calories: 60",
-    "Orange": "Calories: 80"
-    "Peach" "Calories: 60",
-    "Pear": "Calories: 100",
-    "Pineapple": "Calories: 50",
-    "Plums": "Calories: 70",
-    "Strawberries": "Calories: 50",
-    "Sweet Cherries": "Calories: 100",
-    "Tangerine": "Calories: 50",
-    "Watermelon": "Calories: 80",
+    "apple": "Calories: 130",
+    "avocado": "Calories: 50",
+    "banana": "Calories: 110",
+    "cantaloupe": "Calories: 50",
+    "grapefruit": "Calories: 60",
+    "grapes": "Calories: 90",
+    "honeydew Melon": "Calories: 50",
+    "kiwifruit": "Calories: 90",
+    "lemon": "Calories: 15",
+    "lime": "Calories: 20",
+    "nectarine": "Calories: 60",
+    "orange": "Calories: 80"
+    "peach" "Calories: 60",
+    "pear": "Calories: 100",
+    "pineapple": "Calories: 50",
+    "plums": "Calories: 70",
+    "strawberries": "Calories: 50",
+    "sweet Cherries": "Calories: 100",
+    "tangerine": "Calories: 50",
+    "watermelon": "Calories: 80",
 }
 
 if user_input in fruits:
     print(fruits[user_input])
-else:
 
