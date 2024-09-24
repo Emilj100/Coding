@@ -13,7 +13,7 @@ fruits = {
     "Lime": "Calories: 20",
     "Nectarine": "Calories: 60",
     "Orange": "Calories: 80"
-    "Peach": "Calories: 60",
+    "Peach" "Calories: 60",
     "Pear": "Calories: 100",
     "Pineapple": "Calories: 50",
     "Plums": "Calories: 70",
@@ -22,3 +22,8 @@ fruits = {
     "Tangerine": "Calories: 50",
     "Watermelon": "Calories: 80",
 }
+
+if user_input in fruits:
+    print(fruits[user_input])
+else:
+
