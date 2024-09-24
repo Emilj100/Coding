@@ -7,7 +7,7 @@ fruits = {
     "cantaloupe": "Calories: 50",
     "grapefruit": "Calories: 60",
     "grapes": "Calories: 90",
-    "honeydew Melon": "Calories: 50",
+    "honeydew melon": "Calories: 50",
     "kiwifruit": "Calories: 90",
     "lemon": "Calories: 15",
     "lime": "Calories: 20",
