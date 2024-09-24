@@ -9,10 +9,12 @@ while True:
             print("E")
         if procent >= 99:
             print("F")
+        if x > y:
+            pass
 
     except ValueError:
-        ...
+        pass
     except ZeroDivisionError:
-        ...
+        pass
 
     print(procent, "%", sep="")
