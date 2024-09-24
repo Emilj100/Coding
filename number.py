@@ -1,7 +1,7 @@
 def main():
     x = get_int("What's x? ")
     y = get_int("What's y? ")
-    print("x is", x, "y is", y)
+    print(f"x is {x} and y is {y}")
 
 
 def get_int(prompt):
