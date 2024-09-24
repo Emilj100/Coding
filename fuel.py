@@ -12,7 +12,7 @@ while True:
             print("F")
             break
         if x > y:
-            pass
+            break
 
     except ValueError:
         pass
