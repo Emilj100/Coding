@@ -6,7 +6,7 @@ while True:
         procent = round((x / y) * 100)
 
         if x > y:
-            pass
+            raise ValueError
         if procent <= 1:
             print("E")
             break
