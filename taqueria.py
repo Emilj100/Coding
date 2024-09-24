@@ -11,18 +11,18 @@ items = {
     "Tortilla Salad": 8.00
 }
 
-x = False
+x = 0.0
 
 while True:
     try:
         item = input("Item: ").title()
-
-        x = items[item] + x
-
-        print(f"${x:.2f}")
-
     except EOFError:
         break
+
+    x = items[item] + x
+
+    print(f"${x:.2f}")
+
     else:
         continue
 
