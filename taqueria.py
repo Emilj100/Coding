@@ -21,7 +21,6 @@ while True:
     if item in items:
         x += items[item]
         print(f"${x:.2f}")
-
     else:
         continue
 
