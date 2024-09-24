@@ -13,7 +13,7 @@ fruits = {
     "lime": "Calories: 20",
     "nectarine": "Calories: 60",
     "orange": "Calories: 80"
-    "peach" "Calories: 60",
+    "peach": "Calories: 60",
     "pear": "Calories: 100",
     "pineapple": "Calories: 50",
     "plums": "Calories: 70",
