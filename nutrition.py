@@ -21,5 +21,4 @@ fruits = {
     "Sweet Cherries": "Calories: 100",
     "Tangerine": "Calories: 50",
     "Watermelon": "Calories: 80",
-
 }
