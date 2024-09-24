@@ -16,4 +16,5 @@ while True:
 
     if item == "Control-d":
         break
-    
+    if item in items:
+        print("Total:", "$", items[item])
