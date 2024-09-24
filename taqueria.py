@@ -14,11 +14,15 @@ items = {
 x = False
 
 while True:
-    item = input("Item: ").title()
+    try:
+        item = input("Item: ").title()
 
-    if item == "Control-D":
+        x = items[item] + x
+
+        print(f"${x:.2f}")
+
+    except EOFError:
         break
+    else:
+        continue
 
-    x = items[item] + x
-
-    print(f"${x:.2f}")
