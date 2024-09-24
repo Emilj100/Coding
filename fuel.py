@@ -20,4 +20,4 @@ while True:
         pass
 
 
-print(procent, "%", sep="")
+    print(procent, "%", sep="")
