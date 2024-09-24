@@ -1,3 +1,4 @@
-x = input("Whats x")
-x = float()
-print(x)
+try:
+    item = input()
+except EOFError:
+    print("fuck dig")
