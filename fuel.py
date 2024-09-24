@@ -11,9 +11,9 @@ while True:
         if procent >= 99:
             print("F")
             break
-        if x > y:
-            break
 
+    except x > y:
+        pass
     except ValueError:
         pass
     except ZeroDivisionError:
