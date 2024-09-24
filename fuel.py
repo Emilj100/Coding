@@ -5,6 +5,8 @@ while True:
         y = int(y)
         procent = round((x / y) * 100)
 
+        if x > y:
+            pass
         if procent <= 1:
             print("E")
             break
@@ -12,8 +14,6 @@ while True:
             print("F")
             break
 
-    except x > y:
-        pass
     except ValueError:
         pass
     except ZeroDivisionError:
