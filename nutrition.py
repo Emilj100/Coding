@@ -18,7 +18,7 @@ fruits = {
     "pineapple": "Calories: 50",
     "plums": "Calories: 70",
     "strawberries": "Calories: 50",
-    "sweet Cherries": "Calories: 100",
+    "sweet cherries": "Calories: 100",
     "tangerine": "Calories: 50",
     "watermelon": "Calories: 80",
 }
