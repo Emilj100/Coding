@@ -18,10 +18,9 @@ while True:
         item = input("Item: ").title()
     except EOFError:
         break
-
-    x = items[item] + x
-
-    print(f"${x:.2f}")
+    if item in items:
+        x += items[item]
+        print(f"${x:.2f}")
 
     else:
         continue
