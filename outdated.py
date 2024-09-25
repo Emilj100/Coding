@@ -19,7 +19,10 @@ while True:
     x = month[x]
     x = int(x)
     y = int(y)
-    if x == 
+    if x >= 13:
+        pass
+    if y >= 32:
+        pass
 
 
 
