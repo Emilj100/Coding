@@ -5,7 +5,8 @@ dict = [
 while True:
     try:
         item = input()
-        dict[item] = item
     except EOFError:
         print(dict)
+    if item not in dict:
+        dict[item] = 1
 
