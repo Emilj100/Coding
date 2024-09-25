@@ -15,8 +15,6 @@ month = {
 
 while True:
     x, y, z = input("Date: ").replace(",", "").title().replace("/", " ").strip().split(" ")
-    if x in month and y.isdigit():
-        continue
     if x in month:
         x = month[x]
     if y in month:
