@@ -1,6 +1,7 @@
 dict = {
-    "apple": "1",
+    item: "1",
 }
+
 
 
 while True:
@@ -9,5 +10,3 @@ while True:
     except EOFError:
         break
     else:
-
-
