@@ -12,6 +12,6 @@ while True:
             dict[item] += 1
     except EOFError:
         for item in sorted(dict):
-            print(dict[item], item, "\n")
+            print(dict[item], item,)
         break
 
