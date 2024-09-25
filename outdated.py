@@ -18,13 +18,13 @@ while True:
     if x in month:
         x = month[x]
     if y in month:
-        pass
+        continue
     x = int(x)
     y = int(y)
     if x >= 13:
-        pass
+        continue
     if y >= 32:
-        pass
+        continue
     else:
         print(f"{z}-{x:02}-{y:02}")
         break
