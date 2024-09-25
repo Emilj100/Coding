@@ -11,7 +11,7 @@ while True:
         elif item in dict:
             dict[item] += 1
     except EOFError:
-        for item in dict:
+        for item in sorted(dict):
             print(dict[item], item)
     break
 
