@@ -16,7 +16,9 @@ month = {
 while True:
     x, y, z = input("Date: ").replace(",", "").title().replace("/", " ").strip().split(" ")
     if x in month:
-    x = month[x]
+        x = month[x]
+    if y in month:
+        pass
     x = int(x)
     y = int(y)
     if x >= 13:
