@@ -22,4 +22,4 @@ if x in month:
 x = int(x)
 y = int(y)
 
-print(f"{z}-{y:02}-{x:02}")
+print(f"{z}-{x:02}-{y:02}")
