@@ -1,7 +1,5 @@
 x, y, z = input("Date: ").replace(",", "").title().replace("/", " ").strip().split(" ")
 
-if x == 0-10:
-    pass
 
 month = {
     "January": 1,
