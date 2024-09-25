@@ -30,6 +30,8 @@ while True:
             break
     else:
         try:
+            if not user_input.find(",") != -1:
+                continue
             mm, dd, yyyy = user_input.replace(",", "").strip().split(" ")
             if mm in month:
                 mm = month[mm]
