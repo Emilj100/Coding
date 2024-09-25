@@ -1,4 +1,14 @@
+dict = {
+    "apple": "1",
+}
+
+
 while True:
     try:
-    item = input()
+        item = input()
     except EOFError:
+        break
+    else:
+        print(dict.get(item, "test"))
+
+
