@@ -16,7 +16,7 @@ month = {
 while True:
     user_input = input("Date: ")
     if user_input.find("/") != -1:
-        mm, dd, yyyy = user_input.split("/")
+        mm, dd, yyyy = user_input.strip().split("/")
         if mm in month:
             continue
         mm = int(mm)
@@ -29,11 +29,13 @@ while True:
             print(f"{yyyy}-{mm:02}-{dd:02}")
             break
     else:
-        mm, dd, yyyy = user_input.replace(",", "").split(" ")
+        mm, dd, yyyy = user_input.replace(",", "").strip().split(" ").
         if mm in month:
             mm = month[mm]
         if dd in month:
             continue
+        mm = int(mm)
+        dd = int(dd)
         else:
             print(f"{yyyy}-{mm:02}-{dd:02}")
             break
