@@ -29,11 +29,14 @@ while True:
             print(f"{yyyy}-{mm:02}-{dd:02}")
             break
     else:
-        mm, dd, yyyy = user_input.replace(",", "").strip().split(" ")
-        if mm in month:
-            mm = month[mm]
-        if dd.isalpha():
-            continue
+        try:
+            mm, dd, yyyy = user_input.replace(",", "").strip().split(" ")
+            if mm in month:
+                mm = month[mm]
+            if dd.isalpha():
+                continue
+        except ValueError:
+            pass
         mm = int(mm)
         dd = int(dd)
         if dd >= 1 and dd <= 31:
