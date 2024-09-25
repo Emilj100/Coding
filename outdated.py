@@ -1,4 +1,4 @@
-x, y, z = input("Date: ").title().replace("/", " ").split(" ")
+x, y, z = input("Date: ").replace(",", "").title().replace("/", " ").split(" ")
 
 
 month = {
