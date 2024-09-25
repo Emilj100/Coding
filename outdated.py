@@ -19,4 +19,7 @@ month = {
 if x in month:
     x = month[x]
 
+x = int(x)
+y = int(y)
+
 print(f"{z}-{y:02}-{x:02}")
