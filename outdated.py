@@ -34,9 +34,10 @@ while True:
             if mm in month:
                 mm = month[mm]
             mm = int(mm)
-            dd = int(dd)
             if dd.isalpha():
                 continue
+            dd = int(dd)
+
             if dd >= 1 and dd <= 31:
                 print(f"{yyyy}-{mm:02}-{dd:02}")
                 break
