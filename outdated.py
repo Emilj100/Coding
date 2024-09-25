@@ -28,9 +28,8 @@ while True:
         else:
             print(f"{z}-{x:02}-{y:02}")
             break
-    elif x in month:
-        x = month[x]
-        if
+    elif
+
 
 
 
