@@ -30,7 +30,7 @@ while True:
         mm, dd, yyyy = user_input.replace(",", "").strip().split(" ")
         if mm in month:
             mm = month[mm]
-        if dd.isalpha():
+        if dd.isdigit():
             continue
         mm = int(mm)
         dd = int(dd)
