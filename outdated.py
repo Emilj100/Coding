@@ -17,8 +17,6 @@ while True:
     user_input = input("Date: ")
     if user_input.find("/") != -1:
         mm, dd, yyyy = user_input.strip().split("/")
-        if mm in month:
-            continue
         mm = int(mm)
         dd = int(dd)
         if mm >= 13:
