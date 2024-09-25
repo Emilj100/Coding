@@ -25,10 +25,6 @@ while True:
         pass
     if y >= 32:
         pass
-
-
-
-
-
-
-print(f"{z}-{x:02}-{y:02}")
+    else:
+        print(f"{z}-{x:02}-{y:02}")
+        break
