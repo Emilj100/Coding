@@ -5,7 +5,7 @@ dict = {
 
 while True:
     try:
-        item = input().
+        item = input().upper()
         if item not in dict:
             dict[item] = 1
         elif item in dict:
