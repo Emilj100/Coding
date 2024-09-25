@@ -9,6 +9,5 @@ while True:
     except EOFError:
         break
     else:
-        print(dict.get(item, "test"))
 
 
