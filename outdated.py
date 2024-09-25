@@ -1,6 +1,3 @@
-x, y, z = input("Date: ").replace(",", "").title().replace("/", " ").strip().split(" ")
-
-
 month = {
     "January": 1,
     "February": 2,
@@ -16,10 +13,17 @@ month = {
     "December": 12,
 }
 
-if x in month:
+while True:
+    x, y, z = input("Date: ").replace(",", "").title().replace("/", " ").strip().split(" ")
+    if x in month:
     x = month[x]
+    x = int(x)
+    y = int(y)
+    if x == 
 
-x = int(x)
-y = int(y)
+
+
+
+
 
 print(f"{z}-{x:02}-{y:02}")
