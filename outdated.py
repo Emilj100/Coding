@@ -1,3 +1,3 @@
-x, y, z = input("Date: ").split("/" or " ")
+x, y, z = input("Date: ").replace("/", " ").split(" ")
 
 print(x)
