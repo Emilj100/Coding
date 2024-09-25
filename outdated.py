@@ -31,7 +31,7 @@ while True:
     else:
         mm, dd, yyyy = user_input.replace(",", "").split(" ")
         if mm in month:
-            mm = month{mm}
+            mm = month[mm]
         if dd in month:
             continue
         else:
