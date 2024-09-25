@@ -37,10 +37,10 @@ while True:
             dd = int(dd)
             if dd.isalpha():
                 continue
+            if dd >= 1 and dd <= 31:
+                print(f"{yyyy}-{mm:02}-{dd:02}")
+                break
+            else:
+                continue
         except ValueError:
             pass
-        if dd >= 1 and dd <= 31:
-            print(f"{yyyy}-{mm:02}-{dd:02}")
-            break
-        else:
-            continue
