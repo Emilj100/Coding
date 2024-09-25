@@ -34,6 +34,8 @@ while True:
             continue
         mm = int(mm)
         dd = int(dd)
-        else:
+        if dd >= 1 and dd <= 31:
             print(f"{yyyy}-{mm:02}-{dd:02}")
             break
+        else:
+            continue
