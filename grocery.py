@@ -13,5 +13,5 @@ while True:
     except EOFError:
         for item in dict:
             print(dict[item], item)
-            break
+    break
 
