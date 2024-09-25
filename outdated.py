@@ -16,6 +16,22 @@ month = {
 while True:
     user_input = input("Date: ")
     if user_input.find("/") != -1:
+        mm, dd, yyyy = user_input.split("/")
+        if mm in month:
+            continue
+        mm = int(mm)
+        dd = int(dd)
+        if mm >= 13:
+            continue
+        if dd >= 32:
+            continue
+        else:
+            print(f"{z}-{x:02}-{y:02}")
+            break
+    elif x in month:
+        x = month[x]
+        if
+
 
 
 
