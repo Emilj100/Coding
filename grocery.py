@@ -1,6 +1,7 @@
-dict = [
+dict = {
+    
+}
 
-]
 
 while True:
     try:
