@@ -19,4 +19,4 @@ month = {
 if x in month:
     x = month[x]
 
-print(x)
+print(f"{z}/{y:02}/{x:02}")
