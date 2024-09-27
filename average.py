@@ -1,3 +1,4 @@
 import statistics
 
-statistics.mean()
+print(statistics.mean([100, 90]))
+
