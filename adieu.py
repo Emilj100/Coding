@@ -1,9 +1,10 @@
 import inflect
 
 
-p = inflect.engine()
+
 
 while True:
+    p = inflect.engine()
     try:
         user_input = input("Name: ")
 
