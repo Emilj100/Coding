@@ -11,5 +11,6 @@ while True:
 
     except EOFError:
         mylist = p.join((items))
-        print(mylist, end="\n")
+        print()
+        print(mylist)
         break
