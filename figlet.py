@@ -1,5 +1,5 @@
 import sys
-from pyfyglet import Figlet
+from pyfiglet import Figlet
 
 figlet = Figlet()
 
