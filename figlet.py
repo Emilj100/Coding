@@ -1,9 +1,9 @@
 import sys
 from pyfiglet import Figlet
-import random
 
 
 
 if len(sys.argv) == 2:
+    user_input = input("Output: ")
     f = Figlet(font=sys.argv[1:])
-    print(f.renderText("text to render"))
+    print(f.renderText(user_input))
