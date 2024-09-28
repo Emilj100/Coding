@@ -1,6 +1,8 @@
 import sys
 from pyfiglet import Figlet
 
+
+
 if len(sys.argv) == 3:
     user_input = input("Output: ")
 
