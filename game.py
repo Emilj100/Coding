@@ -7,7 +7,7 @@ while True:
     try:
         user_input = int(input("Level: "))
 
-        if not user_input >= 0:
+        if not user_input > 0:
             pass
         elif user_input < number:
             print("Too small!")
