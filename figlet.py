@@ -2,8 +2,8 @@ import sys
 from pyfiglet import Figlet
 
 
+user_input = input("Output: ")
 
-if len(sys.argv) == 2:
-    user_input = input("Output: ")
-    f = Figlet(font=sys.argv[2])
-    print(f.renderText(user_input))
+f = Figlet(font='slant')
+
+print(f.renderText(user_input))
