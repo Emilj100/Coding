@@ -1,16 +1,16 @@
-import inflect
+import random
 
-items = []
+number = random.randint(1,10)
 
 while True:
-    p = inflect.engine()
     try:
-        user_input = input("Name: ")
-        items += [user_input]
+        user_input = input(int("Level: "))
+
+        if not user_input >= 0:
+            pass
+        
 
 
-    except EOFError:
-        mylist = p.join((items))
-        print()
-        print("Adieu, adieu, to", mylist)
-        break
+    except ValueError:
+        pass
+
