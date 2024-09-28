@@ -5,6 +5,6 @@ figlet = Figlet()
 
 figlet.getFonts()
 
-figlet.setFont(font=sys.argv[1])
+figlet.setFont(font="-f")
 
-print(figlet.renderText(sys.argv[1]))
+print(figlet.renderText(sys.argv[2]))
