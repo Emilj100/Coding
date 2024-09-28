@@ -7,4 +7,7 @@ while True:
     try:
         user_input = input("Name: ")
 
-    except
+    except EOFError:
+       mylist = p.join(user_input)
+       print(mylist)
+
