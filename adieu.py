@@ -9,6 +9,6 @@ while True:
         user_input = input("Name: ")
 
     except EOFError:
-       mylist = p.join(user_input)
+       mylist = p.join((user_input))
        print(mylist)
 
