@@ -2,7 +2,10 @@ import sys
 from pyfiglet import Figlet
 from random import choice
 
-if len(sys.argv) == 1:
+if not sys.argv[1] == "-f" or sys.argv[1] == "--font":
+    sys.exit("invalid usage")
+
+elif len(sys.argv) == 1:
     user_input = input("Output: ")
 
     random_font = choice(["slant", "rectangles", "alphabet", "acrobatic", "alligator2"])
