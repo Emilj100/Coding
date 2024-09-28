@@ -17,7 +17,7 @@ while True:
             pass
         else:
             print("Just right!")
-            sys.exit
+            sys.exit()
 
 
 
