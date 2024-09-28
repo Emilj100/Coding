@@ -1,7 +1,7 @@
 import sys
 from pyfiglet import Figlet
 
-figlet = Figlet()
+figlet = input(Figlet("Input: "))
 
 figlet.getFonts()
 
