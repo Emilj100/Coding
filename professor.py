@@ -17,7 +17,7 @@ def main():
                 user_input = int(input(f"{x} + {y} = "))
             elif user_input == x + y:
                 score += 1
-            
+
                 print(x + y)
 
     print(score)
@@ -28,11 +28,13 @@ def main():
 
 def get_level():
     while True:
-        user_input = int(input("Level: "))
-        if user_input == 1 or user_input == 2 or user_input == 3:
-            return user_input
-        else:
-            continue
+        try:
+            user_input = int(input("Level: "))
+            if user_input == 1 or user_input == 2 or user_input == 3:
+                return user_input
+        except ValueError:
+            pass
+
 
 
 
