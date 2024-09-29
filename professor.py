@@ -13,6 +13,7 @@ def main():
         for _ in range(3):
             if not user_input == x + y:
                 print("EEE")
+    print(score)
 
 
 
