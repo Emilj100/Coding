@@ -11,8 +11,9 @@ def main():
         if user_input == x + y:
             score += 1
 
+        trys = 1
+
         for _ in range(3):
-            trys = 0
             if not user_input == x + y:
                 print("EEE")
                 trys += 1
