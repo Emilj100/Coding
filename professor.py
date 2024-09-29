@@ -2,7 +2,9 @@ import random
 
 
 def main():
-    ...
+    level = get_level()
+    random_integer = generate_integer(level)
+
 
 
 def get_level():
