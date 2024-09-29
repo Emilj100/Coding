@@ -19,8 +19,8 @@ def main():
                 print("EEE")
                 user_input = int(input(f"{x} + {y} = "))
 
-    if user_input == x + y:
-        score += 1
+        if user_input == x + y:
+            score += 1
 
     print(score)
 
