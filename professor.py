@@ -20,7 +20,7 @@ def main():
             elif user_input == x + y:
                 score += 1
             elif trys == 3:
-            print(x + y)
+                print(x + y)
 
     print(score)
 
