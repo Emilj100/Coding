@@ -10,9 +10,11 @@ def main():
         user_input = int(input(f"{x} + {y} = "))
         if user_input == x + y:
             score += 1
+
         for _ in range(3):
             if not user_input == x + y:
                 print("EEE")
+                
     print(score)
 
 
