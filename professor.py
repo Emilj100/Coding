@@ -20,7 +20,11 @@ def get_level():
 
 def generate_integer(level):
     if level == 1:
+        x = random.randint(0, 9)
+        y = random.randint(0,9)
+    elif:
         
+
 
 
 
