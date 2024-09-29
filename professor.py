@@ -5,7 +5,8 @@ def main():
     level = get_level()
     for _ in range(10):
         x, y = generate_integer(level)
-        
+        user_input = int(input(f"{x} + {y} = "))
+        print(user_input)
 
 
 
