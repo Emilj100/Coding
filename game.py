@@ -6,16 +6,16 @@ import sys
 while True:
     try:
         user_input = int(input("Level: "))
-        number = random.randint(1, user_input)
 
         if not user_input > 0:
             pass
         elif user_input > 0:
-            guess = int(input("Level: "))
-        elif user_input < number:
+            number = random.randint(1, user_input)
+            guess = int(input("Guess: "))
+        elif guess < number:
             print("Too small!")
             pass
-        elif user_input > number:
+        elif guess > number:
             print("Too large!")
             pass
         else:
