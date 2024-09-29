@@ -17,7 +17,7 @@ def main():
                 user_input = int(input(f"{x} + {y} = "))
             elif user_input == x + y:
                 score += 1
-            else:
+            
                 print(x + y)
 
     print(score)
