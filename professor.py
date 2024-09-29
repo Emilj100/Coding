@@ -4,7 +4,7 @@ import random
 def main():
     level = get_level()
     x, y = generate_integer(level)
-    
+
 
 
 
@@ -29,6 +29,8 @@ def generate_integer(level):
     elif level == 3:
         x = random.randint(100, 999)
         y = random.randint(100, 999)
+    else:
+        raise ValueError
     return x, y
 
 
