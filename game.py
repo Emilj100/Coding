@@ -19,7 +19,7 @@ while True:
         if guess > number:
             print("Too large!")
             pass
-        else:
+        if guess == number:
             print("Just right!")
             sys.exit()
 
