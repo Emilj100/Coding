@@ -2,8 +2,6 @@ import random
 import sys
 
 
-user_input = int(input("Level: "))
-
 while True:
     try:
         user_input = int(input("Level: "))
