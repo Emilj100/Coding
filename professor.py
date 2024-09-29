@@ -3,7 +3,8 @@ import random
 
 def main():
     level = get_level()
-    random_integer = generate_integer(level)
+    x, y = generate_integer(level)
+    
 
 
 
@@ -21,9 +22,16 @@ def get_level():
 def generate_integer(level):
     if level == 1:
         x = random.randint(0, 9)
-        y = random.randint(0,9)
-    elif:
-        
+        y = random.randint(0, 9)
+    elif level == 2:
+        x = random.randint(10, 99)
+        y = random.randint(10, 99)
+    elif level == 3:
+        x = random.randint(100, 999)
+        y = random.randint(100, 999)
+    return x, y
+
+
 
 
 
