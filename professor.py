@@ -4,6 +4,7 @@ import random
 def main():
     level = get_level()
     x, y = generate_integer(level)
+    print(x, y)
 
 
 
@@ -20,18 +21,19 @@ def get_level():
 
 
 def generate_integer(level):
-    if level == 1:
-        x = random.randint(0, 9)
-        y = random.randint(0, 9)
-    elif level == 2:
-        x = random.randint(10, 99)
-        y = random.randint(10, 99)
-    elif level == 3:
-        x = random.randint(100, 999)
-        y = random.randint(100, 999)
-    else:
-        raise ValueError
-    return x, y
+    for _ in range(10):
+        if level == 1:
+            x = random.randint(0, 9)
+            y = random.randint(0, 9)
+        elif level == 2:
+            x = random.randint(10, 99)
+            y = random.randint(10, 99)
+        elif level == 3:
+            x = random.randint(100, 999)
+            y = random.randint(100, 999)
+        else:
+            raise ValueError
+        return x, y
 
 
 
