@@ -2,20 +2,21 @@ import random
 import sys
 
 
+user_input = int(input("Level: "))
 
 while True:
     try:
-        user_input = int(input("Level: "))
 
         if not user_input > 0:
+            user_input = int(input("Level: "))
             pass
-        elif user_input > 0:
+        if user_input > 0:
             number = random.randint(1, user_input)
             guess = int(input("Guess: "))
-        elif guess < number:
+        if guess < number:
             print("Too small!")
             pass
-        elif guess > number:
+        if guess > number:
             print("Too large!")
             pass
         else:
