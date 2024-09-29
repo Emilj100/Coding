@@ -16,7 +16,7 @@ def main():
         for _ in range(3):
             if trys == 3:
                 print(f"{x} + {y} = ", x + y, sep="")
-            if not user_input == x + y:
+            if not user_input == x + y and trys != 3:
                 trys += 1
                 print("EEE")
                 user_input = int(input(f"{x} + {y} = "))
