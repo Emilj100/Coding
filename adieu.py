@@ -1,17 +1,14 @@
 import random
 import sys
 
-
+number = random.randint(1,10)
 
 while True:
     try:
         user_input = int(input("Level: "))
-        number = random.randint(1, user_input)
 
-        if not user_input > 0:
+        if not user_input >= 0:
             pass
-        elif user_input > 0:
-            guess = int(input("Level: "))
         elif user_input < number:
             print("Too small!")
             pass
@@ -27,3 +24,4 @@ while True:
 
     except ValueError:
         pass
+
