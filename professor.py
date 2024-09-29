@@ -8,14 +8,10 @@ def main():
     for _ in range(10):
         x, y = generate_integer(level)
         user_input = int(input(f"{x} + {y} = "))
-        if user_input == x + y:
-            score += 1
 
         trys = 1
 
         for _ in range(3):
-            if user_input == x + y:
-                score += 1
             if trys == 3:
                 print(f"{x} + {y} = ", x + y, sep="")
             if not user_input == x + y and trys != 3:
@@ -23,9 +19,10 @@ def main():
                 print("EEE")
                 user_input = int(input(f"{x} + {y} = "))
 
+    if user_input == x + y:
+        score += 1
+
     print(score)
-
-
 
 
 
@@ -37,9 +34,6 @@ def get_level():
                 return user_input
         except ValueError:
             pass
-
-
-
 
 
 def generate_integer(level):
@@ -56,11 +50,6 @@ def generate_integer(level):
         else:
             raise ValueError
         return x, y
-
-
-
-
-
 
 
 if __name__ == "__main__":
