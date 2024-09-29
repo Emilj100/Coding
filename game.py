@@ -31,8 +31,5 @@ while True:
             print("Just right!")
             sys.exit()
 
-
-
-
     except ValueError:
         pass
