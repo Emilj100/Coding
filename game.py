@@ -5,15 +5,19 @@ import sys
 user_input = int(input("Level: "))
 
 while True:
-    try: 
-
-    if not user_input > 0:
+    try:
         user_input = int(input("Level: "))
+
+        if not user_input > 0:
+            pass
+
+        if user_input > 0:
+            number = random.randint(1, user_input)
+            break
+
+    except ValueError:
         pass
 
-    if user_input > 0:
-        number = random.randint(1, user_input)
-        break
 
 while True:
     try:
