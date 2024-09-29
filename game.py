@@ -9,6 +9,8 @@ while True:
 
         if not user_input > 0:
             pass
+        elif user_input > 0:
+            guess = int(input("Level: "))
         elif user_input < number:
             print("Too small!")
             pass
