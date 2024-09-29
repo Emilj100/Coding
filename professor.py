@@ -1,12 +1,13 @@
 import random
 
 
+
 def main():
+    score = 0
     level = get_level()
     for _ in range(10):
         x, y = generate_integer(level)
         user_input = int(input(f"{x} + {y} = "))
-        print(user_input)
         if user_input == x + y:
             score += 1
         for _ in range(3):
