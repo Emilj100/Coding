@@ -12,13 +12,15 @@ def main():
             score += 1
 
         for _ in range(3):
+            trys = 0
             if not user_input == x + y:
                 print("EEE")
+                trys += 1
                 user_input = int(input(f"{x} + {y} = "))
             elif user_input == x + y:
                 score += 1
-
-                print(x + y)
+            elif trys == 3:
+            print(x + y)
 
     print(score)
 
