@@ -17,9 +17,9 @@ def main():
                 print("EEE")
                 trys += 1
                 user_input = int(input(f"{x} + {y} = "))
-            elif user_input == x + y:
+            if user_input == x + y:
                 score += 1
-            elif trys == 3:
+            if trys == 3:
                 print(x + y)
 
     print(score)
