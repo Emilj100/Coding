@@ -4,16 +4,20 @@ import sys
 
 user_input = int(input("Level: "))
 
-if not user_input > 0:
-    user_input = int(input("Level: "))
-    pass
+while True:
+    try: 
 
-if user_input > 0:
-    number = random.randint(1, user_input)
-    guess = int(input("Guess: "))
+    if not user_input > 0:
+        user_input = int(input("Level: "))
+        pass
+
+    if user_input > 0:
+        number = random.randint(1, user_input)
+        break
 
 while True:
     try:
+        guess = int(input("Guess: "))
 
         if guess < number:
             print("Too small!")
