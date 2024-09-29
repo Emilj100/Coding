@@ -3,11 +3,10 @@ import sys
 
 
 
-
-try:
-    user_input = int(input("Level: "))
-    number = random.randint(1, user_input)
-    while True:
+while True:
+    try:
+        user_input = int(input("Level: "))
+        number = random.randint(1, user_input)
 
         if not user_input > 0:
             pass
@@ -26,5 +25,5 @@ try:
 
 
 
-except ValueError:
-    pass
+    except ValueError:
+        pass
