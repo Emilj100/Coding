@@ -14,14 +14,14 @@ def main():
         trys = 1
 
         for _ in range(3):
+            if trys == 3:
+                print(f"{x} + {y} = ", x + y, sep="")
             if not user_input == x + y:
-                print("EEE")
                 trys += 1
+                print("EEE")
                 user_input = int(input(f"{x} + {y} = "))
             if user_input == x + y:
                 score += 1
-            if trys == 3:
-                print(x + y)
 
     print(score)
 
