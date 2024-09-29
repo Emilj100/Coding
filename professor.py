@@ -19,6 +19,9 @@ def get_level():
 
 
 def generate_integer(level):
+    if level == 1:
+        
+
 
 
 
