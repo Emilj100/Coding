@@ -2,7 +2,10 @@ import requests
 import json
 import sys
 
-x = float(sys.argv[1])
+try:
+    x = float(sys.argv[1])
+except ValueError:
+    sys.exit()
 
 response = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
 
