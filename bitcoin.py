@@ -10,6 +10,6 @@ o = response.json()
 
 o = o["bpi"]["USD"]["rate"]
 
-o = int(o)
+o = float(o)
 
-print(o * x)
+z = o * x
