@@ -4,7 +4,7 @@ import sys
 
 try:
     x = float(sys.argv[1])
-    
+
 except ValueError and requests.RequestException:
     sys.exit()
 
