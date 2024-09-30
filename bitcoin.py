@@ -10,7 +10,7 @@ o = response.json()
 
 o = o["bpi"]["USD"]["rate"]
 
-o = o.replace(",", "")
+
 
 o = float(o)
 
