@@ -4,7 +4,8 @@ import sys
 
 try:
     x = float(sys.argv[1])
-except ValueError:
+    
+except ValueError and requests.RequestException:
     sys.exit()
 
 response = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
