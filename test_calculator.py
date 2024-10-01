@@ -16,4 +16,5 @@ def test_zero():
     assert square(0) == 0
 
 def test_str():
-    with pyt
+    with pytest.raises(TypeError):
+        square("cat")
