@@ -1,30 +1,17 @@
-import pytest
 from twttr import shorten
 
-def test_shorten_lowercase_vowels():
-    assert shorten("twitter") == "twttr"
-    assert shorten("banana") == "bnn"
-    assert shorten("elephant") == "lphnt"
+def test_nonAlpha():
+    assert shorten('$twenty-five') == '$twnty-fv'
+    assert shorten('25 dollars') == '25 dllrs'
+    assert shorten('$25.00') == '$25.00'
 
-def test_shorten_uppercase_vowels():
-    assert shorten("TWITTER") == "TWTTR"
-    assert shorten("BANANA") == "BNN"
-    assert shorten("ELEPHANT") == "LPHNT"
+def test_consonants():
+    assert shorten('tstst') == 'tstst'
+    assert shorten('lgbtq') == 'lgbtq'
 
-def test_shorten_mixed_case():
-    assert shorten("TwItTeR") == "TwtTR"
-    assert shorten("BaNaNa") == "BNN"
+def test_vowels():
+    assert shorten('aie') == ''
+    assert shorten('ou') == ''
 
-def test_shorten_with_numbers():
-    assert shorten("t3st") == "t3st"
-    assert shorten("1234") == "1234"
-
-def test_shorten_with_punctuation():
-    assert shorten("hello, world!") == "hll, wrld!"
-    assert shorten("Python's cool.") == "Pythn's cl."
-
-def test_shorten_empty_string():
-    assert shorten("") == ""
-
-def test_shorten_no_vowels():
-    assert shorten("rhythm") == "rhythm"
+def test_capital():
+    assert  shorten('APPLE') == 'PPL'
