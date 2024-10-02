@@ -1,29 +1,23 @@
 from fuel import convert, gauge
 
+# Test af convert funktionen
+
 def test_convert_inputs():
     assert convert("37/88") == 42
     assert convert("3/4") == 75
     assert convert("1/4") == 25
 
-def test_convert_symbols():
-    assert convert("37.88") == 42
-    assert convert("3-4") == 75
-    assert convert("1*4") == 25
-
-def test_convert_str():
-    assert convert(37/88) == 42
-    assert convert(3/4) == 75
-    assert convert(1/4) == 25
-
 def test_convert_x():
-    assert convert("88/37") == 42
-    assert convert("4/3") == 75
-    assert convert("4/1") == 25
+    assert convert("88/37") == ValueError
+    assert convert("4/3") == ValueError
+    assert convert("4/1") == ValueError
 
 def test_convert_100():
-    assert convert("75/125") == 100
-    assert convert("-25/-30") == 50
-    assert convert("25/0") == 25
+    assert convert("75/125") == ValueError
+    assert convert("-25/-30") == ValueError
+    assert convert("25/0") == ZeroDivisionError
+
+# Test af gauge funktionen
 
 def test_gauge_E():
     assert gauge(1) == "E"
