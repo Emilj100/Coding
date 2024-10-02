@@ -16,7 +16,7 @@ if __name__ == "__main__":
     main()
 
 def main():
-    name = input("Hi there")
+    name = input("Hi there").lower()
 
 
 def value(greeting):
