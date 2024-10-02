@@ -7,7 +7,7 @@ def main():
 def shorten(word):
     result = ""
     for c in word:
-        if c not in ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]:
+        if c not in ["a", "e", "i", "o", "u"]:
             result += c
 
     return result
