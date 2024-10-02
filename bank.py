@@ -8,19 +8,10 @@ def main():
         print("$100")
 
 
-def funktion(x):
-    return x.startswith("H")
-
-
-main()
-
-def main():
-    ...
-
-
 def value(greeting):
-    ...
+    return greeting.startswith("H")
 
 
 if __name__ == "__main__":
     main()
+
