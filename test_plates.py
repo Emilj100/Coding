@@ -15,7 +15,10 @@ def test_is_valid_lowercase():
     assert is_valid("hej023") == False
 
 def test_is_valid_alpha():
-    assert is_valid("123hej") == False
+    assert is_valid("123h27") == False
+
+def test_is_valid_alpha():
+    assert is_valid("AAA22A") == False
 
 # Denne del tester for ting der gerne skulle returnere True korrekt
 
