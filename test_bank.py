@@ -10,3 +10,11 @@ def test_value_lowercase():
     assert value("hey") == "$20"
 
 def test_value_punctuation():
+    assert value("hello, how are you?") == "$0"
+    assert value("hey, how are you?") == "$0"
+
+
+def test_value_number():
+    assert value("hello, give me $100") == "$0"
+    assert value("hey, give me $100") == "$20"
+    
