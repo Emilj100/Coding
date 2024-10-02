@@ -15,3 +15,14 @@ def value(greeting):
 if __name__ == "__main__":
     main()
 
+def main():
+    name = input("Hi there")
+
+
+def value(greeting):
+    
+
+
+if __name__ == "__main__":
+    main()
+
