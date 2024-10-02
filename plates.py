@@ -15,8 +15,6 @@ def is_valid(s):
     found_digit = False
 
     for c in s:
-            return False
-        # Sikre at tal er i slutningen af nummerpladen hvis man ønsker at gøre brug af tal. Sikre også at det første tal ikke er 0.
         if c.isdigit():
             if not found_digit:
                 found_digit = True
