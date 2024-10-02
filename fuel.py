@@ -1,9 +1,9 @@
 def main():
-    percentage = convert()
+    x, y = (input("Fraction: ").split("/"))
+    percentage = convert(x, y)
     print(gauge(percentage))
 
-def convert():
-    x, y = (input("Fraction: ").split("/"))
+def convert(x, y):
     x = int(x)
     y = int(y)
     if x or y > 100:
