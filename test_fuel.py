@@ -26,7 +26,7 @@ def test_convert_100():
     assert convert("25/0") == 25
 
 def test_gauge_E():
-    assert gauge("1/100") == "E"
+    assert gauge(1/100) == "E"
     assert gauge(100/1) == "E"
 
 def test_gauge_F():
