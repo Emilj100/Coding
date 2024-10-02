@@ -21,11 +21,11 @@ def main():
 
 def value(greeting):
     if greeting.startswith("hello"):
-        return int(greeting)
+        return 0
     elif greeting.startswith("h"):
-        return int(greeting)
+        return 20
     else:
-        return int
+        return 100
 
 
 if __name__ == "__main__":
