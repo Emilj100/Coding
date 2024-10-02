@@ -1,3 +1,5 @@
+import pytest
+
 from fuel import convert, gauge
 
 # Test af convert funktionen
@@ -6,6 +8,14 @@ def test_convert_inputs():
     assert convert("37/88") == 42
     assert convert("3/4") == 75
     assert convert("1/4") == 25
+
+
+
+
+# KIG I NOTER OMKRING ET INPUT ER LIG MED EN BESTEMT TYPE FEJL
+
+
+
 
 def test_convert_x():
     assert convert("88/37") == ValueError
