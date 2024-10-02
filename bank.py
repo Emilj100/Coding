@@ -5,11 +5,11 @@ def main():
 
 def value(greeting):
     if greeting.lower().startswith("hello"):
-        return 0
+        return 100
     elif greeting.lower().startswith("h"):
         return 20
     else:
-        return 100
+        return 0
 
 
 if __name__ == "__main__":
