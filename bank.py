@@ -20,7 +20,8 @@ def main():
 
 
 def value(greeting):
-    if greeting.startswith("hello")
+    if greeting.startswith("hello"):
+        
 
 
 if __name__ == "__main__":
