@@ -14,6 +14,9 @@ def test_is_valid_uppercase():
 def test_is_valid_lowercase():
     assert is_valid("hej023") == False
 
+def test_is_valid_alpha():
+    assert is_valid("123hej") == False
+
 # Denne del tester for ting der gerne skulle returnere True korrekt
 
 def test_is_valid_many_digits1():
