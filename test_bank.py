@@ -6,3 +6,7 @@ def test_value_uppercase():
 
 
 def test_value_lowercase():
+    assert value("hello") == "$0"
+    assert value("hey") == "$20"
+
+def test_value_punctuation():
