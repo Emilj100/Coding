@@ -26,15 +26,15 @@ def test_convert_100():
     assert convert("25/0") == 25
 
 def test_gauge_E():
-    assert gauge(1/100) == "E"
-    assert gauge(100/1) == "E"
+    assert gauge(1) == "E"
+    assert gauge(0) == "E"
 
 def test_gauge_F():
-    assert gauge(99/100) == "F"
-    assert gauge(100/100) == "F"
-    assert gauge(100/99) == "F"
+    assert gauge(99) == "F"
+    assert gauge(100) == "F"
+    assert gauge(99.5) == "F"
 
 def test_gauge_percentage():
-    assert gauge(3/4) == "75%"
-    assert gauge(1/4) == "25%"
+    assert gauge(75) == "75%"
+    assert gauge(25) == "25%"
 
