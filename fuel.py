@@ -1,14 +1,14 @@
 def main():
-    x, y = (input("Fraction: ").split("/"))
-    percentage = convert(x, y)
+    percentage = convert()
     print(gauge(percentage))
 
-def convert(x, y):
+def convert():
+    x, y = (input("Fraction: ").split("/"))
     x = int(x)
     y = int(y)
-    if x or y > 100:
+    if x > 100 or y > 100:
         raise ValueError
-    elif x or y < 0:
+    elif x < 0 or y < 0:
         raise ValueError
     elif x > y:
         raise ValueError
