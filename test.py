@@ -1,31 +1,18 @@
-def main():
-    while True:
-        try:
-            percentage = convert(input())
-        except:
-            pass
-        else:
-            break
-    print(gauge(percentage))
+from fuel import convert, gauge
+import pytest
 
+def test_input():
+    assert convert('1/2') == 50
+    assert convert('1/1') == 100
+    assert convert('0/10') == 0
 
-def convert(fraction):
-    x,y = fraction.split('/')
-    x, y=int(x), int(y)
-    if y==0:
-        raise ZeroDivisionError
-    elif y<x:
-        raise ValueError
-    return int(round((x/y)*100))
+def test_errors():
+    with pytest.raises(ZeroDivisionError):
+         convert('2/0')
+    with pytest.raises(ValueError):
+         convert('3/2')
 
-def gauge(percent):
-    if percent <= 1:
-        return'E'
-    elif percent >= 99:
-        return'F'
-    else:
-        return str(percent)
-
-
-if __name__ == "__main__":
-    main()
+def test_output():
+    assert gauge(1) == 'E'
+    assert gauge(100) == 'F'
+    assert gauge(50) == '50%'
