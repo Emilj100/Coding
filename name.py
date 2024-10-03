@@ -1,3 +1,5 @@
 names = input("What's your name? ")
 
-open"names.txt"
+file = open("names.txt", "w")
+file.write(name)
+
