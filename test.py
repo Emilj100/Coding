@@ -1,36 +1,33 @@
-def main():
-    fraction = input("Fraction: ")
-    percentage = convert(fraction)
-    print(gauge(percentage))
+import pytest
+from fuel import convert, gauge
 
+# Test af convert-funktionen
+def test_convert_valid():
+    assert convert("3/4") == 75
+    assert convert("1/2") == 50
+    assert convert("1/100") == 1
 
-def convert(fraction):
-    try:
-        x, y = fraction.split("/")
-        x = int(x)
-        y = int(y)
+def test_convert_valueerror():
+    with pytest.raises(ValueError):
+        convert("4/3")
+    with pytest.raises(ValueError):
+        convert("ten/ten")
+    with pytest.raises(ValueError):
+        convert("3.5/7")
 
-        if y == 0:
-            raise ZeroDivisionError
-        if x > y:
-            raise ValueError
-        percentage = round((x / y) * 100)
+def test_convert_zerodivision():
+    with pytest.raises(ZeroDivisionError):
+        convert("1/0")
 
-        return percentage
-    except ValueError:
-        raise ValueError("Invalid input. X and Y must be integers, and X must be less than or equal to Y.")
-    except ZeroDivisionError:
-        raise ZeroDivisionError("Y cannot be 0.")
+# Test af gauge-funktionen
+def test_gauge_empty():
+    assert gauge(1) == "E"
+    assert gauge(0) == "E"
 
+def test_gauge_full():
+    assert gauge(100) == "F"
+    assert gauge(99) == "F"
 
-def gauge(percentage):
-    if percentage <= 1:
-        return "E"
-    elif percentage >= 99:
-        return "F"
-    else:
-        return f"{percentage}%"
-
-
-if __name__ == "__main__":
-    main()
+def test_gauge_percentage():
+    assert gauge(75) == "75%"
+    assert gauge(50) == "50%"
