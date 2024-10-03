@@ -9,23 +9,18 @@ def test_convert_inputs():
     assert convert("3/4") == 75
     assert convert("1/4") == 25
 
-
-
-
-# KIG I NOTER OMKRING ET INPUT ER LIG MED EN BESTEMT TYPE FEJL
-
-
-
-
 def test_convert_x():
-    assert convert("88/37") == ValueError
-    assert convert("4/3") == ValueError
-    assert convert("4/1") == ValueError
+    with pytest.raises(ValueError):
+        convert("88/37")
+        convert("4/3")
+        convert("4/1")
 
 def test_convert_100():
-    assert convert("75/125") == ValueError
-    assert convert("-25/-30") == ValueError
-    assert convert("25/0") == ZeroDivisionError
+    with pytest.raises(ValueError):
+        convert("75/125")
+        convert("-25/-30")
+    with pytest.raises(ZeroDivisionError):
+        convert("25/0")
 
 # Test af gauge funktionen
 

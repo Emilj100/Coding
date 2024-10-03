@@ -11,10 +11,10 @@ def convert(fraction):
         raise ValueError
     elif x < 0 or y < 0:
         raise ValueError
-    elif x > y:
-        raise ValueError
     elif y == 0:
         raise ZeroDivisionError
+    elif x > y:
+        raise ValueError
     else:
         percentage = round((x / y) * 100)
         return percentage
