@@ -1,4 +1,5 @@
 import sys
+import tabulate 
 
 user_input = sys.argv[1]
 
