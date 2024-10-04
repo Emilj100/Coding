@@ -1,5 +1,6 @@
 import sys
 import tabulate
+import csv
 
 user_input = sys.argv[1]
 
@@ -14,20 +15,12 @@ elif not user_input.endswith(".csv"):
 
 try:
     with open(user_input) as file:
-        
+        table = csv.reader(file)
+        print(tabulate(table))
 
 
-except FileNotFoundError:
-    sys.exit("File does not exist")
-
-try:
-    with open(user_input) as file:
-        for row in file:
-            row = row.lstrip()
-            if row.lstrip() and not row.startswith("#"):
-                lines += 1
 
 except FileNotFoundError:
     sys.exit("File does not exist")
 
-print(lines)
+
