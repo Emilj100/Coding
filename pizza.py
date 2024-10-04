@@ -1,5 +1,5 @@
 import sys
-import tabulate 
+import tabulate
 
 user_input = sys.argv[1]
 
@@ -14,6 +14,7 @@ elif not user_input.endswith(".csv"):
 
 try:
     with open(user_input) as file:
+        
 
 
 except FileNotFoundError:
