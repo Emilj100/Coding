@@ -11,10 +11,14 @@ elif len(sys.argv) == 1:
 elif not user_input.endswith(".py"):
     sys.exit("Not a Python file")
 
+
+
 else:
 
     try:
         with open(user_input) as file:
+            for row in file:
+                if row.startswith("#" or "")
 
     except FileNotFoundError:
         sys.exit("File does not exist")
