@@ -13,15 +13,14 @@ elif not user_input.endswith(".py"):
 
 lines = 0
 
-else:
 
-    try:
-        with open(user_input) as file:
-            for row in file:
-                if not row.startswith("#" or ""):
-                    lines += 1
+try:
+    with open(user_input) as file:
+        for row in file:
+            if not row.startswith("#" or ""):
+                lines += 1
 
-    except FileNotFoundError:
-        sys.exit("File does not exist")
+except FileNotFoundError:
+    sys.exit("File does not exist")
 
 print(lines)
