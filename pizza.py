@@ -12,6 +12,7 @@ elif not user_input.endswith(".csv"):
     sys.exit("Not a CSV file")
 
 try:
+    with open(user_input) as file:
 
 
 except FileNotFoundError:
