@@ -6,4 +6,4 @@ if len(sys.argv) > 2:
 elif len(sys.argv) == 1:
     sys.exit("Too few command-line arguments")
 
-
+elif not sys.argv
