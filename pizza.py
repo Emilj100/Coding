@@ -15,7 +15,7 @@ elif not user_input.endswith(".csv"):
 
 try:
     with open(user_input) as file:
-        table = csv.reader(file)
+        table = csv.DictWriter(file)
         print(tabulate(table))
 
 
