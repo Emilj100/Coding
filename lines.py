@@ -17,7 +17,7 @@ lines = 0
 try:
     with open(user_input) as file:
         for row in file:
-            row = row.strip()
+            row = row.lstrip()
             if row.lstrip() and not row.startswith("#"):
                 lines += 1
 
