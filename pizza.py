@@ -13,13 +13,16 @@ elif len(sys.argv) == 1:
 elif not user_input.endswith(".csv"):
     sys.exit("Not a CSV file")
 
-
+data = []
 
 try:
     with open(user_input) as file:
         table = csv.DictReader(file)
         for row in table:
-            print(tabulate.tabulate(row, tablefmt="grid"))
+            data += row
+
+
+    print(tabulate.tabulate(data, tablefmt="grid"))
 
 
 
