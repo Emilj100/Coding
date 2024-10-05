@@ -19,7 +19,8 @@ try:
     with open(user_input) as file:
         table = csv.DictReader(file)
         for row in table:
-            data.append(row)
+            
+            data.append(list(row.values()))
 
 
     print(tabulate.tabulate(data, tablefmt="grid"))
