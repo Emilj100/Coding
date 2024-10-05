@@ -13,7 +13,7 @@ def main():
 data = []
 
     try:
-        with open(user_input) as file:
+        with open(old_file) as file:
             reader = csv.DictReader(file)
             for row in reader:
                 first, last, house = row.split(",")
