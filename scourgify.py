@@ -10,7 +10,8 @@ def main():
     old_file = sys.argv[1]
     new_file = sys.argv[2]
 
-data = []
+
+    data = []
 
     try:
         with open(old_file) as file:
@@ -20,13 +21,8 @@ data = []
                 data.append(first, last, house)
 
 
-
-
-
-
     except FileNotFoundError:
         sys.exit("File does not exist")
-
 
 
 def correct_input(user_input):
