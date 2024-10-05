@@ -24,8 +24,11 @@ def main():
 
                 data.append({"first": first, "last": last, "house": house})
 
+
     except FileNotFoundError:
         sys.exit("File does not exist")
+
+    print(data)
 
     fieldnames = ["first", "last", "house"]
 
