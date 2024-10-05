@@ -17,9 +17,12 @@ def main():
         with open(old_file) as file:
             reader = csv.DictReader(file)
             for row in reader:
-                first, last, house = row.split(",")
-                data.append(first, last, house)
+                full_name = row["name"]
+                house = row["house"]
+                
+                first, last = full_name.split(",")
 
+                data.append(first, last, house)
 
     except FileNotFoundError:
         sys.exit("File does not exist")
