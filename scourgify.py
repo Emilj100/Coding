@@ -7,6 +7,16 @@ import csv
 def main():
     user_input = sys.argv
     user_input = correct_input(user_input)
+    old_file = sys.argv[1]
+    new_file = sys.argv[2]
+
+    try:
+        with open(user_input) as file:
+            
+
+
+    except FileNotFoundError:
+        sys.exit("File does not exist")
 
 
 
