@@ -24,7 +24,7 @@ def main():
                 last = last.strip()
                 house = house.strip()
 
-                data.append({"first": first, "last": last, "house": house})
+                data.append({"first": last, "last": first, "house": house})
 
     except FileNotFoundError:
         sys.exit("File does not exist")
