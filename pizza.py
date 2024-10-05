@@ -18,7 +18,7 @@ data = []
 try:
     with open(user_input) as file:
         reader = csv.reader(file)
-        header = next(reader) 
+        header = next(reader)
         data = [row for row in reader]
 
 
