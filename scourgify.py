@@ -10,11 +10,16 @@ def main():
     old_file = sys.argv[1]
     new_file = sys.argv[2]
 
+data = []
+
     try:
         with open(user_input) as file:
             reader = csv.DictReader(file)
             for row in reader:
-                
+                first, last, house = row.split(",")
+                data.append
+
+
 
 
 
