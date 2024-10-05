@@ -19,7 +19,7 @@ try:
     with open(user_input) as file:
         table = csv.DictReader(file)
         for row in table:
-            
+
             data.append(list(row.values()))
 
 
