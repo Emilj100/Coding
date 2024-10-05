@@ -12,7 +12,11 @@ def main():
 
     try:
         with open(user_input) as file:
-            
+            reader = csv.DictReader(file)
+            for row in reader:
+                
+
+
 
 
     except FileNotFoundError:
