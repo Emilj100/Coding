@@ -20,8 +20,7 @@ def main():
                 house = row["house"]
 
                 first, last = full_name.strip().split(",")
-                first = first.strip()
-                last = last.strip()
+
 
                 data.append({"first": first, "last": last, "house": house})
 
