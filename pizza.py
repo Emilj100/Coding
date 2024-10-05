@@ -17,12 +17,13 @@ data = []
 
 try:
     with open(user_input) as file:
-        table = csv.DictReader(file, fieldnames=["Regular Pizza", "Small", "Large"])
+        header = next(file)
+        table = csv.DictReader(file)
         for row in table:
             data.append(list(row.values()))
 
 
-    print(tabulate.tabulate(data, tablefmt="grid"))
+    print(tabulate.tabulate(data, headers=header, tablefmt="grid"))
 
 
 
