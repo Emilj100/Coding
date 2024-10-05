@@ -17,7 +17,7 @@ data = []
             reader = csv.DictReader(file)
             for row in reader:
                 first, last, house = row.split(",")
-                data.append
+                data.append(first, last, house)
 
 
 
