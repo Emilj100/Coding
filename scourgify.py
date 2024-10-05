@@ -3,20 +3,23 @@ import tabulate
 import csv
 
 
+
 def main():
-user_input = sys.argv[1:]
-part_1 = sys.argv[1]
-part_2 = sys.argv[2]
+    user_input = sys.argv
+    user_input = correct_input(user_input)
 
 
-def correct_input():
+
+def correct_input(user_input):
     if len(sys.argv) > 3:
-    sys.exit("Too many command-line arguments")
+        sys.exit("Too many command-line arguments")
 
-    elif len(sys.argv) < 2:
-    sys.exit("Too few command-line arguments")
+    elif len(sys.argv) < 3:
+        sys.exit("Too few command-line arguments")
+    else:
+        return user_input
 
-
+main()
 
 
 
