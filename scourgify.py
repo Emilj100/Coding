@@ -11,7 +11,9 @@ def main():
     new_file = sys.argv[2]
 
 
-    data = []
+    data = {
+
+    }
 
     try:
         with open(old_file) as file_1:
@@ -22,7 +24,7 @@ def main():
 
                 first, last = full_name.strip().split(",")
 
-                data.append([first, last, house])
+                data.append({"first": first, "last": last, "house": house})
 
     except FileNotFoundError:
         sys.exit("File does not exist")
