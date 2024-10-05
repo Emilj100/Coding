@@ -22,12 +22,12 @@ def main():
 
                 first, last = full_name.split(",")
 
-                data.append(first, last, house)
+                data.append([first, last, house])
 
     except FileNotFoundError:
         sys.exit("File does not exist")
 
-    fieldnames = ["name", "home"]
+    fieldnames = ["first", "last", "home"]
 
     with open(new_file, "w") as file_2:
         writer = csv.DictWriter(file_2, fieldnames=fieldnames)
