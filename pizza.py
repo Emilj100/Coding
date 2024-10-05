@@ -16,7 +16,7 @@ elif not user_input.endswith(".csv"):
 try:
     with open(user_input) as file:
         table = csv.DictReader(file)
-        print(tabulate(table))
+        print(tabulate.tabulate(table, tablefmt="grid"))
 
 
 
