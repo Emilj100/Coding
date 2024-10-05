@@ -29,6 +29,7 @@ def main():
 
     with open(new_file, "w") as file_2:
         writer = csv.DictWriter(file_2)
+        writer.writerow([data])
 
 
 
