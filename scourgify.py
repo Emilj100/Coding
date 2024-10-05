@@ -14,18 +14,22 @@ def main():
     data = []
 
     try:
-        with open(old_file) as file:
-            reader = csv.DictReader(file)
+        with open(old_file) as file_1:
+            reader = csv.DictReader(file_1)
             for row in reader:
                 full_name = row["name"]
                 house = row["house"]
-                
+
                 first, last = full_name.split(",")
 
                 data.append(first, last, house)
 
     except FileNotFoundError:
         sys.exit("File does not exist")
+
+    with open(new_file, "w") as file_2:
+        writer = csv.DictWriter(file_2)
+
 
 
 def correct_input(user_input):
