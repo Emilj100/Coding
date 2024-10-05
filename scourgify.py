@@ -15,7 +15,7 @@ def main():
 
     try:
         with open(old_file) as file:
-            reader = csv.DictReader(file)
+            reader = csv.reader(file)
             for row in reader:
                 first, last, house = row.split(",")
                 data.append(first, last, house)
