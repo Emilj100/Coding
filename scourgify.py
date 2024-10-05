@@ -20,7 +20,7 @@ def main():
                 full_name = row["name"]
                 house = row["house"]
 
-                first, last = full_name.split(",")
+                first, last = full_name.strip().split(",")
 
                 data.append([first, last, house])
 
@@ -29,7 +29,7 @@ def main():
 
     fieldnames = ["first", "last", "house"]
 
-    with open(new_file, "w") as file_2:
+    with open(new_file, "w", newline='') as file_2:
         writer = csv.DictWriter(file_2, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerow([data])
