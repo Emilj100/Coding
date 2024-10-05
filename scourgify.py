@@ -27,8 +27,11 @@ def main():
     except FileNotFoundError:
         sys.exit("File does not exist")
 
+    fieldnames = ["name", "home"]
+
     with open(new_file, "w") as file_2:
-        writer = csv.DictWriter(file_2)
+        writer = csv.DictWriter(file_2, fieldnames=fieldnames)
+        writer.writeheader()
         writer.writerow([data])
 
 
