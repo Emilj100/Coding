@@ -13,16 +13,13 @@ elif len(sys.argv) == 1:
 elif not user_input.endswith(".csv"):
     sys.exit("Not a CSV file")
 
-header = []
+
 
 try:
     with open(user_input) as file:
         table = csv.DictReader(file)
         for row in table:
-            header.append({"pizza": row["Regular Pizza"], "Small": row["Small"], "Large":["Large"]})
-
-
-        print(tabulate.tabulate(table, headers=header, tablefmt="grid"))
+            print(tabulate.tabulate(row, tablefmt="grid"))
 
 
 
