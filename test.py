@@ -30,3 +30,9 @@ except FileNotFoundError:
     sys.exit("File does not exist")
 
 
+
+        reader = csv.reader(file)
+            table = []
+            headers = list(next(reader))
+            for row in reader:
+                table.append([row[0], row[1], row[2]])
