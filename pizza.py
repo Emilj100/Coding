@@ -18,7 +18,7 @@ headers = ["Regular Pizza", "Small", "Large"]
 try:
     with open(user_input) as file:
         table = csv.DictReader(file)
-        print(tabulate.tabulate(table, tablefmt="grid"))
+        print(tabulate.tabulate(table, headers=file, tablefmt="grid"))
 
 
 
