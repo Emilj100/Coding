@@ -19,12 +19,12 @@ def main():
                 full_name = row["name"]
                 house = row["house"]
 
-                first, last = full_name.strip().split(",")
+                last, first = full_name.strip().split(",")
                 first = first.strip()
                 last = last.strip()
                 house = house.strip()
 
-                data.append({"first": last, "last": first, "house": house})
+                data.append({"first": first, "last": last, "house": house})
 
     except FileNotFoundError:
         sys.exit("File does not exist")
