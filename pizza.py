@@ -17,10 +17,9 @@ data = []
 
 try:
     with open(user_input) as file:
-        header = next(file)
-        table = csv.DictReader(file)
-        for row in table:
-            data.append(list(row.values()))
+        reader = csv.reader(file)
+        header = next(reader) 
+        data = [row for row in reader]
 
 
     print(tabulate.tabulate(data, headers=header, tablefmt="grid"))
