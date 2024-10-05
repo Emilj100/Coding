@@ -17,7 +17,7 @@ data = []
 
 try:
     with open(user_input) as file:
-        table = csv.DictReader(file)
+        table = csv.DictReader(file, fieldnames=["Regular Pizza", "Small", "Large"])
         for row in table:
             data.append(list(row.values()))
 
