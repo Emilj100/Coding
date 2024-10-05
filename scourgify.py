@@ -11,9 +11,7 @@ def main():
     new_file = sys.argv[2]
 
 
-    data = {
-
-    }
+    data = []
 
     try:
         with open(old_file) as file_1:
@@ -34,7 +32,7 @@ def main():
     with open(new_file, "w", newline='') as file_2:
         writer = csv.DictWriter(file_2, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow([data])
+        writer.writerows(data)
 
 
 
