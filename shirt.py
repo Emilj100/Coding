@@ -1,5 +1,5 @@
 import sys
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 
@@ -23,3 +23,4 @@ elif not new_file_extension == old_file_extension:
 
 
 image = Image.open(old_file)
+ImageOps.fit
