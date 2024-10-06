@@ -23,7 +23,7 @@ elif not new_file_extension == old_file_extension:
 
 
 
-background_image = Image.open(new_file)
+background_image = Image.open("shirt.png")
 overlay_image = Image.open(old_file)
 
 
