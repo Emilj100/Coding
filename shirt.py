@@ -24,5 +24,6 @@ elif not new_file_extension == old_file_extension:
 
 image = Image.open(old_file)
 
-ImageOps.fit(image):
-    float = 0.0
+image = ImageOps.fit(image)
+
+Image.paste
