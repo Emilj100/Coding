@@ -3,26 +3,23 @@ import csv
 
 
 
-def main():
-    user_input = sys.argv[1:]
-    user_input = correct_input(user_input)
-    old_file = sys.argv[1].lower()
-    new_file = sys.argv[2].lower()
+user_input = sys.argv[1:]
 
 
 
-def correct_input(user):
-    part_1, part_2 = user.split(" ")
-    if len(sys.argv) > 3:
-        sys.exit("Too many command-line arguments")
 
-    elif len(sys.argv) < 3:
-        sys.exit("Too few command-line arguments")
+if len(sys.argv) > 3:
+    sys.exit("Too many command-line arguments")
 
-    elif not part_1.endswith(".jpg", "jpeg", "png") and not part_2.endswith(".jpg", "jpeg", "png"):
-        sys.exit("Invalid output")
+elif len(sys.argv) < 3:
+    sys.exit("Too few command-line arguments")
 
-    else:
-        return user
+old_file = sys.argv[1].lower()
+new_file = sys.argv[2].lower()
 
-main()
+if not old_file.endswith(".jpg" or "jpeg" or "png") and new_file.endswith(".jpg" or "jpeg" or "png"):
+    sys.exit("Invalid output")
+
+
+
+
