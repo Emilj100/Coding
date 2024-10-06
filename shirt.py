@@ -4,15 +4,15 @@ import csv
 
 
 def main():
-    user_input = sys.argv
+    user_input = sys.argv[1:]
     user_input = correct_input(user_input)
     old_file = sys.argv[1].lower()
     new_file = sys.argv[2].lower()
 
 
 
-def correct_input(user_input):
-    part_1, part_2 = user_input.split(" ")
+def correct_input(user):
+    part_1, part_2 = user.split(" ")
     if len(sys.argv) > 3:
         sys.exit("Too many command-line arguments")
 
@@ -23,6 +23,6 @@ def correct_input(user_input):
         sys.exit("Invalid output")
 
     else:
-        return user_input
+        return user
 
 main()
