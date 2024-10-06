@@ -17,7 +17,7 @@ elif len(sys.argv) < 3:
 old_file = sys.argv[1].lower()
 new_file = sys.argv[2].lower()
 
-if not old_file.endswith(".jpg" or "jpeg" or "png") and new_file.endswith(".jpg" or "jpeg" or "png"):
+if not old_file.endswith((".jpg", "jpeg", "png")) and not new_file.endswith((".jpg", "jpeg", "png")):
     sys.exit("Invalid output")
 
 
