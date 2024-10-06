@@ -24,3 +24,5 @@ def correct_input(user_input):
 
     else:
         return user_input
+
+main()
