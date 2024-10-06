@@ -23,8 +23,8 @@ elif not new_file_extension == old_file_extension:
 
 
 
-background_image = Image.open(old_file)
-overlay_image = Image.open(new_file)
+background_image = Image.open(new_file)
+overlay_image = Image.open(old_file)
 
 
 overlay_image = ImageOps.fit(overlay_image, background_image.size)
@@ -33,4 +33,4 @@ overlay_image = ImageOps.fit(overlay_image, background_image.size)
 background_image.paste(overlay_image, (0, 0), overlay_image)
 
 
-background_image.save(new_file)
+background_image.save(old_file)
