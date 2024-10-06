@@ -10,6 +10,12 @@ def main():
     old_file = sys.argv[1].lower()
     new_file = sys.argv[2].lower()
 
+try:
+
+
+except FileNotFoundError:
+    sys.exit("Input does not exist")
+
 
 def correct_input(user_input):
     part_1, part_2 = user_input.split(" ")
@@ -19,6 +25,7 @@ def correct_input(user_input):
     elif len(sys.argv) < 3:
         sys.exit("Too few command-line arguments")
     elif not part_1.endswith(".jpg", "jpeg", "png") and not part_2.endswith(".jpg", "jpeg", "png"):
-        sys.exit(")
+        sys.exit("Invalid output")
+    elif
     else:
         return user_input
