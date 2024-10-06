@@ -22,12 +22,15 @@ elif not new_file_extension == old_file_extension:
     sys.exit("Input and output have different extensions")
 
 
-image = Image.open(old_file)
 
-size = image.size
+background_image = Image.open(old_file)
+overlay_image = Image.open(new_file)
 
-image = ImageOps.fit(image, size)
 
-image = Image.paste(image)
+overlay_image = ImageOps.fit(overlay_image, background_image.size)
 
-Image.save(image)
+
+background_image.paste(overlay_image, (0, 0), overlay_image)
+
+
+background_image.save(new_file)
