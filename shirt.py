@@ -28,6 +28,6 @@ size = old_file.size
 
 image = ImageOps.fit(image)
 
-image = Image.paste(image)
+image = Image.paste(image, size)
 
 Image.save
