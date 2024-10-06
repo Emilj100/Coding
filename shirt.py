@@ -18,6 +18,7 @@ def correct_input(user_input):
 
     elif len(sys.argv) < 3:
         sys.exit("Too few command-line arguments")
-    elif not
+    elif not part_1.endswith(".jpg", "jpeg", "png") and not part_2.endswith(".jpg", "jpeg", "png"):
+        sys.exit(")
     else:
         return user_input
