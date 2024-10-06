@@ -22,3 +22,4 @@ elif not new_file_extension == old_file_extension:
     sys.exit("Input and output have different extensions")
 
 
+old_file.open
