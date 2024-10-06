@@ -20,6 +20,10 @@ new_file = sys.argv[2].lower()
 if not old_file.endswith((".jpg", "jpeg", "png")) or not new_file.endswith((".jpg", "jpeg", "png")):
     sys.exit("Invalid output")
 
+file_name1, old_file_extension = old_file.split(".")
+file_name2, new_file_extension = new_file.split(".")
 
+if not new_file_extension == old_file_extension:
+    sys.exit("Input and output have different extensions")
 
 
