@@ -12,11 +12,12 @@ def main():
 
 
 def correct_input(user_input):
+    part_1, part_2 = user_input.split(" ")
     if len(sys.argv) > 3:
         sys.exit("Too many command-line arguments")
 
     elif len(sys.argv) < 3:
         sys.exit("Too few command-line arguments")
-    elif not 
+    elif not
     else:
         return user_input
