@@ -1,6 +1,6 @@
 import sys
-import csv
-import PIL
+from PIL import Image
+
 
 
 user_input = sys.argv[1:]
