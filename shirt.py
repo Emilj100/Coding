@@ -26,4 +26,6 @@ image = Image.open(old_file)
 
 image = ImageOps.fit(image)
 
-Image.paste
+image = Image.paste(image)
+
+Image.save
