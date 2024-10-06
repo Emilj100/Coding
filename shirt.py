@@ -1,6 +1,6 @@
 import sys
 import csv
-
+import PIL
 
 
 user_input = sys.argv[1:]
@@ -22,4 +22,4 @@ elif not new_file_extension == old_file_extension:
     sys.exit("Input and output have different extensions")
 
 
-old_file.open
+image = Image.open(old_file)
