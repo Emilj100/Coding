@@ -1,4 +1,3 @@
-import pillow
 import sys
 import csv
 
@@ -10,11 +9,6 @@ def main():
     old_file = sys.argv[1].lower()
     new_file = sys.argv[2].lower()
 
-try:
-
-
-except FileNotFoundError:
-    sys.exit("Input does not exist")
 
 
 def correct_input(user_input):
@@ -24,8 +18,9 @@ def correct_input(user_input):
 
     elif len(sys.argv) < 3:
         sys.exit("Too few command-line arguments")
+
     elif not part_1.endswith(".jpg", "jpeg", "png") and not part_2.endswith(".jpg", "jpeg", "png"):
         sys.exit("Invalid output")
-    elif
+        
     else:
         return user_input
