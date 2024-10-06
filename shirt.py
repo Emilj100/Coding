@@ -21,6 +21,6 @@ def correct_input(user_input):
 
     elif not part_1.endswith(".jpg", "jpeg", "png") and not part_2.endswith(".jpg", "jpeg", "png"):
         sys.exit("Invalid output")
-        
+
     else:
         return user_input
