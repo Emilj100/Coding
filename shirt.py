@@ -30,4 +30,4 @@ image = ImageOps.fit(image, size)
 
 image = Image.paste(image)
 
-Image.save
+Image.save(image)
