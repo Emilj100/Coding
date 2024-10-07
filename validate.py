@@ -7,3 +7,4 @@ if re.search(r".+@.+\.edu", email):
 else:
     print("Invalid")
 
+
