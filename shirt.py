@@ -26,6 +26,8 @@ elif not new_file_extension == old_file_extension:
 background_image = Image.open("shirt.png")
 overlay_image = Image.open(old_file)
 
+if overlay_image.mode != "RGBA":
+    overlay_image = overlay_image.convert("RGBA")
 
 overlay_image = ImageOps.fit(overlay_image, background_image.size)
 
