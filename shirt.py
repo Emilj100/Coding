@@ -1,38 +1,50 @@
 import sys
+import os
 from PIL import Image, ImageOps
 
+def main():
+    # Tjekker for korrekte kommandolinjeargumenter
+    check_arguments()
 
+    old_file = sys.argv[1]
+    new_file = sys.argv[2]
 
-user_input = sys.argv[1:]
-old_file = sys.argv[1].lower()
-new_file = sys.argv[2].lower()
-file_name1, old_file_extension = old_file.split(".")
-file_name2, new_file_extension = new_file.split(".")
+    try:
+        # Åbner inputbilledet og t-shirten
+        input_image = Image.open(old_file)
+        shirt_image = Image.open("shirt.png")
 
-if len(sys.argv) > 3:
-    sys.exit("Too many command-line arguments")
+        # Tilpasser inputbilledet til t-shirtens størrelse
+        input_image = ImageOps.fit(input_image, shirt_image.size)
 
-elif len(sys.argv) < 3:
-    sys.exit("Too few command-line arguments")
+        # Overlejrer t-shirten på inputbilledet med korrekt maske for gennemsigtighed
+        input_image.paste(shirt_image, (0, 0), shirt_image)
 
-elif not old_file.endswith((".jpg", "jpeg", "png")) or not new_file.endswith((".jpg", "jpeg", "png")):
-    sys.exit("Invalid output")
+        # Gemmer det nye billede med det rigtige output filnavn
+        input_image.save(new_file)
+    except FileNotFoundError:
+        sys.exit("Input file does not exist")
 
-elif not new_file_extension == old_file_extension:
-    sys.exit("Input and output have different extensions")
+def check_arguments():
+    # Sikrer at der er præcis to kommandolinjeargumenter
+    if len(sys.argv) != 3:
+        sys.exit("Usage: python shirt.py input_image output_image")
 
+    old_file = sys.argv[1]
+    new_file = sys.argv[2]
 
+    # Brug af os.path.splitext til at finde filtypen på en sikker måde
+    _, old_file_ext = os.path.splitext(old_file.lower())
+    _, new_file_ext = os.path.splitext(new_file.lower())
 
-background_image = Image.open("shirt.png")
-overlay_image = Image.open(old_file)
+    # Tjekker for gyldige filtyper og om filendelserne matcher
+    valid_extensions = (".jpg", ".jpeg", ".png")
+    if old_file_ext not in valid_extensions or new_file_ext not in valid_extensions:
+        sys.exit("Invalid file extension")
 
-if overlay_image.mode != "RGBA":
-    overlay_image = overlay_image.convert("RGBA")
+    if old_file_ext != new_file_ext:
+        sys.exit("Input and output file extensions do not match")
 
-overlay_image = ImageOps.fit(overlay_image, background_image.size)
+if __name__ == "__main__":
+    main()
 
-
-background_image.paste(overlay_image, (0, 0), overlay_image)
-
-
-background_image.save(old_file)
