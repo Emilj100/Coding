@@ -1,3 +1,3 @@
 name = input("What's your name? ").strip()
-if ","
+if "," in name:
 print(f"hello, {name}")
