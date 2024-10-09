@@ -3,17 +3,14 @@ import sys
 
 
 def main():
-    parse(input("HTML: "))
+    print(parse(input("HTML: ")))
 
 
 def parse(s):
-    if s := re.search(r"<iframe.+?src=\"(https?://)(?:www\.)?(youtube.com)/embed/([^\"]+)\"></iframe>", s, re.IGNORECASE):
-        youtube = s.group(2).replace("youtube.com", "youtu.be/")
-        print(s.group(1), youtube, s.group(3), sep="")
-    else:
-        print(None)
-
-
+    # sample : "http://www.youtube.com/embed/xvFZjo5PgG0"
+    # sample : <iframe src="https://youtube.com/embed/xvFZjo5PgG0"></iframe>...
+    if link := re.search(r"\"https?://(?:www\.)?youtube\.com/embed/(\w+)\"",s):
+        return('https://youtu.be/'+link.group(1))
 
 
 if __name__ == "__main__":
