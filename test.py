@@ -1,17 +1,16 @@
 from numb3rs import validate
 
-def test_num():
-    assert validate ('101.001.010.110') == True
-    assert validate ('11.23.191.22') == True
-    assert validate ('....') == False
+def test_validate():
+    # Gyldige IPv4-adresser
+    assert validate("192.168.0.1") == True
+    assert validate("255.255.255.255") == True
+    assert validate("0.0.0.0") == True
 
-def test_alpha():
-    assert validate ('cat.001.dog.bee') == False
-    assert validate ('lion') == False
-
-def test_less():
-    assert validate ('112.212.311') == False
-    assert validate ('1') == False
-
-def test_firstbyte():
-    assert validate('101.512.511.322') ==False
+    # Ugyldige IPv4-adresser
+    assert validate("256.256.256.256") == False  # 256 er uden for det gyldige interval
+    assert validate("123.456.78.90") == False    # 456 er uden for det gyldige interval
+    assert validate("192.168.1") == False        # Mangler en oktet
+    assert validate("192.168.one.1") == False    # Indeholder bogstaver
+    assert validate("...") == False              # Ingen tal, kun punktummer
+    assert validate("192.168.0.01") == True      # Gyldigt format, da 01 betragtes som 1
+    assert validate("1234.1.1.1") == False       # Første oktet har for mange cifre
