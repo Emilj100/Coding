@@ -7,7 +7,7 @@ def main():
 
 
 def validate(ip):
-    if ip := re.search(r"^[0-255]+\.[0-255]+\.[0-255]+\.[0-255]+$", ip):
+    if ip := re.search(r"^([0-255]+\.[0-255]+\.[0-255]+\.[0-255]+)$", ip):
         return True
     else:
         return False
