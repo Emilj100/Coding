@@ -1,23 +1,17 @@
-from sys import exit
+from numb3rs import validate
 
-def main():
-    print(validate(input("IPv4 Address: ")))
+def test_num():
+    assert validate ('101.001.010.110') == True
+    assert validate ('11.23.191.22') == True
+    assert validate ('....') == False
 
+def test_alpha():
+    assert validate ('cat.001.dog.bee') == False
+    assert validate ('lion') == False
 
-def validate(ip):
-    try:
-        nos = ip.strip().split('.')
-        if len(nos) != 4:
-            return False
-        for n in nos:
-            if int(n)<0 or int(n)>255:
-                return False
-        return True
-    except:
-        # bug : return False
-        return True
+def test_less():
+    assert validate ('112.212.311') == False
+    assert validate ('1') == False
 
-
-
-if __name__ == "__main__":
-    main()
+def test_firstbyte():
+    assert validate('101.512.511.322') ==False
