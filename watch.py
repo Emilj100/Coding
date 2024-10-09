@@ -3,11 +3,13 @@ import sys
 
 
 def main():
-    print(parse(input("HTML: ")))
+    parse(input("HTML: "))
 
 
 def parse(s):
-    if s := re.search(r"(https?://)(?:www\.)youtube.com/embed/(.+)", s)
+    if s := re.search(r"(https?://)(?:www\.)(youtube.com)/embed/(.+)", s):
+        s.group(2).replace("youtube.com", "youtu.be")
+        print(s.group(1), s.group(2), s.group(3), sep="")
 
 
 
