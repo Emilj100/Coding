@@ -17,9 +17,11 @@ def validate(ip):
                 if ip_4 >= 0 and ip_4 <= 255:
                     if ip_5 >= 0 and ip_5 <= 255:
                         return True
+
+                else:
+                    return False
         else:
             return False
-
 
     else:
         return False
