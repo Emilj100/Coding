@@ -7,7 +7,7 @@ def main():
 
 
 def parse(s):
-    if s := re.search(r"<iframe.+?src=\"(.+)\"></iframe>", s, re.IGNORECASE):
+    if s := re.search(r"<iframe.+?src=\"(.+)\".+></iframe>", s, re.IGNORECASE):
         if "youtube.com/embed/" in s:
         print(s.groups())
     else:
