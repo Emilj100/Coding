@@ -1,2 +1,3 @@
 url = input("URL: ").strip()
-print(url)
+
+username = url.replace("https:)
