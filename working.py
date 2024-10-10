@@ -58,7 +58,7 @@ def convert(s):
 
 
 
-        return f"{number_1_am_match_1}:{number_2_am_match_1} to {number_1_pm_match_1}:{number_2_pm_match_1}"
+        return f"{int(number_1_am_match_1):02}:{number_2_am_match_1} to {number_1_pm_match_1}:{number_2_pm_match_1}"
 
 
     elif match_2:
