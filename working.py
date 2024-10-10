@@ -198,7 +198,7 @@ def convert(s):
         if not int(match_4.group(2)) == 12:
             return f"{int(number_1_am_match_4):02}:00 to {number_1_pm_match_4}"
 
-        else: int(match_4.group(2)) == 12:
+        elif int(match_4.group(2)) == 12:
             return f"00:00 to {number_1_pm_match_4}"
 
     else:
