@@ -197,6 +197,9 @@ def convert(s):
 
         return f"{number_1_am_match_4} to {number_1_pm_match_4}"
 
+    else:
+        raise ValueError
+
 
 if __name__ == "__main__":
     main()
