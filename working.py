@@ -105,7 +105,7 @@ def convert(s):
         elif int(match_2.group(2)) == 12:
             number_1_pm_match_2 = match_2.group(2).replace("12", "24")
 
-        return f"{number_1_pm_match_2}:{number_2_pm_match_2} to {number_1_am_match_2}:{number_2_am_match_2}"
+        return f"{number_1_pm_match_2}:{number_2_pm_match_2} to {number_1_am_match_2:02}:{number_2_am_match_2}"
 
 
 
