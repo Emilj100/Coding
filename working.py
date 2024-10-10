@@ -150,7 +150,7 @@ def convert(s):
         if int(match_3.group(2)) == 12:
             number_1_pm_match_3 = match_3.group(2).replace("12", "00:00")
 
-        return f"{number_1_pm_match_3} to {int(number_1_am_match_3):02}"
+        return f"{number_1_pm_match_3} to {int(number_1_am_match_3):02}:00"
 
     elif match_4:
 
