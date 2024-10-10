@@ -9,7 +9,12 @@ def main():
 def convert(s):
     match_1 = re.search(r"^(([0-9]+):([0-9]+) AM) to (([0-9]+):([0-9]+) PM)$", s)
     match_2 = re.search(r"^(([0-9]+):([0-9]+) PM) to (([0-9]+):([0-9]+) AM)$", s)
+    match_3 = re.search(r"^(([0-9]+) PM) to (([0-9]+) AM)$", s)
+    match_4 = re.search(r"^(([0-9]+) AM) to (([0-9]+) PM)$", s)
 
+    if match_3:
+        if int(match_3.group(2)) == 1:
+            number_
 
     if match_1:
 
