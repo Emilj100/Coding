@@ -14,7 +14,7 @@ def convert(s):
 
     if match_4:
 
-        if 
+        if int(match_4.group())
 
     if match_3:
 
