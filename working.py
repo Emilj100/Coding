@@ -157,7 +157,7 @@ def convert(s):
         number_1_am_match_4 = match_4.group(2)
 
         if int(match_4.group(2)) == 12:
-            number_1_am_match_4 = match_4.group(2).replace("12", "00:00")
+            number_1_am_match_4 = match_4.group(2).replace("12", "00")
 
         elif int(match_4.group(4)) == 1:
             number_1_pm_match_4 = match_4.group(4).replace("1", "13:00")
@@ -195,11 +195,8 @@ def convert(s):
         elif int(match_4.group(4)) == 12:
             number_1_pm_match_4 = match_4.group(4).replace("12", "12:00")
 
-        if not int(match_4.group(2)) == 12:
-            return f"{int(number_1_am_match_4):02}:00 to {number_1_pm_match_4}"
+        return f"{int(number_1_am_match_4):02}:00 to {number_1_pm_match_4}"
 
-        elif int(match_4.group(2)) == 12:
-            return f"00:00 to {number_1_pm_match_4}"
 
     else:
         raise ValueError
