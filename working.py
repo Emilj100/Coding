@@ -201,13 +201,5 @@ def convert(s):
         return f"{number_1_pm_match_2}:{number_2_pm_match_2} to {int(number_1_am_match_2):02}:{number_2_am_match_2}"
 
 
-
-    else:
-        raise ValueError("NEJ")
-
-
-
-
-
 if __name__ == "__main__":
     main()
