@@ -7,7 +7,10 @@ def main():
 
 
 def convert(s):
-    match = re.search(r")
+    match = re.search(r"^([0-9:]+AM) to ([0-9:]+PM)$", s)
+    if match:
+        print("rigtig")
+
 
 
 
