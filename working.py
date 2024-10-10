@@ -46,7 +46,7 @@ def convert(s):
             number_1 = match_1.group(5).replace("11", "23")
 
         elif int(match_1.group(5)) == 12:
-            number_1 = match_1.group(5).replace("12", "0")
+            number_1 = match_1.group(5)
 
         print(number_1)
 
