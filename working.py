@@ -13,7 +13,7 @@ def convert(s):
 
     if match_1:
         if int(match_1.group(5)) == 1:
-            number_1 = match_1.replace(1, 13)
+            number_1 = match_1.group(5).replace(1, 13)
             print(number_1)
     elif match_2:
         print("ja tak")
