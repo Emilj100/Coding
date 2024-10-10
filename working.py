@@ -16,7 +16,7 @@ def convert(s):
     elif match_2:
         print("ja tak")
     else:
-        raise ValueError
+        raise ValueError("NEJ")
 
 
 
