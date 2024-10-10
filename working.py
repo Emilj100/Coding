@@ -14,6 +14,7 @@ def convert(s):
 
     if match_3:
 
+        if int(match_)
 
         if int(match_3.group(2)) == 1:
             number_1_pm_match_3 = match_3.group(2).replace("1", "13")
