@@ -12,10 +12,14 @@ def convert(s):
     match_3 = re.search(r"^(([0-9]+) PM) to (([0-9]+) AM)$", s)
     match_4 = re.search(r"^(([0-9]+) AM) to (([0-9]+) PM)$", s)
 
+    if match_4:
+
+        if 
+
     if match_3:
 
         if int(match_3.group(4)) == 12:
-            number_1_am_match_3
+            number_1_am_match_3 = match_3.group(2).replace("12", "00")
 
         if int(match_3.group(2)) == 1:
             number_1_pm_match_3 = match_3.group(2).replace("1", "13")
