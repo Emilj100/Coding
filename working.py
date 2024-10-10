@@ -56,7 +56,7 @@ def convert(s):
             number_1_pm_match_1 = match_1.group(5).replace("11", "23")
 
         elif int(match_1.group(5)) == 12:
-            number_1_pm_match_1 = match_1.group(5).replace("12", "00")
+            number_1_pm_match_1 = match_1.group(5).replace("12", "12")
 
         return f"{int(number_1_am_match_1):02}:{number_2_am_match_1} to {number_1_pm_match_1}:{number_2_pm_match_1}"
 
@@ -103,7 +103,7 @@ def convert(s):
             number_1_pm_match_2 = match_2.group(2).replace("11", "23")
 
         elif int(match_2.group(2)) == 12:
-            number_1_pm_match_2 = match_2.group(2).replace("12", "00")
+            number_1_pm_match_2 = match_2.group(2).replace("12", "12")
 
         return f"{number_1_pm_match_2}:{number_2_pm_match_2} to {int(number_1_am_match_2):02}:{number_2_am_match_2}"
 
@@ -148,7 +148,7 @@ def convert(s):
             number_1_pm_match_3 = match_3.group(2).replace("11", "23:00")
 
         if int(match_3.group(2)) == 12:
-            number_1_pm_match_3 = match_3.group(2).replace("12", "00:00")
+            number_1_pm_match_3 = match_3.group(2).replace("12", "12:00")
 
         return f"{number_1_pm_match_3} to {int(number_1_am_match_3):02}:00"
 
@@ -193,7 +193,7 @@ def convert(s):
             number_1_pm_match_4 = match_4.group(4).replace("11", "23:00")
 
         if int(match_4.group(4)) == 12:
-            number_1_pm_match_4 = match_4.group(4).replace("12", "00:00")
+            number_1_pm_match_4 = match_4.group(4).replace("12", "12:00")
 
         return f"{int(number_1_am_match_4):02}:00 to {number_1_pm_match_4}"
 
