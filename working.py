@@ -12,7 +12,7 @@ def convert(s):
 
 
     if match_1:
-        if match_1.group(2)
+        if int(match_1.group(2)) == 
     elif match_2:
         print("ja tak")
     else:
