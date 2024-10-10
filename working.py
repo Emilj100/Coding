@@ -14,7 +14,44 @@ def convert(s):
 
     if match_3:
         if int(match_3.group(2)) == 1:
-            number_
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 2:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 3:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 4:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 5:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 6:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 7:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 8:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 9:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 1:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 1:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 1:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
+        if int(match_3.group(2)) == 1:
+            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+
 
     if match_1:
 
@@ -23,7 +60,7 @@ def convert(s):
         number_2_pm_match_1 = match_1.group(6)
 
         if int(match_1.group(2)) == 12:
-            number_1_am_match_1 = match_1.group(5).replace("12", "00")
+            number_1_am_match_1 = match_1.group(2).replace("12", "00")
 
         if int(match_1.group(5)) == 1:
             number_1_pm_match_1 = match_1.group(5).replace("1", "13")
