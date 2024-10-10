@@ -152,7 +152,7 @@ def convert(s):
 
         return f"{number_1_pm_match_3} to {number_1_am_match_3}"
 
-    if match_4:
+    elif match_4:
 
         number_1_am_match_4 = match_4.group(2)
 
