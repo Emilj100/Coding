@@ -62,9 +62,9 @@ def convert(s):
 
 
     elif match_2:
-        number_1_am_match_2 = match_2.group(2)
-        number_2_am_match_2 = match_2.group(3)
-        number_2_pm_match_2 = match_2.group(6)
+        number_1_am_match_2 = match_2.group(5)
+        number_2_am_match_2 = match_2.group(6)
+        number_2_pm_match_2 = match_2.group(3)
 
         if int(match_2.group(5)) == 12:
             number_1_am_match_2 = match_2.group(5).replace("12", "00")
@@ -73,39 +73,39 @@ def convert(s):
             number_1_pm_match_2 = match_2.group(2).replace("1", "13")
 
         elif int(match_2.group(2)) == 2:
-            number_1_am_match_2 = match_2.group(2).replace("2", "14")
+            number_1_pm_match_2 = match_2.group(2).replace("2", "14")
 
         elif int(match_2.group(2)) == 3:
-            number_1_am_match_2 = match_2.group(2).replace("3", "15")
+            number_1_pm_match_2 = match_2.group(2).replace("3", "15")
 
         elif int(match_2.group(2)) == 4:
-            number_1_am_match_2 = match_2.group(2).replace("4", "16")
+            number_1_pm_match_2 = match_2.group(2).replace("4", "16")
 
         elif int(match_2.group(2)) == 5:
-            number_1_am_match_2 = match_2.group(2).replace("5", "17")
+            number_1_pm_match_2 = match_2.group(2).replace("5", "17")
 
         elif int(match_2.group(2)) == 6:
-            number_1_am_match_2 = match_2.group(2).replace("6", "18")
+            number_1_pm_match_2 = match_2.group(2).replace("6", "18")
 
         elif int(match_2.group(2)) == 7:
-            number_1_am_match_2 = match_2.group(2).replace("7", "19")
+            number_1_pm_match_2 = match_2.group(2).replace("7", "19")
 
         elif int(match_2.group(2)) == 8:
-            number_1_am_match_2 = match_2.group(2).replace("8", "20")
+            number_1_pm_match_2 = match_2.group(2).replace("8", "20")
 
         elif int(match_2.group(2)) == 9:
-            number_1_am_match_2 = match_2.group(2).replace("9", "21")
+            number_1_pm_match_2 = match_2.group(2).replace("9", "21")
 
         elif int(match_2.group(2)) == 10:
-            number_1_am_match_2 = match_2.group(2).replace("10", "22")
+            number_1_pm_match_2 = match_2.group(2).replace("10", "22")
 
         elif int(match_2.group(2)) == 11:
-            number_1_am_match_2 = match_2.group(2).replace("11", "23")
+            number_1_pm_match_2 = match_2.group(2).replace("11", "23")
 
         elif int(match_2.group(2)) == 12:
-            number_1_am_match_2 = match_2.group(2).replace("12", "24")
+            number_1_pm_match_2 = match_2.group(2).replace("12", "24")
 
-        return f"
+        return f"{number_1_pm_match_2}:{number_2_pm_match_2} to {number_1_am_match_2}:{number_2_am_match_2}"
 
 
 
