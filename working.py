@@ -17,40 +17,37 @@ def convert(s):
             number_1_pm_match_3 = match_3.group(2).replace("1", "13")
 
         if int(match_3.group(2)) == 2:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("2", "14")
 
         if int(match_3.group(2)) == 3:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("3", "15")
 
         if int(match_3.group(2)) == 4:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("4", "13")
 
         if int(match_3.group(2)) == 5:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("5", "13")
 
         if int(match_3.group(2)) == 6:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("6", "13")
 
         if int(match_3.group(2)) == 7:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("7", "13")
 
         if int(match_3.group(2)) == 8:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("8", "13")
 
         if int(match_3.group(2)) == 9:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+            number_1_pm_match_3 = match_3.group(2).replace("9", "13")
 
-        if int(match_3.group(2)) == 1:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+        if int(match_3.group(2)) == 10:
+            number_1_pm_match_3 = match_3.group(2).replace("10", "13")
 
-        if int(match_3.group(2)) == 1:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+        if int(match_3.group(2)) == 11:
+            number_1_pm_match_3 = match_3.group(2).replace("11", "13")
 
-        if int(match_3.group(2)) == 1:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
-
-        if int(match_3.group(2)) == 1:
-            number_1_pm_match_3 = match_3.group(2).replace("1", "13")
+        if int(match_3.group(2)) == 12:
+            number_1_pm_match_3 = match_3.group(2).replace("12", "13")
 
 
     if match_1:
