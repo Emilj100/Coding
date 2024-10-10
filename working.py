@@ -14,9 +14,52 @@ def convert(s):
 
     if match_4:
 
-        if int(match_4.group())
+        number_1_am_match_4 = match_4.group(2)
+
+        if int(match_4.group(2)) == 12:
+            number_1_am_match_4 = match_4.group(2).replace("12", "00")
+
+        if int(match_4.group(4)) == 1:
+            number_1_pm_match_4 = match_4.group(4).replace("1", "13")
+
+        if int(match_4.group(4)) == 2:
+            number_1_pm_match_4 = match_4.group(4).replace("2", "14")
+
+        if int(match_4.group(4)) == 3:
+            number_1_pm_match_4 = match_4.group(4).replace("3", "15")
+
+        if int(match_4.group(4)) == 4:
+            number_1_pm_match_4 = match_4.group(4).replace("4", "16")
+
+        if int(match_4.group(4)) == 5:
+            number_1_pm_match_4 = match_4.group(4).replace("5", "17")
+
+        if int(match_4.group(4)) == 6:
+            number_1_pm_match_4 = match_4.group(4).replace("6", "18")
+
+        if int(match_4.group(4)) == 7:
+            number_1_pm_match_4 = match_4.group(4).replace("7", "19")
+
+        if int(match_4.group(4)) == 8:
+            number_1_pm_match_4 = match_4.group(4).replace("8", "20")
+
+        if int(match_4.group(4)) == 9:
+            number_1_pm_match_4 = match_4.group(4).replace("9", "21")
+
+        if int(match_4.group(4)) == 10:
+            number_1_pm_match_4 = match_4.group(4).replace("10", "22")
+
+        if int(match_4.group(4)) == 11:
+            number_1_pm_match_4 = match_4.group(4).replace("11", "23")
+
+        if int(match_4.group(4)) == 12:
+            number_1_pm_match_4 = match_4.group(4).replace("12", "24")
+
+
 
     if match_3:
+
+        number_1_am_match_3 = match_3.group(4)
 
         if int(match_3.group(4)) == 12:
             number_1_am_match_3 = match_3.group(2).replace("12", "00")
