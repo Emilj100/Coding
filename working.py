@@ -22,7 +22,7 @@ def convert(s):
         if int(match_1.group(6)) >= 60:
             raise ValueError
 
-        if int(match_1.group(6)) >= 60:
+        if int(match_1.group(3)) >= 60:
             raise ValueError
 
         if int(match_1.group(2)) > 12:
