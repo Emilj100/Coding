@@ -8,7 +8,10 @@ def main():
 
 def count(s):
     match = re.findall(r"um", s, re.IGNORECASE)
-    return match
+    counter = list(match)
+    test = len(counter)
+    return test
+
 
 
 if __name__ == "__main__":
