@@ -1,19 +1,12 @@
-from um import count
+import re
 
+def main():
+    print(count(input("Text: ")))
 
-def test_input():
-    assert count('yummy') == 0
-    assert count('mum ') == 0
+def count(s):
+    # Brug et regulært udtryk til at finde alle forekomster af "um" som et helt ord, case-insensitivt
+    matches = re.findall(r'\bum\b', s, re.IGNORECASE)
+    return len(matches)
 
-def test_nospace():
-    assert count('um') == 1
-    assert count('um, can i... um... help?') == 2
-
-def test_space():
-    assert count(' um ') == 1
-
-def test_case():
-    assert count('Um, how you doin') == 1
-    assert count('umm.. UM.. whats um up?') == 2
 if __name__ == "__main__":
     main()
