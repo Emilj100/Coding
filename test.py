@@ -1,14 +1,15 @@
-from validators import email
-
+import validators
 
 def main():
-    inpt = input('What is your email address? '.strip())
-    if email(inpt) == True:
-        print('Valid')
+    email = input("Email: ").strip()
+    if validate_email(email):
+        print("Valid")
     else:
-        print('Invalid')
+        print("Invalid")
 
+def validate_email(email):
+    # Brug validators biblioteket til at kontrollere, om e-mailen er gyldig
+    return validators.email(email)
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
