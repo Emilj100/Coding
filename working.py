@@ -138,7 +138,7 @@ def convert(s):
         if int(match_3.group(2)) > 12:
             raise ValueError
 
-        if int(match_3.group(5)) > 12:
+        if int(match_3.group(4)) > 12:
             raise ValueError
 
         if int(match_3.group(4)) == 12:
@@ -189,7 +189,7 @@ def convert(s):
         if int(match_4.group(2)) > 12:
             raise ValueError
 
-        if int(match_4.group(5)) > 12:
+        if int(match_4.group(4)) > 12:
             raise ValueError
 
         if int(match_4.group(2)) == 12:
