@@ -7,7 +7,7 @@ def main():
 
 
 def count(s):
-    match = re.findall(r"\bum\b", s, re.IGNORECASE)
+    match = re.findall(r"um", s, re.IGNORECASE)
     counter = len(list(match))
     return counter
 
