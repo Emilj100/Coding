@@ -19,6 +19,11 @@ def convert(s):
         number_2_am_match_1 = match_1.group(3)
         number_2_pm_match_1 = match_1.group(6)
 
+        if int(match_1.group(6)) >= 60:
+            raise ValueError
+
+        if int(match_1.group(6)) >= 60:
+            raise ValueError
 
         if int(match_1.group(2)) > 12:
             raise ValueError
