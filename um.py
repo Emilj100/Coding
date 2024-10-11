@@ -9,9 +9,8 @@ def main():
 def count(s):
     counter = 0
 
-    for um in s:
-        if um == "um":
-            counter += 1
+    if "um" in s:
+        counter += 1
 
     return counter
 
