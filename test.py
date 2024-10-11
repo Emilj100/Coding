@@ -1,12 +1,22 @@
-import re
+import pytest
+from um import count
 
-def main():
-    print(count(input("Text: ")))
+def test_single_um():
+    assert count("um") == 1
+    assert count("Um") == 1
+    assert count("UM") == 1
 
-def count(s):
-    # Brug et regulært udtryk til at finde alle forekomster af "um" som et helt ord, case-insensitivt
-    matches = re.findall(r'\bum\b', s, re.IGNORECASE)
-    return len(matches)
+def test_multiple_um():
+    assert count("um, um, um.") == 3
+    assert count("Um... um... um") == 3
+    assert count("UM um Um") == 3
 
-if __name__ == "__main__":
-    main()
+def test_um_within_words():
+    assert count("yummy") == 0
+    assert count("umbrella") == 0
+    assert count("aluminum") == 0
+
+def test_um_with_special_characters():
+    assert count("um! How are you?") == 1
+    assert count("Well, um... that's interesting.") == 1
+    assert count("Hum, let me think about that.") == 0
