@@ -1,70 +1,42 @@
 import re
-import sys
-
 
 def main():
-    try:
-        print(convert(input("Hours: ")))
-    except ValueError:
-        exit('ValueError')
-
-
+    print(convert(input("Hours: ")))
 
 def convert(s):
-    # re
-    time_result = re.search(r"(\d+)(?::(\d+))? (AM|PM) to (\d+)(?::(\d+))? (AM|PM)",s)
+    # Regulært udtryk for at matche alle fire gyldige tidsformater
+    pattern = r"^(\d{1,2})(?::(\d{2}))? (AM|PM) to (\d{1,2})(?::(\d{2}))? (AM|PM)$"
+    match = re.search(pattern, s)
 
-    if time_result:
-        # get groups into temp
-        temp = list(time_result.groups())
+    if not match:
+        raise ValueError("Invalid time format")
 
-        time_12=[]
-        # assign group into list 'time_12'
-        for t in temp:
-            if t == None:
-                time_12.append('00')
-            else:
-                time_12.append(t)
+    # Udtræk timer og minutter fra regulære udtryksgrupper
+    start_hour, start_minute, start_period = int(match.group(1)), match.group(2), match.group(3)
+    end_hour, end_minute, end_period = int(match.group(4)), match.group(5), match.group(6)
 
-        # check if hours are valid
-        if int(time_12[0])<0 or int(time_12[0])>12:
-            raise ValueError
-        elif int(time_12[3])<0 or int(time_12[3])>12:
-            raise ValueError
+    # Sæt minutter til '00', hvis de ikke er angivet
+    start_minute = int(start_minute) if start_minute else 0
+    end_minute = int(end_minute) if end_minute else 0
 
-        # check if hours are valid
-        if int(time_12[1])<0 or int(time_12[1])>59:
-            raise ValueError
-        elif int(time_12[4])<0 or int(time_12[4])>59:
-            raise ValueError
+    # Tjek for gyldige timer og minutter
+    if not (0 <= start_minute < 60 and 0 <= end_minute < 60):
+        raise ValueError("Invalid minute value")
+    if not (1 <= start_hour <= 12 and 1 <= end_hour <= 12):
+        raise ValueError("Invalid hour value")
 
+    # Konverter starttiden til 24-timers format
+    start_hour = convert_to_24_hour(start_hour, start_period)
+    end_hour = convert_to_24_hour(end_hour, end_period)
 
-        # update to 24 hour
+    return f"{start_hour:02}:{start_minute:02} to {end_hour:02}:{end_minute:02}"
 
-        # if AM
-        if time_12[2] == 'AM' and str(time_12[0]) == '12':
-            time_12[0]='00'
-        if time_12[5] == 'AM' and str(time_12[3]) == '12':
-            time_12[3] = '00'
-
-        # if PM
-        if time_12[2] == 'PM' and str(time_12[0]) != '12':
-            time_12[0]=int(time_12[0])+12
-        if time_12[5] == 'PM' and str(time_12[3]) != '12':
-            time_12[3]=int(time_12[3])+12
-
-        # assign updated time_12 into a list
-        time_24=[time_12[0],time_12[1],time_12[3],time_12[4]]
-
-
-
-        # format 24 hour time and return
-        time=f'{str(time_24[0]).zfill(2)}:{str(time_24[1]).zfill(2)} to {str(time_24[2]).zfill(2)}:{str(time_24[3]).zfill(2)}'
-        return time
-
-    else:
-        raise ValueError
-
+def convert_to_24_hour(hour, period):
+    if period == 'AM' and hour == 12:
+        return 0  # Midnat
+    elif period == 'PM' and hour != 12:
+        return hour + 12  # PM-konvertering til 24-timers format
+    return hour
 
 if __name__ == "__main__":
     main()
