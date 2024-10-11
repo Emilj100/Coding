@@ -25,6 +25,12 @@ def convert(s):
         if int(match_1.group(6)) >= 60:
             raise ValueError
 
+        if int(match_1.group(2)) > 12:
+            raise ValueError
+
+        if int(match_1.group(5)) > 12:
+            raise ValueError
+
         if int(match_1.group(2)) == 12:
             number_1_am_match_1 = match_1.group(2).replace("12", "00")
 
@@ -78,6 +84,12 @@ def convert(s):
         if int(match_2.group(3)) >= 60:
             raise ValueError
 
+        if int(match_2.group(2)) > 12:
+            raise ValueError
+
+        if int(match_2.group(5)) > 12:
+            raise ValueError
+
         if int(match_2.group(5)) == 12:
             number_1_am_match_2 = match_2.group(5).replace("12", "00")
 
@@ -123,6 +135,12 @@ def convert(s):
 
         number_1_am_match_3 = match_3.group(4)
 
+        if int(match_3.group(2)) > 12:
+            raise ValueError
+
+        if int(match_3.group(5)) > 12:
+            raise ValueError
+
         if int(match_3.group(4)) == 12:
             number_1_am_match_3 = match_3.group(2).replace("12", "00:00")
 
@@ -167,6 +185,12 @@ def convert(s):
     elif match_4:
 
         number_1_am_match_4 = match_4.group(2)
+
+        if int(match_4.group(2)) > 12:
+            raise ValueError
+
+        if int(match_4.group(5)) > 12:
+            raise ValueError
 
         if int(match_4.group(2)) == 12:
             number_1_am_match_4 = match_4.group(2).replace("12", "00")
