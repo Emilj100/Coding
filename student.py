@@ -1,6 +1,5 @@
 def main():
-    name = get_name()
-    house = get_house()
+    name, house = get_student()
     print(f"{name} from {house}")
 
 
