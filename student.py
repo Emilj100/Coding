@@ -21,7 +21,5 @@ def get_student():
     house = input("House: ").title()
     return Student(name, house)
 
-
-
 if __name__ == "__main__":
     main()
