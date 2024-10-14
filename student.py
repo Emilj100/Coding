@@ -13,6 +13,7 @@ class Student:
 
 def main():
     student = get_student()
+    student.house = "Number Four, Privet Drive"
     print(student)
 
 
