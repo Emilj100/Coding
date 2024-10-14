@@ -16,6 +16,7 @@ class Student:
 
     # Setter
     def house(self, house):
+        if house not in ["]
         self.house = house
 
 
