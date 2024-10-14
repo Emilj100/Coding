@@ -10,9 +10,11 @@ class Student:
     def __str__(self):
         return f"{self.name} from {self.house}"
 
+    # Getter
     def house(self):
         return self.house
 
+    # Setter
     def house(self, house):
         self.house = house
 
