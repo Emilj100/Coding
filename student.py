@@ -11,10 +11,12 @@ class Student:
         return f"{self.name} from {self.house}"
 
     # Getter
+    @property
     def house(self):
         return self.house
 
     # Setter
+    @house.setter
     def house(self, house):
         if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]:
             raise ValueError("Invalid house")
