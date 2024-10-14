@@ -10,6 +10,12 @@ class Student:
     def __str__(self):
         return f"{self.name} from {self.house}"
 
+    def house(self):
+        return self.house
+
+    def house(self, house):
+        self.house = house
+
 
 def main():
     student = get_student()
