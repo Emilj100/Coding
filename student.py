@@ -16,7 +16,8 @@ class Student:
 
     # Setter
     def house(self, house):
-        if house not in ["]
+        if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]:
+            raise ValueError("Invalid house")
         self.house = house
 
 
