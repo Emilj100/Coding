@@ -14,12 +14,19 @@ class Student:
     def charm(self):
         match self.patronus:
             case "Stag":
-                return "
+                return "1"
+            case "Otter":
+                return "2"
+            case "Jack Russell terrier":
+                return "3"
+            case _:
+                return "4"
 
 
 def main():
     student = get_student()
-    print(student)
+    print("Expecto Patronum!")
+    print(student.charm())
 
 
 def get_student():
