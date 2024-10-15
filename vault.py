@@ -12,7 +12,7 @@ class Vault:
         galleons = self.galleons + other.galleons
         sickles = self.sickles + other.sickles
         knuts = self.knuts + other.knuts
-        reutn Vault(galleons, sickles, knuts)
+        return Vault(galleons, sickles, knuts)
 
 potter = Vault(100, 50, 25)
 print(potter)
