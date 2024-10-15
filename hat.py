@@ -4,8 +4,10 @@ class Hat:
 
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
-    def sort(self, name):
-        print(name, "is in", random.choice(self.houses))
+
+    @classmethod
+    def sort(cls, name):
+        print(name, "is in", random.choice(cls.houses))
 
 
 hat = Hat()
