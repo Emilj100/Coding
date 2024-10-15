@@ -12,18 +12,9 @@ class Student:
         house = input("House: ")
         return cls(name, house)
 
-
-
-
 def main():
-    student = get_student()
+    student = Student.get()
     print(student)
-
-
-def get_student():
-    name = input("Name: ")
-    house = input("House: ")
-    return Student(name, house)
 
 if __name__ == "__main__":
     main()
