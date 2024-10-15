@@ -16,7 +16,7 @@ class Student:
 
 
 def main():
-    student = Hat.get
+    student = get_student()
     print(student)
 
 
