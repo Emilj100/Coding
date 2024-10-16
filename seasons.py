@@ -35,7 +35,7 @@ def main():
     minutes = int(days) * 24 * 60
 
     minutes = inflect.engine().number_to_words(int(minutes), andword="")
-    print(minutes)
+    print f"{minutes.title()} minutes"
 
 
 
