@@ -1,5 +1,5 @@
-from datetime import datetime
+from datetime import date
 
 
-test = datetime.now()
+test = date(2024, 10, 23)
 print(test)
