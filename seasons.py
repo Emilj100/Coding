@@ -23,7 +23,6 @@ def main():
     user_date = datetime(int(user_date_year), int(user_date_month), int(user_date_day))
 
     date_now = datetime.today()
-    print(date_now)
 
     date_now_year, date_now_month, date_now_day = str(date_now).split("-")
     date_now_day, remove_time = str(date_now).split(" ")
