@@ -25,7 +25,7 @@ def main():
     date_now = datetime.today()
 
     date_now_year, date_now_month, date_now_day = str(date_now).split("-")
-    date_now_day, remove_time = str(date_now).split(" ")
+    date_now_day, remove_time = str(date_now_day).split(" ")
     date_now = Date(int(date_now_year), int(date_now_month), int(date_now_day))
 
     minutes = date_now - user_date
