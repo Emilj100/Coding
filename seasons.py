@@ -14,8 +14,8 @@ def main():
     user_date_year, user_date_month, user_date_day = input("Date of Birth: ").split("-")
     user_date = Date(user_date_year, user_date_month, user_date_day)
     date_now = date.today()
-    date_now_year, date_now_month, date_now_day = date_now.split("-")
-    print(date_now_year)
+    date_now_year, date_now_month, date_now_day = str(date_now).split("-")
+    date_now = Date(date_now_year, date_now_month, date_now_day)
 
 
 
