@@ -16,6 +16,7 @@ class Date:
 def main():
     user_date_year, user_date_month, user_date_day = input("Date of Birth: ").split("-")
     user_date = Date(user_date_year, user_date_month, user_date_day)
+    date_now = 
 
 
 
