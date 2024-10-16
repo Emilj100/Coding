@@ -2,7 +2,7 @@ from datetime import date
 
 
 def main():
-    user_date = 
+    user_date = input("Date of Birth: ")
 
 
 
