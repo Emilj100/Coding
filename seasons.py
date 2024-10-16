@@ -30,8 +30,8 @@ def main():
 
 
     days = date1 - date2
-    days = str(days).removesuffix(" ")
-    print(days)
+    days, useless= str(days).split(" days")
+    minutes = 
 
 
 
