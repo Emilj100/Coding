@@ -1,4 +1,5 @@
 from datetime import date, datetime
+import inflect
 
 class Date:
     def __init__(self, year, month, day):
@@ -32,6 +33,8 @@ def main():
     days = date1 - date2
     days, useless= str(days).split(" days")
     minutes = int(days) * 24 * 60
+
+    minutes = p.number_to_words(minutes, andword="")
     print(minutes)
 
 
