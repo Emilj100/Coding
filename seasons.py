@@ -31,7 +31,8 @@ def main():
 
     days = date1 - date2
     days, useless= str(days).split(" days")
-    minutes = 
+    minutes = int(days) * 24 * 60
+    print(minutes)
 
 
 
