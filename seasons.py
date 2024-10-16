@@ -13,7 +13,7 @@ class Date:
 def main():
     user_date_year, user_date_month, user_date_day = input("Date of Birth: ").split("-")
     user_date = date(user_date_year, user_date_month, user_date_day)
-    date_now = ()
+    date_now = date.today()
 
 
 
