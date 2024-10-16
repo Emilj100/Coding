@@ -16,7 +16,7 @@ def main():
     date_now = date.today()
     date_now_year, date_now_month, date_now_day = str(date_now).split("-")
     date_now = Date(date_now_year, date_now_month, date_now_day)
-
+    
 
 
 
