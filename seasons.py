@@ -30,6 +30,7 @@ def main():
 
 
     days = date1 - date2
+    days, useless = str(days).split(" ")
     print(days)
 
 
