@@ -7,16 +7,19 @@ class Jar:
         if capacity < 0:
             raise ValueError
         self.capacity = capacity
+        for _ in range(self.capacity):
+            cookies.append("🍪")
 
     def __str__(self):
-    for _ in range(self.capacity):
-        cookies.append("🍪")
+        for cookie in cookies:
+            return f"{cookie}"
 
     def deposit(self, n):
         ...
 
     def withdraw(self, n):
         ...
+
 
     @property
     def capacity(self):
@@ -25,21 +28,8 @@ class Jar:
     @property
     def size(self):
         ...
-
 def main():
     amount = input("How many cookies in jar? ")
     amount = Jar(int(amount))
-
-main()
-
-
-def main():
-    amount = input("How many cookies in jar? ")
-    test(int(amount))
-    for cookie in cookies:
-        print(cookie, end="")
-    print()
-
-def test(amount):
 
 main()
