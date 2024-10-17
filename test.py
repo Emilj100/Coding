@@ -3,60 +3,40 @@ import inflect
 import sys
 import re
 
+
 def main():
-    inpt=input('Date of Birth: ')
-    print(get_min(inpt))
+    birth_date = input("Date of Birth (YYYY-MM-DD): ").strip()
+    print(age_in_minutes(birth_date))
 
 
-def get_min(inpt):
+def age_in_minutes(birth_date_str):
+    # Regex til at sikre korrekt inputformat
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", birth_date_str):
+        sys.exit("Invalid date")
 
-    # gets dates from input using regex
-    if search := re.search(r'^(\d{4})-(\d{2})-(\d{2})$',inpt):
-        inpt=list(search.groups())
-    else:
-        sys.exit('Invalid date')
+    # Konverter fødselsdato til et date-objekt
+    try:
+        year, month, day = map(int, birth_date_str.split("-"))
+        birth_date = date(year, month, day)
+    except ValueError:
+        sys.exit("Invalid date")
 
-    # converts str into int and checks valid date
-    inpt_bday = convert_and_check(inpt)
-
-    # today's date
+    # Hent dagens dato
     today = date.today()
 
-    # bday
-    bday = date(inpt_bday[0], inpt_bday[1], inpt_bday[2])
+    # Beregn forskellen i dage
+    delta = today - birth_date
+    total_days = delta.days
 
-    # computes no of days
-    diff = bday - today
-    no_of_days = -int(diff.days)
+    # Beregn antallet af minutter
+    total_minutes = total_days * 24 * 60
 
-    # computes days into minutes
-    minutes = no_of_days * 24 * 60
+    # Brug inflect til at konvertere tal til ord
+    p = inflect.engine()
+    minutes_in_words = p.number_to_words(total_minutes, andword="")
 
-    # converts into words
-    inf = inflect.engine()
-    min_words = inf.number_to_words(minutes)
-
-    # remove 'and' and capitalize
-
-    min_words = min_words.replace(' and','').capitalize()
-
-    # return
-    return min_words + ' minutes'
-
-
-def convert_and_check(day):
-    # convert str to int
-    day = list(map(int, day))
-
-    # check valid date and month
-    if day[1] < 0 or day[1] > 12:
-        sys.exit('Invalid date')
-
-    elif day[2] < 0 or day[2] > 31:
-        sys.exit('Invalid date')
-
-    return day
-
+    # Returner resultatet
+    return f"{minutes_in_words.capitalize()} minutes"
 
 
 if __name__ == "__main__":
