@@ -5,7 +5,8 @@ class Jar:
         self.capacity = capacity
 
     def __str__(self):
-        return 
+        for _ in self.capacity:
+            return "🍪"
 
     def deposit(self, n):
         ...
@@ -13,15 +14,9 @@ class Jar:
     def withdraw(self, n):
         ...
 
-    @property
-    def capacity(self):
-        ...
-
-    @property
-    def size(self):
-        ...
 
 def main():
     amount = input("How many cookies in jar? ")
-    amount = Jar(amount)
+    amount = Jar(int(amount))
 
+main()
