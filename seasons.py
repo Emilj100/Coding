@@ -6,9 +6,9 @@ months = ["january", "february", "march", "april", "may", "june", "july", "augus
 
 def main():
     date1 = today()
+    
     user_date = input("Date of Birth: ").lower()
     date2 = user_input(user_date)
-
 
     days = date1 - date2
     days, useless= str(days).split(" days")
