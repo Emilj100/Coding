@@ -33,9 +33,6 @@ def user_input(user_date):
         date2 = datetime(int(user_date_year), int(user_date_month), int(user_date_day))
         return date2
 
-    except ValueError:
-        sys.exit("Wrong input")
-
 
 if __name__ == "__main__":
     main()
