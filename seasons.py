@@ -6,10 +6,11 @@ months = ["january", "february", "march", "april", "may", "june", "july", "augus
 
 def main():
     date1 = today()
-    try:
-        user_date = input("Date of Birth: ").lower()
-    except ValueError:
+
+    user_date = input("Date of Birth: ").lower()
+    if user_date in months:
         sys.exit("Wrong input")
+
     date2 = user_input(user_date)
 
 
