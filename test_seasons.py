@@ -3,4 +3,4 @@ import pytest
 
 def test_user_input():
     with pytest.raises(ValueError):
-        user_input()
+        user_input("February 6t, 1998")
