@@ -1,17 +1,16 @@
-from seasons import get_min as f
 import pytest
+from seasons import age_in_minutes
 
-def test_input():
-     with pytest.raises(TypeError):
-         f(12-12-2012) == 'Invalid date'
 
-# commented not required for submit
-"""'def test_inpt():
-    assert f(2012-13-12) == 'Invalid date'
-    assert f(2012-12-32) == 'Invalid date'
-    assert f(2012-32-12) == 'Invalid date'
+def test_age_in_minutes():
+    assert age_in_minutes("2000-01-01") == "Twelve million five hundred sixty-four thousand seven hundred sixty minutes"
+    assert age_in_minutes("1990-05-17") == "Eighteen million one hundred twelve thousand eighty minutes"
+    assert age_in_minutes("2023-01-01") == "One hundred twenty-six thousand seven hundred twenty minutes"
 
-def test_format():
-    assert f(12-12-12) == 'Invalid date'
-    assert f(2012-322-12) == 'Invalid date'
-    assert f(323-1-1) == 'Invalid date'"""
+
+def test_invalid_dates():
+    with pytest.raises(SystemExit):
+        age_in_minutes("2000-13-01")
+    with pytest.raises(SystemExit):
+        age_in_minutes("2000-01-32")
+    with pytest.raises(SystemExit):
