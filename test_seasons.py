@@ -1,4 +1,4 @@
-from seasons import today, user_input
+from seasons import user_input
 
-def test_today():
-    
+def test_user_input():
+    assert user_input("2005)
