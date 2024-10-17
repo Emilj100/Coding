@@ -1,3 +1,7 @@
+
+
+cookies = []
+
 class Jar:
     def __init__(self, capacity=12):
         if capacity < 0:
@@ -5,8 +9,8 @@ class Jar:
         self.capacity = capacity
 
     def __str__(self):
-        for _ in range(self.capacity):
-            return "🍪"
+    for _ in range(self.capacity):
+        cookies.append("🍪")
 
     def deposit(self, n):
         ...
@@ -23,7 +27,6 @@ class Jar:
         ...
 
 def main():
-    cookies = []
     amount = input("How many cookies in jar? ")
     amount = Jar(int(amount))
 
@@ -38,7 +41,5 @@ def main():
     print()
 
 def test(amount):
-    for _ in range(amount):
-        cookies.append("🍪")
 
 main()
