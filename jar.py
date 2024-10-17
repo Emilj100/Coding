@@ -23,6 +23,7 @@ class Jar:
         ...
 
 def main():
+    cookies = []
     amount = input("How many cookies in jar? ")
     amount = Jar(int(amount))
 
