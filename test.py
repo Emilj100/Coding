@@ -4,6 +4,6 @@ def main():
 
 def test(amount):
     for _ in range(amount):
-        print("🍪")
+        cookies.append("🍪")
 
 main()
