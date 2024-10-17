@@ -21,4 +21,5 @@ class Jar:
 
 def main():
     amount = input("How many cookies in jar? ")
+    amount = Jar(amount)
 
