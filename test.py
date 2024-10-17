@@ -1,6 +1,9 @@
+cookies = []
+
 def main():
     amount = input("How many cookies in jar? ")
-    print(test(int(amount)))
+    test(int(amount))
+    print(cookies)
 
 def test(amount):
     for _ in range(amount):
