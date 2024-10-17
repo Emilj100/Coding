@@ -10,7 +10,7 @@ def main():
     date_now_year, date_now_month, date_now_day = str(date_now).split("-")
     date1 = datetime(int(date_now_year), int(date_now_month), int(date_now_day))
 
-    user_date_year, user_date_month, user_date_day = input("Date of Birth: ").split("-")
+    user_date_year, user_date_month, user_date_day = input("Date of Birth: ").lower().split("-")
     if user_date_year in months:
         sys.exit("Wrong input")
     date2 = datetime(int(user_date_year), int(user_date_month), int(user_date_day))
