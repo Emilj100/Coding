@@ -17,9 +17,12 @@ class Jar:
         cookies_in_jar = 0
         if int(cookies_in_jar) < int(self.capacity):
             cookies_in_jar += int(n)
-        return cookies_in_jar
+            return cookies_in_jar
+        else:
+            raise ValueError
 
-
+    def withdraw(self, n):
+        ...
 
 
 
