@@ -9,8 +9,9 @@ class Jar:
             raise ValueError
         self.capacity = capacity
         self.size = 0
-        for _ in range(self.capacity):
-            cookies.append("🍪")
+        if self.size <= self.capacity:
+            for _ in range(self.size):
+                cookies.append("🍪")
 
     def __str__(self):
         return "".join(cookies)
