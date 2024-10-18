@@ -13,6 +13,9 @@ class Jar:
     def __str__(self):
         return "".join(cookies)
 
+    def deposit(self, n):
+
+
 
 
 def main():
