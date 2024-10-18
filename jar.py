@@ -11,9 +11,8 @@ class Jar:
             cookies.append("🍪")
 
     def __str__(self):
-        for cookie in cookies:
-            str.
-            return cookie
+        "".join(cookies)
+        return str(cookies)
 
 
 
