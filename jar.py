@@ -12,13 +12,13 @@ class Jar:
 
     def __str__(self):
         for cookie in cookies:
-            return f"{cookie}"
+            return cookies
 
 
 
 def main():
     amount = input("How many cookies in jar? ")
     amount = Jar(int(amount))
-    print(amount)
+    print("".join(amount))
 
 main()
