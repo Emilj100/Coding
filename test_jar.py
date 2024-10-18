@@ -4,7 +4,6 @@ import pytest
 def test_init():
     with pytest.raises(ValueError):
         Jar(-1)
-        Jar(2)
 
 
 def test_str():
