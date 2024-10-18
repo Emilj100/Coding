@@ -12,6 +12,7 @@ class Jar:
 
     def __str__(self):
         for cookie in cookies:
+            str.
             return cookie
 
 
