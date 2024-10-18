@@ -15,7 +15,7 @@ class Jar:
             return f"{cookie}"
 
     def deposit(self, n):
-        ...
+        
 
     def withdraw(self, n):
         ...
@@ -28,7 +28,7 @@ class Jar:
     @property
     def size(self):
         ...
-        
+
 def main():
     amount = input("How many cookies in jar? ")
     amount = Jar(int(amount))
