@@ -14,10 +14,8 @@ class Jar:
         return "".join(cookies)
 
     def deposit(self, n):
-        cookies_in_jar = 0
-        cookies_in_jar += int(n)
-        if int(cookies_in_jar) < int(self.capacity):
-            return cookies_in_jar
+        if int(n) < int(self.capacity):
+            return n
         else:
             raise ValueError
 
