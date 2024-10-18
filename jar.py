@@ -15,21 +15,14 @@ class Jar:
         return "".join(cookies)
 
     def deposit(self, n):
-        if int(n) < int(self.capacity):
+        if self.size + n < int(self.capacity):
             return n
         else:
             raise ValueError
 
-    def withdraw(self, n):
-        ...
-
-    @property
-    def capacity(self):
-        ...
-
     @property
     def size(self):
-        ...
+        return self.size
 
 
 
