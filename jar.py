@@ -14,6 +14,7 @@ class Jar:
         return "".join(cookies)
 
     def deposit(self, n):
+        
 
 
 
@@ -24,7 +25,9 @@ def main():
     amount = Jar(int(amount))
     print(amount)
     # Til deposit
-    deposit = input("How many cookies would you like to deposit? ")
+    user_deposit = input("How many cookies would you like to deposit? ")
+    deposit_object = Jar()
+    deposit_object.deposit(user_deposit)
 
 
 main()
