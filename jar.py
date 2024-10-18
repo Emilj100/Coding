@@ -28,6 +28,7 @@ class Jar:
     @property
     def size(self):
         ...
+        
 def main():
     amount = input("How many cookies in jar? ")
     amount = Jar(int(amount))
