@@ -15,7 +15,10 @@ class Jar:
         self._size += n  # Tilføj cookies til krukken
 
     def withdraw(self, n):
-        
+        if self._size - n < 0:
+            raise ValueError("Not enough cookies!")
+        self._size -= n
+
 
     @property
     def size(self):
@@ -31,12 +34,13 @@ def main():
     amount = input("What is the max capacity in the cookie jar? ")
     jar = Jar(int(amount))  # Opret en krukke med den ønskede kapacitet
 
-    # Print den tomme krukke
-    print(jar)
-
     # Til deposit
     user_deposit = int(input("How many cookies would you like to deposit? "))
     jar.deposit(user_deposit)  # Tilføj cookies til krukken
+
+    # Til withdraw
+    user_withdraw = int(input("How many cookies would you like to withdraw? "))
+    jar.withdraw(user_withdraw)
 
     # Print den opdaterede krukke med cookies
     print(jar)
