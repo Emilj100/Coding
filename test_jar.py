@@ -16,8 +16,8 @@ def test_str():
 
 
 def test_deposit():
+    jar = Jar()
     with pytest.raises(ValueError):
-        jar = Jar()
         jar.deposit(13)
 
 
