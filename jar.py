@@ -7,6 +7,7 @@ class Jar:
         if capacity < 0:
             raise ValueError
         self.capacity = capacity
+        self.size = 0
         for _ in range(self.capacity):
             cookies.append("🍪")
 
