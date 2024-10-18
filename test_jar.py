@@ -25,5 +25,5 @@ def test_deposit():
 def test_withdraw():
     with pytest.raises(ValueError):
         jar = Jar()
-        self.size = 5
+        self._size = 5
         jar.withdraw(5)
