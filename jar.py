@@ -19,7 +19,16 @@ class Jar:
         else:
             raise ValueError
 
+    def withdraw(self, n):
+        ...
 
+    @property
+    def capacity(self):
+        ...
+
+    @property
+    def size(self):
+        ...
 
 
 
