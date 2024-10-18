@@ -1,7 +1,10 @@
 from jar import Jar
+import pytest
 
 def test_init():
-    
+    with pytest.raises(ValueError):
+        jar = Jar()
+        jar.__init__(-1)
 
 
 def test_str():
