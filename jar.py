@@ -1,45 +1,43 @@
-
-
-cookies = []
-
-
 class Jar:
     def __init__(self, capacity=12):
         if capacity < 0:
-            raise ValueError
-        self.capacity = capacity
-        self.size = 0
-        if self.size <= self.capacity:
-            for _ in range(self.size):
-                cookies.append("🍪")
+            raise ValueError("Capacity must be a non-negative integer.")
+        self._capacity = capacity  # Privat variabel til kapacitet
+        self._size = 0  # Start med 0 cookies i krukken
 
     def __str__(self):
-        return "".join(cookies)
+        return "🍪" * self._size  # Returnér det korrekte antal cookies som en streng
 
     def deposit(self, n):
-        if self.size + n < int(self.capacity):
-            self.size += n
-            return self.size
-        else:
-            raise ValueError
+        # Tjek om der er plads til flere cookies uden at overskride kapaciteten
+        if self._size + n > self._capacity:
+            raise ValueError("Too many cookies!")
+        self._size += n  # Tilføj cookies til krukken
 
     @property
     def size(self):
-        self._size = self.size
-        return self._size
+        return self._size  # Returnér det aktuelle antal cookies i krukken
 
+    @property
+    def capacity(self):
+        return self._capacity  # Returnér kapaciteten af krukken
 
 
 def main():
     # Til capacity
     amount = input("What is the max capacity in the cookie jar? ")
-    amount = Jar(int(amount))
-    print(amount)
+    jar = Jar(int(amount))  # Opret en krukke med den ønskede kapacitet
+
+    # Print den tomme krukke
+    print(jar)
+
     # Til deposit
-    user_deposit = input("How many cookies would you like to deposit? ")
-    deposit_object = Jar()
-    cookies_in_jar = deposit_object.deposit(user_deposit)
-    print(cookies_in_jar)
+    user_deposit = int(input("How many cookies would you like to deposit? "))
+    jar.deposit(user_deposit)  # Tilføj cookies til krukken
+
+    # Print den opdaterede krukke med cookies
+    print(jar)
 
 
-main()
+if __name__ == "__main__":
+    main()
