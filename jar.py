@@ -11,14 +11,17 @@ class Jar:
             cookies.append("🍪")
 
     def __str__(self):
-        "".join(cookies)
-        return str(cookies)
+        return "".join(cookies)
 
 
 
 def main():
-    amount = input("How many cookies in jar? ")
+    # Til capacity
+    amount = input("What is the max capacity in the cookie jar? ")
     amount = Jar(int(amount))
     print(amount)
+    # Til deposit
+    deposit = input("How many cookies would you like to deposit? ")
+
 
 main()
