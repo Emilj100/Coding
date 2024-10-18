@@ -1,7 +1,6 @@
 
 
 cookies = []
-cookies_in_jar = 0
 
 class Jar:
     def __init__(self, capacity=12):
@@ -15,8 +14,10 @@ class Jar:
         return "".join(cookies)
 
     def deposit(self, n):
+        cookies_in_jar = 0
         if int(cookies_in_jar) < int(self.capacity):
-            cookies_in_jar =+ n
+            cookies_in_jar += int(n)
+        return cookies_in_jar
 
 
 
@@ -31,7 +32,7 @@ def main():
     # Til deposit
     user_deposit = input("How many cookies would you like to deposit? ")
     deposit_object = Jar()
-    deposit_object.deposit(user_deposit)
+    cookies_in_jar = deposit_object.deposit(user_deposit)
     print(cookies_in_jar)
 
 
