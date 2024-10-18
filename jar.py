@@ -21,8 +21,6 @@ class Jar:
         else:
             raise ValueError
 
-    def withdraw(self, n):
-        ...
 
 
 
