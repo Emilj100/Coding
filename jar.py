@@ -14,6 +14,9 @@ class Jar:
             raise ValueError("Too many cookies!")
         self._size += n  # Tilføj cookies til krukken
 
+    def withdraw(self, n):
+        
+
     @property
     def size(self):
         return self._size  # Returnér det aktuelle antal cookies i krukken
