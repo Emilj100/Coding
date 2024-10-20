@@ -1,27 +1,33 @@
-class Jar:
-    def __init__(self, capacity=12):
-        if not isinstance(capacity, int) or capacity < 0:
-            raise ValueError("Capacity must be a non-negative integer.")
-        self._capacity = capacity
-        self._size = 0
+import pytest
+from jar import Jar
 
-    def __str__(self):
-        return "🍪" * self._size
+def test_init():
+    jar = Jar(10)
+    assert jar.capacity == 10
+    with pytest.raises(ValueError):
+        Jar(-1)
 
-    def deposit(self, n):
-        if self._size + n > self._capacity:
-            raise ValueError("Too many cookies!")
-        self._size += n
+def test_str():
+    jar = Jar()
+    assert str(jar) == ""
+    jar.deposit(1)
+    assert str(jar) == "🍪"
+    jar.deposit(11)
+    assert str(jar) == "🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪"
 
-    def withdraw(self, n):
-        if self._size - n < 0:
-            raise ValueError("Not enough cookies!")
-        self._size -= n
+def test_deposit():
+    jar = Jar(10)
+    jar.deposit(5)
+    assert jar.size == 5
+    jar.deposit(3)
+    assert jar.size == 8
+    with pytest.raises(ValueError):
+        jar.deposit(5)
 
-    @property
-    def capacity(self):
-        return self._capacity
-
-    @property
-    def size(self):
-        return self._size
+def test_withdraw():
+    jar = Jar(10)
+    jar.deposit(8)
+    jar.withdraw(5)
+    assert jar.size == 3
+    with pytest.raises(ValueError):
+        jar.withdraw(5)
