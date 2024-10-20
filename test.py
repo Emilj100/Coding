@@ -1,41 +1,44 @@
-import sys
-
-class Jar:
-    def __init__(self, capacity=12):
-        if capacity > 0:
-            self._capacity = capacity
-        else:
-            raise ValueError
-        self.cookies = 0
+from jar import Jar
+import pytest
 
 
-    def __str__(self):
-        return f'{"🍪"*self.cookies}'
+def test_init():
+    with pytest.raises(ValueError):
+         jar = Jar(-1)
 
-    def deposit(self, n):
-        if n+self.cookies <= self.capacity:
-            self.cookies += n
-        else:
-            raise ValueError
 
-    def withdraw(self, n):
-        if n <= self.cookies:
-            self.cookies -= n
-        else:
-            raise ValueError
+def test_init_correct():
+    jar = Jar(10)
+    assert str(jar) == ''
 
-    @property
-    def capacity(self):
-        return self._capacity
 
-    @property
-    def size(self):
-        return self.cookies
+def test_str():
+    jar = Jar()
+    assert str(jar) == ''
 
-def main():
-    j = Jar()
+    jar.deposit(1)
+    assert str(jar) == '🍪'
 
-    print(j)
+    jar.deposit(11)
+    assert str(jar) == '🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪'
 
-if __name__=='__main__':
-    main()
+
+def test_deposit():
+    jar = Jar(10)
+
+    jar.deposit(10)
+    assert str(jar) == '🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪'
+
+    with pytest.raises(ValueError):
+         jar.deposit(1)
+
+
+def test_withdraw():
+    jar = Jar(10)
+
+    jar.deposit(8)
+    jar.withdraw(2)
+    assert str(jar) == '🍪🍪🍪🍪🍪🍪'
+
+    with pytest.raises(ValueError):
+         jar.deposit(8)
