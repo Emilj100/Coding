@@ -8,7 +8,7 @@ students = [
 
 houses = set()
 for student in students:
-    houses.add(student["house"])
+    if student["house"] not in houses:
 
 for house in sorted(houses):
     print(house)
