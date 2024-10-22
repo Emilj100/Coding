@@ -6,7 +6,7 @@ students = [
     {"name": "Padma", "house": "Ravenclaw"},
 ]
 
-houses = []
+houses = set()
 for student in students:
     if student["house"] not in houses:
         houses.append(student["house"])
