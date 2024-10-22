@@ -1,17 +1,8 @@
-def meow(n: int) -> str:
-    """
-    meow n times.
+import sys
 
-    :param n: Number of times to meow
-    :type n: int
-    :raise TypeError: if n is not an int
-    :return: A string og n meows, one per line
-    :rtype: str
-    """
-    return "meow\n" * n
+if len(sys.argv) == 1:
+    print("meow")
+else:
+    print("usage: meows.py")
 
 
-
-number = int(input("Number: "))
-meows: str = meow(number)
-print(meows, end="")
