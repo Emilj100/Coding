@@ -3,7 +3,7 @@ def main():
 
 
 def yell(*words):
-    uppercased = map(str.upper, words)
+    uppercased = []
     print(*uppercased)
 
 if __name__ == "__main__":
