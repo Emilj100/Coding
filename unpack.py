@@ -1,4 +1,6 @@
 def total(galleons, sickles, knuts):
     return (galleons * 17 + sickles) * 29 + knuts
 
-total(100, 50, 25)
+coins = [100, 50, 25]
+
+print(total(100, 50, 25), "Knuts")
