@@ -10,3 +10,6 @@ def is_gryffindor(s):
 
 
 gryffindors = filter(is_gryffindor, students)
+
+for gryffindor in gryffindors:
+    print(gryffindor["name"])
