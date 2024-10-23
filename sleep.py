@@ -1,11 +1,10 @@
-def main():
-    n = int(input("What's n? "))
-    for s in sheep(n):
-        print(s)
+import cowsay
+import pyttsx3
 
-def sheep(n):
-    for i in range(n):
-        yield "🐑" * i
+engine = pyttsx3.init()
+this = input("What's this? ")
+cowsay.cow(this)
+engine.say(this)
+engine.say(this)
+engine.runAndWait()
 
-if __name__ == "__main__":
-    main()
