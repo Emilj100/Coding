@@ -36,14 +36,19 @@ print("Here is the data for the food you have been eating today")
 all_calories = []
 all_protein = []
 all_carbohydrate = []
+all_fat = []
 
 for food in nutrition_data["foods"]:
     all_calories.append(food["nf_calories"])
     all_protein.append(food["nf_protein"])
     all_carbohydrate.append(food["nf_total_carbohydrate"])
+    all_fat.append(food["nf_total_fat"])
 
 
-print(sum(all_calories))
+print(sum(f"{all_calories} calories"))
+print(sum(f"{all_protein} protein"))
+print(sum(all_carbohydrate))
+print(sum(all_fat))
 
 
 
