@@ -31,7 +31,6 @@ nutrition_data = response.json()
 
 # Vis det fulde JSON-svar (kan bruges til at analysere data)
 
-for food in nutrition_data["foods"]:
-    print(food["nf_calories"])
 
 
+print(json.dumps(nutrition_data, indent=4))
