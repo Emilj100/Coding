@@ -31,10 +31,13 @@ nutrition_data = response.json()
 
 # Vis det fulde JSON-svar (kan bruges til at analysere data)
 
+print("Here is the data for the food you have been eating today")
+
+for food in nutrition_data["foods"]:
+    print(f'{food["nf_calories"]} calories')
+    print(f'{food["nf_protein"]} protein')
+    print(f'{food["nf_total_carbohydrate"]} carbohydrate')
+    print(f'{food["nf_total_fat"]} fat')
 
 
-print(json.dumps(nutrition_data, indent=4))
 
-nf_total_carbohydrate
-nf_protein
-nf_total_fat
