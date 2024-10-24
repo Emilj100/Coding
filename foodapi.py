@@ -3,7 +3,7 @@ import json
 
 food_query = input("What did you eat today? ")
 
-# API nøgler (du skal indsætte dine egne værdier her)
+
 API_KEY = "6158963245cf646896228de0c3d0ba3a"
 APP_ID = "584633a6"
 
