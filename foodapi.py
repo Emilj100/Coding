@@ -34,3 +34,5 @@ nutrition_data = response.json()
 
 
 print(json.dumps(nutrition_data, indent=4))
+
+nf_total_c
