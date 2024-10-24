@@ -11,4 +11,7 @@ headers = {
 
 response = requests.get(url, headers=headers, params=querystring)
 
-print(response.json())
+exercise_data = response.json()
+
+for exercise in exercise_data:
+    print(exercise["name"])
