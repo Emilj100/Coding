@@ -47,8 +47,8 @@ for food in nutrition_data["foods"]:
 
 print(sum(f"{all_calories} calories"))
 print(sum(f"{all_protein} protein"))
-print(sum(all_carbohydrate))
-print(sum(all_fat))
+print(sum(f"{all_carbohydrate} carbohydrate"))
+print(sum(f"{all_fat} fat"))
 
 
 
