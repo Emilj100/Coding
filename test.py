@@ -8,3 +8,8 @@ for food in nutrition_data["foods"]:
 
 
 print(json.dumps(nutrition_data, indent=4))
+
+    total = sum(calories)
+    print(total, "calories")
+
+
