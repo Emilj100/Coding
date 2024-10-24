@@ -35,4 +35,6 @@ nutrition_data = response.json()
 
 print(json.dumps(nutrition_data, indent=4))
 
-nf_total_c
+nf_total_carbohydrate
+nf_protein
+nf_total_fat
