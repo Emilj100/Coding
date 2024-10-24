@@ -45,10 +45,10 @@ for food in nutrition_data["foods"]:
     all_fat.append(food["nf_total_fat"])
 
 
-print(sum(f"{all_calories} calories"))
-print(sum(f"{all_protein} protein"))
-print(sum(f"{all_carbohydrate} carbohydrate"))
-print(sum(f"{all_fat} fat"))
+print(sum(all_calories), "calories")
+print(sum(all_protein))
+print(sum(all_carbohydrate))
+print(sum(all_fat))
 
 
 
