@@ -35,5 +35,5 @@ print("Here is the data for the food you have been eating today")
 
 for food in nutrition_data["foods"]:
     calories = food["nf_calories"]
-    print(calories)
+    
 
