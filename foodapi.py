@@ -33,7 +33,18 @@ nutrition_data = response.json()
 
 print("Here is the data for the food you have been eating today")
 
+all_calories = []
+all_protein = []
+all_carbohydrate = []
+
 for food in nutrition_data["foods"]:
-    calories = food["nf_calories"]
-    print(sum(calories))
+    all_calories.append(food["nf_calories"])
+    all_protein.append(food["nf_protein"])
+    all_carbohydrate.append(food["nf_total_carbohydrate"])
+
+
+print(sum(all_calories))
+
+
+
 

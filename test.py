@@ -13,3 +13,9 @@ print(json.dumps(nutrition_data, indent=4))
     print(total, "calories")
 
 
+food_list = []
+
+for food in nutrition_data["foods"]:
+    food_list.append(food["nf_calories"])
+
+print(sum(food_list))
