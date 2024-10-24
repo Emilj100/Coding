@@ -19,3 +19,8 @@ for food in nutrition_data["foods"]:
     food_list.append(food["nf_calories"])
 
 print(sum(food_list))
+
+
+exercise_data = response.json()
+
+for exercise in exercise_data[]
