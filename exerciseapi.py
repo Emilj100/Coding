@@ -2,7 +2,7 @@ import requests
 
 url = "https://exercisedb.p.rapidapi.com/exercises"
 
-querystring = {"limit":"0","offset":"0"}
+querystring = {"limit":"1","offset":"0"}
 
 headers = {
 	"x-rapidapi-key": "6992181b32msh2971ae1097ca54dp1a1276jsn8ecf6bcb9516",
@@ -11,7 +11,4 @@ headers = {
 
 response = requests.get(url, headers=headers, params=querystring)
 
-exercise_data = response.json()
-
-for exercise in exercise_data:
-    print(exercise["name"])
+print(response.json())
