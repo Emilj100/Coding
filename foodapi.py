@@ -2,8 +2,8 @@ import requests
 import json
 
 # API nøgler (du skal indsætte dine egne værdier her)
-API_KEY = "your_api_key"
-APP_ID = "your_app_id"
+API_KEY = "6158963245cf646896228de0c3d0ba3a"
+APP_ID = "584633a6"
 
 # URL for Natural Language API endpoint
 url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
