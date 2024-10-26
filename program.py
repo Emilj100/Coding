@@ -2,10 +2,10 @@ Programmet spørger om brugerens navn
 
 user_name = input("What's your name?")
 
-# Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger. 
+# Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger.
 if user_name in ...
 
-if statement: Hvis navnet er i systemet spørger programmet brugeren om følgende:
+
 
 What would you like to do 1. track calories 2. See my trainingprogram and calorie intake 3. Update my data 4. Change my trainingprogram 5. Exit (Enter: 1,2,3,4 or 5)
 
