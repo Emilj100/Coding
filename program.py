@@ -8,8 +8,9 @@ user_options = ["1", "2", "3", "4", "5"]
 
 # Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger (Brug evt. While True loop eller lign for at sikre at brugeren indtaster 1,2,3,4 eller 5. Tjek gerne dine noter for at finde ud af hvordan man).
 if user_name in ...:
-    user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
-    if user_input in user_options:
+    while True:
+        user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
+        if not
         if user_input == "1":
             # Start track calories program
 
