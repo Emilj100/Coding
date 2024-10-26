@@ -8,8 +8,6 @@ user_options = ["1", "2", "3", "4", "5"]
 
 # Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger (Brug evt. While True loop eller lign for at sikre at brugeren indtaster 1,2,3,4 eller 5. Tjek gerne dine noter for at finde ud af hvordan man).
 if user_name in ...:
-
-
     while True:
         user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
 
@@ -33,8 +31,8 @@ if user_name in ...:
             # Exit programmet
             sys.exit("5")
 
-    if user_input in user_options:
-          break
+        if user_input in user_options:
+            break
 
     # Find ud af hvordan du beder brugeren om at indtaste igen indtil han indtaster et valid input
 else:
@@ -55,11 +53,6 @@ else:
 
 # Herefter spørger vi brugeren om det samme som i det allerførste if statement, så det kører i loop indtil brugeren forlader programmet
 
-# Liste til at tjekke om brugeren indtaster et valid input ved linje 11
-user_options = ["1", "2", "3", "4", "5"]
-
-# Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger (Brug evt. While True loop eller lign for at sikre at brugeren indtaster 1,2,3,4 eller 5. Tjek gerne dine noter for at finde ud af hvordan man).
-if user_name in ...:
     user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
     if user_input in user_options:
         if user_input == "1":
