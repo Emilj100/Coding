@@ -1,4 +1,9 @@
-Programmet spørger om brugerens navn:
+Programmet spørger om brugerens navn
+
+user_name = input("What's your name?")
+
+# Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger. 
+if user_name in ...
 
 if statement: Hvis navnet er i systemet spørger programmet brugeren om følgende:
 
