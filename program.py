@@ -12,7 +12,7 @@ if user_name in ...:
         user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
         if not user_input in user_options:
             break
-        if user_input == "1":
+        elif user_input == "1":
             # Start track calories program
 
         elif user_input == "2":
