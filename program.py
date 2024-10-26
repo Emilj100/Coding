@@ -3,25 +3,29 @@ import sys
 # Programmet spørger om brugerens navn
 user_name = input("What's your name?")
 
-# Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger.
+# Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger (Brug evt. While True loop eller lign for at sikre at brugeren indtaster 1,2,3,4 eller 5. Tjek gerne dine noter for at finde ud af hvordan man).
+user_options = ["1", "2", "3", "4", "5"]
+
 if user_name in ...:
-    user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5))
+    user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
+    if user_input in user_options:
+        if user_input == "1":
+            # Start track calories program
 
-    if user_input == 1:
-        # Start track calories program
+        elif user_input == "2":
+            # Vis brugerens træningsprogrammer og calorie intake
 
-    elif user_input == 2:
-        # Vis brugerens træningsprogrammer og calorie intake
+        elif user_input == "3":
+            # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
 
-    elif user_input == 3:
-        # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
+        elif user_input == "4":
+            # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
 
-    elif user_input == 4:
-        # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
-
-    elif user_input == 5:
-        # Exit programmet
-        sys.exit()
+        elif user_input == "5":
+            # Exit programmet
+            sys.exit()
+    else:
+        
 
 if statement: Hvis navnet ikke er i systemet skal systemet bede om følgende oplysnger
 
