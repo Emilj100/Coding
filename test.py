@@ -1,26 +1,31 @@
-print("Here is the data for the food you have been eating today")
+import sys
 
-for food in nutrition_data["foods"]:
-    print(f'{food["nf_calories"]} calories')
-    print(f'{food["nf_protein"]} protein')
-    print(f'{food["nf_total_carbohydrate"]} carbohydrate')
-    print(f'{food["nf_total_fat"]} fat')
+user_options = ["1", "2", "3", "4", "5"]
 
+while True:
+    user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
+    if user_input in user_options:
+        break
+    elif user_input == "1":
+            # Start track calories program
+            print("1")
 
-print(json.dumps(nutrition_data, indent=4))
+    elif user_input == "2":
+            # Vis brugerens træningsprogrammer og calorie intake
+            print("2")
 
-    total = sum(calories)
-    print(total, "calories")
+    elif user_input == "3":
+            # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
+            print("3")
 
+    elif user_input == "4":
+            # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
+            print("4")
 
-food_list = []
+    elif user_input == "5":
+        # Exit programmet
+        sys.exit("5")
+    else:
+        print("test")
 
-for food in nutrition_data["foods"]:
-    food_list.append(food["nf_calories"])
-
-print(sum(food_list))
-
-
-exercise_data = response.json()
-
-for exercise in exercise_data[]
+    # Find ud af hvordan du beder brugeren om at indtaste igen indtil han indtaster et valid input

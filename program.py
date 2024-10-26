@@ -27,8 +27,8 @@ if user_name in ...:
         elif user_input == "5":
             # Exit programmet
             sys.exit()
-    else:
-        # Find ud af hvordan du beder brugeren om at indtaste igen indtil han indtaster et valid input
+        else:
+            # Find ud af hvordan du beder brugeren om at indtaste igen indtil han indtaster et valid input
 
 else:
     print("Welcome! First we need some data to get the right program for you")
