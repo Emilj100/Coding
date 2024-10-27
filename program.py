@@ -43,11 +43,11 @@ with open("data.csv") as file:
             print(f"Welcome {user_name}! First we need some data to get the right program for you.")
             name = user_name
             gender = input("Male/Female: ")
-            height = input("height: ")
-            age = input("age: ")
-            weight = input("weight: ")
+            height = input("Height: ")
+            age = input("Age: ")
+            weight = input("Weight: ")
 
-            print(f"Nice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
+            print(f"\nNice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
             goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)")
             training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
 
