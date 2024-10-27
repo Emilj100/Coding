@@ -39,6 +39,7 @@ with open("data.csv") as file:
                     break
 
         else:
+            # Få data på brugeren og gem det i en CSV fil
             print("Welcome! First we need some data to get the right program for you")
             name = user_name
             gender = input("Male/Female: ")
@@ -54,13 +55,40 @@ with open("data.csv") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
                 writer.writerow({"name": name, "gender": gender, "height": height, "age": age, "weight": weight, "goal": goal, "training": training})
 
+            # Vis brugerens træningsprogram og calorie intake udfra de oplysninger de har skrevet.
             print("Great! Thats all we needed. Here is your new program and calorie intake")
 
-            if
 
+            # Print det program som brugeren skal have alt efter hvilket antal dage de ønsker at træne om ugen
+            if training == "1":
+                with open("training_1.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "2":
+                with open("training_2.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "3":
+                with open("training_3.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "4":
+                with open("training_4.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "5":
+                with open("training_5.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "6":
+                with open("training_6.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "7":
+                with open("training_7.txt") as file:
+                    for line in file:
+                        print(line, end="")
 
-
-        # Vis brugerens træningsprogram og calorie intake udfra de oplysninger de har skrevet.
 
         # Herefter spørger vi brugeren om det samme som i det allerførste if statement, så det kører i loop indtil brugeren forlader programmet
 
