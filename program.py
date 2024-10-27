@@ -50,11 +50,15 @@ with open("data.csv") as file:
             goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)")
             training = input("How many days would you like to train per week?")
 
-            print("Great! Thats all we needed. Here is your new program and calorie intake")
-
             with open("data.csv", "a") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
                 writer.writerow({"name": name, "gender": gender, "height": height, "age": age, "weight": weight, "goal": goal, "training": training})
+
+            print("Great! Thats all we needed. Here is your new program and calorie intake")
+
+            
+
+
 
         # Vis brugerens træningsprogram og calorie intake udfra de oplysninger de har skrevet.
 
