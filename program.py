@@ -43,7 +43,7 @@ else:
     age = input("age: ")
     weight = input("weight: ")
 
-    print("Nice! Let us know a bit more about your goals and how many days you want to train per week.")
+    print(f"Nice {name}! Let us know a bit more about your goals and how many days you want to train per week.")
     goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)")
     training_days = input("How many days would you like to train per week?")
 
