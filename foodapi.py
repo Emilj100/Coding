@@ -7,11 +7,10 @@ food_query = input("What did you eat today? ")
 API_KEY = "6158963245cf646896228de0c3d0ba3a"
 APP_ID = "584633a6"
 
-# URL for Natural Language API endpoint
+
 url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 
 
-# Headers for API-anmodningen (inkluderer din API-key og App-ID)
 headers = {
     "x-app-id": APP_ID,
     "x-app-key": API_KEY,
