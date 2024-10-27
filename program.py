@@ -3,7 +3,7 @@ import sys
 # Programmet spørger om brugerens navn
 user_name = input("What's your name?")
 
-# Liste til at tjekke om brugeren indtaster et valid input ved linje 11
+# Liste til at tjekke om brugeren indtaster et valid input ved linje 11 og 56
 user_options = ["1", "2", "3", "4", "5"]
 
 # Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger.
@@ -34,7 +34,6 @@ if user_name in ...:
         if user_input in user_options:
             break
 
-    # Find ud af hvordan du beder brugeren om at indtaste igen indtil han indtaster et valid input
 else:
     print("Welcome! First we need some data to get the right program for you")
     name = input("Name: ")
