@@ -9,32 +9,33 @@ user_options = ["1", "2", "3", "4", "5"]
 
 # Programmet skal tjekke om brugerens navn allerede er i en csv fil med brugerens oplysninger.
 with open("data.csv") as file:
-    if user_name in file:
-        while True:
-            user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
+    for line in file:
+        if user_name in line:
+            while True:
+                user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
 
-            if user_input == "1":
-                    # Start track calories program
-                    print("1")
+                if user_input == "1":
+                        # Start track calories program
+                        print("1")
 
-            elif user_input == "2":
-                    # Vis brugerens træningsprogrammer og calorie intake
-                    print("2")
+                elif user_input == "2":
+                        # Vis brugerens træningsprogrammer og calorie intake
+                        print("2")
 
-            elif user_input == "3":
-                    # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
-                    print("3")
+                elif user_input == "3":
+                        # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
+                        print("3")
 
-            elif user_input == "4":
-                    # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
-                    print("4")
+                elif user_input == "4":
+                        # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
+                        print("4")
 
-            elif user_input == "5":
-                # Exit programmet
-                sys.exit("5")
+                elif user_input == "5":
+                    # Exit programmet
+                    sys.exit("5")
 
-            if user_input in user_options:
-                break
+                if user_input in user_options:
+                    break
 
     else:
         print("Welcome! First we need some data to get the right program for you")
