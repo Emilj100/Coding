@@ -1,4 +1,5 @@
 import sys
+import csv
 
 # Programmet spørger om brugerens navn
 user_name = input("What's your name?")
