@@ -39,7 +39,7 @@ with open("data.csv") as file:
 
     else:
         print("Welcome! First we need some data to get the right program for you")
-        name = input("Name: ")
+        name = user_name
         gender = input("Male/Female: ")
         height = input("height: ")
         age = input("age: ")
