@@ -48,7 +48,7 @@ with open("data.csv") as file:
 
             print(f"Nice {name}! Let us know a bit more about your goals and how many days you want to train per week.")
             goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)")
-            training = input("How many days would you like to train per week?")
+            training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)")
 
             with open("data.csv", "a") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
@@ -56,7 +56,7 @@ with open("data.csv") as file:
 
             print("Great! Thats all we needed. Here is your new program and calorie intake")
 
-            if 
+            if
 
 
 
