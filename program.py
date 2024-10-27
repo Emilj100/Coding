@@ -2,7 +2,7 @@ import sys
 import csv
 
 # Programmet spørger om brugerens navn
-user_name = input("What's your name?")
+user_name = input("What's your name? ")
 
 # Liste til at tjekke om brugeren indtaster et valid input ved linje 11 og 56
 user_options = ["1", "2", "3", "4", "5"]
@@ -40,23 +40,23 @@ with open("data.csv") as file:
 
         else:
             # Få data på brugeren og gem det i en CSV fil
-            print("Welcome! First we need some data to get the right program for you")
+            print(f"Welcome {user_name}! First we need some data to get the right program for you.")
             name = user_name
             gender = input("Male/Female: ")
             height = input("height: ")
             age = input("age: ")
             weight = input("weight: ")
 
-            print(f"Nice {name}! Let us know a bit more about your goals and how many days you want to train per week.")
+            print(f"Nice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
             goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)")
-            training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)")
+            training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
 
             with open("data.csv", "a") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
                 writer.writerow({"name": name, "gender": gender, "height": height, "age": age, "weight": weight, "goal": goal, "training": training})
 
             # Vis brugerens træningsprogram og calorie intake udfra de oplysninger de har skrevet.
-            print("Great! Thats all we needed. Here is your new program and calorie intake")
+            print("Great! Thats all we needed. Here is your new program and calorie intake\n")
 
 
             # Print det program som brugeren skal have alt efter hvilket antal dage de ønsker at træne om ugen
@@ -93,7 +93,7 @@ with open("data.csv") as file:
         # Herefter spørger vi brugeren om det samme som i det allerførste if statement, så det kører i loop indtil brugeren forlader programmet
 
             while True:
-                user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
+                user_input = input("\nWhat would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
 
                 if user_input == "1":
                     # Start track calories program
