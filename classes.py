@@ -83,6 +83,15 @@ class User:
                 print("Invalid input: Please enter a valid weight")
                 continue
 
+    @property
+    def goal(self):
+        return self._goal
+
+    @goal.setter
+    def goal(self, goal):
+        while True:
+            if goal := re.fullmatch
+
 class Training:
 
 
