@@ -1,4 +1,4 @@
-
+import re
 
 class User:
     def __init__(self, name, gender, height, age, weight, goal, training)
@@ -19,7 +19,7 @@ class User:
 
     @name.setter
     def name(self, name):
-        if not name
+        if not name :=
 
         self._name = name
 
