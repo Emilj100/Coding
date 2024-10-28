@@ -9,8 +9,7 @@ class User:
         self.weight = weight
         self.goal = goal
         self.training = training
-
-# Vi bliver nok nødt til at lave getter og setter til hvert element
+        
 
     @property
     def name(self):
@@ -19,8 +18,12 @@ class User:
 
     @name.setter
     def name(self, name):
-        if name := re.fullmatch(r"[a-zA-Z]+"):
-            self._name = name
+        while True:
+            if name := re.fullmatch(r"[a-zA-Z]+"):
+                self._name = name
+                break
+            else:
+                continue
 
 
 class Training:
