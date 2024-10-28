@@ -34,6 +34,19 @@ class User:
     def name(self, gender):
         while True:
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
+                self._gender = gender
+                break
+            else:
+                continue
+
+    @property
+    def height(self):
+        return self._height
+
+    @height.setter
+    def height(self, height):
+        while True:
+            if height := re.fullmatch(r")
 
 class Training:
 
