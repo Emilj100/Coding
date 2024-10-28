@@ -69,6 +69,9 @@ class User:
                 print("Invalid input: Please enter a valid age")
                 continue
 
+    @property
+    def 
+
 
 class Training:
 
