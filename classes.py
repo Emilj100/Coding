@@ -31,7 +31,7 @@ class User:
         return self._gender
 
     @gender.setter
-    def name(self, gender):
+    def gender(self, gender):
         while True:
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
                 self._gender = gender
@@ -51,6 +51,16 @@ class User:
                 break
             else:
                 continue
+
+    @property
+    def age(self):
+        return self._age
+
+    @age.setter
+    def age(self, age):
+        while True:
+            if age := re.fullmatch(r"[0-9]{1,2})
+
 
 class Training:
 
