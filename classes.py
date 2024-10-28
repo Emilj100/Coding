@@ -10,7 +10,9 @@ class User:
         self.goal = goal
         self.training = training
 
-# Vi laver getter og setter for age, weight, goal og training. Dette gør vi dog ikke for name, gender og height. Vi fejlsøger typisk med re.search
+# Vi bliver nok nødt til at lave getter og setter til hvert element
+
+
 
 
 class Training:
