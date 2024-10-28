@@ -76,7 +76,7 @@ class User:
     @weight.setter
     def weight(self, weight):
         while True:
-            if weight := re.fullmatch(r" [0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
+            if weight := re.fullmatch(r"[0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
                 self._weight = weight
                 break
             else:
@@ -90,7 +90,26 @@ class User:
     @goal.setter
     def goal(self, goal):
         while True:
-            if goal := re.fullmatch
+            if goal := re.fullmatch(r"1|2|3", goal):
+                self._goal = goal
+                break
+            else:
+                print("Invalid input: Please enter 1, 2 or 3")
+                continue
+
+    @property
+    def training(self):
+        return self._training
+
+    @training.setter
+    def training(self, training):
+        while True:
+            if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
+                self._training = training
+                break
+            else:
+                print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
+                continue
 
 class Training:
 
