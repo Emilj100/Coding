@@ -47,7 +47,10 @@ class User:
     def height(self, height):
         while True:
             if height := re.fullmatch(r"[0-9]{3}( )?(cm)?"):
-                self._
+                self._height = height
+                break
+            else:
+                continue
 
 class Training:
 
