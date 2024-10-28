@@ -19,7 +19,7 @@ class User:
     @name.setter
     def name(self, name):
         while True:
-            if name := re.fullmatch(r"[a-zA-Z]+", name):
+            if name := re.fullmatch(r"[a-z]+", name, re.IGNORECASE):
                 self._name = name
                 break
             else:
@@ -46,7 +46,7 @@ class User:
     @height.setter
     def height(self, height):
         while True:
-            if height := re.fullmatch(r"[0-9]{3}( )?(cm)?"):
+            if height := re.fullmatch(r"[0-9]{3}( )?(cm)?", height, re.IGNORECASE):
                 self._height = height
                 break
             else:
