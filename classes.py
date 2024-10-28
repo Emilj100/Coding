@@ -76,8 +76,12 @@ class User:
     @weight.setter
     def weight(self, weight):
         while True:
-            if weight := re.fullmatch(r" [0-9,]{2,4}( )?(kg)?)
-
+            if weight := re.fullmatch(r" [0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
+                self._weight = weight
+                break
+            else:
+                print("Invalid input: Please enter a valid weight")
+                continue
 
 class Training:
 
