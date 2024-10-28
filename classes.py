@@ -76,7 +76,7 @@ class User:
     @weight.setter
     def weight(self, weight):
         while True:
-            if age := re.fullmatch(r" [0-9,]{2,4})
+            if weight := re.fullmatch(r" [0-9,]{2,4}( )?(kg)?)
 
 
 class Training:
