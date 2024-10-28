@@ -19,7 +19,7 @@ class User:
 
     @name.setter
     def name(self, name):
-        if not name := re.fullmatch(r")
+        if not name := re.fullmatch(r"[a-zA-Z]")
 
         self._name = name
 
