@@ -59,7 +59,12 @@ class User:
     @age.setter
     def age(self, age):
         while True:
-            if age := re.fullmatch(r"[0-9]{1,2}(years old)?)
+            if age := re.fullmatch(r"[0-9]{1,2}(years old)?", age, re.IGNORECASE):
+                self._age = age
+                break
+            else:
+                print("Invalid input: Please enter a valid age")
+                continue
 
 
 class Training:
