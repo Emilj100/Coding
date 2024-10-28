@@ -70,7 +70,13 @@ class User:
                 continue
 
     @property
-    def 
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight):
+        while True:
+            if age := re.fullmatch(r")
 
 
 class Training:
