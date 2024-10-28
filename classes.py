@@ -12,7 +12,16 @@ class User:
 
 # Vi bliver nok nødt til at lave getter og setter til hvert element
 
+    @property
+    def name(self):
+        return self._name
 
+
+    @name.setter
+    def name(self, name):
+        if not name
+
+        self._name = name
 
 
 class Training:
