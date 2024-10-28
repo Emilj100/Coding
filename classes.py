@@ -46,7 +46,7 @@ class User:
     @height.setter
     def height(self, height):
         while True:
-            if height := re.fullmatch(r")
+            if height := re.fullmatch(r"[1-9])
 
 class Training:
 
