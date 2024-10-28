@@ -23,6 +23,7 @@ class User:
                 self._name = name
                 break
             else:
+                print("Invalid input: Please enter a valid name")
                 continue
 
 
@@ -37,6 +38,7 @@ class User:
                 self._gender = gender
                 break
             else:
+                print('Invalid input: Please enter "Male" or "Female"')
                 continue
 
     @property
@@ -50,6 +52,7 @@ class User:
                 self._height = height
                 break
             else:
+                print("Invalid input: Please enter a valid height")
                 continue
 
     @property
