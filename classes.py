@@ -59,7 +59,7 @@ class User:
     @age.setter
     def age(self, age):
         while True:
-            if age := re.fullmatch(r"[0-9]{1,2})
+            if age := re.fullmatch(r"[0-9]{1,2}(years old))
 
 
 class Training:
