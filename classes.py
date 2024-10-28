@@ -46,7 +46,8 @@ class User:
     @height.setter
     def height(self, height):
         while True:
-            if height := re.fullmatch(r"[0-9]{3}( )?(cm)?)
+            if height := re.fullmatch(r"[0-9]{3}( )?(cm)?"):
+                self._
 
 class Training:
 
