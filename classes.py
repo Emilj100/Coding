@@ -33,7 +33,7 @@ class User:
     @gender.setter
     def name(self, gender):
         while True:
-            if gender := re.fullmatch(r"male| )
+            if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
 
 class Training:
 
