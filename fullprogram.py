@@ -23,7 +23,8 @@ class User:
     def get_all_users(self):
         with open("data.csv") as file:
             reader = csv.reader(file)
-            for row in reader
+            for _ in reader:
+                
 
     @staticmethod
     def check_user(user_name):
