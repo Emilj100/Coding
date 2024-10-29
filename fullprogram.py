@@ -21,6 +21,9 @@ class User:
             writer.writerow({"name": self.name, "gender": self.gender, "height": self.height, "age": self.age, "weight": self.weight, "goal": self.goal, "training": self.training})
 
     def get_all_users(self):
+        with open("data.csv") as file:
+            reader = csv.reader(file)
+            for row in reader
 
     @staticmethod
     def check_user(user_name):
