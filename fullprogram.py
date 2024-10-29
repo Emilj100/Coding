@@ -181,6 +181,6 @@ def main():
         user.goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
         user.training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
 
-        users[user_name] = User(user.name, user.gender, user.height, user.age, user.weight, user.goal, user.training)
+        users[user_name] = user
 
 main()
