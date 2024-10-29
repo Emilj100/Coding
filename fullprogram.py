@@ -27,12 +27,14 @@ class User:
         with open("data.csv") as file:
             reader = csv.DictReader(file)
             for row in reader:
+                print(row)
                 users_name = row["name"]
                 users[users_name] = ({"name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"]})
 
     @staticmethod
     def check_user(user_name):
         for row in users:
+            print(row)
             if user_name in row["name"]:
                 return True
         return False
