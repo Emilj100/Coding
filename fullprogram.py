@@ -22,14 +22,9 @@ class User:
 
     @staticmethod
     def check_user(user_name):
-        if user_name not in users:
-            users[user_name] = User
-        with open("data.csv") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if row["name"] == user_name:
-                    return True
-            return False
+        if user_name in users:
+            return True
+        return False
 
 
     @property
