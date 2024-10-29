@@ -27,6 +27,7 @@ class User:
         with open("data.csv") as file:
             reader = csv.DictReader(file)
             for row in reader:
+                users_name = row["user_name"]
                 users.append({"name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"]})
 
     @staticmethod
