@@ -5,6 +5,9 @@ import re
 # Dict til at have alle vores brugere.
 users = []
 
+# Liste til at tjekke om brugeren indtaster et valid input ved linje 11 og 56
+user_options = ["1", "2", "3", "4", "5"]
+
 class User:
     def __init__(self, name, gender, height, age, weight, goal, training):
         self.name = name
@@ -26,13 +29,11 @@ class User:
             for row in reader:
                 users.append({"name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"]})
 
-
-
     @staticmethod
     def check_user(user_name):
         for row in users:
-            if user_name in row["name"]
-            return True
+            if user_name in row["name"]:
+                return True
         return False
 
 
@@ -135,9 +136,10 @@ class User:
                 continue
 
 def main():
-    User.get_all_users()
+    User.get_all_users(self)
     user_name = input("What's your name? ")
     if User.check_user(user_name):
+        #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
         while True:
                 user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
 
@@ -179,3 +181,4 @@ def main():
 
         users[user_name] = User(name, gender, height, age, weight, goal, training)
 
+main()
