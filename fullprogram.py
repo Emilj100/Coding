@@ -31,7 +31,7 @@ class User:
     @staticmethod
     def check_user(user_name):
         for row in users
-        if user_name in users:
+            if user_name in users:
             return True
         return False
 
