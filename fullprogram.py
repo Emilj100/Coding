@@ -20,6 +20,8 @@ class User:
             writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
             writer.writerow({"name": self.name, "gender": self.gender, "height": self.height, "age": self.age, "weight": self.weight, "goal": self.goal, "training": self.training})
 
+    def get_all_users(self):
+
     @staticmethod
     def check_user(user_name):
         if user_name in users:
@@ -126,6 +128,7 @@ class User:
                 continue
 
 def main():
+    User.get_all_users()
     user_name = input("What's your name? ")
     if User.check_user(user_name):
         while True:
