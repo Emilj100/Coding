@@ -30,8 +30,8 @@ class User:
 
     @staticmethod
     def check_user(user_name):
-        for row in users
-            if user_name in users:
+        for row in users:
+            if user_name in row["name"]
             return True
         return False
 
