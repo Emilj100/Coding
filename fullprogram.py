@@ -24,8 +24,7 @@ class User:
             for row in reader:
                 if row["name"] == user_name:
                     return True
-                else:
-                    return False
+            return False
 
 
     @property
