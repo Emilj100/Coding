@@ -24,7 +24,9 @@ class User:
         with open("data.csv") as file:
             reader = csv.reader(file)
             for _ in reader:
-                
+                users[user_name] = User(name, gender, height, age, weight, goal, training)
+
+
 
     @staticmethod
     def check_user(user_name):
