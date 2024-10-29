@@ -3,7 +3,7 @@ import csv
 import re
 
 # Dict til at have alle vores brugere.
-users = {}
+users = []
 
 class User:
     def __init__(self, name, gender, height, age, weight, goal, training):
@@ -30,6 +30,7 @@ class User:
 
     @staticmethod
     def check_user(user_name):
+        for row in users
         if user_name in users:
             return True
         return False
