@@ -167,4 +167,5 @@ def main():
         goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
         training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
 
+        user_object = User(name, gender, height, age, weight, goal, training)
 
