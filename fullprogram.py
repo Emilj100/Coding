@@ -2,6 +2,9 @@ import sys
 import csv
 import re
 
+# Dict til at have alle vores brugere.
+users = {}
+
 class User:
     def __init__(self, name, gender, height, age, weight, goal, training):
         self.name = name
@@ -19,7 +22,8 @@ class User:
 
     @staticmethod
     def check_user(user_name):
-        if user_name not in users
+        if user_name not in users:
+            users[user_name] = User
         with open("data.csv") as file:
             reader = csv.DictReader(file)
             for row in reader:
