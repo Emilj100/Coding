@@ -23,8 +23,8 @@ class User:
     def get_all_users(self):
         with open("data.csv") as file:
             reader = csv.reader(file)
-            for _ in reader:
-                users[user_name] = User(name, gender, height, age, weight, goal, training)
+            for row in reader:
+                users.append({"name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"]})
 
 
 
