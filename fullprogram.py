@@ -9,7 +9,7 @@ users = {}
 user_options = ["1", "2", "3", "4", "5"]
 
 class User:
-    def __init__(self, name=None, gender=None, height=None, age=None, weight=None, goal=None, training=None):
+    def __init__(self, name, gender, height, age, weight, goal, training):
         self.name = name
         self.gender = gender
         self.height = height
