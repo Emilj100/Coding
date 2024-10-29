@@ -10,6 +10,8 @@ class User:
         self.goal = goal
         self.training = training
 
+    def save_to_csv()
+
 
     @property
     def name(self):
