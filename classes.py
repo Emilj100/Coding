@@ -10,7 +10,10 @@ class User:
         self.goal = goal
         self.training = training
 
-    def save_to_csv()
+    def save_to_csv(self):
+        with open("data.csv", "a") as file:
+            writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
+            writer.writerow({"name": self.name, "gender": self.gender, "height": self.height, "age": self.age, "weight": self.weight, "goal": self.goal, "training": self.training})
 
 
     @property
