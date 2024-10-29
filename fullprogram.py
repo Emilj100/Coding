@@ -19,6 +19,7 @@ class User:
 
     @staticmethod
     def check_user(user_name):
+        if user_name not in users
         with open("data.csv") as file:
             reader = csv.DictReader(file)
             for row in reader:
