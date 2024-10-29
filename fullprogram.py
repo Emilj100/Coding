@@ -3,7 +3,7 @@ import csv
 import re
 
 # Dict til at have alle vores brugere.
-users = []
+users = {}
 
 # Liste til at tjekke om brugeren indtaster et valid input ved linje 11 og 56
 user_options = ["1", "2", "3", "4", "5"]
