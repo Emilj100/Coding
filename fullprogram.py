@@ -33,7 +33,7 @@ class User:
                 users_name = row["name"]
                 users[users_name] = ({"name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"]})
 
-    # Denne funktion tjekker om brugeren allerede 
+    # Denne funktion tjekker om brugeren allerede eksistere i programmet. Vi bruger den i starten af vores main funktion
     @staticmethod
     def check_user(user_name):
         for _ in users:
