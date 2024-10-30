@@ -170,7 +170,7 @@ def main():
     else:
         # Få data på brugeren og gem det i en CSV fil
         print(f"Welcome {user_name}! First we need some data to get the right program for you.")
-        user = User()
+        user = User(name=None, gender=None, height=None, age=None, weight=None, goal=None, training=None)
         user.name = user_name
         user.gender = input("Male/Female: ")
         user.height = input("Height: ")
