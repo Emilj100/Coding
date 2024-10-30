@@ -91,6 +91,7 @@ def create_user(user_name):
         # Få data på brugeren og gem det i en CSV fil
         print(f"Welcome {user_name}! First we need some data to get the right program for you.")
         name = user_name
+        # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
         while True:
             gender = input("Male/Female: ")
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
@@ -126,6 +127,7 @@ def create_user(user_name):
             else:
                 print("Invalid input: Please enter a valid weight")
                 continue
+            
         print(f"\nNice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
 
         while True:
