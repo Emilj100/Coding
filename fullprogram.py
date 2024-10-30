@@ -42,6 +42,7 @@ class User:
         return False
 
 def main():
+    # Indlæser alle brugere fra CSV filen til vores dict så vi kan gøre brug af en eksisterende brugers objekt hvis der skulle komme behov for det.
     User.get_all_users()
     while True:
         user_name = input("What's your name? ")
@@ -51,6 +52,7 @@ def main():
         else:
             print("Invalid input: Please enter a valid name")
             continue
+    # Tjekker om det indtastede navn allerede eksistere i systemet
     if User.check_user(user_name):
         #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
         while True:
@@ -80,6 +82,7 @@ def main():
                     break
 
     else:
+        # Funktion der opretter en ny bruger, hvis de ikke findes i systemet
         create_user(user_name)
 
 
