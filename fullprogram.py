@@ -59,9 +59,6 @@ class User:
     @gender.setter
     def gender(self, gender):
         while True:
-            if gender == None:
-                self._gender = gender
-                break
             elif gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
                 self._gender = gender
                 break
@@ -200,7 +197,13 @@ def create_user(user_name):
         # Få data på brugeren og gem det i en CSV fil
         print(f"Welcome {user_name}! First we need some data to get the right program for you.")
         name = user_name
-        gender = input("Male/Female: ")
+        while True:
+            gender = input("Male/Female: ")
+            if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
+                break
+            else:
+                print('Invalid input: Please enter "Male" or "Female"')
+                continue
         height = input("Height: ")
         age = input("Age: ")
         weight = input("Weight: ")
