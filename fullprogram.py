@@ -23,6 +23,7 @@ class User:
             writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
             writer.writerow({"name": self.name, "gender": self.gender, "height": self.height, "age": self.age, "weight": self.weight, "goal": self.goal, "training": self.training})
 
+    @staticmethod
     def get_all_users():
         with open("data.csv") as file:
             reader = csv.DictReader(file)
@@ -39,13 +40,13 @@ class User:
 
 def main():
     User.get_all_users()
-        while True:
-            user_name = input("What's your name? ")
-            if name := re.fullmatch(r"[a-z]+", name, re.IGNORECASE):
-                break
-            else:
-                print("Invalid input: Please enter a valid name")
-                continue
+    while True:
+        user_name = input("What's your name? ")
+        if user_name := re.fullmatch(r"[a-z]+", user_name, re.IGNORECASE):
+            break
+        else:
+            print("Invalid input: Please enter a valid name")
+            continue
     if User.check_user(user_name):
         #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
         while True:
@@ -132,5 +133,8 @@ def create_user(user_name):
                 print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
                 continue
 
-        user = User()
+        user = User(name, gender, height, age, weight, goal, training)
+        user.save_to_csv()
+
+        users[user_name] = user
 main()
