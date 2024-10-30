@@ -88,6 +88,7 @@ def create_user(user_name):
         while True:
             gender = input("Male/Female: ")
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
+                gender = gender.group()
                 break
             else:
                 print('Invalid input: Please enter "Male" or "Female"')
@@ -96,6 +97,7 @@ def create_user(user_name):
         while True:
             height = input("Height: ")
             if height := re.fullmatch(r"[0-9]{3}( )?(cm)?", height, re.IGNORECASE):
+                height = height.group()
                 break
             else:
                 print("Invalid input: Please enter a valid height")
@@ -104,6 +106,7 @@ def create_user(user_name):
         while True:
             age = input("Age: ")
             if age := re.fullmatch(r"[0-9]{1,2}(years old)?", age, re.IGNORECASE):
+                age = age.group()
                 break
             else:
                 print("Invalid input: Please enter a valid age")
@@ -112,6 +115,7 @@ def create_user(user_name):
         while True:
             weight = input("Weight: ")
             if weight := re.fullmatch(r"[0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
+                weight = weight.group()
                 break
             else:
                 print("Invalid input: Please enter a valid weight")
@@ -121,6 +125,7 @@ def create_user(user_name):
         while True:
             goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
             if goal := re.fullmatch(r"1|2|3", goal):
+                goal = goal.group()
                 break
             else:
                 print("Invalid input: Please enter 1, 2 or 3")
@@ -129,6 +134,7 @@ def create_user(user_name):
         while True:
             training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
             if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
+                training = training.group()
                 break
             else:
                 print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
