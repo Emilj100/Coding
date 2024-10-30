@@ -65,7 +65,7 @@ class User:
             if gender == None:
                 self._gender = gender
                 break
-            if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
+            elif gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
                 self._gender = gender
                 break
             else:
