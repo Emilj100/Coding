@@ -45,10 +45,7 @@ class User:
     @name.setter
     def name(self, name):
         while True:
-            if name == None:
-                self._name = name
-                break
-            elif name := re.fullmatch(r"[a-z]+", name, re.IGNORECASE):
+            if name := re.fullmatch(r"[a-z]+", name, re.IGNORECASE):
                 self._name = name
                 break
             else:
@@ -159,7 +156,13 @@ class User:
 
 def main():
     User.get_all_users()
-    user_name = input("What's your name? ")
+        while True:
+            user_name = input("What's your name? ")
+            if name := re.fullmatch(r"[a-z]+", name, re.IGNORECASE):
+                break
+            else:
+                print("Invalid input: Please enter a valid name")
+                continue
     if User.check_user(user_name):
         #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
         while True:
