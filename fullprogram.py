@@ -132,4 +132,5 @@ def create_user(user_name):
                 print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
                 continue
 
+        user = User()
 main()
