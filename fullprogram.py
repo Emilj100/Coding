@@ -73,9 +73,6 @@ class User:
     @height.setter
     def height(self, height):
         while True:
-            if height == None:
-                self._height = height
-                break
             if height := re.fullmatch(r"[0-9]{3}( )?(cm)?", height, re.IGNORECASE):
                 self._height = height
                 break
@@ -90,9 +87,6 @@ class User:
     @age.setter
     def age(self, age):
         while True:
-            if age == None:
-                self._age = age
-                break
             if age := re.fullmatch(r"[0-9]{1,2}(years old)?", age, re.IGNORECASE):
                 self._age = age
                 break
@@ -107,9 +101,6 @@ class User:
     @weight.setter
     def weight(self, weight):
         while True:
-            if weight == None:
-                self._weight = weight
-                break
             if weight := re.fullmatch(r"[0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
                 self._weight = weight
                 break
@@ -124,9 +115,6 @@ class User:
     @goal.setter
     def goal(self, goal):
         while True:
-            if goal == None:
-                self._goal = goal
-                break
             if goal := re.fullmatch(r"1|2|3", goal):
                 self._goal = goal
                 break
@@ -141,9 +129,6 @@ class User:
     @training.setter
     def training(self, training):
         while True:
-            if training == None:
-                self._training = training
-                break
             if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
                 self._training = training
                 break
@@ -204,13 +189,47 @@ def create_user(user_name):
             else:
                 print('Invalid input: Please enter "Male" or "Female"')
                 continue
-        height = input("Height: ")
-        age = input("Age: ")
-        weight = input("Weight: ")
 
+        while True:
+            height = input("Height: ")
+            if height := re.fullmatch(r"[0-9]{3}( )?(cm)?", height, re.IGNORECASE):
+                break
+            else:
+                print("Invalid input: Please enter a valid height")
+                continue
+
+        while True:
+            age = input("Age: ")
+            if age := re.fullmatch(r"[0-9]{1,2}(years old)?", age, re.IGNORECASE):
+                break
+            else:
+                print("Invalid input: Please enter a valid age")
+                continue
+
+        while True:
+            weight = input("Weight: ")
+            if weight := re.fullmatch(r"[0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
+                break
+            else:
+                print("Invalid input: Please enter a valid weight")
+                continue
         print(f"\nNice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
-        goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
-        training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
+
+        while True:
+            goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
+            if goal := re.fullmatch(r"1|2|3", goal):
+                break
+            else:
+                print("Invalid input: Please enter 1, 2 or 3")
+                continue
+
+        while True:
+            training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
+            if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
+                break
+            else:
+                print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
+                continue
 
         users[user_name] = user
 
