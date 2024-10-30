@@ -45,7 +45,10 @@ class User:
     @name.setter
     def name(self, name):
         while True:
-            if name == None or name := re.fullmatch(r"[a-z]+", name, re.IGNORECASE):
+            if name == None:
+                self._name = name
+                break
+            elif name := re.fullmatch(r"[a-z]+", name, re.IGNORECASE):
                 self._name = name
                 break
             else:
