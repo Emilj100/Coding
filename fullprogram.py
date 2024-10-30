@@ -62,6 +62,9 @@ class User:
     @gender.setter
     def gender(self, gender):
         while True:
+            if gender == None:
+                self._gender = gender
+                break
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
                 self._gender = gender
                 break
@@ -76,6 +79,9 @@ class User:
     @height.setter
     def height(self, height):
         while True:
+            if height == None:
+                self._height = height
+                break
             if height := re.fullmatch(r"[0-9]{3}( )?(cm)?", height, re.IGNORECASE):
                 self._height = height
                 break
@@ -90,6 +96,9 @@ class User:
     @age.setter
     def age(self, age):
         while True:
+            if age == None:
+                self._age = age
+                break
             if age := re.fullmatch(r"[0-9]{1,2}(years old)?", age, re.IGNORECASE):
                 self._age = age
                 break
@@ -104,6 +113,9 @@ class User:
     @weight.setter
     def weight(self, weight):
         while True:
+            if weight == None:
+                self._weight = weight
+                break
             if weight := re.fullmatch(r"[0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
                 self._weight = weight
                 break
@@ -118,6 +130,9 @@ class User:
     @goal.setter
     def goal(self, goal):
         while True:
+            if goal == None:
+                self._goal = goal
+                break
             if goal := re.fullmatch(r"1|2|3", goal):
                 self._goal = goal
                 break
@@ -132,6 +147,9 @@ class User:
     @training.setter
     def training(self, training):
         while True:
+            if training == None:
+                self._training = training
+                break
             if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
                 self._training = training
                 break
