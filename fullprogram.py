@@ -43,6 +43,7 @@ def main():
     while True:
         user_name = input("What's your name? ")
         if user_name := re.fullmatch(r"[a-z]+", user_name, re.IGNORECASE):
+            user_name = user_name.group()
             break
         else:
             print("Invalid input: Please enter a valid name")
