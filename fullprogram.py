@@ -18,11 +18,13 @@ class User:
         self.goal = goal
         self.training = training
 
+    # Gemmer nye brugere til vores csv. Bliver brugt i create_user funktionen
     def save_to_csv(self):
         with open("data.csv", "a") as file:
             writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
             writer.writerow({"name": self.name, "gender": self.gender, "height": self.height, "age": self.age, "weight": self.weight, "goal": self.goal, "training": self.training})
 
+    # Når programmet starter bliver denne funktion kaldt. Den tager alle brugere fra CSV filen og indlæser dem i vores dict. Herefter kan vi tage den enkelte brugers objekt og gør brug af det hvis de allerede findes i programmet
     @staticmethod
     def get_all_users():
         with open("data.csv") as file:
@@ -31,6 +33,7 @@ class User:
                 users_name = row["name"]
                 users[users_name] = ({"name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"]})
 
+    # Denne funktion tjekker om brugeren allerede 
     @staticmethod
     def check_user(user_name):
         for _ in users:
