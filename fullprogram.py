@@ -41,6 +41,8 @@ class User:
                 return True
         return False
 
+    def calorie_intake(self, gender, height, age, weight)
+
 
 class Training:
     def __init__(self, training):
@@ -183,7 +185,7 @@ def create_user(user_name):
 
         print("Great! Here is your calorie intake and training program")
 
-        
+
 
         user_training_program(training)
 
