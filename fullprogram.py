@@ -181,14 +181,6 @@ def create_user(user_name):
 
         user.give_training_program()
 
-        user_training_program(training)
-
-
-def user_training_program(training):
-    user_training = User(training)
-    user_training.give_training_program()
-    print(user_training)
-
 
 def user_program_options(user_name):
     while True:
