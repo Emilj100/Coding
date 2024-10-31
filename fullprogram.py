@@ -45,7 +45,7 @@ class User:
         if gender == "male":
             bmr = (10 * int(weight)) + (6.25 * int(height)) - (5 * int(age)) + 5
         if gender == "female":
-            bmr = 10 * int(weight) + 6.25 * int(height) - 5 * int(age) - 161
+            bmr = (10 * int(weight)) + (6.25 * int(height)) - (5 * int(age)) - 161
 
         if training == "1" or training == "2" or training == "3":
             training_days = 1.375
