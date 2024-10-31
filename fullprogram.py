@@ -105,7 +105,7 @@ def main():
     if User.check_user(user_name):
         #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
         for user in users:
-            print(user)
+            print(users[user])
         user_program_options(user_name)
 
 
