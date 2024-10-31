@@ -179,6 +179,8 @@ def create_user(user_name):
 
         user.calorie_intake()
 
+        user.give_training_program()
+
         user_training_program(training)
 
 
