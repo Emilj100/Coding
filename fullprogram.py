@@ -63,6 +63,29 @@ class User:
         print(f"\nThis is your calorie intake: {calorie_intake:.2f} calories\n")
 
 
+    def __str__(self):
+        with open(self.training_program) as file:
+           file = file.read()
+           return file
+
+    def give_training_program(self):
+        if self.training == "1":
+            training_program = "training_1.txt"
+        elif self.training == "2":
+            training_program = "training_2.txt"
+        elif self.training == "3":
+            training_program = "training_3.txt"
+        elif self.training == "4":
+            training_program = "training_4.txt"
+        elif self.training == "5":
+            training_program = "training_5.txt"
+        elif self.training == "6":
+            training_program = "training_6.txt"
+        elif self.training == "7":
+            training_program = "training_7.txt"
+        self.training_program = training_program
+
+
 class Training:
     def __init__(self, training):
         self.training = training
@@ -187,7 +210,7 @@ def create_user(user_name):
 
 
 def user_training_program(training):
-    user_training = Training(training)
+    user_training = User(training)
     user_training.give_training_program()
     print(user_training)
 
