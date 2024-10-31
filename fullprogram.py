@@ -45,15 +45,15 @@ class User:
 class Training:
     def __init__(self, training):
         self.training = training
-        self.training_program = training_program
 
 
     def __str__(self):
-        with open(training_program) as file:
+        with open(self.training_program) as file:
             for line in file:
                 yield line
 
     def give_training_program(self, training):
+        self.training_program = training_program
         if training == "1":
             training_program = "training_1.txt"
         elif training == "2":
