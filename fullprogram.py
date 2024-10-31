@@ -44,7 +44,13 @@ class User:
     def calorie_intake(self, gender, height, age, weight, goal, training):
         if gender == "male":
             bmr = 10 * int(weight) + 6.25 * int(height) - 5 * int(age) + 5
-            print(bmr)
+            calorie_intake = bmr * int(training)
+            if goal == "1":
+                calorie_intake = calorie_intake - 500
+            elif goal == "3":
+                calorie_intake = calorie_intake + 500
+            print(f"your calorie intake )
+
 
 
 class Training:
