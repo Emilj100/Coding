@@ -104,31 +104,8 @@ def main():
     # Tjekker om det indtastede navn allerede eksistere i systemet
     if User.check_user(user_name):
         #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
-        while True:
-                user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
+        user_program_options()
 
-                if user_input == "1":
-                    # Start track calories program
-                    print("1")
-
-                elif user_input == "2":
-                    # Vis brugerens træningsprogrammer og calorie intake
-                    print("2")
-
-                elif user_input == "3":
-                    # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
-                    print("3")
-
-                elif user_input == "4":
-                    # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
-                    print("4")
-
-                elif user_input == "5":
-                    # Exit programmet
-                    sys.exit("5")
-
-                if user_input in user_options:
-                    break
 
     else:
         # Funktion der opretter en ny bruger, hvis de ikke findes i systemet
@@ -213,5 +190,33 @@ def user_training_program(training):
     user_training = Training(training)
     user_training.give_training_program(training)
     print(user_training)
+
+
+def user_program_options():
+    while True:
+        user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
+
+        if user_input == "1":
+             # Start track calories program
+            print("1")
+
+        elif user_input == "2":
+            # Vis brugerens træningsprogrammer og calorie intake
+            print("2")
+
+        elif user_input == "3":
+            # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
+            print("3")
+
+        elif user_input == "4":
+            # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
+            print("4")
+
+        elif user_input == "5":
+            # Exit programmet
+            sys.exit("5")
+
+        if user_input in user_options:
+            break
 
 main()
