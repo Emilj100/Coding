@@ -186,6 +186,7 @@ def create_user(user_name):
 
 def user_training_program(training):
     user_training = Training(training)
-    print(user_training)
+    for line in user_training:
+        print(line)
 
 main()
