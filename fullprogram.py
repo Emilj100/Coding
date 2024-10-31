@@ -41,6 +41,14 @@ class User:
                 return True
         return False
 
+
+class Training:
+    def __init__(self, training):
+        self.training = training
+
+    def __str__()
+
+
 def main():
     # Indlæser alle brugere fra CSV filen til vores dict så vi kan gøre brug af en eksisterende brugers objekt hvis der skulle komme behov for det.
     User.get_all_users()
