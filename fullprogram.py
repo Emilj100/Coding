@@ -104,7 +104,9 @@ def main():
     # Tjekker om det indtastede navn allerede eksistere i systemet
     if User.check_user(user_name):
         #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
-        user_program_options()
+        for user in users:
+            print(user)
+        user_program_options(user_name)
 
 
     else:
@@ -192,8 +194,9 @@ def user_training_program(training):
     print(user_training)
 
 
-def user_program_options():
+def user_program_options(user_name):
     while True:
+
         user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
 
         if user_input == "1":
