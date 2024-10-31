@@ -86,33 +86,6 @@ class User:
         self.training_program = training_program
 
 
-class Training:
-    def __init__(self, training):
-        self.training = training
-
-
-    def __str__(self):
-        with open(self.training_program) as file:
-           file = file.read()
-           return file
-
-    def give_training_program(self):
-        if self.training == "1":
-            training_program = "training_1.txt"
-        elif self.training == "2":
-            training_program = "training_2.txt"
-        elif self.training == "3":
-            training_program = "training_3.txt"
-        elif self.training == "4":
-            training_program = "training_4.txt"
-        elif self.training == "5":
-            training_program = "training_5.txt"
-        elif self.training == "6":
-            training_program = "training_6.txt"
-        elif self.training == "7":
-            training_program = "training_7.txt"
-        self.training_program = training_program
-
 def main():
     # Indlæser alle brugere fra CSV filen til vores dict så vi kan gøre brug af en eksisterende brugers objekt hvis der skulle komme behov for det.
     User.get_all_users()
