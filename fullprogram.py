@@ -49,7 +49,7 @@ class User:
                 calorie_intake = calorie_intake - 500
             elif goal == "3":
                 calorie_intake = calorie_intake + 500
-            print(f"your calorie intake )
+            print(f"This is your calorie intake {calorie_intake}")
 
 
 
