@@ -50,8 +50,35 @@ class Training:
     def __str__(self):
         return training_program
 
-    def 
-
+    def give_training_program(self, training):
+        if training == "1":
+                with open("training_1.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "2":
+                with open("training_2.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "3":
+                with open("training_3.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "4":
+                with open("training_4.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "5":
+                with open("training_5.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "6":
+                with open("training_6.txt") as file:
+                    for line in file:
+                        print(line, end="")
+            elif training == "7":
+                with open("training_7.txt") as file:
+                    for line in file:
+                        print(line, end="")
 
 
 def main():
