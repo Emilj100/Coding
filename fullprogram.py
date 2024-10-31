@@ -214,7 +214,7 @@ def user_program_options():
 
         elif user_input == "5":
             # Exit programmet
-            sys.exit("5")
+            sys.exit("Program ended")
 
         if user_input in user_options:
             break
