@@ -73,20 +73,20 @@ class Training:
            file = file.read()
            return file
 
-    def give_training_program(self, training):
-        if training == "1":
+    def give_training_program(self):
+        if self.training == "1":
             training_program = "training_1.txt"
-        elif training == "2":
+        elif self.training == "2":
             training_program = "training_2.txt"
-        elif training == "3":
+        elif self.training == "3":
             training_program = "training_3.txt"
-        elif training == "4":
+        elif self.training == "4":
             training_program = "training_4.txt"
-        elif training == "5":
+        elif self.training == "5":
             training_program = "training_5.txt"
-        elif training == "6":
+        elif self.training == "6":
             training_program = "training_6.txt"
-        elif training == "7":
+        elif self.training == "7":
             training_program = "training_7.txt"
         self.training_program = training_program
 
@@ -188,7 +188,7 @@ def create_user(user_name):
 
 def user_training_program(training):
     user_training = Training(training)
-    user_training.give_training_program(training)
+    user_training.give_training_program()
     print(user_training)
 
 
