@@ -46,7 +46,8 @@ class Training:
     def __init__(self, training):
         self.training = training
 
-    def __str__()
+
+    def __str__(self):
 
 
 def main():
