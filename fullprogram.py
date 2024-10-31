@@ -129,8 +129,8 @@ def create_user(user_name):
 
         while True:
             height = input("Height: ")
-            if height := re.fullmatch(r"[0-9]{3}( )?(cm)?", height, re.IGNORECASE):
-                height = height.group()
+            if height := re.fullmatch(r"([0-9]){3}( )?(cm)?", height, re.IGNORECASE):
+                height = height.group(1)
                 break
             else:
                 print("Invalid input: Please enter a valid height")
@@ -138,8 +138,8 @@ def create_user(user_name):
 
         while True:
             age = input("Age: ")
-            if age := re.fullmatch(r"[0-9]{1,2}(years old)?", age, re.IGNORECASE):
-                age = age.group()
+            if age := re.fullmatch(r"([0-9]){1,2}(years old)?", age, re.IGNORECASE):
+                age = age.group(1)
                 break
             else:
                 print("Invalid input: Please enter a valid age")
@@ -147,7 +147,7 @@ def create_user(user_name):
 
         while True:
             weight = input("Weight: ")
-            if weight := re.fullmatch(r"([0-9,]){2,4}( )?(kg)?", weight, re.IGNORECASE):
+            if weight := re.fullmatch(r"([0-9,]){2,4}( )?(kg|kilo)?(", weight, re.IGNORECASE):
                 weight = weight.group(1)
                 break
             else:
