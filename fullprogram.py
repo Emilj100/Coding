@@ -207,7 +207,7 @@ def user_program_options(user_name):
 
         current_user.calorie_intake()
 
-        user_training_program(training)
+        current_user.user_training_program()
 
             print("2")
 
