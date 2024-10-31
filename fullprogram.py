@@ -49,8 +49,7 @@ class Training:
 
     def __str__(self):
         with open(self.training_program) as file:
-            for line in file:
-                yield line
+            
 
     def give_training_program(self, training):
         if training == "1":
