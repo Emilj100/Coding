@@ -181,11 +181,16 @@ def create_user(user_name):
 
         users[user_name] = user
 
+        print("Great! Here is your calorie intake and training program")
+
+        
+
         user_training_program(training)
 
 
 def user_training_program(training):
     user_training = Training(training)
-    user_training.give_training_program()
+    user_training.give_training_program(training)
+    print(user_training)
 
 main()
