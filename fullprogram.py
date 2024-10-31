@@ -204,7 +204,11 @@ def user_program_options(user_name):
             print("1")
 
         elif user_input == "2":
-            # Vis brugerens træningsprogrammer og calorie intake
+
+        current_user.calorie_intake()
+
+        user_training_program(training)
+
             print("2")
 
         elif user_input == "3":
