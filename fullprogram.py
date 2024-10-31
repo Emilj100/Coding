@@ -127,7 +127,7 @@ def create_user(user_name):
             else:
                 print("Invalid input: Please enter a valid weight")
                 continue
-            
+
         print(f"\nNice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
 
         while True:
@@ -152,4 +152,7 @@ def create_user(user_name):
         user.save_to_csv()
 
         users[user_name] = user
+
+
+
 main()
