@@ -201,6 +201,7 @@ def user_program_options(user_name):
             current_user.calorie_intake()
 
             current_user.give_training_program()
+            print(current_user)
 
         elif user_input == "3":
             # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
