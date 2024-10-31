@@ -186,6 +186,6 @@ def create_user(user_name):
 
 def user_training_program(training):
     user_training = Training(training)
-    print(user_training)
+    user_training.give_training_program()
 
 main()
