@@ -41,8 +41,10 @@ class User:
                 return True
         return False
 
-    def calorie_intake(self, gender, height, age, weight, goal, training)
-        
+    def calorie_intake(self, gender, height, age, weight, goal, training):
+        if gender == "male":
+            bmr = 10 * int(weight) + 6.25 * int(height) - 5 * int(age) + 5
+            print(bmr)
 
 
 class Training:
@@ -124,7 +126,7 @@ def create_user(user_name):
         name = user_name
         # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
         while True:
-            gender = input("Male/Female: ")
+            gender = input("Male/Female: ").lower()
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
                 gender = gender.group()
                 break
@@ -186,7 +188,7 @@ def create_user(user_name):
 
         print("Great! Here is your calorie intake and training program")
 
-
+        user.calorie_intake(gender, height, age, weight, goal, training)
 
         user_training_program(training)
 
