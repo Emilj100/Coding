@@ -49,7 +49,8 @@ class Training:
 
     def __str__(self):
         with open(self.training_program) as file:
-            
+           file = file.read()
+           return file
 
     def give_training_program(self, training):
         if training == "1":
@@ -185,7 +186,6 @@ def create_user(user_name):
 
 def user_training_program(training):
     user_training = Training(training)
-    for line in user_training:
-        print(line)
+    print(user_training)
 
 main()
