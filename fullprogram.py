@@ -195,6 +195,8 @@ def user_training_program(training):
 def user_program_options(user_name):
     while True:
 
+        current_user = users[user_name]
+
         user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
 
         if user_input == "1":
