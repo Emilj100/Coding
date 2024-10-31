@@ -49,8 +49,14 @@ class User:
                 calorie_intake = calorie_intake - 500
             elif goal == "3":
                 calorie_intake = calorie_intake + 500
-            print(f"This is your calorie intake {calorie_intake}")
-
+        if gender == "female":
+            bmr = 10 * int(weight) + 6.25 * int(height) - 5 * int(age) - 161
+            calorie_intake = bmr * int(training)
+            if goal == "1":
+                calorie_intake = calorie_intake - 500
+            elif goal == "3":
+                calorie_intake = calorie_intake + 500
+        print(f"This is your calorie intake {calorie_intake}")
 
 
 class Training:
