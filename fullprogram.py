@@ -43,18 +43,22 @@ class User:
 
     def calorie_intake(self, gender, height, age, weight, goal, training):
         if gender == "male":
-            bmr = (10 * int(weight)) + 6.25 * int(height) - 5 * int(age) + 5
+            bmr = (10 * int(weight)) + (6.25 * int(height)) - (5 * int(age)) + 5
         if gender == "female":
             bmr = 10 * int(weight) + 6.25 * int(height) - 5 * int(age) - 161
 
+        print(bmr)
+
         if training == "1" or training == "2" or training == "3":
-            training = 1.375
+            training_days = 1.375
         elif training == "4" or training == "5":
             training == 1.55
         elif training == "6" or training == "7":
             training == 1.725
 
-        calorie_intake = bmr * training
+        print(training)
+
+        calorie_intake = int(bmr) * int(training)
 
         if goal == "1":
             calorie_intake = calorie_intake - 500
