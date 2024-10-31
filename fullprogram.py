@@ -147,8 +147,8 @@ def create_user(user_name):
 
         while True:
             weight = input("Weight: ")
-            if weight := re.fullmatch(r"[0-9,]{2,4}( )?(kg)?", weight, re.IGNORECASE):
-                weight = weight.group()
+            if weight := re.fullmatch(r"([0-9,]){2,4}( )?(kg)?", weight, re.IGNORECASE):
+                weight = weight.group(1)
                 break
             else:
                 print("Invalid input: Please enter a valid weight")
