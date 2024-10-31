@@ -41,7 +41,8 @@ class User:
                 return True
         return False
 
-    def calorie_intake(self, gender, height, age, weight)
+    def calorie_intake(self, gender, height, age, weight, goal, training)
+        
 
 
 class Training:
