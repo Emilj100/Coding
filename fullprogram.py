@@ -41,24 +41,24 @@ class User:
                 return True
         return False
 
-    def calorie_intake(self, gender, height, age, weight, goal, training):
-        if gender == "male":
-            bmr = (10 * int(weight)) + (6.25 * int(height)) - (5 * int(age)) + 5
-        if gender == "female":
-            bmr = (10 * int(weight)) + (6.25 * int(height)) - (5 * int(age)) - 161
+    def calorie_intake(self):
+        if self.gender == "male":
+            bmr = (10 * int(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) + 5
+        if self.gender == "female":
+            bmr = (10 * int(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) - 161
 
-        if training == "1" or training == "2" or training == "3":
+        if self.training == "1" or self.training == "2" or self.training == "3":
             training_days = 1.375
-        elif training == "4" or training == "5":
+        elif self.training == "4" or self.training == "5":
             training_days = 1.55
-        elif training == "6" or training == "7":
+        elif self.training == "6" or self.training == "7":
             training_days = 1.725
 
         calorie_intake = int(bmr) * training_days
 
-        if goal == "1":
+        if self.goal == "1":
             calorie_intake = calorie_intake - 500
-        elif goal == "3":
+        elif self.goal == "3":
             calorie_intake = calorie_intake + 500
         print(f"\nThis is your calorie intake: {calorie_intake:.2f} calories\n")
 
@@ -181,7 +181,7 @@ def create_user(user_name):
 
         print("Great! Here is your calorie intake and training program")
 
-        user.calorie_intake(gender, height, age, weight, goal, training)
+        user.calorie_intake()
 
         user_training_program(training)
 
