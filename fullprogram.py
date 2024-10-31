@@ -48,37 +48,25 @@ class Training:
 
 
     def __str__(self):
-        return training_program
+        with open(training_program) as file:
+            for line in file:
+                yield line
 
     def give_training_program(self, training):
         if training == "1":
-                with open("training_1.txt") as file:
-                    for line in file:
-                        print(line, end="")
-            elif training == "2":
-                with open("training_2.txt") as file:
-                    for line in file:
-                        print(line, end="")
-            elif training == "3":
-                with open("training_3.txt") as file:
-                    for line in file:
-                        print(line, end="")
-            elif training == "4":
-                with open("training_4.txt") as file:
-                    for line in file:
-                        print(line, end="")
-            elif training == "5":
-                with open("training_5.txt") as file:
-                    for line in file:
-                        print(line, end="")
-            elif training == "6":
-                with open("training_6.txt") as file:
-                    for line in file:
-                        print(line, end="")
-            elif training == "7":
-                with open("training_7.txt") as file:
-                    for line in file:
-                        print(line, end="")
+            training_program = "training_1.txt"
+        elif training == "2":
+            training_program = "training_2.txt"
+        elif training == "3":
+            training_program = "training_3.txt"
+        elif training == "4":
+            training_program = "training_4.txt"
+        elif training == "5":
+            training_program = "training_5.txt"
+        elif training == "6":
+            training_program = "training_6.txt"
+        elif training == "7":
+            training_program = "training_7.txt"
 
 
 def main():
