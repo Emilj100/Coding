@@ -180,6 +180,7 @@ def create_user(user_name):
         user.calorie_intake()
 
         user.give_training_program()
+        print(user)
 
 
 def user_program_options(user_name):
