@@ -31,7 +31,7 @@ class User:
             reader = csv.DictReader(file)
             for row in reader:
                 users_name = row["name"]
-                users[users_name] = User({"name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"]})
+                users[users_name] = User("name": row["name"], "gender": row["gender"], "height": row["height"], "age": row["age"], "weight": row["weight"], "goal": row["goal"], "training": row["training"])
 
     # Denne funktion tjekker om brugeren allerede eksistere i programmet. Vi bruger den i starten af vores main funktion
     @staticmethod
