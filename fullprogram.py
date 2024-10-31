@@ -48,6 +48,9 @@ class Training:
 
 
     def __str__(self):
+        return training_program
+
+    
 
 
 def main():
