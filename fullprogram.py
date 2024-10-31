@@ -53,7 +53,6 @@ class Training:
                 yield line
 
     def give_training_program(self, training):
-        self.training_program = training_program
         if training == "1":
             training_program = "training_1.txt"
         elif training == "2":
@@ -68,7 +67,7 @@ class Training:
             training_program = "training_6.txt"
         elif training == "7":
             training_program = "training_7.txt"
-
+        self.training_program = training_program
 
 def main():
     # Indlæser alle brugere fra CSV filen til vores dict så vi kan gøre brug af en eksisterende brugers objekt hvis der skulle komme behov for det.
@@ -182,6 +181,11 @@ def create_user(user_name):
 
         users[user_name] = user
 
+        user_training_program(training)
 
+
+def user_training_program(training):
+    user_training = Training(training)
+    print(user_training)
 
 main()
