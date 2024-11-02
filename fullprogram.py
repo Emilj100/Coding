@@ -34,7 +34,13 @@ class User:
                 users[users_name] = User(row["name"], row["gender"], row["height"], row["age"], row["weight"], row["goal"], row["training"])
 
     def show_user_data(self):
-        return f"Name: {self.name}\nGender: {self.gender}\nHeight: {self.height}\nAge: {self.age}\nWeight: {self.weight}\nGoal: {self.goal}\nTraining"
+        if self.goal == "1":
+            goal = "Lose weight"
+        elif self.goal == "2":
+            goal = "Stay at my current weight"
+        elif self.goal == "3":
+            goal = "Gain weight"
+        return f"Name: {self.name}\nGender: {self.gender}\nHeight: {self.height}\nAge: {self.age}\nWeight: {self.weight}\nGoal: {goal}\nTraining: Training {self.training} per week"
 
 
     # Denne funktion tjekker om brugeren allerede eksistere i programmet. Vi bruger den i starten af vores main funktion
@@ -157,7 +163,7 @@ def create_user(user_name, gender):
         print(f"\nNice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
 
         while True:
-            goal = input("What is your goal?\n 1. To lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
+            goal = input("What is your goal?\n 1. Lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
             if goal := re.fullmatch(r"1|2|3", goal):
                 goal = goal.group()
                 break
