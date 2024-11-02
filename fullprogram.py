@@ -215,7 +215,7 @@ def user_program_options(user_name):
             print("This is your current data:\n")
             print(current_user.show_user_data())
             print("Please enter your new data:\n")
-            name, height, age, weight, goal, training = create_user()
+            name, height, age, weight, goal, training = create_user(user_name)
             users[user_name].height = height
             users[user_name].age = age
             users[user_name].weight = weight
