@@ -203,7 +203,7 @@ def user_program_options(user_name):
 
         elif user_input == "3":
             print("This is your current data:")
-            print(users[user_name])
+            print(current_user)
 
         elif user_input == "4":
             # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
