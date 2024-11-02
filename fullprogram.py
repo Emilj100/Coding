@@ -231,6 +231,7 @@ def user_program_options(user_name):
 
 
         elif user_input == "4":
+            print(f")
             while True:
                 training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
                 if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
