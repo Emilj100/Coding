@@ -290,7 +290,7 @@ def calorie_tracker():
 
     # Vis det fulde JSON-svar (kan bruges til at analysere data)
 
-    print("Here is the data for the food you have been eating today")
+    print("Here is the data for the food you have been eating today:\n")
 
     all_calories = []
     all_protein = []
