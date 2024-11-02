@@ -104,16 +104,9 @@ def main():
 
 
     else:
-        # Funktion der opretter en ny bruger, hvis de ikke findes i systemet
-        create_user(user_name)
-
-
-
-def create_user(user_name):
         # Få data på brugeren og gem det i en CSV fil
         print(f"Welcome {user_name}! First we need some data to get the right program for you.")
-        name = user_name
-        # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
+                # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
         while True:
             gender = input("Male/Female: ").lower()
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
@@ -122,6 +115,13 @@ def create_user(user_name):
             else:
                 print('Invalid input: Please enter "Male" or "Female"')
                 continue
+        # Funktion der opretter en ny bruger, hvis de ikke findes i systemet
+        create_user(user_name, gender)
+
+
+
+def create_user(user_name, gender):
+        name = user_name
 
         while True:
             height = input("Height: ")
