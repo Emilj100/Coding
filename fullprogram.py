@@ -200,7 +200,7 @@ def user_program_options(user_name):
 
         current_user = users[user_name]
 
-        user_input = input("What would you like to do\n 1. Track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)\n")
+        user_input = input("\nWhat would you like to do\n 1. Track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)\n")
 
         if user_input == "1":
             current_user.calorie_intake()
@@ -256,8 +256,8 @@ def user_program_options(user_name):
             # Exit programmet
             sys.exit("Program ended")
 
-        if user_input in user_options:
-            break
+        if not user_input in user_options:
+            print("Please enter 1,2,3,4 or 5")
 
 def calorie_tracker():
 
