@@ -223,6 +223,7 @@ def user_program_options(user_name):
             current_user.training = training
             with open("data.csv", "w") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
+                writeheader()
                 for user in users:
                     writer.writerow({"name": user.name, "gender": user.gender, "height": user.height, "age": user.age, "weight": user.weight, "goal": user.goal, "training": user.training})
 
