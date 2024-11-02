@@ -33,6 +33,9 @@ class User:
                 users_name = row["name"]
                 users[users_name] = User(row["name"], row["gender"], row["height"], row["age"], row["weight"], row["goal"], row["training"])
 
+    def show_user_data():
+
+
     # Denne funktion tjekker om brugeren allerede eksistere i programmet. Vi bruger den i starten af vores main funktion
     @staticmethod
     def check_user(user_name):
@@ -203,7 +206,7 @@ def user_program_options(user_name):
 
         elif user_input == "3":
             print("This is your current data:")
-            print(current_user)
+            print(current_user.show_user_data)
 
         elif user_input == "4":
             # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
