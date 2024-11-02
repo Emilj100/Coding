@@ -224,8 +224,8 @@ def user_program_options(user_name):
             with open("data.csv", "w") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
                 writer.writeheader()
-                for user in users[user_name]:
-                    writer.writerow({"name": users[user_name].name, "gender": users[user_name].gender, "height": users[user_name].height, "age": users[user_name].age, "weight": users[user_name].weight, "goal": users[user_name].goal, "training": users[user_name].training})
+                for user in users:
+                    writer.writerow({"name": users[user].name, "gender": users[user].gender, "height": users[user].height, "age": users[user].age, "weight": users[user].weight, "goal": users[user].goal, "training": users[user].training})
 
 
 
