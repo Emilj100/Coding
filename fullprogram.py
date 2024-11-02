@@ -40,7 +40,7 @@ class User:
             goal = "Stay at my current weight"
         elif self.goal == "3":
             goal = "Gain weight"
-        return f"Name: {self.name}\nGender: {self.gender}\nHeight: {self.height}\nAge: {self.age}\nWeight: {self.weight}\nGoal: {goal}\nTraining: Training {self.training} per week"
+        return f"Name: {self.name}\nGender: {self.gender}\nHeight: {self.height}\nAge: {self.age}\nWeight: {self.weight}\nGoal: {goal}\nTraining: Training {self.training} times per week"
 
 
     # Denne funktion tjekker om brugeren allerede eksistere i programmet. Vi bruger den i starten af vores main funktion
@@ -212,8 +212,9 @@ def user_program_options(user_name):
             print(current_user)
 
         elif user_input == "3":
-            print("This is your current data:")
+            print("This is your current data:\n")
             print(current_user.show_user_data())
+            print("Please enter your new data:\n")
 
         elif user_input == "4":
             # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
