@@ -223,7 +223,6 @@ def user_program_options(user_name):
             users[user_name].training = training
             print(users[user_name])
 
-
         elif user_input == "4":
             # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
             print("4")
