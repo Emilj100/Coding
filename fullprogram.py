@@ -1,6 +1,8 @@
 import sys
 import csv
 import re
+import requests
+import json
 
 # Dict til at have alle vores brugere.
 users = {}
@@ -201,8 +203,7 @@ def user_program_options(user_name):
         user_input = input("What would you like to do\n 1. Track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)\n")
 
         if user_input == "1":
-             # Start track calories program
-            print("1")
+            calorie_tracker()
 
         elif user_input == "2":
 
@@ -256,5 +257,56 @@ def user_program_options(user_name):
 
         if user_input in user_options:
             break
+
+def calorie_tracker():
+
+    food_query = input("What did you eat today? ")
+
+
+    API_KEY = "6158963245cf646896228de0c3d0ba3a"
+    APP_ID = "584633a6"
+
+
+    url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+
+
+    headers = {
+        "x-app-id": APP_ID,
+        "x-app-key": API_KEY,
+        "Content-Type": "application/json"
+    }
+
+    # Data, der skal sendes i anmodningen - den tekstbaserede forespørgsel
+    data = {
+        "query": food_query
+    }
+
+    # Send POST-forespørgsel til Nutritionix API
+    response = requests.post(url, headers=headers, json=data)
+
+    # Ændre svaret til JSON-format
+    nutrition_data = response.json()
+
+    # Vis det fulde JSON-svar (kan bruges til at analysere data)
+
+    print("Here is the data for the food you have been eating today")
+
+    all_calories = []
+    all_protein = []
+    all_carbohydrate = []
+    all_fat = []
+
+    for food in nutrition_data["foods"]:
+        all_calories.append(food["nf_calories"])
+        all_protein.append(food["nf_protein"])
+        all_carbohydrate.append(food["nf_total_carbohydrate"])
+        all_fat.append(food["nf_total_fat"])
+
+
+    print(sum(all_calories), "calories")
+    print(sum(all_protein), "protein")
+    print(sum(all_carbohydrate), "carbohydrate")
+    print(sum(all_fat), "fat")
+
 
 main()
