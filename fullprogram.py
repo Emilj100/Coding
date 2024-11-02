@@ -304,10 +304,10 @@ def calorie_tracker():
         all_fat.append(food["nf_total_fat"])
 
 
-    print(sum(all_calories), "calories")
-    print(sum(all_protein), "protein")
-    print(sum(all_carbohydrate), "carbohydrate")
-    print(sum(all_fat), "fat")
+    print(f"{sum(all_calories):.2f} calories")
+    print(f"{sum(all_protein):.2f} protein")
+    print(f"{sum(all_carbohydrate):.2f} carbohydrate")
+    print(f"{sum(all_fat):.2f} fat")
 
 
 main()
