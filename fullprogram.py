@@ -126,7 +126,7 @@ def main():
                 print('Invalid input: Please enter "Male" or "Female"')
                 continue
         # Funktion der opretter en ny bruger, hvis de ikke findes i systemet
-        name, gender, height, age, weight, goal, training = create_user(user_name, gender)
+        name, height, age, weight, goal, training = create_user(user_name)
         user = User(name, gender, height, age, weight, goal, training)
         user.save_to_csv()
 
@@ -140,7 +140,7 @@ def main():
         print(user)
 
 
-def create_user(user_name, gender):
+def create_user(user_name):
         name = user_name
 
         while True:
@@ -190,7 +190,7 @@ def create_user(user_name, gender):
                 print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
                 continue
 
-        return name, gender, height, age, weight, goal, training
+        return name, height, age, weight, goal, training
 
 
 def user_program_options(user_name):
@@ -215,7 +215,7 @@ def user_program_options(user_name):
             print("This is your current data:\n")
             print(current_user.show_user_data())
             print("Please enter your new data:\n")
-            name, gender, height, age, weight, goal, training = create_user(user_name)
+            name, height, age, weight, goal, training = create_user(user_name)
             current_user.height = height
             current_user.age = age
             current_user.weight = weight
