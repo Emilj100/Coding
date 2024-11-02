@@ -246,6 +246,9 @@ def user_program_options(user_name):
                 writer.writeheader()
                 for user in users:
                     writer.writerow({"name": users[user].name, "gender": users[user].gender, "height": users[user].height, "age": users[user].age, "weight": users[user].weight, "goal": users[user].goal, "training": users[user].training})
+            print("Here is your new training program:\n")
+            current_user.give_training_program()
+            print(current_user)
 
         elif user_input == "5":
             # Exit programmet
