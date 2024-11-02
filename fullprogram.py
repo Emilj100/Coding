@@ -55,9 +55,9 @@ class User:
 
     def calorie_intake(self):
         if self.gender == "male":
-            bmr = (10 * int(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) + 5
+            bmr = (10 * float(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) + 5
         if self.gender == "female":
-            bmr = (10 * int(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) - 161
+            bmr = (10 * float(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) - 161
 
         if self.training == "1" or self.training == "2" or self.training == "3":
             training_days = 1.375
@@ -169,6 +169,7 @@ def create_user(user_name):
             weight = input("Weight: ")
             if weight := re.fullmatch(r"([0-9,.]{2,5})( )?(kg|kilo)?", weight, re.IGNORECASE):
                 weight = weight.group(1)
+                weight = weight.replace(",", ".")
                 break
             else:
                 print("Invalid input: Please enter a valid weight")
