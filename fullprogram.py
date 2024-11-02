@@ -216,12 +216,13 @@ def user_program_options(user_name):
             print(current_user.show_user_data())
             print("Please enter your new data:\n")
             name, height, age, weight, goal, training = create_user(user_name)
-            users[user_name].height = height
-            users[user_name].age = age
-            users[user_name].weight = weight
-            users[user_name].goal = goal
-            users[user_name].training = training
-            print(users[user_name])
+            current_user.height = height
+            current_user.age = age
+            current_user.weight = weight
+            current_user.goal = goal
+            current_user.training = training
+            
+
 
         elif user_input == "4":
             # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
