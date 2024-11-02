@@ -221,7 +221,8 @@ def user_program_options(user_name):
             current_user.weight = weight
             current_user.goal = goal
             current_user.training = training
-            
+            print(current_user.show_user_data())
+
 
 
         elif user_input == "4":
