@@ -188,8 +188,6 @@ def user_program_options(user_name):
 
         current_user = users[user_name]
 
-        print(type(current_user))
-
         user_input = input("What would you like to do\n 1. track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)")
 
         if user_input == "1":
@@ -204,8 +202,8 @@ def user_program_options(user_name):
             print(current_user)
 
         elif user_input == "3":
-            # Giv brugeren mulighed for at opdatere sin data, som navn, vægt osv
-            print("3")
+            print("This is your current data:")
+            print(users[user_name])
 
         elif user_input == "4":
             # Bed brugeren om at indtaste hvor mange gange de ønsker at træne om ugen igen.
