@@ -221,7 +221,11 @@ def user_program_options(user_name):
             current_user.weight = weight
             current_user.goal = goal
             current_user.training = training
-            
+            with open("data.csv", "w") as file:
+                writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
+                for user in users:
+                    writer.writerow({"name": name, "gender": gender, "height": height, "age": age, "weight": weight, "goal": goal, "training": training})
+
 
 
 
