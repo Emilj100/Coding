@@ -221,7 +221,7 @@ def user_program_options(user_name):
             users[user_name].weight = weight
             users[user_name].goal = goal
             users[user_name].training = training
-            print(users)
+            print(users[user_name])
 
 
         elif user_input == "4":
