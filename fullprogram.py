@@ -127,7 +127,17 @@ def main():
                 continue
         # Funktion der opretter en ny bruger, hvis de ikke findes i systemet
         create_user(user_name, gender)
+        user = User(name, gender, height, age, weight, goal, training)
+        user.save_to_csv()
 
+        users[user_name] = user
+
+        print("Great! Here is your calorie intake and training program")
+
+        user.calorie_intake()
+
+        user.give_training_program()
+        print(user)
 
 
 def create_user(user_name, gender):
@@ -179,18 +189,7 @@ def create_user(user_name, gender):
             else:
                 print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
                 continue
-
-        user = User(name, gender, height, age, weight, goal, training)
-        user.save_to_csv()
-
-        users[user_name] = user
-
-        print("Great! Here is your calorie intake and training program")
-
-        user.calorie_intake()
-
-        user.give_training_program()
-        print(user)
+        return 
 
 
 def user_program_options(user_name):
