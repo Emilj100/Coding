@@ -239,6 +239,7 @@ def user_program_options(user_name):
                 else:
                     print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
                     continue
+            current_user.training = training
             with open("data.csv", "w") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
                 writer.writeheader()
