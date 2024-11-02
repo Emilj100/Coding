@@ -203,6 +203,7 @@ def user_program_options(user_name):
         user_input = input("What would you like to do\n 1. Track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)\n")
 
         if user_input == "1":
+            current_user.calorie_intake()
             calorie_tracker()
 
         elif user_input == "2":
