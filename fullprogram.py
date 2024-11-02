@@ -167,7 +167,7 @@ def create_user(user_name):
 
         while True:
             weight = input("Weight: ")
-            if weight := re.fullmatch(r"([0-9\,]{2,4})( )?(kg|kilo)?", weight, re.IGNORECASE):
+            if weight := re.fullmatch(r"([0-9]{2,4})( )?(kg|kilo)?", weight, re.IGNORECASE):
                 weight = weight.group(1)
                 break
             else:
