@@ -141,6 +141,8 @@ def main():
         user.give_training_program()
         print(user)
 
+        user_program_options(user_name)
+
 
 def create_user(user_name):
         name = user_name
