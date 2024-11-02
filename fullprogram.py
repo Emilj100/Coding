@@ -239,6 +239,11 @@ def user_program_options(user_name):
                 else:
                     print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
                     continue
+            with open("data.csv", "w") as file:
+                writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
+                writer.writeheader()
+                for user in users:
+                    writer.writerow({"name": users[user].name, "gender": users[user].gender, "height": users[user].height, "age": users[user].age, "weight": users[user].weight, "goal": users[user].goal, "training": users[user].training})
 
         elif user_input == "5":
             # Exit programmet
