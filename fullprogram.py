@@ -153,7 +153,7 @@ def main():
         # Viser brugeren de forskellige muligheder de har når de har fået oprettet en bruger
         user_program_options(user_name)
 
-
+# Funktionen der indsamler en ny brugers oplysninger og sikre at oplysningerne er korrekte
 def create_user(user_name):
         name = user_name
 
@@ -208,25 +208,32 @@ def create_user(user_name):
 
         return name, height, age, weight, goal, training
 
-
+# Giver brugeren de muligheder de har når de har oprettet en bruger
 def user_program_options(user_name):
     while True:
 
+        # Tager brugerens objekt fra vores dict og gemmer det i variablen current_user
         current_user = users[user_name]
 
         user_input = input("\nWhat would you like to do\n 1. Track calories\n 2. See my trainingprogram and calorie intake\n 3. Update my data\n 4. Change my trainingprogram\n 5. Exit\n (Enter: 1,2,3,4 or 5)\n")
 
+        # Starter vores kalorie tracker program og gør det muligt for brugeren at indtaste hvad de har spist i løbet af dagen
         if user_input == "1":
+            #Viser brugeren hvad deres kalorieindtag er
             current_user.calorie_intake()
+            # Starter kalorietracker programmet
             calorie_tracker()
 
+        # Viser brugerens træningsprogram og kalorieindtag
         elif user_input == "2":
-
+            # Tjekker hvad brugernes kalorieindtag er udfra brugerens oplysninger
             current_user.calorie_intake()
 
+            # Tjekker brugerens træningsprogrammer udfra brugerens oplysninger og derefter printer programmet
             current_user.give_training_program()
             print(current_user)
 
+        # Gør det muligt for brugeren at indtaste nye data
         elif user_input == "3":
             print("This is your current data:\n")
             print(current_user.show_user_data())
