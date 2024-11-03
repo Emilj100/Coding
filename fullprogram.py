@@ -322,10 +322,6 @@ def calorie_tracker():
         # Ændre svaret til JSON-format
         nutrition_data = response.json()
 
-        # Tjekke om vi kan få det til at køre i loop indtil den gør det korrekt
-        except KeyError:
-            print("Error: Please make sure that your input doesnt have any spelling mistake")
-
         # Viser brugeren tallene for det som brugeren har indtastet
         print("Here is the data for the food you have been eating today:\n")
 
@@ -346,6 +342,8 @@ def calorie_tracker():
         print(f"{sum(all_carbohydrate):.2f} carbohydrate")
         print(f"{sum(all_fat):.2f} fat")
 
-
+    # Tjekke om vi kan få det til at køre i loop indtil den gør det korrekt
+    except KeyError:
+        print("Error: Please make sure that your input doesnt have any spelling mistake")
 
 main()
