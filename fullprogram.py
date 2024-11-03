@@ -342,6 +342,6 @@ def calorie_tracker():
         print(f"{sum(all_carbohydrate):.2f} carbohydrate")
         print(f"{sum(all_fat):.2f} fat")
 
-    except:
+    except ValueError:
 
 main()
