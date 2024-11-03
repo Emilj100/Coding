@@ -35,6 +35,7 @@ class User:
                 users_name = row["name"]
                 users[users_name] = User(row["name"], row["gender"], row["height"], row["age"], row["weight"], row["goal"], row["training"])
 
+    # Viser brugerens data hvis de eksistere i programmet og ønsker at se det/ændre det
     def show_user_data(self):
         if self.goal == "1":
             goal = "Lose weight"
@@ -81,7 +82,7 @@ class User:
         with open(self.training_program) as file:
            file = file.read()
            return file
-
+    # Arbejder sammen med __str__ over
     def give_training_program(self):
         if self.training == "1":
             training_program = "training_1.txt"
@@ -103,6 +104,7 @@ class User:
 def main():
     # Indlæser alle brugere fra CSV filen til vores dict så vi kan gøre brug af en eksisterende brugers objekt hvis der skulle komme behov for det.
     User.get_all_users()
+    # Spørger om brugerens navn og gør brug af regular expression for at sikre at det er et valid navn
     while True:
         user_name = input("What's your name? ")
         if user_name := re.fullmatch(r"[a-z]+", user_name, re.IGNORECASE):
@@ -120,7 +122,8 @@ def main():
     else:
         # Få data på brugeren og gem det i en CSV fil
         print(f"Welcome {user_name}! First we need some data to get the right program for you.")
-                # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
+
+        # Beder brugeren om at indtaste sit køn. Her sikre vi os via regular expression at de enten skriver male eller female.
         while True:
             gender = input("Male/Female: ").lower()
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
@@ -131,24 +134,30 @@ def main():
                 continue
         # Funktion der opretter en ny bruger, hvis de ikke findes i systemet
         name, height, age, weight, goal, training = create_user(user_name)
+        #opretter brugeren som et objekt at vores class User og derefter bruger save_to_csv funktionen, som der gemmer brugeren i CSV filen
         user = User(name, gender, height, age, weight, goal, training)
         user.save_to_csv()
 
+        #Gemmer brugerens objekt/informationer i vores dict der hedder users
         users[user_name] = user
 
         print("Great! Here is your calorie intake and training program")
 
+        # Viser brugerens kalorieindtag udfra de oplysninger brugeren har givet
         user.calorie_intake()
 
+        # Viser brugerens træningsprogram udfra det antal dage brugeren har sagt de ønsker at træne
         user.give_training_program()
         print(user)
 
+        # Viser brugeren de forskellige muligheder de har når de har fået oprettet en bruger
         user_program_options(user_name)
 
 
 def create_user(user_name):
         name = user_name
 
+        # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
         while True:
             height = input("Height: ")
             if height := re.fullmatch(r"([0-9]{3})( )?(cm)?", height, re.IGNORECASE):
