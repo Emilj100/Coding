@@ -53,6 +53,7 @@ class User:
                 return True
         return False
 
+    # Regner brugerens kalorieindtag ud.
     def calorie_intake(self):
         if self.gender == "male":
             bmr = (10 * float(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) + 5
