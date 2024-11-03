@@ -115,7 +115,7 @@ def main():
             continue
     # Tjekker om det indtastede navn allerede eksistere i systemet
     if User.check_user(user_name):
-        #################### Find ud af hvordan du gør brug af brugerens objekt hvis han eksistere i programmet i forvejen
+        # Giv brugeren de muligheder programmet har
         user_program_options(user_name)
 
 
