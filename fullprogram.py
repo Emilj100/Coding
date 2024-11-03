@@ -235,8 +235,10 @@ def user_program_options(user_name):
 
         # Gør det muligt for brugeren at indtaste nye data
         elif user_input == "3":
+            # Viser brugerens nuværende data
             print("This is your current data:\n")
             print(current_user.show_user_data())
+            # Gør det muligt for brugeren at indtaste ny data
             print("Please enter your new data:\n")
             name, height, age, weight, goal, training = create_user(user_name)
             current_user.height = height
@@ -244,6 +246,7 @@ def user_program_options(user_name):
             current_user.weight = weight
             current_user.goal = goal
             current_user.training = training
+            # Herefter opretter vi data.csv på ny og indtaster alle vores brugeres oplysninger igen samt den nuværendes bruger nye oplysninger
             with open("data.csv", "w") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
                 writer.writeheader()
