@@ -184,8 +184,9 @@ def user_program_options(user_name):
             print("This is your current data:\n")
             print(current_user.show_user_data())
             # Gør det muligt for brugeren at indtaste ny data
-            print("Please enter your new data:\n")
+            print("\nPlease enter your new data:\n")
             name, height, age, weight, goal, training = create_user(user_name)
+            print("\nYour data have now been updated")
             # Denne del sørger for at opdatere brugerens oplysninger i vores dict, da "current_user" netop gemmer på "users[user_name]". Så vi opdatere derfor både brugerens oplysninger i objektet gemt i dicten men også selve attributerne.
             current_user.height = height
             current_user.age = age
