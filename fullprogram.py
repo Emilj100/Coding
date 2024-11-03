@@ -76,6 +76,7 @@ class User:
         print(f"\nThis is your calorie intake: {calorie_intake:.2f} calories\n")
 
 
+    # Printer brugerens træningsprogram alt efter om de har indtastet 1, 2, 3 osv ved antal dage de ønsker at træne
     def __str__(self):
         with open(self.training_program) as file:
            file = file.read()
