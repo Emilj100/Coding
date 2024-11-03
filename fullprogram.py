@@ -268,25 +268,32 @@ def user_program_options(user_name):
                 else:
                     print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
                     continue
-            # Opdatere brugerens valg af antal dage at træne
+            # Opdatere brugerens valg af antal dage at træne både i vores dict og CSV fil
             current_user.training = training
             with open("data.csv", "w") as file:
                 writer = csv.DictWriter(file, fieldnames=["name", "gender", "height", "age", "weight", "goal", "training"])
                 writer.writeheader()
                 for user in users:
                     writer.writerow({"name": users[user].name, "gender": users[user].gender, "height": users[user].height, "age": users[user].age, "weight": users[user].weight, "goal": users[user].goal, "training": users[user].training})
+            # Viser brugeren sit nye træningsprogram
             current_user.give_training_program()
             print(current_user)
 
+        # Stopper programmet
         elif user_input == "5":
             # Exit programmet
             sys.exit("Program ended")
 
+        # Sikre at brugeren indtaster et valid input når de skal fortælle hvilken funktion fra programmet som de ønsker at gøre brug af.
         if not user_input in user_options:
             print("Please enter 1,2,3,4 or 5")
 
+# Gør det muligt for brugeren at indtaste hvad de har spist og derefter får antal kalorier osv de har spist
 def calorie_tracker():
 
+    # Vores API, som der gør det hele muligt
+
+    # Spørger brugeren om hvad de har spist i dag, som vi så indsætter i vores API
     food_query = input("What did you eat today? ")
 
 
@@ -314,8 +321,7 @@ def calorie_tracker():
     # Ændre svaret til JSON-format
     nutrition_data = response.json()
 
-    # Vis det fulde JSON-svar (kan bruges til at analysere data)
-
+    # Viser brugeren tallene for det som brugeren har indtastet
     print("Here is the data for the food you have been eating today:\n")
 
     all_calories = []
