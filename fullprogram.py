@@ -241,6 +241,7 @@ def user_program_options(user_name):
             # Gør det muligt for brugeren at indtaste ny data
             print("Please enter your new data:\n")
             name, height, age, weight, goal, training = create_user(user_name)
+            # Denne del sørger for at opdatere brugerens oplysninger i vores dict, da "current_user" netop gemmer på users[user_name]
             current_user.height = height
             current_user.age = age
             current_user.weight = weight
