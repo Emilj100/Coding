@@ -1,4 +1,4 @@
-from project import User, main
+from project import User
 import pytest
 
 def test_calorie_intake(capsys):

@@ -350,4 +350,5 @@ def calorie_tracker():
     except KeyError:
         print('Error: Please make sure that your input doesnt have any spelling mistake. Please enter "1" and try again.')
 
-main()
+if __name__ == "__main__":
+    main()
