@@ -104,7 +104,7 @@ def main():
     while True:
         user_name = input("What's your name? ")
         if user_name := re.fullmatch(r"[a-z]+", user_name, re.IGNORECASE):
-            user_name = user_name.group()
+            user_name = user_name.group().title()
             break
         else:
             print("Invalid input: Please enter a valid name")
@@ -122,7 +122,7 @@ def main():
         while True:
             gender = input("Male/Female: ").lower()
             if gender := re.fullmatch(r"male|female", gender, re.IGNORECASE):
-                gender = gender.group()
+                gender = gender.group().title()
                 break
             else:
                 print('Invalid input: Please enter "Male" or "Female"')
