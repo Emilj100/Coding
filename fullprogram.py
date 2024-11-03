@@ -343,7 +343,7 @@ def calorie_tracker():
         print(f"{sum(all_fat):.2f} fat")
 
     # Tjekke om vi kan få det til at køre i loop indtil den gør det korrekt
-    except ValueError:
+    except KeyError:
         print("Error: Please make sure that your input doesnt have any spelling mistake")
 
 main()
