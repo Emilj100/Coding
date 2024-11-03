@@ -255,9 +255,11 @@ def user_program_options(user_name):
 
 
 
-
+        # Gør det muligt for brugeren at indtaste hvor mange gange de ønsker at træne om ugen
         elif user_input == "4":
+            # Viser brugeren hvor mange gange de træner om ugen lige nu
             print(f"\nYou currently train {current_user.training} times per week.\n")
+            # Spørger brugeren hvor mange gange de ønsker at træne om ugen nu og sikre at brugeren skriver et valid input
             while True:
                 training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
                 if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
