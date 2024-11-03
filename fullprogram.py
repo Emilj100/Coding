@@ -153,61 +153,6 @@ def main():
         # Viser brugeren de forskellige muligheder de har når de har fået oprettet en bruger
         user_program_options(user_name)
 
-# Funktionen der indsamler en ny brugers oplysninger og sikre at oplysningerne er korrekte
-def create_user(user_name):
-        name = user_name
-
-        # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
-        while True:
-            height = input("Height: ")
-            if height := re.fullmatch(r"([0-9]{3})( )?(cm)?", height, re.IGNORECASE):
-                height = height.group(1)
-                break
-            else:
-                print("Invalid input: Please enter a valid height")
-                continue
-
-        while True:
-            age = input("Age: ")
-            if age := re.fullmatch(r"([0-9]{1,2})(years old)?", age, re.IGNORECASE):
-                age = age.group(1)
-                break
-            else:
-                print("Invalid input: Please enter a valid age")
-                continue
-
-        while True:
-            weight = input("Weight: ")
-            if weight := re.fullmatch(r"([0-9,.]{2,5})( )?(kg|kilo)?", weight, re.IGNORECASE):
-                weight = weight.group(1)
-                weight = weight.replace(",", ".")
-                break
-            else:
-                print("Invalid input: Please enter a valid weight")
-                continue
-
-        print(f"\nNice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
-
-        while True:
-            goal = input("What is your goal?\n 1. Lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
-            if goal := re.fullmatch(r"1|2|3", goal):
-                goal = goal.group()
-                break
-            else:
-                print("Invalid input: Please enter 1, 2 or 3")
-                continue
-
-        while True:
-            training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
-            if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
-                training = training.group()
-                break
-            else:
-                print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
-                continue
-
-        return name, height, age, weight, goal, training
-
 # Giver brugeren de muligheder de har når de har oprettet en bruger
 def user_program_options(user_name):
     while True:
@@ -288,6 +233,64 @@ def user_program_options(user_name):
         # Sikre at brugeren indtaster et valid input når de skal fortælle hvilken funktion fra programmet som de ønsker at gøre brug af.
         if not user_input in user_options:
             print("Please enter 1,2,3,4 or 5")
+
+
+# Funktionen der indsamler en ny brugers oplysninger og sikre at oplysningerne er korrekte
+def create_user(user_name):
+        name = user_name
+
+        # Ved alle disse while True loops beder vi brugeren om inputs og tjekker efter fejl i brugerens input. Vi beder brugeren om at indtaste et input indtil de skriver et valid input.
+        while True:
+            height = input("Height: ")
+            if height := re.fullmatch(r"([0-9]{3})( )?(cm)?", height, re.IGNORECASE):
+                height = height.group(1)
+                break
+            else:
+                print("Invalid input: Please enter a valid height")
+                continue
+
+        while True:
+            age = input("Age: ")
+            if age := re.fullmatch(r"([0-9]{1,2})(years old)?", age, re.IGNORECASE):
+                age = age.group(1)
+                break
+            else:
+                print("Invalid input: Please enter a valid age")
+                continue
+
+        while True:
+            weight = input("Weight: ")
+            if weight := re.fullmatch(r"([0-9,.]{2,5})( )?(kg|kilo)?", weight, re.IGNORECASE):
+                weight = weight.group(1)
+                weight = weight.replace(",", ".")
+                break
+            else:
+                print("Invalid input: Please enter a valid weight")
+                continue
+
+        print(f"\nNice {name}! Let us know a bit more about your goals and how many days you want to train per week.\n")
+
+        while True:
+            goal = input("What is your goal?\n 1. Lose weight\n 2. Stay at my current weight\n 3. Gain weight\n (Enter 1,2 or 3)\n")
+            if goal := re.fullmatch(r"1|2|3", goal):
+                goal = goal.group()
+                break
+            else:
+                print("Invalid input: Please enter 1, 2 or 3")
+                continue
+
+        while True:
+            training = input("How many days would you like to train per week?\n (Enter 1,2,3,4,5,6 or 7)\n")
+            if training := re.fullmatch(r"1|2|3|4|5|6|7", training):
+                training = training.group()
+                break
+            else:
+                print("Invalid input: Please enter 1, 2, 3, 4, 5, 6 or 7")
+                continue
+
+        return name, height, age, weight, goal, training
+
+
 
 # Gør det muligt for brugeren at indtaste hvad de har spist og derefter får antal kalorier osv de har spist
 def calorie_tracker():
