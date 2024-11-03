@@ -61,6 +61,8 @@ class User:
         if self.gender == "female":
             bmr = (10 * float(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) - 161
 
+        print(bmr)
+
         if self.training == "1" or self.training == "2" or self.training == "3":
             training_days = 1.375
         elif self.training == "4" or self.training == "5":
