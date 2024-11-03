@@ -56,12 +56,10 @@ class User:
 
     # Regner brugerens kalorieindtag ud.
     def calorie_intake(self):
-        if self.gender == "male":
+        if self.gender == "Male":
             bmr = (10 * float(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) + 5
-        if self.gender == "female":
+        if self.gender == "Female":
             bmr = (10 * float(self.weight)) + (6.25 * int(self.height)) - (5 * int(self.age)) - 161
-
-        print(bmr)
 
         if self.training == "1" or self.training == "2" or self.training == "3":
             training_days = 1.375
