@@ -344,6 +344,6 @@ def calorie_tracker():
 
     # Tjekke om vi kan få det til at køre i loop indtil den gør det korrekt
     except KeyError:
-        print('Error: Please make sure that your input doesnt have any spelling mistake. Please enter "1" and try again')
+        print('Error: Please make sure that your input doesnt have any spelling mistake. Please enter "1" and try again.')
 
 main()
