@@ -10,6 +10,15 @@
     When i started building this program I had 3 things i wanted to include in the program which is OOP, CSV/data and API. I wanted to include this since i believe it is very important to understand and very useful. I have never tried to code before and this is my first project and im proud of the result! CS50 python is also the first course that I have taken within coding.
     I listened to David's advice that you should build something which is interesting for you. I really like health and fitness, so I thought this would be a great idea.
 
+    project.py
+    This file includes all of the program functions.
+
+    data.CSV:
+    This file includes all of the users information
+
+    training_1-7.txt:
+    These files includes the training program for training 1 day per week up to 7 days per week.
+
     The programs structure:
     The program has 1 class, 1 main function and 3 other functions.
     Let me first explain how the class works:
