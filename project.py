@@ -74,7 +74,7 @@ class User:
             calorie_intake = calorie_intake - 500
         elif self.goal == "3":
             calorie_intake = calorie_intake + 500
-        print(f"\nThis is your calorie intake: {calorie_intake:.2f} calories\n")
+        print(f"\nThis is your calorie intake: {calorie_intake:.2f} calories")
 
 
     # Printer brugerens træningsprogram alt efter om de har indtastet 1, 2, 3 osv ved antal dage de ønsker at træne
