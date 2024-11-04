@@ -15,3 +15,7 @@ def test_show_user_data():
 
 def test_give_training_program():
     user = User("Emil", "Male", "186", "19", "100.5", "1", "5")
+    with patch("project.open", mock_open(read_data="This is a test")) as mocked_file:
+        user.give_training_program()
+        program_content = str(user)
+    assert program_content == "This is a test"
