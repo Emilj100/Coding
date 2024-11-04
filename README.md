@@ -1,5 +1,5 @@
-    # YOUR PROJECT TITLE
-    #### Video Demo:  <URL HERE>
+    # Fitness program
+    #### Video Demo:  https://www.loom.com/share/2e8005e08773490894e1941c93b7504a?sid=da792f17-e025-45fe-b12c-8fa890e9199c
     #### Description:
 
     What can the program do?
