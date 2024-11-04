@@ -7,7 +7,7 @@
     The program can also help the user track how many calories he/she has ben eating per day. Lets say the user has been eating 1 banana and 250 gram of chicken today. Then he can input this in the program and the program will tell the user how many calories, protein, carbohydrate and fat he/she has been eating today based on the users input. It is also possible for the user to change his/hers data, goals and traning program.
 
     My thoughts:
-    When i started building this program I had 3 things i wanted to include in the program which is OOP, CSV/data and API. I wanted to include this since i believe it is very important to understand and very useful. I have never tried to code before and this is my first project and im proud of the result! CS50 python is also the first course that I have taken within coding.
+    When I started building this program I had 3 things I wanted to include in the program which is OOP, CSV/data and API. I wanted to include this since I believe it is very important to understand and very useful. I have never tried to code before and this is my first project and im proud of the result! CS50 python is also the first course that I have taken within coding.
     I listened to David's advice that you should build something which is interesting for you. I really like health and fitness, so I thought this would be a great idea.
 
     project.py
