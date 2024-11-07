@@ -1,9 +1,6 @@
 #include <stdio.h>
 
-int main(void)
+void meow(void)
 {
-    while (true)
-    {
-        printf("meow\n");
-    }
+    printf("meow\n");
 }
