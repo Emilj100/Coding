@@ -19,3 +19,5 @@ int main(void)
         printf("x is equal to y\n");
     }
 }
+
+int x = 0;
