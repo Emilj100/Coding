@@ -3,9 +3,9 @@
 
 int main(void)
 {
-    for (int i = 0; i < 4; i += 1)
+    for (int i = 0; i < 3; i += 1)
     {
-        printf("?");
+        printf("###\n");
     }
-    printf("\n");
+
 }
