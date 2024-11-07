@@ -5,7 +5,11 @@ int main(void)
 {
     for (int i = 0; i < 3; i += 1)
     {
-        printf("###\n");
+        for (int j = 0; j < 3; j += 1)
+        {
+            printf("#");
+        }
+        printf("\n");
     }
 
 }
