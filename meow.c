@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void meow(void);
+void meow(int n);
 
 int main(void)
 {
