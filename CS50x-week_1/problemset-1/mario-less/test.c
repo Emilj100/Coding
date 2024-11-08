@@ -9,5 +9,7 @@ int main(void)
     }
     printf("\n");
 
+    for (int i = )
+
 }
 
