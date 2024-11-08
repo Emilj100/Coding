@@ -13,7 +13,10 @@ int main(void)
 
     for (int i = 0; i < n; i += 1)
     {
-        for ()
+        for (n - i -1)
+        {
+            printf(" ");
+        }
     }
 
 
