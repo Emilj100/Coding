@@ -11,7 +11,12 @@ int main(void)
         cents = get_int("Change owed: ");
     }
     while (cents < 0);
+
+    int quarters = calculate_quarters(cents);
+
+    cents -= (quarters * 25);
 }
+
 
 int calculate_quarters(int cents)
 {
@@ -22,6 +27,9 @@ int calculate_quarters(int cents)
         cents -= 25;
     }
     return quarters;
+
+int calculate_dimes
+
 }
 
 
