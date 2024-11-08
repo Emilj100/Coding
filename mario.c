@@ -2,9 +2,10 @@
 
 int main(void)
 {
-    for (int i = 0; i < 3; i += 1)
+    int n = 3;
+    for (int i = 0; i < n; i += 1)
     {
-        for (int j = 0; j < 3; j += 1)
+        for (int j = 0; j < n; j += 1)
         {
             printf("#");
         }
