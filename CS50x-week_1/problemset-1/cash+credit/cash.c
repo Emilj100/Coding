@@ -30,7 +30,6 @@ int main(void)
     printf("%i\n", quarters + dimes + nickels + pennies);
 }
 
-
 int calculate_quarters(int cents)
 {
     int quarters = 0;
