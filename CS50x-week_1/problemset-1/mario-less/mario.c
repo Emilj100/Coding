@@ -11,7 +11,7 @@ int main(void)
     }
     while (n < 1);
 
-    for (n > 0; i += 1)
+    for (int i; n > 0; i += 1)
     {
 
 
