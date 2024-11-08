@@ -10,7 +10,7 @@ int main(void)
     {
         cents = get_int("Change owed: ");
     }
-    while (cents < 0)
+    while (cents < 0);
 }
 
 int calculate_quarters(int cents)
@@ -18,7 +18,7 @@ int calculate_quarters(int cents)
     int quarters = 0;
     while (cents >= 25)
     {
-        quarters += 1
+        quarters += 1;
         cents -= 25;
     }
     return quarters;
