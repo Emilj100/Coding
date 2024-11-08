@@ -27,7 +27,7 @@ int main(void)
     int pennies = calculate_pennies(cents);
     cents -= (pennies * 1);
 
-    printf("%i\n", cents);
+    printf("%i\n", quarters + dimes + nickels + pennies);
 }
 
 
