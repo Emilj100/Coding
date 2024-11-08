@@ -6,6 +6,6 @@ int main(void)
     float x = get_int("x: ");
     float y = get_int("y: ");
 
-    printf("%.5f\n", x / y);
+    printf("%.20f\n", x / y);
 }
 
