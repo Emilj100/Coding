@@ -3,7 +3,13 @@
 
 int main(void)
 {
-    int user_input = get_int("Change owed: ");
+    int user_input;
+    do
+    {
+        int user_input = get_int("Change owed: ");
+    }
+    while user
+
 }
 
 
