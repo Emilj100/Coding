@@ -9,7 +9,10 @@ int main(void)
     }
     printf("\n");
 
-    for (int i = )
+    while (i > 0)
+    {
+        
+    }
 
 }
 
