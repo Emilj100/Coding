@@ -3,16 +3,16 @@
 
 int main(void)
 {
-    int user_input;
+    int cents;
     do
     {
-        int user_input = get_int("Change owed: ");
+        int cents = get_int("Change owed: ");
     }
-    while (user_input < 0)
+    while (cents < 0)
 
 int calculate_quarters(int cents)
 
-    while (user_input <= 25)
+    while (cents <= 25)
     {
         quarters += 1
     }
