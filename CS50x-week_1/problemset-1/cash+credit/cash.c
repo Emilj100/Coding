@@ -1,6 +1,8 @@
 #include <cs50.h>
 #include <stdio.h>
 
+int calculate_quarters(int cents);
+
 int main(void)
 {
     int cents;
@@ -10,6 +12,7 @@ int main(void)
     }
     while (cents < 0)
 }
+
 int calculate_quarters(int cents)
 {
     int quarters = 0;
