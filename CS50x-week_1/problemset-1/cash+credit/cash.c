@@ -18,7 +18,7 @@ int calculate_quarters(int cents)
         quarters += 1
         cents -= 25;
     }
-    return
+    return quarters;
 }
 
 
