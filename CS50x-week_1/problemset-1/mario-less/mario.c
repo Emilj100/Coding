@@ -17,9 +17,9 @@ int main(void)
         {
             printf(" ");
         }
-        for ()
+        for (int f = 0; f < n + 1; f += 1)
         {
-
+            printf("#");
         }
     }
 
