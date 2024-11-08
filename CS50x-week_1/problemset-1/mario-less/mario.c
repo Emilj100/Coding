@@ -17,6 +17,10 @@ int main(void)
         {
             printf(" ");
         }
+        for ()
+        {
+
+        }
     }
 
 
