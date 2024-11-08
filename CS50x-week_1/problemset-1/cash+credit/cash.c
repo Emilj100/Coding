@@ -8,7 +8,7 @@ int main(void)
     {
         int user_input = get_int("Change owed: ");
     }
-    while user
+    while (user_input < 0)
 
 }
 
