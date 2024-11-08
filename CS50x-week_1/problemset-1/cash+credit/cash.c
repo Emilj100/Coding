@@ -10,7 +10,7 @@ int main(void)
     }
     while (user_input < 0)
 
-
+int calculate_quarters(int cents)
 
     while (user_input <= 25)
     {
