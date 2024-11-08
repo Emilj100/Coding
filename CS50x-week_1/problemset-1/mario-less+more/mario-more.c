@@ -49,3 +49,4 @@ int main(void)
         printf("\n");       // Udskriv ny linje for næste linje i pyramiden
     }
 }
+
