@@ -10,6 +10,13 @@ int main(void)
     }
     while (user_input < 0)
 
+
+
+    while (user_input <= 25)
+    {
+        quarters += 1
+    }
+
 }
 
 
