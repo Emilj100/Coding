@@ -3,9 +3,9 @@
 
 int main(void)
 {
-    int x = get_int("x: ");
-    int y = get_int("y: ");
+    float x = get_int("x: ");
+    float y = get_int("y: ");
 
-    printf("%i\n", x / y);
+    printf("%f\n", x / y);
 }
 
