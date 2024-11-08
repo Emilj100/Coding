@@ -17,22 +17,10 @@ int main(void)
         {
             printf(" ");
         }
-        for (int f = 0; f < n + 1; f += 1)
-        {
-            printf("#");
-        }
-    }
-
-
-
-    {
-
-
-        for (int j = 0; j < n; j += 1)
+        for (int f = 0; f < i + 1; f += 1)
         {
             printf("#");
         }
         printf("\n");
     }
-
 }
