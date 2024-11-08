@@ -3,6 +3,7 @@
 
 int main(void)
 {
+    // Bed brugeren om et positivt tal
     int n;
     do
     {
