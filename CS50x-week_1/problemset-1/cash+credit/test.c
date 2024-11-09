@@ -1,35 +1,65 @@
-#include <cs50.h>
 #include <stdio.h>
+#include <cs50.h>
+#include <string.h>
 
 int main(void)
 {
-    int cents;
-
-    // Bed brugeren om et positivt beløb for change
+    string card_number;
     do
     {
-        cents = get_int("Change owed: ");
+        card_number = get_string("Number: ");
     }
-    while (cents < 0);
+    while (card_number == NULL || strlen(card_number) == 0);
 
-    // Start med antal mønter på nul
-    int coins = 0;
+    int sum = 0;
+    int digit_count = 0;
 
-    // Udregn antallet af quarters
-    coins += cents / 25;
-    cents %= 25;
+    for (int i = strlen(card_number) - 1; i >= 0; i--)
+    {
+        int digit = card_number[i] - '0';
 
-    // Udregn antallet af dimes
-    coins += cents / 10;
-    cents %= 10;
+        if (digit_count % 2 == 1)
+        {
+            digit *= 2;
 
-    // Udregn antallet af nickels
-    coins += cents / 5;
-    cents %= 5;
+            if (digit > 9)
+            {
+                digit = digit % 10 + 1;
+            }
+        }
 
-    // Udregn antallet af pennies
-    coins += cents / 1;
+        sum += digit;
+        digit_count++;
+    }
 
-    // Print total antal mønter
-    printf("%i\n", coins);
+    if (sum % 10 == 0)
+    {
+        if ((strlen(card_number) == 15) &&
+            (strncmp(card_number, "34", 2) == 0 || strncmp(card_number, "37", 2) == 0))
+        {
+            printf("amex\n");
+        }
+        else if ((strlen(card_number) == 16) &&
+                 (strncmp(card_number, "51", 2) == 0 || strncmp(card_number, "52", 2) == 0 ||
+                  strncmp(card_number, "53", 2) == 0 || strncmp(card_number, "54", 2) == 0 ||
+                  strncmp(card_number, "55", 2) == 0))
+        {
+            printf("mastercard\n");
+        }
+        else if ((strlen(card_number) == 13 || strlen(card_number) == 16) &&
+                 strncmp(card_number, "4", 1) == 0)
+        {
+            printf("visa\n");
+        }
+        else
+        {
+            printf("invalid\n");
+        }
+    }
+    else
+    {
+        printf("invalid\n");
+    }
+
+    return 0;
 }
