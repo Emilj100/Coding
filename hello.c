@@ -11,7 +11,7 @@ int main(void)
 
 void print_column(int height)
 {
-    for (int i = 0; i <= height; i += 1)
+    for (int i = 0; i < height; i += 1)
     {
         printf("#\n");
     }
