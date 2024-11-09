@@ -1,9 +1,10 @@
-#include <cs50.h>
 #include <stdio.h>
 
 int main(void)
 {
-    string name = get_string("What's your name? ");
-    printf("hello, %s\n", name);
+    for (int i = 0; i <= 3; i += 1)
+    {
+        printf("#\n");
+    }
 }
 
