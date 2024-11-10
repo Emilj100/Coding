@@ -49,5 +49,6 @@ int main(void)
 
     }
     printf("%i\n", counter[0]);
+    printf("%i\n", counter[1]);
 
 }
