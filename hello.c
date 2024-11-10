@@ -18,7 +18,27 @@ int main(void)
 
         else if (player_1[i] == 'D' || player_1[i] == 'G')
         {
-            counter_1 += 1;
+            counter_1 += 2;
+        }
+        else if (player_1[i] == 'B' || player_1[i] == 'C' || player_1[i] == 'M' || player_1[i] == 'P')
+        {
+            counter_1 += 3;
+        }
+        else if (player_1[i] == 'F' || player_1[i] == 'H' || player_1[i] == 'V' || player_1[i] == 'W' || player_1[i] == 'Y')
+        {
+            counter_1 += 4;
+        }
+        else if (player_1[i] == 'K')
+        {
+            counter_1 += 5;
+        }
+        else if (player_1[i] == 'J' || player_1[i] == 'X')
+        {
+            counter_1 += 8;
+        }
+        else if (player_1[i] == 'Q' || player_1[i] == 'Z')
+        {
+            counter_1 += 10;
         }
 
     }
