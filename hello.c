@@ -4,8 +4,9 @@
 
 int main(void)
 {
-    int scores[3];
-    for (int i = 0; i < 3; i += 1)
+    const int N = 3;
+    int scores[N];
+    for (int i = 0; i < N; i += 1)
     {
         scores[i] = get_int("Score: ");
     }
