@@ -9,43 +9,45 @@ int main(void)
     player[0] = get_string("Player 1: ");
     player[1] = get_string("Player 2: ");
 
-    int counter_1 = 0;
+    int counter[2];
+    counter[0] = 0;
+    counter[1] = 0;
     for (int number = 0; number < 2; number += 1)
     {
         for (int i = 0, n = strlen(player[number]); i < n; i += 1)
         {
-            if (player[number] == 'A' || player[number] == 'E' || player[number] == 'I' || player[number] == 'N' || player[number] == 'R'
-             || player[number] == 'S' || player[number] == 'T' || player[number] == 'U')
+            if (player[number][i] == 'A' || player[number][i] == 'E' || player[number][i] == 'I' || player[number][i] == 'N' || player[number][i] == 'R'
+             || player[number][i] == 'S' || player[number][i] == 'T' || player[number][i] == 'U')
             {
-                counter_1 += 1;
+                counter[number] += 1;
             }
-            else if (player[number] == 'D' || player[number] == 'G')
+            else if (player[number][i] == 'D' || player[number][i] == 'G')
             {
-                counter_1 += 2;
+                counter[number] += 2;
             }
-            else if (player[number] == 'B' || player[number] == 'C' || player[number] == 'M' || player[number] == 'P')
+            else if (player[number][i] == 'B' || player[number][i] == 'C' || player[number][i] == 'M' || player[number][i] == 'P')
             {
-                counter_1 += 3;
+                counter[number] += 3;
             }
-            else if (player[number] == 'F' || player[number] == 'H' || player[number] == 'V' || player[number] == 'W' || player[number] == 'Y')
+            else if (player[number][i] == 'F' || player[number][i] == 'H' || player[number][i] == 'V' || player[number][i] == 'W' || player[number][i] == 'Y')
             {
-                counter_1 += 4;
+                counter[number] += 4;
             }
-            else if (player[number] == 'K')
+            else if (player[number][i] == 'K')
             {
-                counter_1 += 5;
+                counter[number] += 5;
             }
-            else if (player[number] == 'J' || player[number] == 'X')
+            else if (player[number][i] == 'J' || player[number][i] == 'X')
             {
-                counter_1 += 8;
+                counter[number] += 8;
             }
-            else if (player[number] == 'Q' || player[number] == 'Z')
+            else if (player[number][i] == 'Q' || player[number][i] == 'Z')
             {
-                counter_1 += 10;
+                counter[number] += 10;
             }
         }
 
     }
-    printf("%i\n", counter_1);
+    printf("%i\n", counter[0]);
 
 }
