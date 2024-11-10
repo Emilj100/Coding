@@ -4,13 +4,15 @@
 
 int main(void)
 {
-    string s = get_string("Input:  ");
-    printf("Output: ");
+    string s = get_string("Before: ");
+    printf("After: ");
     for (int i = 0, n = strlen(s); i < n; i += 1)
     {
-        printf("%c", s[i]);
+        if (s[i] >= 'a' && <= 'z')
+        {
+            printf
+        }
     }
-    printf("\n");
 
 }
 
