@@ -6,7 +6,7 @@ int main(void)
 {
     string s = get_string("Input:  ");
     prinf("Output: ");
-    for (int i = 0; i < strlen(s); i += 1)
+    for (int i = 0, n = strlen(s); i < n; i += 1)
     {
         prinf("%c", s[i]);
     }
