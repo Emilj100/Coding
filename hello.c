@@ -1,10 +1,10 @@
 #include <cs50.h>
 #include <stdio.h>
 
+const int N = 3;
 
 int main(void)
 {
-    const int N = 3;
     int scores[N];
     for (int i = 0; i < N; i += 1)
     {
