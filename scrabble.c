@@ -23,7 +23,7 @@ int main(void)
             for (int i = 0, n = strlen(player[number]); i < n; i += 1)
             {
                 if (player[number][i] == 'A' || player[number][i] == 'E' || player[number][i] == 'I' || player[number][i] == 'N' || player[number][i] == 'R'
-                || player[number][i] == 'S' || player[number][i] == 'T' || player[number][i] == 'U' || player[number][i] == 'L')
+                || player[number][i] == 'S' || player[number][i] == 'T' || player[number][i] == 'U' || player[number][i] == 'L' || player[number][i] == 'O')
                 {
                     counter[number] += 1;
                 }
