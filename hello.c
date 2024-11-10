@@ -4,5 +4,5 @@
 int main(void)
 {
     string s = "HI!";
-    printf("%s\n", s);
+    printf("%c%c%c\n", s[0], s[1], s[2]);
 }
