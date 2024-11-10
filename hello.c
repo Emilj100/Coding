@@ -8,7 +8,7 @@ int main(void)
     printf("Output: ");
     for (int i = 0, n = strlen(s); i < n; i += 1)
     {
-        prinf("%c", s[i]);
+        printf("%c", s[i]);
     }
     printf("\n");
 
