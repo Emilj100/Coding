@@ -5,6 +5,7 @@
 
 int main(void)
 {
+    
     string player[0] = get_string("Player 1: ");
     string player[1] = get_string("Player 2: ");
 
