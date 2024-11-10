@@ -48,7 +48,17 @@ int main(void)
         }
 
     }
-    printf("%i\n", counter[0]);
-    printf("%i\n", counter[1]);
+    if (counter[0] > counter[1])
+    {
+        printf("Player 1 wins!\n");
+    }
+    else if (counter[0] < counter[1])
+    {
+        printf("Player 2 wins!\n");
+    }
+    else
+    {
+        printf("Tie!\n");
+    }
 
 }
