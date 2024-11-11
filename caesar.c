@@ -3,13 +3,14 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main(int argc, string argv[])
 {
 
     if (argc == 2)
     {
-        int key = argv[1];
+        int key = atoi(argv[1]);
         if (key > 0)
         {
             printf("test\n");
