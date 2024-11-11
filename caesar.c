@@ -44,6 +44,7 @@ int main(int argc, string argv[])
         if (isalpha(argv[1][i]))
         {
             is_alpha = true;
+            break;
         }
     }
 
