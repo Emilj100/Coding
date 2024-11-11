@@ -6,7 +6,7 @@
 
 int main(int argc, string argv[])
 {
-    // Make sure program was run with just one command-line argument
+
     if (argc == 2 && argv[1] > 0)
     {
         printf("test\n");
@@ -15,6 +15,8 @@ int main(int argc, string argv[])
     {
         printf("Usage: ./caesar key\n");
     }
+
+    // Make sure program was run with just one command-line argument
 
     // Make sure every character in argv[1] is a digit
 
