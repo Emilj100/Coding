@@ -15,7 +15,7 @@ int main(void)
     // Count the number of letters, words, and sentences in the text
     for (int i = 0, n = strlen(text); i < n; i += 1)
     {
-        printf("Character: %c, ASCII: %i\n", text[i], text[i]);
+        text[i] = tolower(text[i]);
         if (text[i] == ' ')
         {
             words += 1;
@@ -32,7 +32,6 @@ int main(void)
     printf("Words: %i\n", words);
     printf("sentence: %i\n", sentence);
     printf("letters: %i\n", letters);
-
 
 
 
