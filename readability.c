@@ -33,7 +33,8 @@ int main(void)
     float L = (float) letters / words * 100;
     float S = (float) sentence / words * 100;
 
-    int index = 0.0588 * L - 0.296 * S - 15.8;
+    float index_float = 0.0588 * L - 0.296 * S - 15.8;
+    int index = round(index_float);
     // Print the grade level
     if (index < 0)
     {
