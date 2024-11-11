@@ -23,7 +23,7 @@ int main(int argc, string argv[])
                 if (isupper(plaintext[i]))
                 {
                     rotate += uppercase_letters[plaintext[i] + key];
-                    printf()
+                    printf("%c\n", rotate);
                 }
             }
         }
