@@ -31,6 +31,10 @@ int main(int argc, string argv[])
                 }
 
                 printf("ciphertext: %c", rotate);
+                
+            printf("\n");
+            return 0;
+
             }
         }
 
