@@ -16,7 +16,7 @@ int main(int argc, string argv[])
             string plaintext = get_string("plaintext:  ");
             for (int i = 0, n = strlen(plaintext); i < n; i += 1)
             {
-                string rotate;
+                string rotate = "";
                 if (isupper(plaintext[i]))
                 {
                     rotate += ((plaintext[i] - 'A' + key) % 26) + 'A';
@@ -30,7 +30,7 @@ int main(int argc, string argv[])
                     rotate += plaintext[i];
                 }
 
-                printf("%s", rotate);
+                printf("%s\n", rotate);
             }
 
 
