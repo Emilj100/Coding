@@ -28,6 +28,10 @@ int main(void)
             letters += 1;
         }
     }
+    printf("Words: %i\n", words);
+    printf("sentence: %i\n", sentence);
+    printf("letters: %i\n", letters);
+
 
 
 
