@@ -6,9 +6,24 @@
 
 int main(int argc, string argv[])
 {
-
     if (argc == 2)
     {
+        bool is_alpha = false;
+        for (int i = 0, n = strlen(argv[1]); i < n; i += 1)
+        {
+            if (isalpha(argv[1][i]))
+            {
+                is_alpha = true;
+                break;
+            }
+        }
+
+        if (is_alpha)
+        {
+            printf("Enter a number\n");
+            return 1;
+        }
+
         int key = atoi(argv[1]);
         if (key > 0)
         {
@@ -31,33 +46,15 @@ int main(int argc, string argv[])
                 }
 
                 printf("%c", rotate);
-
             }
 
             printf("\n");
             return 0;
         }
-
-    bool is_alpha = false;
-    for (int i = 0, n = strlen(argv[1]); i < n; i += 1)
-    {
-        if (isalpha(argv[1][i]))
-        {
-            is_alpha = true;
-            break;
-        }
-    }
-
-    if (is_alpha)
-    {
-        printf("Enter a number\n");
-        printf("Non-numeric key detected\n");
-        return 1;
     }
     else
     {
         printf("Usage: ./caesar key\n");
         return 1;
     }
-
 }
