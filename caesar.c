@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+char letters[] = {}
+
 int main(int argc, string argv[])
 {
 
