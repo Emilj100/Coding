@@ -34,8 +34,9 @@ int main(int argc, string argv[])
                 printf("%c", rotate);
 
             }
-            
+
             printf("\n");
+            return 0;
         }
 
     }
