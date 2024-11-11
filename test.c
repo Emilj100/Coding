@@ -1,86 +1,99 @@
 #include <cs50.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 
-// Funktion, der tjekker, om en streng kun består af cifre
-bool only_digits(string s);
-
-// Funktion, der roterer et tegn med en given nøgle
-char rotate(char c, int key);
+// Deklarerer funktioner til at validere nøgle og erstatte tegn
+bool is_valid_key(string key);
+char substitute(char c, string key);
 
 int main(int argc, string argv[])
 {
-    // Tjekker, om antallet af argumenter er korrekt (dvs. kun ét argument udover programmets navn)
+    // Tjekker, at programmet er startet med præcis ét argument
     if (argc != 2)
     {
-        // Udskriver en fejlmeddelelse og returnerer 1 for at signalere en fejl
-        printf("Usage: ./caesar key\n");
-        return 1;
+        printf("Usage: ./substitution key\n");
+        return 1;  // Afslut programmet, hvis der er fejl i input
     }
 
-    // Tjekker, om argumentet kun består af cifre
-    if (!only_digits(argv[1]))
+    // Gemmer nøglen fra programargumentet
+    string key = argv[1];
+
+    // Validerer nøglen
+    if (!is_valid_key(key))
     {
-        // Udskriver en fejlmeddelelse og returnerer 1 for at signalere en fejl
-        printf("Usage: ./caesar key\n");
-        return 1;
+        printf("Key must contain 26 unique alphabetic characters.\n");
+        return 1;  // Afslut programmet, hvis nøglen er ugyldig
     }
 
-    // Konverterer nøgleargumentet fra streng til heltal
-    int key = atoi(argv[1]);
-
-    // Prompt brugeren for plaintext-input
+    // Får input fra brugeren i form af tekst, der skal krypteres
     string plaintext = get_string("plaintext: ");
 
-    // Udskriver starten på ciphertext-output
+    // Udskriver begyndelsen af krypteret tekst
     printf("ciphertext: ");
 
-    // Gennemløber hvert tegn i brugerens input
-    for (int i = 0; i < strlen(plaintext); i++)
+    // Gennemløber hvert tegn i teksten
+    for (int i = 0, n = strlen(plaintext); i < n; i++)
     {
-        // Roterer tegnene og udskriver det krypterede tegn
-        printf("%c", rotate(plaintext[i], key));
+        // Udskriver det krypterede tegn
+        printf("%c", substitute(plaintext[i], key));
     }
-
-    // Udskriver newline efter ciphertext
     printf("\n");
 
-    // Returnerer 0 for at signalere succes
     return 0;
 }
 
-// Funktion, der tjekker, om en streng kun består af cifre
-bool only_digits(string s)
+// Funktion til at validere nøglen
+bool is_valid_key(string key)
 {
-    // Gennemgår hvert tegn i strengen
-    for (int i = 0; s[i] != '\0'; i++)
+    // Tjekker, om nøglen har præcis 26 tegn
+    if (strlen(key) != 26)
     {
-        // Hvis tegnet ikke er et ciffer, returner false
-        if (!isdigit(s[i]))
+        return false;  // Returner falsk, hvis nøglen ikke er 26 tegn lang
+    }
+
+    bool seen[26] = {false};  // Array til at holde styr på unikke bogstaver
+
+    // Gennemgår hvert tegn i nøglen
+    for (int i = 0; i < 26; i++)
+    {
+        // Hvis tegn ikke er et bogstav, returneres falsk
+        if (!isalpha(key[i]))
         {
             return false;
         }
+
+        // Konverterer til stor bogstav og beregner position i alfabetet
+        int index = toupper(key[i]) - 'A';
+
+        // Hvis bogstavet allerede er set, er der en duplikat
+        if (seen[index])
+        {
+            return false;  // Returner falsk, hvis der er dubletter
+        }
+        seen[index] = true;  // Markerer bogstavet som set
     }
-    // Returner true, hvis alle tegn er cifre
-    return true;
+
+    return true;  // Returner sand, hvis nøglen er gyldig
 }
 
-// Funktion, der roterer et bogstav baseret på nøgleværdien
-char rotate(char c, int key)
+// Funktion til at erstatte hvert tegn med et tilsvarende tegn i nøglen
+char substitute(char c, string key)
 {
-    // Tjekker, om tegnet er et bogstav
+    // Tjekker, om tegnet er en bogstav
     if (isalpha(c))
     {
-        // Bestemmer, om tegnet er stort eller lille
-        char base = isupper(c) ? 'A' : 'a';
-        // Beregner ny position og returnerer det roterede tegn
-        return (c - base + key) % 26 + base;
+        // Bevarer om tegnet er stort eller småt
+        bool is_upper = isupper(c);
+
+        // Finder placeringen af tegnet i alfabetet
+        int index = toupper(c) - 'A';
+
+        // Returnerer det tilsvarende bogstav i nøglen med korrekt case
+        return is_upper ? toupper(key[index]) : tolower(key[index]);
     }
     else
     {
-        // Returnerer uændrede tegn, hvis de ikke er bogstaver
-        return c;
+        return c;  // Ikke-bogstavtegn forbliver uændret
     }
 }
