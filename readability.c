@@ -35,6 +35,8 @@ int main(void)
     // Compute the Coleman-Liau index
     float L = (float) letters / words * 100;
     float S = (float) sentence / words * 100;
+    printf("letters: %f\n", L);
+    printf("letters: %f\n", S);
 
     int index = 0.0588 * L - 0.296 * S - 15.8;
     // Print the grade level
