@@ -14,6 +14,7 @@ int main(int argc, string argv[])
         if (key > 0)
         {
             string plaintext = get_string("plaintext:  ");
+            printf("ciphertext: ");
             for (int i = 0, n = strlen(plaintext); i < n; i += 1)
             {
                 int rotate = 0;
@@ -33,6 +34,8 @@ int main(int argc, string argv[])
                 printf("%c", rotate);
 
             }
+            
+            printf("\n");
         }
 
     }
