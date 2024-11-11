@@ -16,7 +16,7 @@ int main(int argc, string argv[])
         int key = atoi(argv[1]);
         if (key > 0)
         {
-            
+            string plaintext = get_string("plaintext:  ");
         }
 
     }
