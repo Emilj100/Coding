@@ -35,7 +35,7 @@ int main(void)
 
     int index = 0.0588 * L - 0.296 * S - 15.8;
     // Print the grade level
-    printf("Index: %i\n", index);
+    printf("Grade %i\n", index);
 
 
 
