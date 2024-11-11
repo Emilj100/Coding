@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-char uppercase_letters[] = {'A', 'B', 'C', 'D', E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U}
+char uppercase_letters[] = {'A', 'B', 'C', 'D', E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z}
 char lowercase_letters[] = {}
 
 int main(int argc, string argv[])
