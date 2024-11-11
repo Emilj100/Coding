@@ -9,11 +9,11 @@ int main(int argc, string argv[])
     // Make sure program was run with just one command-line argument
     if (argc == 2 && argv[1] > 0)
     {
-        printf("test");
+        printf("test\n");
     }
     else
     {
-        printf("Usage: ./caesar key");
+        printf("Usage: ./caesar key\n");
     }
 
     // Make sure every character in argv[1] is a digit
