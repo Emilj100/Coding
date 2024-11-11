@@ -20,6 +20,7 @@ int main(int argc, string argv[])
     else
     {
         printf("Usage: ./caesar key\n");
+        return 1;
     }
 
     // Make sure program was run with just one command-line argument
