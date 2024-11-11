@@ -11,6 +11,7 @@ int main(int argc, string argv[])
     if (argc == 2)
     {
         int key = atoi(argv[1]);
+        string ciphertext = "";
         if (key > 0)
         {
             string plaintext = get_string("plaintext:  ");
@@ -30,7 +31,8 @@ int main(int argc, string argv[])
                     rotate += plaintext[i];
                 }
 
-                printf("%c", rotate);
+                ciphertext += rotate;
+            printf("%s\n", ciphertext);
 
             }
         }
