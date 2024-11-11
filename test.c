@@ -1,46 +1,88 @@
-#include <stdio.h>
 #include <cs50.h>
-#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
-static int POINTS[] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
-
-int compute_score(string s);
+int count_letters(string text);
+int count_words(string text);
+int count_sentences(string text);
+int getGradeLevel(int letters, int words, int sentences);
 
 int main(void)
 {
-    string word1 = get_string("Player 1: ");
-    string word2 = get_string("Player 2: ");
+    string text = get_string("Text: ");
 
-    int score1 = compute_score(word1);
-    int score2 = compute_score(word2);
+    int cl = count_letters(text),
+        cw = count_words(text),
+        cs = count_sentences(text);
 
-    if (score1 == score2)
+    int grade_level = getGradeLevel(cl, cw, cs);
+
+    if (grade_level < 1)
     {
-        printf("Tie!\n");
+        printf("Before Grade 1\n");
     }
-    else if (score1 > score2)
+    else if (grade_level >= 16)
     {
-        printf("Player 1 wins!\n");
+        printf("Grade 16+\n");
     }
     else
     {
-        printf("Player 2 wins!\n");
+        printf("Grade %d\n", grade_level);
     }
 
     return 0;
 }
 
-int compute_score(string s)
+int count_letters(string text)
 {
-    int score = 0;
+    int count = 0;
 
-    for (int i = 0; s[i] != '\0'; i++)
+    for (int i = 0, n = strlen(text); i < n; i++)
     {
-        if (isalpha(s[i]))
+        if (isalpha(text[i]))
         {
-            score += POINTS[tolower(s[i]) - 'a'];
+            count++;
         }
     }
 
-    return score;
+    return count;
+}
+
+int count_words(string text)
+{
+    int count = 1;
+
+    for (int i = 0, n = strlen(text); i < n; i++)
+    {
+        if (isspace(text[i]))
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+int count_sentences(string text)
+{
+    int count = 0;
+
+    for (int i = 0, n = strlen(text); i < n; i++)
+    {
+        if (text[i] == '.' || text[i] == '!' || text[i] == '?')
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+int getGradeLevel(int letters, int words, int sentences)
+{
+    float L = (float) letters / words * 100;
+    float S = (float) sentences / words * 100;
+
+    return round(0.0588 * L - 0.296 * S - 15.8);
 }
