@@ -9,7 +9,12 @@ int main(int argc, string argv[])
 
     if (argc == 2)
     {
-        printf("test\n");
+        int key = argv[1];
+        if (key > 0)
+        {
+            printf("test\n");
+        }
+
     }
     else
     {
