@@ -22,6 +22,11 @@ int main(int argc, string argv[])
                     rotate += ((plaintext[i] - 'A' + key) % 26) + 'A';
                     printf("%c\n", rotate);
                 }
+                else if (islower(plaintext[i]))
+                {
+                    rotate += ((plaintext[i] - 'a' + key) % 26) + 'a';
+                    printf("%c\n", rotate);
+                }
             }
         }
 
