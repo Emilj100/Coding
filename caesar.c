@@ -38,6 +38,11 @@ int main(int argc, string argv[])
             printf("\n");
             return 0;
         }
+    else if (isalpha(argv[1]))
+    {
+        printf("Enter a number\n");
+        return 1;
+    }
 
     }
     else
