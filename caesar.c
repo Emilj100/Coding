@@ -38,7 +38,17 @@ int main(int argc, string argv[])
             printf("\n");
             return 0;
         }
-    else if (isalpha(argv[1]))
+
+    bool is_alpha = false;
+    for (int i = 0, n = strlen(argv[1]); i < n; i += 1)
+    {
+        if (isalpha(argv[1][i]))
+        {
+            is_alpha = true;
+        }
+    }
+
+    if (is_alpha)
     {
         printf("Enter a number\n");
         return 1;
