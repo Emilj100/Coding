@@ -19,9 +19,10 @@ int main(int argc, string argv[])
             string plaintext = get_string("plaintext:  ");
             for (int i = 0, n = strlen(plaintext); i < n; i += 1)
             {
+                int rotate;
                 if (isupper(plaintext[i]))
                 {
-                    
+                    rotate += uppercase_letters[plaintext[i] + key]
                 }
             }
         }
