@@ -30,8 +30,8 @@ int main(int argc, string argv[])
                     rotate += plaintext[i];
                 }
 
-                printf("ciphertext: %c", rotate);
-                
+                printf("ciphertext: %s", rotate);
+
             printf("\n");
             return 0;
 
