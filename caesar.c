@@ -17,6 +17,13 @@ int main(int argc, string argv[])
         if (key > 0)
         {
             string plaintext = get_string("plaintext:  ");
+            for (int i = 0, n = strlen(plaintext); i < n; i += 1)
+            {
+                if (isupper(plaintext[i]))
+                {
+                    
+                }
+            }
         }
 
     }
