@@ -39,6 +39,8 @@ int main(void)
     printf("letters: %f\n", S);
 
     int index = 0.0588 * L - 0.296 * S - 15.8;
+    float index_float = 0.0588 * L - 0.296 * S - 15.8;
+    printf("Index (float): %f\n", index_float);
     // Print the grade level
     printf("Index: %i\n", index);
 
