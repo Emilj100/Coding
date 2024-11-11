@@ -7,7 +7,7 @@
 int main(int argc, string argv[])
 {
 
-    if (argc == 2 && argv[1] > 0)
+    if (argc == 2)
     {
         printf("test\n");
     }
