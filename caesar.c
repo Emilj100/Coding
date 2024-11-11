@@ -14,9 +14,10 @@ int main(int argc, string argv[])
         if (key > 0)
         {
             string plaintext = get_string("plaintext:  ");
+            string rotate = "";
             for (int i = 0, n = strlen(plaintext); i < n; i += 1)
             {
-                string rotate = "";
+
                 if (isupper(plaintext[i]))
                 {
                     rotate += ((plaintext[i] - 'A' + key) % 26) + 'A';
