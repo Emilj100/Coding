@@ -23,7 +23,7 @@ int main(void)
         {
             sentence += 1;
         }
-        else
+        else if 
         {
             letters += 1;
         }
