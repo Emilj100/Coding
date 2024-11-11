@@ -1,90 +1,61 @@
-#include <ctype.h>
 #include <cs50.h>
-#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 
-// Function prototypes
-int count_letters(string text);
-int count_words(string text);
-int count_sentences(string text);
-int calculate_index(int letters, int words, int sentences);
+bool only_digits(string s);
+char rotate(char c, int key);
 
-int main(void)
+int main(int argc, string argv[])
 {
-    // Prompt the user for some text
-    string text = get_string("Text: ");
-
-    // Count letters, words, and sentences
-    int letters = count_letters(text);
-    int words = count_words(text);
-    int sentences = count_sentences(text);
-
-    // Calculate readability index
-    int index = calculate_index(letters, words, sentences);
-
-    // Print the grade level
-    if (index < 1)
+    if (argc != 2)
     {
-        printf("Before Grade 1\n");
+        printf("Usage: ./caesar key\n");
+        return 1;
     }
-    else if (index >= 16)
-    {
-        printf("Grade 16+\n");
-    }
-    else
-    {
-        printf("Grade %i\n", index);
-    }
-}
 
-// Function to count letters in the text
-int count_letters(string text)
-{
-    int letters = 0;
-    for (int i = 0, n = strlen(text); i < n; i++)
+    if (!only_digits(argv[1]))
     {
-        if (isalpha(text[i]))
+        printf("Usage: ./caesar key\n");
+        return 1;
+    }
+
+    int offset = atoi(argv[1]);
+    string input = get_string("plaintext: ");
+
+    const string lower = "abcdefghijklmnopqrstuvwxyz";
+    const string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const int max = 26;
+
+    printf("ciphertext: ");
+    for (int i = 0; i < strlen(input); i++)
+    {
+        char current = input[i];
+        if (isalpha(current))
         {
-            letters++;
+            char base = isupper(current) ? 'A' : 'a';
+            int idx = (current - base + offset) % max;
+            printf("%c", isupper(current) ? upper[idx] : lower[idx]);
+        }
+        else
+        {
+            printf("%c", current);
         }
     }
-    return letters;
+
+    printf("\n");
+    return 0;
 }
 
-// Function to count words in the text
-int count_words(string text)
+bool only_digits(string s)
 {
-    int words = 1;
-    for (int i = 0, n = strlen(text); i < n; i++)
+    for (int i = 0; s[i] != '\0'; i++)
     {
-        if (isspace(text[i]))
+        if (!isdigit(s[i]))
         {
-            words++;
+            return false;
         }
     }
-    return words;
+    return true;
 }
-
-// Function to count sentences in the text
-int count_sentences(string text)
-{
-    int sentences = 0;
-    for (int i = 0, n = strlen(text); i < n; i++)
-    {
-        if (text[i] == '.' || text[i] == '!' || text[i] == '?')
-        {
-            sentences++;
-        }
-    }
-    return sentences;
-}
-
-// Function to calculate the Coleman-Liau index
-int calculate_index(int letters, int words, int sentences)
-{
-    float L = (float) letters / words * 100;
-    float S = (float) sentences / words * 100;
-    return round(0.0588 * L - 0.296 * S - 15.8);
-}
-
