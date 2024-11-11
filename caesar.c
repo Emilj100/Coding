@@ -25,8 +25,12 @@ int main(int argc, string argv[])
                 {
                     rotate += ((plaintext[i] - 'a' + key) % 26) + 'a';
                 }
+                else
+                {
+                    rotate += plaintext[i];
+                }
 
-                printf("%c", rotate);
+                printf("ciphertext: %c", rotate);
             }
         }
 
