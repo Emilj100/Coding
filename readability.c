@@ -8,9 +8,26 @@ int main(void)
 {
     // Prompt the user for some text
     string text = get_string("Text: ");
+    int sentence = 0;
+    int words = 1;
+    int letters = 0;
 
     // Count the number of letters, words, and sentences in the text
-    for (int i = 0, n = strlen("HVAD SKAL DER VÆRE HER? - EVT ET EKSTRA FOR LOOP"); i < n; i += 1)
+    for (int i = 0, n = strlen(text); i < n; i += 1)
+    {
+        if (text[i] == ' ')
+        {
+            words += 1;
+        }
+        else if (text[i] == '.' || text[i] == '!' || text[i] == '?')
+        {
+            sentence += 1;
+        }
+        else
+        {
+            letters += 1;
+        }
+    }
 
 
 
