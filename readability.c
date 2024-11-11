@@ -32,8 +32,11 @@ int main(void)
     printf("Words: %i\n", words);
     printf("sentence: %i\n", sentence);
     printf("letters: %i\n", letters);
+    float L = (float) letters / words * 100;
+    float S = (float) sentence / words * 100;
 
-
+    int index = 0.0588 * L - 0.296 * S - 15.8;
+    printf("Index: %i\n", index);
 
     // Compute the Coleman-Liau index
 
