@@ -54,8 +54,6 @@ int main(int argc, string argv[])
         printf("Non-numeric key detected\n");
         return 1;
     }
-
-    }
     else
     {
         printf("Usage: ./caesar key\n");
