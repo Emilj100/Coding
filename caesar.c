@@ -51,6 +51,7 @@ int main(int argc, string argv[])
     if (is_alpha)
     {
         printf("Enter a number\n");
+        printf("Non-numeric key detected\n");
         return 1;
     }
 
