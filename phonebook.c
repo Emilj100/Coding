@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct
+
 int main(void)
 {
     string names[] = {"Carter", "David", "John"};
