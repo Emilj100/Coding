@@ -6,8 +6,7 @@ typedef struct
 {
     string name;
     string number;
-}
-person;
+} person;
 
 int main(void)
 {
@@ -35,3 +34,4 @@ int main(void)
     printf("Not found\n");
     return 1;
 }
+
