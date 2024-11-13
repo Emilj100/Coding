@@ -11,8 +11,10 @@ int main(void)
 
 void draw(int n)
 {
+    // For hver række i trappen
     for (int i = 0; i < n; i += 1)
     {
+        
         for (int j = 0; j < i + 1; j += 1)
         {
             printf("#");
