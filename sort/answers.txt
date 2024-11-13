@@ -1,8 +1,7 @@
 sort1 uses: Bubble sort
 
-How do you know?: Bubble is usually faster than selection sort.
-But Bubble would probably take a little more time than selection sort on a already sorted list.
-This one takes a bit more time than the others on the already sorted list, so thats why i think this one is bubble sort
+How do you know?: Selection sort is usually faster than bubble sort. Which we can also see here.
+But on a already sorted list Bubble sort will be much faster than selection sort, since it only has to go through the list once
 
 sort2 uses: Merge sort
 
@@ -10,5 +9,5 @@ How do you know?: It was extremely fast compared to the other sorts. It was the 
 
 sort3 uses: Selection sort
 
-How do you know?: Selection sort is the one of the algorithms which usually takes the longest time. This
+How do you know?: Selection sort usually takes the same time on al
 
