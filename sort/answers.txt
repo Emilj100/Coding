@@ -1,11 +1,11 @@
-sort1 uses: TODO
+sort1 uses: Selection sort
 
-How do you know?: TODO
+How do you know?: Selection sort is the one of the algorithms which takes the longest time. This one took the longest one all 3 tests
 
-sort2 uses: TODO
+sort2 uses: Merge sort
 
-How do you know?: TODO
+How do you know?: It was extremely fast compared to the other sorts. It was the fastest on all 3 tests
 
-sort3 uses: TODO
+sort3 uses: Bubble sort
 
-How do you know?: TODO
+How do you know?: Bubble is 
