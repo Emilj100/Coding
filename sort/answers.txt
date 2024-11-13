@@ -8,4 +8,5 @@ How do you know?: It was extremely fast compared to the other sorts. It was the 
 
 sort3 uses: Bubble sort
 
-How do you know?: Bubble is 
+How do you know?: Bubble is usually faster than selection sort.
+But Bubble would probably take a little more time than selection sort on a already sorted list. So im a bit confused right now
