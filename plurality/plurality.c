@@ -92,7 +92,13 @@ void print_winner(void)
             max_votes = votes_counter[i];
         }
     }
-    
+    for (int i = 0; i < candidate_count; i += 1)
+    {
+        if (votes_counter[i] == max_votes)
+        {
+            printf("%s, candidates[i])
+        }
+    }
 
     return;
 }
