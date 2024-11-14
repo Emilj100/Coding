@@ -65,14 +65,18 @@ int main(int argc, string argv[])
 // Update vote totals given a new vote
 bool vote(string name)
 {
+    // Loop over each candidate
     for (int i = 0; i < candidate_count; i++)
     {
+        // Compare name to each candidate's name
         if (strcmp(candidates[i].name, name) == 0)
         {
+            // If name matches, increment vote count
             candidates[i].votes++;
             return true;
         }
     }
+    // If name does not match any candidate, return false
     return false;
 }
 
@@ -80,6 +84,8 @@ bool vote(string name)
 void print_winner(void)
 {
     int max_votes = 0;
+
+    // Find the maximum vote count
     for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].votes > max_votes)
@@ -88,6 +94,7 @@ void print_winner(void)
         }
     }
 
+    // Print candidates with the maximum vote count
     for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].votes == max_votes)
