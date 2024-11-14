@@ -15,8 +15,6 @@ typedef struct
 // Array of candidates
 candidate candidates[MAX];
 
-int votes_counter[MAX];
-
 // Number of candidates
 int candidate_count;
 
