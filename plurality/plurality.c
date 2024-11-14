@@ -92,6 +92,7 @@ void print_winner(void)
             max_votes = votes_counter[i];
         }
     }
+    
 
     return;
 }
