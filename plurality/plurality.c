@@ -15,6 +15,8 @@ typedef struct
 // Array of candidates
 candidate candidates[MAX];
 
+int votes_counter[MAX];
+
 // Number of candidates
 int candidate_count;
 
@@ -69,7 +71,7 @@ bool vote(string name)
     {
         if (strcmp(candidates[i].name, name) == 0)
         {
-            
+            voter_counter[i] = name;
             return true;
         }
     }
