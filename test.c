@@ -1,99 +1,98 @@
 #include <cs50.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <string.h>
 
-// Deklarerer funktioner til at validere nøgle og erstatte tegn
-bool is_valid_key(string key);
-char substitute(char c, string key);
+// Max number of candidates
+#define MAX 9
+
+// Candidates have name and vote count
+typedef struct
+{
+    string name;
+    int votes;
+} candidate;
+
+// Array of candidates
+candidate candidates[MAX];
+
+// Number of candidates
+int candidate_count;
+
+// Function prototypes
+bool vote(string name);
+void print_winner(void);
 
 int main(int argc, string argv[])
 {
-    // Tjekker, at programmet er startet med præcis ét argument
-    if (argc != 2)
+    // Check for invalid usage
+    if (argc < 2)
     {
-        printf("Usage: ./substitution key\n");
-        return 1;  // Afslut programmet, hvis der er fejl i input
+        printf("Usage: plurality [candidate ...]\n");
+        return 1;
     }
 
-    // Gemmer nøglen fra programargumentet
-    string key = argv[1];
-
-    // Validerer nøglen
-    if (!is_valid_key(key))
+    // Populate array of candidates
+    candidate_count = argc - 1;
+    if (candidate_count > MAX)
     {
-        printf("Key must contain 26 unique alphabetic characters.\n");
-        return 1;  // Afslut programmet, hvis nøglen er ugyldig
+        printf("Maximum number of candidates is %i\n", MAX);
+        return 2;
+    }
+    for (int i = 0; i < candidate_count; i++)
+    {
+        candidates[i].name = argv[i + 1];
+        candidates[i].votes = 0;
     }
 
-    // Får input fra brugeren i form af tekst, der skal krypteres
-    string plaintext = get_string("plaintext: ");
+    int voter_count = get_int("Number of voters: ");
 
-    // Udskriver begyndelsen af krypteret tekst
-    printf("ciphertext: ");
-
-    // Gennemløber hvert tegn i teksten
-    for (int i = 0, n = strlen(plaintext); i < n; i++)
+    // Loop over all voters
+    for (int i = 0; i < voter_count; i++)
     {
-        // Udskriver det krypterede tegn
-        printf("%c", substitute(plaintext[i], key));
-    }
-    printf("\n");
+        string name = get_string("Vote: ");
 
-    return 0;
+        // Check for invalid vote
+        if (!vote(name))
+        {
+            printf("Invalid vote.\n");
+        }
+    }
+
+    // Display winner of election
+    print_winner();
 }
 
-// Funktion til at validere nøglen
-bool is_valid_key(string key)
+// Update vote totals given a new vote
+bool vote(string name)
 {
-    // Tjekker, om nøglen har præcis 26 tegn
-    if (strlen(key) != 26)
+    for (int i = 0; i < candidate_count; i++)
     {
-        return false;  // Returner falsk, hvis nøglen ikke er 26 tegn lang
-    }
-
-    bool seen[26] = {false};  // Array til at holde styr på unikke bogstaver
-
-    // Gennemgår hvert tegn i nøglen
-    for (int i = 0; i < 26; i++)
-    {
-        // Hvis tegn ikke er et bogstav, returneres falsk
-        if (!isalpha(key[i]))
+        if (strcmp(candidates[i].name, name) == 0)
         {
-            return false;
+            candidates[i].votes++;
+            return true;
         }
-
-        // Konverterer til stor bogstav og beregner position i alfabetet
-        int index = toupper(key[i]) - 'A';
-
-        // Hvis bogstavet allerede er set, er der en duplikat
-        if (seen[index])
-        {
-            return false;  // Returner falsk, hvis der er dubletter
-        }
-        seen[index] = true;  // Markerer bogstavet som set
     }
-
-    return true;  // Returner sand, hvis nøglen er gyldig
+    return false;
 }
 
-// Funktion til at erstatte hvert tegn med et tilsvarende tegn i nøglen
-char substitute(char c, string key)
+// Print the winner (or winners) of the election
+void print_winner(void)
 {
-    // Tjekker, om tegnet er en bogstav
-    if (isalpha(c))
+    int max_votes = 0;
+    for (int i = 0; i < candidate_count; i++)
     {
-        // Bevarer om tegnet er stort eller småt
-        bool is_upper = isupper(c);
-
-        // Finder placeringen af tegnet i alfabetet
-        int index = toupper(c) - 'A';
-
-        // Returnerer det tilsvarende bogstav i nøglen med korrekt case
-        return is_upper ? toupper(key[index]) : tolower(key[index]);
+        if (candidates[i].votes > max_votes)
+        {
+            max_votes = candidates[i].votes;
+        }
     }
-    else
+
+    for (int i = 0; i < candidate_count; i++)
     {
-        return c;  // Ikke-bogstavtegn forbliver uændret
+        if (candidates[i].votes == max_votes)
+        {
+            printf("%s\n", candidates[i].name);
+        }
     }
 }
