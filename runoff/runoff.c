@@ -99,7 +99,7 @@ int main(int argc, string argv[])
         int min = find_min();
         // For at teste find_min funktionen
         printf("%i\n", min);
-        break;
+        return 8;
         bool tie = is_tie(min);
 
         // If tie, everyone wins
