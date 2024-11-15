@@ -161,9 +161,14 @@ void tabulate(void)
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
-    voter_count = voter_count / 2
+    voter_count = voter_count / 2;
     for (int i = 0; i < voter_count; i += 1)
-    //Sammenlign votercount og stemmer
+    {
+        if (candidates[i].votes >= voter_count)
+        {
+            return true;
+        }
+    }
 
 
     return false;
