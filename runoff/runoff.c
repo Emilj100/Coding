@@ -186,9 +186,9 @@ int find_min(void)
             int candidate_index = preferences[i][j];
             if (!candidates[candidate_index].eliminated)
             {
-                if (candidates[i].votes < minimum_votes)
+                if (candidates[candidate_index].votes < minimum_votes)
                 {
-                    minimum_votes = candidates[i].votes;
+                    minimum_votes = candidates[candidate_index].votes;
                 }
             }
         }
