@@ -143,23 +143,21 @@ void tabulate(void)
 {
     for (int i = 0; i < voter_count; i += 1)
     {
-        for (int i = 0; i < candidate_count; i += 1)
+        for (int j = 0; j < candidate_count; j += 1)
         {
-            preferences[i][i]
-
-
-            if (!candidates[i].eliminated)
+            int candidate_index = preferences[i][j];
+            if (!candidates[candidate_index].eliminated)
             {
+                candidates[candidate_index].votes += 1;
+                break;
 
             }
-
         }
+        
+    return;
     }
 
-
-    return;
 }
-
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
