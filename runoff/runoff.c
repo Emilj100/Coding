@@ -190,7 +190,6 @@ int find_min(void)
             }
         }
     }
-    printf("%i\n", minimum_votes);
     return minimum_votes;
 }
 
