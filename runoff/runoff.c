@@ -97,7 +97,6 @@ int main(int argc, string argv[])
 
         // Eliminate last-place candidates
         int min = find_min();
-        printf("%i\n", min);
         bool tie = is_tie(min);
 
         // If tie, everyone wins
@@ -191,7 +190,7 @@ int find_min(void)
             }
         }
     }
-
+    printf("%i\n", minimum_votes);
     return minimum_votes;
 }
 
