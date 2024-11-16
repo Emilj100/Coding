@@ -97,6 +97,7 @@ int main(int argc, string argv[])
 
         // Eliminate last-place candidates
         int min = find_min();
+        printf("%in", min);
         bool tie = is_tie(min);
 
         // If tie, everyone wins
