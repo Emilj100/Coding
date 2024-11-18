@@ -3,10 +3,10 @@
 
 int main(void)
 {
-    int i = get_int("i: ");
-    int j = get_int("j: ");
+    char *s = get_string("s: ");
+    char *t = get_string("t: ");
 
-    if (i == j)
+    if (s == t)
     {
         printf("Same\n");
     }
