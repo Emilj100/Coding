@@ -18,10 +18,7 @@ int main(void)
         return 1;
     }
 
-    for (int i = 0, n = strlen(s); i <= n i += 1)
-    {
-        t[i] = s[i];
-    }
+    strcpy(t, s);
 
     if (strlen(t) > 0)
     {
