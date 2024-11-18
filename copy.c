@@ -8,8 +8,8 @@ int main(void)
     string s = get_string("s: ");
     string t = s;
 
-    t[0] = toupper(t[0]);
+    t[1] = toupper(t[1]);
 
-    printf("%s\n"; s);
+    printf("%s\n", s);
     printf("%s\n", t);
 }
