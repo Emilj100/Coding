@@ -5,8 +5,8 @@
 
 int main(void)
 {
-    string s = get_string("s: ");
-    string t = s;
+    char *s = get_string("s: ");
+    char *t = s;
 
     t[1] = toupper(t[1]);
 
