@@ -1,10 +1,21 @@
 #include <stdio.h>
 
+void swap(int a, int b);
+
 int main(void)
 {
-    int scores[1024];
-    for (int i = 0; i < 1024; i += 1)
-    {
-        printf("%i\n", scores[i]);
-    }
+    int x = 1;
+    int y = 2;
+
+    printf("x is %i, y is %i\n", x, y);
+    swap(x, y);
+    printf("x is %i, y is %i\n", x, y);
 }
+
+void swap(int a, int b)
+{
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
