@@ -1,4 +1,5 @@
 #include "helpers.h"
+#include <stdio.h>
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -9,6 +10,8 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
+            int test = image[i][j].rgbtRed;
+            printf("%i\n", test);
             // Take average of red, green, and blue
 
             // Update pixel values
