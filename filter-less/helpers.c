@@ -53,12 +53,12 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
             {
                 sepiaBlue = 255;
             }
+
+            // Update pixel with sepia values
             image[i][j].rgbtRed = sepiaRed;
             image[i][j].rgbtGreen = sepiaGreen;
             image[i][j].rgbtBlue = sepiaBlue;
 
-
-            // Update pixel with sepia values
         }
     }
     return;
