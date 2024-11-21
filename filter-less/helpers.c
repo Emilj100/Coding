@@ -68,11 +68,11 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
     // Loop over all pixels
+    int center = width / 2;
     for (int i = 0; i < height; i++)
     {
-        for (int j = 0; j < width; j++)
+        for (int j = 0; j < center; j++)
         {
-            int center = width / 2;
             RGBTRIPLE left_pixel = image[i][j];
             RGBTRIPLE right_pixel = image[i][width - j - 1];
             RGBTRIPLE tmp = left_pixel;
