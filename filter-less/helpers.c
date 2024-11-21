@@ -72,8 +72,10 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
+            int left_pixel;
+            int right_pixel;
+            int tmp;
             int center = width / 2;
-            printf("%i\n", center)
         }
     }
     return;
