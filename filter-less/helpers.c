@@ -90,6 +90,14 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Create a copy of image
     RGBTRIPLE copy[height][width];
+    int right_pixel;
+    int left_pixel;
+    int left_up_cornor;
+    int up_pixel;
+    int right_up_cornor;
+    int left_down_cornor;
+    int down_pixel;
+    int right_down_cornor;
     // For hver række
     for (int i = 0; i < height; i++)
     {
@@ -97,11 +105,20 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0; j < width; j++)
         {
             copy[i][j] = image[i][j];
+            right_pixel = copy[i][j + 1];
+            left_pixel = copy[i][j - 1];
+            left_up_cornor = copy[i - 1][j - 1];
+            up_pixel = copy[i - 1][j];
+            right_up_cornor = copy[i - 1][j + 1];
+            left_down_cornor = copy[i + 1][j - 1];
+            down_pixel = copy[i + 1][j];
+            right_down_cornor = copy[i + 1][j + 1];
+
 
             // For hver pixel i rækken iterer over dens naboer
             for (int x = 0; x < height x++)
             {
-                
+
 
 
             }
