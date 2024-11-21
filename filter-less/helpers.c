@@ -100,8 +100,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             else
             {
                 copy[i][j] = image[i][j];
-                RGBTRIPLE middle_pixel = copy[i][j].rgbtBlue + copy[i][j].rgbtRed copy[i][j].rgbtGreen;
-                RGBTRIPLE right_pixel = copy[i][j + 1];
+                int middle_pixel = copy[i][j].rgbtBlue + copy[i][j].rgbtRed + copy[i][j].rgbtGreen;
+                RGBTRIPLE right_pixel = copy[i][j + 1.r];
                 RGBTRIPLE left_pixel = copy[i][j - 1];
                 RGBTRIPLE left_up_cornor = copy[i - 1][j - 1];
                 RGBTRIPLE up_pixel = copy[i - 1][j];
