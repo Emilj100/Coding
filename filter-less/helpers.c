@@ -83,7 +83,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 
 
 // Blur image
-void blur(int height, int width, RGBTRIPLE image[height][width]);
+void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Lav en kopi af billedet én gang i starten
     RGBTRIPLE copy[height][width];
