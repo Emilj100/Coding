@@ -100,17 +100,48 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             else
             {
                 copy[i][j] = image[i][j];
-                int middle_pixel = copy[i][j].rgbtBlue + copy[i][j].rgbtRed + copy[i][j].rgbtGreen;
-                int right_pixel = copy[i][j + 1].rgbtBlue + copy[i][j + 1].rgbtRed + copy[i][j + 1].rgbtGreen;
-                int left_pixel = copy[i][j - 1].rgbtBlue + copy[i][j - 1].rgbtRed + copy[i][j - 1].rgbtGreen;
-                int left_up_cornor = copy[i - 1][j - 1].rgbtBlue + copy[i - 1][j - 1].rgbtRed + copy[i - 1][j - 1].rgbtGreen;
-                int up_pixel = copy[i - 1][j].rgbtBlue + copy[i - 1][j].rgbtRed + copy[i - 1][j].rgbtGreen;
-                int right_up_cornor = copy[i - 1][j + 1].rgbtBlue + copy[i - 1][j + 1].rgbtRed + copy[i - 1][j + 1].rgbtGreen;
-                int left_down_cornor = copy[i + 1][j - 1].rgbtBlue + copy[i + 1][j - 1].rgbtRed + copy[i + 1][j - 1].rgbtGreen;
-                int down_pixel = copy[i + 1][j].rgbtBlue + copy[i + 1][j].rgbtRed + copy[i + 1][j].rgbtGreen;
-                int right_down_cornor = copy[i + 1][j + 1].rgbtBlue + copy[i + 1][j + 1].rgbtRed + copy[i + 1][j + 1].rgbtGreen;
+                int middle_pixel_blue = copy[i][j].rgbtBlue;
+                int middel_pixel_red = copy[i][j].rgbtRed;
+                int middle_pixel_green = copy[i][j].rgbtGreen;
 
-                int average = (middle_pixel + right_pixel + left_pixel + left_up_cornor + up_pixel + right_up_cornor + left_down_cornor + down_pixel + right_down_cornor) / 9;
+
+                int right_pixel_blue = copy[i][j + 1].rgbtBlue;
+                int right_pixel_red = copy[i][j + 1].rgbtRed;
+                int right_pixel_green = copy[i][j + 1].rgbtGreen;
+
+
+                int left_pixel_blue = copy[i][j - 1].rgbtBlue;
+                int left_pixel_red = copy[i][j - 1].rgbtRed;
+                int left_pixel_green = copy[i][j - 1].rgbtGreen;
+
+                int left_up_cornor_blue = copy[i - 1][j - 1].rgbtBlue;
+                int left_up_cornor_red = copy[i - 1][j - 1].rgbtRed;
+                int left_up_cornor_green = copy[i - 1][j - 1].rgbtGreen;
+
+                int up_pixel_blue = copy[i - 1][j].rgbtBlue;
+                int up_pixel_red = copy[i - 1][j].rgbtRed;
+                int up_pixel_green = copy[i - 1][j].rgbtGreen;
+
+                int right_up_cornor_blue = copy[i - 1][j + 1].rgbtBlue;
+                int right_up_cornor_red = copy[i - 1][j + 1].rgbtRed;
+                int right_up_cornor = copy[i - 1][j + 1].rgbtGreen;
+
+                int left_down_cornor_blue = copy[i + 1][j - 1].rgbtBlue;
+                int left_down_cornor_red = copy[i + 1][j - 1].rgbtRed;
+                int left_down_cornor_green = copy[i + 1][j - 1].rgbtGreen;
+
+                int down_pixel_blue = copy[i + 1][j].rgbtBlue;
+                int down_pixel_red = copy[i + 1][j].rgbtRed;
+                int down_pixel_green = copy[i + 1][j].rgbtGreen;
+
+                int right_down_cornor_blue = copy[i + 1][j + 1].rgbtBlue;
+                int right_down_cornor_red = copy[i + 1][j + 1].rgbtRed;
+                int right_down_cornor = copy[i + 1][j + 1].rgbtGreen;
+
+                int average_blue = (middle_pixel_blue + right_pixel_blue + left_pixel_blue + left_up_cornor_blue + up_pixel_blue + right_up_cornor_blue + left_down_cornor_blue + down_pixel_blue + right_down_cornor_blue) / 9;
+                int average_red = (middle_pixel_red + right_pixel_red + left_pixel_red + left_up_cornor_red + up_pixel_red + right_up_cornor_red + left_down_cornor_red + down_pixel_red + right_down_cornor_red) / 9;
+                int average_green = (middle_pixel_blue + right_pixel_blue + left_pixel_blue + left_up_cornor_blue + up_pixel_blue + right_up_cornor_blue + left_down_cornor_blue + down_pixel_blue + right_down_cornor_blue) / 9;
+
 
                 image[i][j] = average;
             }
