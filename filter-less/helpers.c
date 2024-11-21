@@ -81,23 +81,29 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     return;
 }
 
+            copy[i][j].rgbtRed = main_pixel_red;
+            copy[i][j].rgbtGreen = main_pixel_green;
+            copy[i][j].rgbtBlue = main_pixel_blue;
+
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Create a copy of image
     RGBTRIPLE copy[height][width];
-    int main_pixel_red;
-    int main_pixel_green;
-    int main_pixel_blue;
+    // For hver række
     for (int i = 0; i < height; i++)
     {
+        // For hver pixel i rækken
         for (int j = 0; j < width; j++)
         {
             copy[i][j] = image[i][j];
-            copy[i][j].rgbtRed = main_pixel_red;
-            copy[i][j].rgbtGreen = main_pixel_green;
-            copy[i][j].rgbtBlue = main_pixel_blue;
 
+            // For hver pixel i rækken iterer over dens naboer
+            for (int k = 0; k < 9; k++)
+            {
+                
+
+            }
         }
     }
     return;
