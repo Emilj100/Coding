@@ -92,6 +92,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++) // Kolonner
         {
+            copy[i][j] = image[i][j];
             int total_red = 0, total_green = 0, total_blue = 0;
             int count = 0;
 
