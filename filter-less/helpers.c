@@ -72,12 +72,14 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            RGBTRIPLE left_pixel;
-            RGBTRIPLE right_pixel;
-            int tmp;
             int center = width / 2;
-            left_pixel = image[i][j];
-            right_pixel = image[i][width - j - 1];
+            RGBTRIPLE left_pixel = image[i][j];
+            RGBTRIPLE right_pixel = image[i][width - j - 1];
+            RGBTRIPLE tmp = left_pixel;
+            left_pixel = right_pixel;
+            right_pixel = tmp;
+            image[i][j] = right_pixel;
+            image[i][width - j - 1] = left_pixel;
         }
     }
     return;
