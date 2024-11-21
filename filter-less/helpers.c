@@ -97,16 +97,18 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             {
                 
             }
-            copy[i][j] = image[i][j];
-            RGBTRIPLE right_pixel = copy[i][j + 1];
-            RGBTRIPLE left_pixel = copy[i][j - 1];
-            RGBTRIPLE left_up_cornor = copy[i - 1][j - 1];
-            RGBTRIPLE up_pixel = copy[i - 1][j];
-            RGBTRIPLE right_up_cornor = copy[i - 1][j + 1];
-            RGBTRIPLE left_down_cornor = copy[i + 1][j - 1];
-            RGBTRIPLE down_pixel = copy[i + 1][j];
-            RGBTRIPLE right_down_cornor = copy[i + 1][j + 1];
-
+            else
+            {
+                copy[i][j] = image[i][j];
+                RGBTRIPLE right_pixel = copy[i][j + 1];
+                RGBTRIPLE left_pixel = copy[i][j - 1];
+                RGBTRIPLE left_up_cornor = copy[i - 1][j - 1];
+                RGBTRIPLE up_pixel = copy[i - 1][j];
+                RGBTRIPLE right_up_cornor = copy[i - 1][j + 1];
+                RGBTRIPLE left_down_cornor = copy[i + 1][j - 1];
+                RGBTRIPLE down_pixel = copy[i + 1][j];
+                RGBTRIPLE right_down_cornor = copy[i + 1][j + 1];
+            }
         }
     }
     return;
