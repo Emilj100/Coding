@@ -91,7 +91,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0; j < width; j++)
         {
             copy[i][j] = image[i][j];
-            
+            printf("%\n", copy[i][j]);
+
+
         }
     }
     return;
