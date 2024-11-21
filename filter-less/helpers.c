@@ -93,12 +93,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         // For hver pixel i rækken
         for (int j = 0; j < width; j++)
         {
-            if (i == 0 || j == 0)
-            {
 
-            }
-            else
-            {
+
                 copy[i][j] = image[i][j];
                 int middle_pixel_blue = copy[i][j].rgbtBlue;
                 int middle_pixel_red = copy[i][j].rgbtRed;
@@ -146,8 +142,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 image[i][j].rgbtBlue = average_blue;
                 image[i][j].rgbtRed = average_red;
                 image[i][j].rgbtGreen = average_green;
-            }
+
         }
     }
-    return;
+    
 }
