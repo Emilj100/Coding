@@ -101,16 +101,18 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             {
                 copy[i][j] = image[i][j];
                 int middle_pixel = copy[i][j].rgbtBlue + copy[i][j].rgbtRed + copy[i][j].rgbtGreen;
-                RGBTRIPLE right_pixel = copy[i][j + 1.r];
-                RGBTRIPLE left_pixel = copy[i][j - 1];
-                RGBTRIPLE left_up_cornor = copy[i - 1][j - 1];
-                RGBTRIPLE up_pixel = copy[i - 1][j];
-                RGBTRIPLE right_up_cornor = copy[i - 1][j + 1];
-                RGBTRIPLE left_down_cornor = copy[i + 1][j - 1];
-                RGBTRIPLE down_pixel = copy[i + 1][j];
-                RGBTRIPLE right_down_cornor = copy[i + 1][j + 1];
+                int right_pixel = copy[i][j + 1].rgbtBlue + copy[i][j + 1].rgbtRed + copy[i][j + 1].rgbtGreen;
+                int left_pixel = copy[i][j - 1].rgbtBlue + copy[i][j - 1].rgbtRed + copy[i][j - 1].rgbtGreen;
+                int left_up_cornor = copy[i - 1][j - 1].rgbtBlue + copy[i - 1][j - 1].rgbtRed + copy[i - 1][j - 1].rgbtGreen;
+                int up_pixel = copy[i - 1][j].rgbtBlue + copy[i - 1][j].rgbtRed + copy[i - 1][j].rgbtGreen;
+                int right_up_cornor = copy[i - 1][j + 1].rgbtBlue + copy[i - 1][j + 1].rgbtRed + copy[i - 1][j + 1].rgbtGreen;
+                int left_down_cornor = copy[i + 1][j - 1].rgbtBlue + copy[i + 1][j - 1].rgbtRed + copy[i + 1][j - 1].rgbtGreen;
+                int down_pixel = copy[i + 1][j].rgbtBlue + copy[i + 1][j].rgbtRed + copy[i + 1][j].rgbtGreen;
+                int right_down_cornor = copy[i + 1][j + 1].rgbtBlue + copy[i + 1][j + 1].rgbtRed + copy[i + 1][j + 1].rgbtGreen;
 
-                RGBTRIPLE average = (middle_pixel + right_pixel + left_pixel + left_up_cornor + up_pixel + right_up_cornor + left_down_cornor + down_pixel + right_down_cornor) / 9;
+                int average = (middle_pixel + right_pixel + left_pixel + left_up_cornor + up_pixel + right_up_cornor + left_down_cornor + down_pixel + right_down_cornor) / 9;
+
+                image[i][j] = average;
             }
         }
     }
