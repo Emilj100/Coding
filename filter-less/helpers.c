@@ -73,13 +73,9 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < center; j++)
         {
-            RGBTRIPLE left_pixel = image[i][j];
-            RGBTRIPLE right_pixel = image[i][width - j - 1];
-            RGBTRIPLE tmp = left_pixel;
-            left_pixel = right_pixel;
-            right_pixel = tmp;
-            image[i][j] = right_pixel;
-            image[i][width - j - 1] = left_pixel;
+            RGBTRIPLE tmp = image[i][j];
+            image[i][j] = image[i][width - j - 1];
+            image[i][width - j - 1] = tmp;
         }
     }
     return;
