@@ -99,9 +99,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             copy[i][j] = image[i][j];
 
             // For hver pixel i rækken iterer over dens naboer
-            for (int k = 0; k < 9; k++)
+            for (int x = 0; x < 9; x++)
             {
-                
+
 
             }
         }
