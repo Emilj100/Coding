@@ -72,7 +72,8 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            // Swap pixels
+            int center = width / 2;
+            printf("%i\n", center)
         }
     }
     return;
