@@ -95,11 +95,12 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         {
             if (i == 0 || j == 0)
             {
-                
+
             }
             else
             {
                 copy[i][j] = image[i][j];
+                RGBTRIPLE middle_pixel = copy[i][j];
                 RGBTRIPLE right_pixel = copy[i][j + 1];
                 RGBTRIPLE left_pixel = copy[i][j - 1];
                 RGBTRIPLE left_up_cornor = copy[i - 1][j - 1];
@@ -108,6 +109,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 RGBTRIPLE left_down_cornor = copy[i + 1][j - 1];
                 RGBTRIPLE down_pixel = copy[i + 1][j];
                 RGBTRIPLE right_down_cornor = copy[i + 1][j + 1];
+
+                RGBTRIPLE average = (middle_pixel + right_pixel + left_pixel + left_up_cornor + up_pixel + right_up_cornor + left_down_cornor + down_pixel + right_down_cornor) / 9;
             }
         }
     }
