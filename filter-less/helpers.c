@@ -88,62 +88,37 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     // Create a copy of image
     RGBTRIPLE copy[height][width];
     // For hver række
-    for (int i = 0; i < height; i++)
+    for (int i = 0; i < height; i++) // Rækker
     {
-        // For hver pixel i rækken
-        for (int j = 0; j < width; j++)
+        for (int j = 0; j < width; j++) // Kolonner
         {
+            int total_red = 0, total_green = 0, total_blue = 0;
+            int count = 0;
 
+            // Iterer gennem nabolaget
+            for (int di = -1; di <= 1; di++) // Række-offset
+            {
+                for (int dj = -1; dj <= 1; dj++) // Kolonne-offset
+                {
+                    int ni = i + di;
+                    int nj = j + dj;
 
-                copy[i][j] = image[i][j];
-                int middle_pixel_blue = copy[i][j].rgbtBlue;
-                int middle_pixel_red = copy[i][j].rgbtRed;
-                int middle_pixel_green = copy[i][j].rgbtGreen;
+                    // Tjek om (ni, nj) er inden for billedets grænser
+                    if (ni >= 0 && ni < height && nj >= 0 && nj < width)
+                    {
+                        total_red += copy[ni][nj].rgbtRed;
+                        total_green += copy[ni][nj].rgbtGreen;
+                        total_blue += copy[ni][nj].rgbtBlue;
+                        count++;
+                    }
+                }
+            }
 
-
-                int right_pixel_blue = copy[i][j + 1].rgbtBlue;
-                int right_pixel_red = copy[i][j + 1].rgbtRed;
-                int right_pixel_green = copy[i][j + 1].rgbtGreen;
-
-
-                int left_pixel_blue = copy[i][j - 1].rgbtBlue;
-                int left_pixel_red = copy[i][j - 1].rgbtRed;
-                int left_pixel_green = copy[i][j - 1].rgbtGreen;
-
-                int left_up_cornor_blue = copy[i - 1][j - 1].rgbtBlue;
-                int left_up_cornor_red = copy[i - 1][j - 1].rgbtRed;
-                int left_up_cornor_green = copy[i - 1][j - 1].rgbtGreen;
-
-                int up_pixel_blue = copy[i - 1][j].rgbtBlue;
-                int up_pixel_red = copy[i - 1][j].rgbtRed;
-                int up_pixel_green = copy[i - 1][j].rgbtGreen;
-
-                int right_up_cornor_blue = copy[i - 1][j + 1].rgbtBlue;
-                int right_up_cornor_red = copy[i - 1][j + 1].rgbtRed;
-                int right_up_cornor_green = copy[i - 1][j + 1].rgbtGreen;
-
-                int left_down_cornor_blue = copy[i + 1][j - 1].rgbtBlue;
-                int left_down_cornor_red = copy[i + 1][j - 1].rgbtRed;
-                int left_down_cornor_green = copy[i + 1][j - 1].rgbtGreen;
-
-                int down_pixel_blue = copy[i + 1][j].rgbtBlue;
-                int down_pixel_red = copy[i + 1][j].rgbtRed;
-                int down_pixel_green = copy[i + 1][j].rgbtGreen;
-
-                int right_down_cornor_blue = copy[i + 1][j + 1].rgbtBlue;
-                int right_down_cornor_red = copy[i + 1][j + 1].rgbtRed;
-                int right_down_cornor_green = copy[i + 1][j + 1].rgbtGreen;
-
-                int average_blue = (middle_pixel_blue + right_pixel_blue + left_pixel_blue + left_up_cornor_blue + up_pixel_blue + right_up_cornor_blue + left_down_cornor_blue + down_pixel_blue + right_down_cornor_blue) / 9;
-                int average_red = (middle_pixel_red + right_pixel_red + left_pixel_red + left_up_cornor_red + up_pixel_red + right_up_cornor_red + left_down_cornor_red + down_pixel_red + right_down_cornor_red) / 9;
-                int average_green = (middle_pixel_green + right_pixel_green + left_pixel_green + left_up_cornor_green + up_pixel_green + right_up_cornor_green + left_down_cornor_green + down_pixel_green + right_down_cornor_green) / 9;
-
-
-                image[i][j].rgbtBlue = average_blue;
-                image[i][j].rgbtRed = average_red;
-                image[i][j].rgbtGreen = average_green;
-
+            // Beregn gennemsnittet og opdater den originale pixel
+            image[i][j].rgbtRed = total_red / count;
+            image[i][j].rgbtGreen = total_green / count;
+            image[i][j].rgbtBlue = total_blue / count;
         }
     }
-    
+
 }
