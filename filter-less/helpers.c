@@ -73,11 +73,11 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0; j < width; j++)
         {
             int left_pixel;
-            int right_pixel;
+            int right_pixel = width -;
             int tmp;
             int center = width / 2;
             left_pixel = image[i][j];
-            right_pixel = image[i]
+            right_pixel = image[i][j]
         }
     }
     return;
