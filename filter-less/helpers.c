@@ -101,12 +101,13 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             // For hver pixel i rækken iterer over dens naboer
             for (int x = 0; x < height x++)
             {
+                
 
 
             }
             for (int y = 0; y < width y++)
             {
-                
+
             }
         }
     }
