@@ -84,15 +84,23 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
+void blur(int height, int width, RGBTRIPLE image[height][width])
 {
-    // Create a copy of image
+    // Lav en kopi af billedet én gang i starten
     RGBTRIPLE copy[height][width];
-    // For hver række
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            copy[i][j] = image[i][j];
+        }
+    }
+
+    // Gennemgå hver pixel i billedet
     for (int i = 0; i < height; i++) // Rækker
     {
         for (int j = 0; j < width; j++) // Kolonner
         {
-            copy[i][j] = image[i][j];
             int total_red = 0, total_green = 0, total_blue = 0;
             int count = 0;
 
@@ -121,5 +129,4 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             image[i][j].rgbtBlue = total_blue / count;
         }
     }
-
 }
