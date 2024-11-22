@@ -123,9 +123,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             }
 
             // Beregn gennemsnittet og opdater den originale pixel
-            image[i][j].rgbtRed = total_red / count;
-            image[i][j].rgbtGreen = total_green / count;
-            image[i][j].rgbtBlue = total_blue / count;
+            image[i][j].rgbtRed = (total_red + count / 2) / count;
+            image[i][j].rgbtGreen = (total_green + count / 2) / count;
+            image[i][j].rgbtBlue = (total_blue + count / 2) / count;
         }
     }
 }
