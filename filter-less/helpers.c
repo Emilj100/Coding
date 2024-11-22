@@ -104,12 +104,12 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             int count = 0;
 
             // Iterer gennem nabolaget
-            for (int di = -1; di <= 1; di++) // Række-offset
+            for (int ii = -1; ii <= 1; ii++) // Række-offset
             {
-                for (int dj = -1; dj <= 1; dj++) // Kolonne-offset
+                for (int jj = -1; jj <= 1; jj++) // Kolonne-offset
                 {
-                    int ni = i + di;
-                    int nj = j + dj;
+                    int ni = i + ii;
+                    int nj = j + jj;
 
                     // Tjek om (ni, nj) er inden for billedets grænser
                     if (ni >= 0 && ni < height && nj >= 0 && nj < width)
@@ -123,9 +123,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             }
 
             // Beregn gennemsnittet og opdater den originale pixel
-            image[i][j].rgbtRed = (total_red + count / 2) / count;
-            image[i][j].rgbtGreen = (total_green + count / 2) / count;
-            image[i][j].rgbtBlue = (total_blue + count / 2) / count;
+            image[i][j].rgbtRed = round((float)total_red / count);
+            image[i][j].rgbtGreen = round((float)total_green / count);
+            image[i][j].rgbtBlue = round((float)total_blue / count);
         }
     }
 }
