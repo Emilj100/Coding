@@ -75,3 +75,67 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     }
 }
 
+void edges(int height, int width, RGBTRIPLE image[height][width])
+{
+    // Opret et midlertidigt billede for at gemme de nye pixelværdier
+    RGBTRIPLE temp[height][width];
+
+    // Sobel-masker til beregning af gradienter i x- og y-retninger
+    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
+
+    // Iterer gennem hver pixel i billedet
+    for (int i = 0; i < height; i++) // Loop over rækker
+    {
+        for (int j = 0; j < width; j++) // Loop over kolonner
+        {
+            // Initialiser gradientværdier for hver farvekanal
+            int GxRed = 0, GxGreen = 0, GxBlue = 0;
+            int GyRed = 0, GyGreen = 0, GyBlue = 0;
+
+            // Iterer gennem nabolaget (3x3 område omkring pixel)
+            for (int k = -1; k <= 1; k++) // Række-offset
+            {
+                for (int l = -1; l <= 1; l++) // Kolonne-offset
+                {
+                    // Beregn koordinater for nabopixel
+                    int newI = i + k;
+                    int newJ = j + l;
+
+                    // Tjek, om nabopixel er inden for billedets grænser
+                    if (newI >= 0 && newI < height && newJ >= 0 && newJ < width)
+                    {
+                        // Beregn vægtet bidrag fra nabopixel til Gx og Gy for hver farvekanal
+                        GxRed += Gx[k + 1][l + 1] * image[newI][newJ].rgbtRed;
+                        GxGreen += Gx[k + 1][l + 1] * image[newI][newJ].rgbtGreen;
+                        GxBlue += Gx[k + 1][l + 1] * image[newI][newJ].rgbtBlue;
+
+                        GyRed += Gy[k + 1][l + 1] * image[newI][newJ].rgbtRed;
+                        GyGreen += Gy[k + 1][l + 1] * image[newI][newJ].rgbtGreen;
+                        GyBlue += Gy[k + 1][l + 1] * image[newI][newJ].rgbtBlue;
+                    }
+                }
+            }
+
+            // Beregn den samlede gradient ved hjælp af Pythagoras' sætning
+            temp[i][j].rgbtRed = threshold(round(sqrt(GxRed * GxRed + GyRed * GyRed)));
+            temp[i][j].rgbtGreen = threshold(round(sqrt(GxGreen * GxGreen + GyGreen * GyGreen)));
+            temp[i][j].rgbtBlue = threshold(round(sqrt(GxBlue * GxBlue + GyBlue * GyBlue)));
+        }
+    }
+
+    // Kopier de beregnede værdier fra temp tilbage til det originale billede
+    for (int i = 0; i < height; i++) // Loop over rækker
+    {
+        for (int j = 0; j < width; j++) // Loop over kolonner
+        {
+            image[i][j] = temp[i][j];
+        }
+    }
+}
+
+// Funktion til at sikre, at værdier ligger inden for intervallet [0, 255]
+int threshold(int value)
+{
+    return value > 255 ? 255 : (value < 0 ? 0 : value);
+}
