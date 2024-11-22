@@ -1,48 +1,79 @@
-#include "helpers.h"
 #include <math.h>
+#include "helpers.h"
 
-int threshold(int value);
-
-
+// Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            int gray = (image[i][j].rgbtRed + image[i][j].rgbtGreen + image[i][j].rgbtBlue) / 3;
+            // Calculate the average of RGB values
+            int avg = round((image[i][j].rgbtRed + image[i][j].rgbtGreen + image[i][j].rgbtBlue) / 3.0);
 
-            image[i][j].rgbtRed = gray;
-            image[i][j].rgbtGreen = gray;
-            image[i][j].rgbtBlue = gray;
+            // Set all RGB values to the average
+            image[i][j].rgbtRed = avg;
+            image[i][j].rgbtGreen = avg;
+            image[i][j].rgbtBlue = avg;
         }
     }
 }
 
+// Convert image to sepia
+void sepia(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            // Store original RGB values
+            int originalRed = image[i][j].rgbtRed;
+            int originalGreen = image[i][j].rgbtGreen;
+            int originalBlue = image[i][j].rgbtBlue;
+
+            // Calculate sepia values
+            int sepiaRed = round(0.393 * originalRed + 0.769 * originalGreen + 0.189 * originalBlue);
+            int sepiaGreen = round(0.349 * originalRed + 0.686 * originalGreen + 0.168 * originalBlue);
+            int sepiaBlue = round(0.272 * originalRed + 0.534 * originalGreen + 0.131 * originalBlue);
+
+            // Cap values at 255
+            image[i][j].rgbtRed = sepiaRed > 255 ? 255 : sepiaRed;
+            image[i][j].rgbtGreen = sepiaGreen > 255 ? 255 : sepiaGreen;
+            image[i][j].rgbtBlue = sepiaBlue > 255 ? 255 : sepiaBlue;
+        }
+    }
+}
+
+// Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width / 2; j++)
         {
+            // Swap pixels on the left and right sides
             RGBTRIPLE temp = image[i][j];
-            image[i][j] = image[i][width - 1 - j];
-            image[i][width - 1 - j] = temp;
+            image[i][j] = image[i][width - j - 1];
+            image[i][width - j - 1] = temp;
         }
     }
 }
 
-void blur(int height, int width, RGBTRIPLE image[height][width])
+// Detect edges using Sobel filter
+void edges(int height, int width, RGBTRIPLE image[height][width])
 {
     RGBTRIPLE temp[height][width];
+
+    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
+
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            int redSum = 0, greenSum = 0, blueSum = 0;
-            int count = 0;
+            int GxRed = 0, GxGreen = 0, GxBlue = 0;
+            int GyRed = 0, GyGreen = 0, GyBlue = 0;
 
-            // The blurring kernel
             for (int k = -1; k <= 1; k++)
             {
                 for (int l = -1; l <= 1; l++)
@@ -52,60 +83,6 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
                     if (newI >= 0 && newI < height && newJ >= 0 && newJ < width)
                     {
-                        redSum += image[newI][newJ].rgbtRed;
-                        greenSum += image[newI][newJ].rgbtGreen;
-                        blueSum += image[newI][newJ].rgbtBlue;
-                        count++;
-                    }
-                }
-            }
-
-            temp[i][j].rgbtRed = round((float)redSum / count);
-            temp[i][j].rgbtGreen = round((float)greenSum / count);
-            temp[i][j].rgbtBlue = round((float)blueSum / count);
-        }
-    }
-
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            image[i][j] = temp[i][j];
-        }
-    }
-}
-
-void edges(int height, int width, RGBTRIPLE image[height][width])
-{
-    // Opret et midlertidigt billede for at gemme de nye pixelværdier
-    RGBTRIPLE temp[height][width];
-
-    // Sobel-masker til beregning af gradienter i x- og y-retninger
-    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
-    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
-
-    // Iterer gennem hver pixel i billedet
-    for (int i = 0; i < height; i++) // Loop over rækker
-    {
-        for (int j = 0; j < width; j++) // Loop over kolonner
-        {
-            // Initialiser gradientværdier for hver farvekanal
-            int GxRed = 0, GxGreen = 0, GxBlue = 0;
-            int GyRed = 0, GyGreen = 0, GyBlue = 0;
-
-            // Iterer gennem nabolaget (3x3 område omkring pixel)
-            for (int k = -1; k <= 1; k++) // Række-offset
-            {
-                for (int l = -1; l <= 1; l++) // Kolonne-offset
-                {
-                    // Beregn koordinater for nabopixel
-                    int newI = i + k;
-                    int newJ = j + l;
-
-                    // Tjek, om nabopixel er inden for billedets grænser
-                    if (newI >= 0 && newI < height && newJ >= 0 && newJ < width)
-                    {
-                        // Beregn vægtet bidrag fra nabopixel til Gx og Gy for hver farvekanal
                         GxRed += Gx[k + 1][l + 1] * image[newI][newJ].rgbtRed;
                         GxGreen += Gx[k + 1][l + 1] * image[newI][newJ].rgbtGreen;
                         GxBlue += Gx[k + 1][l + 1] * image[newI][newJ].rgbtBlue;
@@ -117,27 +94,23 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 }
             }
 
-            // Beregn den samlede gradient ved hjælp af Pythagoras' sætning
             temp[i][j].rgbtRed = threshold(round(sqrt(GxRed * GxRed + GyRed * GyRed)));
             temp[i][j].rgbtGreen = threshold(round(sqrt(GxGreen * GxGreen + GyGreen * GyGreen)));
             temp[i][j].rgbtBlue = threshold(round(sqrt(GxBlue * GxBlue + GyBlue * GyBlue)));
         }
     }
 
-    // Kopier de beregnede værdier fra temp tilbage til det originale billede
-    for (int i = 0; i < height; i++) // Loop over rækker
+    for (int i = 0; i < height; i++)
     {
-        for (int j = 0; j < width; j++) // Loop over kolonner
+        for (int j = 0; j < width; j++)
         {
             image[i][j] = temp[i][j];
         }
     }
 }
 
-// Funktion til at sikre, at værdier ligger inden for intervallet [0, 255]
+// Threshold function to limit pixel values between 0 and 255
 int threshold(int value)
 {
     return value > 255 ? 255 : (value < 0 ? 0 : value);
 }
-
-
