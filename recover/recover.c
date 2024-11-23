@@ -15,6 +15,10 @@ int main(int argc, char *argv[])
 
     // Open the memory card
     FILE *card = fopen(argv[1], "r");
+    if (card == NULL)
+    {
+        return 1;
+    }
 
     // Create a buffer for a block of data
     BYTE buffer[512];
