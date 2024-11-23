@@ -6,6 +6,6 @@ int main(void)
 {
     int file_number = 000;
     file_number += 1;
-    printf("%i\n", file_number)
+    printf("%i\n", file_number);
 }
 
