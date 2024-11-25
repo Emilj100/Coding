@@ -28,13 +28,13 @@ int main(int argc, char *argv[])
     int i = 0;
     while (fread(buffer, 1, 512, card) == 512)
     {
+            sprintf(filename, "%03i.jpg", i);
+            FILE *file = fopen(filename, "w");
+            fwrite(buffer, 1, 512, file);
         // Create JPEGs from the data
         if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
         {
             // Dette er starten på en ny JPEG-fil
-            sprintf(filename, "%03i.jpg", i);
-            FILE *file = fopen(filename, "w");
-            fwrite(buffer, 1, 512, file);
             fclose(file);
             i += 1;
 
