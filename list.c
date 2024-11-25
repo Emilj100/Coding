@@ -38,3 +38,9 @@ int main(void)
     free(list);
     return 0;
 }
+
+typedef struct node
+{
+    int number;
+    struct node *next;
+} node;
