@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
         {
             // Dette er starten på en ny JPEG-fil
             int i = 0;
-            sprintf(filename, "%03i.jpeg", i);
-            FILE *file = fopen(filename, "a");
+            sprintf(filename, "%03i.jpg", i);
+            FILE *file = fopen(filename, "w");
             i += 1;
 
         }
