@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     BYTE buffer[512];
     int i = 50;
 
-    sprintf(buffer, "This is CS%i", i );
+    sprintf(*buffer, "This is CS%i", i );
     printf("%s\n", buffer);
 
     // While there's still data left to read from the memory card
