@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     }
 
     BYTE buffer[512];
-    char filename[9];
+    char filename[8];
     FILE *currentfile = NULL;
     int fileIndex = 0;
 
