@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
                 printf("Could not create file %s.\n", filename);
                 return 1;
             }
-            fileIndex++;
+            fileIndex += 1;
         }
 
         // Write to the currently open file, if any
