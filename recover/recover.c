@@ -42,11 +42,6 @@ int main(int argc, char *argv[])
             // Create a new file
             sprintf(filename, "%03i.jpg", fileIndex);
             currentfile = fopen(filename, "w");
-            if (currentfile == NULL)
-            {
-                printf("Could not create file %s.\n", filename);
-                return 1;
-            }
             fileIndex += 1;
         }
 
