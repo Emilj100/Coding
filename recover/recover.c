@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     }
 
     // Create a buffer for a block of data
-    char buffer[512];
+    BYTE buffer[512];
     int i = 50;
 
     sprintf(buffer, "This is CS%i", i );
