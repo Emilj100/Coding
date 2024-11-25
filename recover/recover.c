@@ -22,6 +22,10 @@ int main(int argc, char *argv[])
 
     // Create a buffer for a block of data
     BYTE buffer[512];
+    int i = 50;
+
+    sprintf(buffer, "This is CS%i", i );
+    printf("%s\n", buffer);
 
     // While there's still data left to read from the memory card
     while (fread(buffer, 1, 512, card) == 512)
@@ -30,7 +34,6 @@ int main(int argc, char *argv[])
         if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
         {
             // Dette er starten på en ny JPEG-fil
-            sprintf(buffer, This is )
             int file_number = 000;
             FILE *file = fopen("%i.jpeg", "a");
 
