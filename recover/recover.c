@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
             sprintf(filename, "%03i.jpg", i);
             FILE *file = fopen(filename, "w");
             i += 1;
+            fwrite(buffer, 1, 512, file)
 
         }
 
