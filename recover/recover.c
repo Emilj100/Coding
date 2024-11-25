@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
             FILE *file = fopen(filename, "w");
             i += 1;
             fwrite(buffer, 1, 512, file);
+            fclose(file);
 
         }
 
