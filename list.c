@@ -16,14 +16,24 @@ int main(void)
     int *tmp = malloc (4 * sizeof(int));
     if (tmp == NULL)
     {
+        free(list);
         return 1;
     }
-    
+
+
+    for (int i = 0; i < 2; i++)
+    {
+        tmp[i] = list[i];
+    }
+    tmp[3] = 4;
+
+    free(list);
+    list = tmp;
 
     for (int i = 0; i < 3; i++)
     {
         printf("%i\n", list[i]);
     }
 
-    free(list);
+
 }
