@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
     // Create a buffer for a block of data
     BYTE buffer[512];
-    char filename[8]; // plads til "000.jpeg" + null terminator
+    char filename[9]; // plads til "000.jpeg" + null terminator
 
     // While there's still data left to read from the memory card
     while (fread(buffer, 1, 512, card) == 512)
