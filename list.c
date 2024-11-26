@@ -8,5 +8,5 @@ typedef struct node
 } node;
 
 int main(int argc, char *argv[])
-{
+
 
