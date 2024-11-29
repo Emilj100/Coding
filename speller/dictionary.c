@@ -39,7 +39,7 @@ bool load(const char *dictionary)
     node *n = malloc(sizeof(node));
     strcpy(n->word, "Hello");
     n->next = NULL; //Hvis vi ikke ved hvad ordet skal pege på endnu
-    uint8_t
+    uint8_t buffer[46];
     // Open the dictionary file
     FILE *source = fopen(dictionary, "r");
     if (file == NULL)
@@ -47,7 +47,14 @@ bool load(const char *dictionary)
         return 1;
     }
 
-    fscanf(file, "%s", )
+    while (fscanf(file, "%s", buffer))
+    if (buffer == NULL)
+    {
+        return 1;
+    }
+    {
+
+    }
 
     // Read each word in the file
 
