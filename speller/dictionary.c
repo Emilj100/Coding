@@ -40,12 +40,11 @@ bool load(const char *dictionary)
     uint8_t buffer[46];
     // Open the dictionary file
     FILE *source = fopen(dictionary, "r");
+    if (source == NULL)
     {
-        if (source == NULL)
-        {
-            return 1;
-        }
+        return 1;
     }
+
 
     node *list = NULL;
     while (fscanf(source, "%s", buffer) == 1)
@@ -64,14 +63,7 @@ bool load(const char *dictionary)
         table[hashvalue] = n;
 
     }
-
-
-
-    // Read each word in the file
-
-        // Add each word to the hash table
-
-    // Close the dictionary file
+    
     fclose(source);
     return false;
 }
