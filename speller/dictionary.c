@@ -58,8 +58,9 @@ bool load(const char *dictionary)
             return 1;
         }
         strcpy(n->word, buffer);
-        n->next = list
+        n->next = list;
         list = n;
+        
 
     }
 
