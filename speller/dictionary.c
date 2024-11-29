@@ -62,6 +62,7 @@ bool load(const char *dictionary)
         list = n;
         
 
+
     }
 
 
