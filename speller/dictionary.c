@@ -60,7 +60,7 @@ bool load(const char *dictionary)
         strcpy(n->word, buffer);
         n->next = list;
         list = n;
-        
+        int hashvalue = hash(n->word);
 
 
     }
