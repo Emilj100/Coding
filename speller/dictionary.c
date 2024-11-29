@@ -36,8 +36,7 @@ unsigned int hash(const char *word)
 // Loads dictionary into memory, returning true if successful, else false
 bool load(const char *dictionary)
 {
-    node *n = malloc(sizeof(node));
-    strcpy(n->word, "Hello");
+
     n->next = NULL; //Hvis vi ikke ved hvad ordet skal pege på endnu
     uint8_t buffer[46];
     // Open the dictionary file
@@ -49,7 +48,7 @@ bool load(const char *dictionary)
         }
     }
 
-
+    node *list = NULL;
     while (fscanf(source, "%s", buffer) == 1)
     {
 
@@ -59,7 +58,8 @@ bool load(const char *dictionary)
             return 1;
         }
         strcpy(n->word, buffer);
-        n->next = NULL;
+        n->next = list
+        list = n;
 
     }
 
