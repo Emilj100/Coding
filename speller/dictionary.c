@@ -62,7 +62,6 @@ bool load(const char *dictionary)
         int hashvalue = hash(n->word);
         n->next = table[hashvalue];
         table[hashvalue] = n;
-        printf("Word: %s, Hash value: %i\n", buffer, hashvalue);
 
     }
 
