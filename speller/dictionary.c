@@ -42,7 +42,7 @@ bool load(const char *dictionary)
     FILE *source = fopen(dictionary, "r");
     if (source == NULL)
     {
-        return 1;
+        return false;
     }
 
 
@@ -53,7 +53,7 @@ bool load(const char *dictionary)
         node *n = malloc(sizeof(node));
         if (n == NULL)
         {
-            return 1;
+            return false;
         }
         strcpy(n->word, buffer);
         n->next = list;
@@ -63,9 +63,9 @@ bool load(const char *dictionary)
         table[hashvalue] = n;
 
     }
-    
+
     fclose(source);
-    return false;
+    return true;
 }
 
 // Returns number of words in dictionary if loaded, else 0 if not yet loaded
