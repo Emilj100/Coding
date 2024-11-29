@@ -32,8 +32,18 @@ bool check(const char *word)
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
+    int length = strlen(word)
+
+    if (length < 3)
+    {
+        return
+    }
     // TODO: Improve this hash function
-    return (toupper(word[0]) - 'A') * 26 * 26 + (toupper(word[1]) - 'A') * 26 + (toupper(word[2]) - 'A');
+    else
+    {
+        return (toupper(word[0]) - 'A') * 26 * 26 + (toupper(word[1]) - 'A') * 26 + (toupper(word[2]) - 'A');
+    }
+
 }
 
 // Loads dictionary into memory, returning true if successful, else false
