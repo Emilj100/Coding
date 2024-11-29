@@ -41,6 +41,10 @@ bool load(const char *dictionary)
     n->next = NULL; //Hvis vi ikke ved hvad ordet skal pege på endnu
     // Open the dictionary file
     FILE *source = fopen(dictionary, "r");
+    if (file == NULL)
+    {
+        return 1;
+    }
 
     // Read each word in the file
 
