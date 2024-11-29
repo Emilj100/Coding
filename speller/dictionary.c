@@ -38,6 +38,7 @@ bool load(const char *dictionary)
 {
     node *n = malloc(sizeof(node));
     strcpy(n->word, "Hello");
+    n->next = NULL; //Hvis vi ikke ved hvad ordet skal pege på endnu
     // Open the dictionary file
     FILE *source = fopen(dictionary, "r");
 
