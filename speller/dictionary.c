@@ -60,8 +60,8 @@ bool load(const char *dictionary)
         }
         strcpy(n->word, buffer);
         int hashvalue = hash(n->word);
-        n->next = table[N];
-        table[N] = n;
+        n->next = table[hashvalue];
+        table[hashvalue] = n;
 
     }
 
