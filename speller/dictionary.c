@@ -50,12 +50,8 @@ bool load(const char *dictionary)
     }
 
 
-    while (fscanf(source, "%s", buffer))
+    while (fscanf(source, "%s", buffer) == 1)
     {
-        if ( == NULL)
-        {
-            return 1;
-        }
 
         node *n = malloc(sizeof(node));
         if (n == NULL)
