@@ -32,11 +32,11 @@ bool check(const char *word)
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
-    int length = strlen(word)
+    int length = strlen(word);
 
     if (length < 3)
     {
-        return
+        return toupper(word[0]) - 'A';
     }
     // TODO: Improve this hash function
     else
