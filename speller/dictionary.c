@@ -40,7 +40,7 @@ unsigned int hash(const char *word)
 bool load(const char *dictionary)
 {
 
-    uint8_t buffer[46];
+    char buffer[46];
     // Open the dictionary file
     FILE *source = fopen(dictionary, "r");
     if (source == NULL)
