@@ -52,7 +52,7 @@ bool load(const char *dictionary)
 
     while (fscanf(source, "%s", buffer))
     {
-        if (buffer == NULL)
+        if ( == NULL)
         {
             return 1;
         }
