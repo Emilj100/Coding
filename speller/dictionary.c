@@ -46,6 +46,8 @@ bool load(const char *dictionary)
         return 1;
     }
 
+    fscanf(file, "%s", )
+
     // Read each word in the file
 
         // Add each word to the hash table
