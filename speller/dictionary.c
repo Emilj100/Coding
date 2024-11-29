@@ -56,7 +56,14 @@ bool load(const char *dictionary)
         {
             return 1;
         }
-        
+
+        node *n = malloc(sizeof(node));
+        if (n == NULL)
+        {
+            return 1;
+        }
+        strcpy(n->word, buffer);
+        n->next = NULL;
 
     }
 
