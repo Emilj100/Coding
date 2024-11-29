@@ -42,19 +42,25 @@ bool load(const char *dictionary)
     uint8_t buffer[46];
     // Open the dictionary file
     FILE *source = fopen(dictionary, "r");
-    if (file == NULL)
     {
-        return 1;
+        if (source == NULL)
+        {
+            return 1;
+        }
     }
 
-    while (fscanf(file, "%s", buffer))
-    if (buffer == NULL)
+
+    while (fscanf(source, "%s", buffer))
     {
-        return 1;
-    }
-    {
+        if (buffer == NULL)
+        {
+            return 1;
+        }
+        
 
     }
+
+
 
     // Read each word in the file
 
