@@ -22,6 +22,8 @@ const unsigned int N = 1009;
 // Hash table
 node *table[N];
 
+int words = 0;
+
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
@@ -72,6 +74,7 @@ bool load(const char *dictionary)
         int hashvalue = hash(n->word);
         n->next = table[hashvalue];
         table[hashvalue] = n;
+        words += 1;
 
     }
 
@@ -83,7 +86,7 @@ bool load(const char *dictionary)
 unsigned int size(void)
 {
 
-    return 0;
+    return words;
 }
 
 // Unloads dictionary from memory, returning true if successful, else false
