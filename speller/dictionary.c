@@ -34,9 +34,14 @@ unsigned int hash(const char *word)
 {
     int length = strlen(word);
 
-    if (length < 3)
+    if (length == 1)
     {
         return toupper(word[0]) - 'A';
+    }
+
+    else if (length == 2)
+    {
+        return (toupper(word[0]) - 'A') * 26 * 26 + (toupper(word[1]) - 'A');
     }
     // TODO: Improve this hash function
     else
