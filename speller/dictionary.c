@@ -32,6 +32,7 @@ bool check(const char *word)
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
+    // TODO: Improve this hash function
     int length = strlen(word);
 
     int hashvalue = 0;
@@ -42,21 +43,6 @@ unsigned int hash(const char *word)
 
     }
     return hashvalue % N;
-
-    if (length == 1)
-    {
-        return toupper(word[0]) - 'A';
-    }
-
-    else if (length == 2)
-    {
-        return (toupper(word[0]) - 'A') * 26 * 26 + (toupper(word[1]) - 'A');
-    }
-    // TODO: Improve this hash function
-    else
-    {
-        return (toupper(word[0]) - 'A') * 26 * 26 + (toupper(word[1]) - 'A') * 26 + (toupper(word[2]) - 'A');
-    }
 
 }
 
