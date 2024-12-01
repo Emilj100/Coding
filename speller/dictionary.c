@@ -41,6 +41,7 @@ unsigned int hash(const char *word)
         hashvalue += hash;
 
     }
+    return hashvalue % N;
 
     if (length == 1)
     {
