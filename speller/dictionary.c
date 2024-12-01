@@ -70,6 +70,7 @@ bool load(const char *dictionary)
         }
         strcpy(n->word, buffer);
         int hashvalue = hash(n->word);
+        printf("Indlæser ord: %s i bucket: %i\n", buffer, hashvalue);
         n->next = table[hashvalue];
         table[hashvalue] = n;
 
