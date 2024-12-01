@@ -75,7 +75,7 @@ bool load(const char *dictionary)
         n->next = table[hashvalue];
         table[hashvalue] = n;
         words += 1;
-
+        printf("%i\n", words);
     }
 
     fclose(source);
