@@ -128,3 +128,8 @@ bool unload(void)
 
     return true;;
 }
+
+if (free(tmp) == NULL);
+{
+    return false;
+}
