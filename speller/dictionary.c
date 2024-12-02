@@ -27,7 +27,6 @@ int words = 0;
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
-    word = 
     int hashvalue = hash(word);
 
 
