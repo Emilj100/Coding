@@ -27,7 +27,10 @@ int words = 0;
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
-    // TODO
+    word = 
+    int hashvalue = hash(word);
+
+
     return false;
 }
 
