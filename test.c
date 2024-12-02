@@ -1,187 +1,127 @@
-#include <cs50.h>
+// Implements a dictionary's functionality
+
+#include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
-// Max voters and candidates
-#define MAX_VOTERS 100
-#define MAX_CANDIDATES 9
+#include "dictionary.h"
 
-// preferences[i][j] is jth preference for voter i
-int preferences[MAX_VOTERS][MAX_CANDIDATES];
-
-// Candidates have name, vote count, eliminated status
-typedef struct
+// Represents a node in a hash table
+typedef struct node
 {
-    string name;
-    int votes;
-    bool eliminated;
-} candidate;
+    char word[LENGTH + 1];
+    struct node *next;
+} node;
 
-// Array of candidates
-candidate candidates[MAX_CANDIDATES];
+// Define number of buckets in the hash table
+const unsigned int N = 1009;
 
-// Numbers of voters and candidates
-int voter_count;
-int candidate_count;
+// Hash table
+node *table[N];
 
-// Function prototypes
-bool vote(int voter, int rank, string name);
-void tabulate(void);
-bool print_winner(void);
-int find_min(void);
-bool is_tie(int min);
-void eliminate(int min);
+// Global variable to count words in dictionary
+int word_count = 0;
 
-int main(int argc, string argv[])
+// Hash function
+unsigned int hash(const char *word)
 {
-    if (argc < 2)
+    unsigned int hashvalue = 0;
+    for (int i = 0; word[i] != '\0'; i++)
     {
-        printf("Usage: runoff [candidate ...]\n");
-        return 1;
+        hashvalue = (hashvalue * 31) + toupper(word[i]);
     }
-
-    candidate_count = argc - 1;
-    if (candidate_count > MAX_CANDIDATES)
-    {
-        printf("Maximum number of candidates is %i\n", MAX_CANDIDATES);
-        return 2;
-    }
-
-    for (int i = 0; i < candidate_count; i++)
-    {
-        candidates[i].name = argv[i + 1];
-        candidates[i].votes = 0;
-        candidates[i].eliminated = false;
-    }
-
-    voter_count = get_int("Number of voters: ");
-    if (voter_count > MAX_VOTERS)
-    {
-        printf("Maximum number of voters is %i\n", MAX_VOTERS);
-        return 3;
-    }
-
-    for (int i = 0; i < voter_count; i++)
-    {
-        for (int j = 0; j < candidate_count; j++)
-        {
-            string name = get_string("Rank %i: ", j + 1);
-            if (!vote(i, j, name))
-            {
-                printf("Invalid vote.\n");
-                return 4;
-            }
-        }
-
-        printf("\n");
-    }
-
-    while (true)
-    {
-        tabulate();
-
-        bool won = print_winner();
-        if (won)
-        {
-            break;
-        }
-
-        int min = find_min();
-        bool tie = is_tie(min);
-
-        if (tie)
-        {
-            for (int i = 0; i < candidate_count; i++)
-            {
-                if (!candidates[i].eliminated)
-                {
-                    printf("%s\n", candidates[i].name);
-                }
-            }
-            break;
-        }
-
-        eliminate(min);
-
-        for (int i = 0; i < candidate_count; i++)
-        {
-            candidates[i].votes = 0;
-        }
-    }
-    return 0;
+    return hashvalue % N;
 }
 
-bool vote(int voter, int rank, string name)
+// Loads dictionary into memory, returning true if successful, else false
+bool load(const char *dictionary)
 {
-    for (int i = 0; i < candidate_count; i++)
+    // Open dictionary file
+    FILE *file = fopen(dictionary, "r");
+    if (file == NULL)
     {
-        if (strcmp(name, candidates[i].name) == 0)
-        {
-            preferences[voter][rank] = i;
-            return true;
-        }
+        return false;
     }
-    return false;
-}
 
-void tabulate(void)
-{
-    for (int i = 0; i < voter_count; i++)
-    {
-        int j = 0;
-        while (candidates[preferences[i][j]].eliminated)
-        {
-            j++;
-        }
-        candidates[preferences[i][j]].votes++;
-    }
-}
+    // Buffer to store words
+    char buffer[LENGTH + 1];
 
-bool print_winner(void)
-{
-    for (int i = 0; i < candidate_count; i++)
+    // Read words from dictionary
+    while (fscanf(file, "%s", buffer) != EOF)
     {
-        if (candidates[i].votes > voter_count / 2)
+        // Create a new node for each word
+        node *n = malloc(sizeof(node));
+        if (n == NULL)
         {
-            printf("%s\n", candidates[i].name);
-            return true;
-        }
-    }
-    return false;
-}
-
-int find_min(void)
-{
-    int min = MAX_VOTERS;
-    for (int i = 0; i < candidate_count; i++)
-    {
-        if (!candidates[i].eliminated && candidates[i].votes < min)
-        {
-            min = candidates[i].votes;
-        }
-    }
-    return min;
-}
-
-bool is_tie(int min)
-{
-    for (int i = 0; i < candidate_count; i++)
-    {
-        if (!candidates[i].eliminated && candidates[i].votes != min)
-        {
+            fclose(file);
             return false;
         }
+
+        // Copy word into node
+        strcpy(n->word, buffer);
+
+        // Hash the word to get a bucket index
+        unsigned int index = hash(buffer);
+
+        // Insert node into the linked list at that index
+        n->next = table[index];
+        table[index] = n;
+
+        // Increment word count
+        word_count++;
     }
+
+    // Close dictionary file
+    fclose(file);
     return true;
 }
 
-void eliminate(int min)
+// Returns number of words in dictionary if loaded, else 0 if not yet loaded
+unsigned int size(void)
 {
-    for (int i = 0; i < candidate_count; i++)
+    return word_count;
+}
+
+// Returns true if word is in dictionary, else false
+bool check(const char *word)
+{
+    // Hash word to get bucket index
+    unsigned int index = hash(word);
+
+    // Traverse the linked list at that index
+    node *cursor = table[index];
+    while (cursor != NULL)
     {
-        if (candidates[i].votes == min)
+        // Compare words case-insensitively
+        if (strcasecmp(cursor->word, word) == 0)
         {
-            candidates[i].eliminated = true;
+            return true;
+        }
+        cursor = cursor->next;
+    }
+
+    // If word not found, return false
+    return false;
+}
+
+// Unloads dictionary from memory, returning true if successful, else false
+bool unload(void)
+{
+    for (int i = 0; i < N; i++)
+    {
+        // Free all nodes in the linked list at table[i]
+        node *cursor = table[i];
+        while (cursor != NULL)
+        {
+            node *tmp = cursor;
+            cursor = cursor->next;
+            free(tmp);
         }
     }
+
+    return true;
 }
