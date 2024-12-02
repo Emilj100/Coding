@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <
 
 #include "dictionary.h"
 
@@ -129,7 +130,3 @@ bool unload(void)
     return true;
 }
 
-if (free(tmp) == NULL);
-{
-    return false;
-}
