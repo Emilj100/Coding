@@ -29,10 +29,14 @@ bool check(const char *word)
 {
     int hashvalue = hash(word);
     node *cursor = table[hashvalue];
+    if (cursor == NULL)
+    {
+        return false;
+    }
 
     while (cursor->next != NULL)
     {
-        
+
     }
 
 
