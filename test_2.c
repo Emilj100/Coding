@@ -1,66 +1,122 @@
+#include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <string.h>
+#include <strings.h>
 
-typedef uint8_t BYTE;
+#include "dictionary.h"
 
-#define BLOCK_SIZE 512
-#define JPEG_SIGNATURE_1 0xff
-#define JPEG_SIGNATURE_2 0xd8
-#define JPEG_SIGNATURE_3 0xff
-#define JPEG_SIGNATURE_MASK 0xf0
-#define JPEG_SIGNATURE_PREFIX 0xe0
-#define FILENAME_LENGTH 8
-
-int main(int argc, char *argv[])
+// Represents a node in a hash table
+typedef struct node
 {
-    if (argc != 2)
+    char word[LENGTH + 1];
+    struct node *next;
+} node;
+
+// Choose number of buckets in hash table
+const unsigned int N = 26;
+
+// Hash table
+node *table[N];
+
+// Returns true if word is in dictionary, else false
+bool check(const char *word)
+{
+    int index = hash(word);
+    for (node *tmp = table[index]; tmp != NULL; tmp = tmp->next)
     {
-        fprintf(stderr, "Usage: %s IMAGE\n", argv[0]);
-        return 1;
+        if (strcasecmp(tmp->word, word) == 0)
+        {
+            return true;
+        }
     }
 
-    FILE *file = fopen(argv[1], "r");
+    return false;
+}
+
+
+
+// https://stackoverflow.com/questions/7666509/hash-function-for-string
+unsigned int hash(const char *word)
+{
+    unsigned int hash_value = 0;
+    for (int i = 0; word[i] != '\0'; i++)
+    {
+        hash_value = (hash_value << 2) ^ toupper(word[i]);
+    }
+    return hash_value % N;
+}
+
+
+// Loads dictionary into memory, returning true if successful, else false
+bool load(const char *dictionary)
+{
+    FILE *file = fopen(dictionary, "r");
     if (file == NULL)
     {
-        fprintf(stderr, "Unable to open the file.\n");
-        return 1;
+        fprintf(stderr, "Could not open dictionary.\n");
+        return false;
     }
 
-    BYTE buffer[BLOCK_SIZE];
-    int jpgCount = 0;
-    FILE *currentJpg = NULL;
-
-    while (fread(buffer, 1, BLOCK_SIZE, file) == BLOCK_SIZE)
+    for (int i = 0; i < N; i++)
     {
-        if (buffer[0] == JPEG_SIGNATURE_1 &&
-            buffer[1] == JPEG_SIGNATURE_2 &&
-            buffer[2] == JPEG_SIGNATURE_3 &&
-            (buffer[3] & JPEG_SIGNATURE_MASK) == JPEG_SIGNATURE_PREFIX)
-        {
-            if (currentJpg != NULL)
-            {
-                fclose(currentJpg);
-            }
-
-            char filename[FILENAME_LENGTH];
-            sprintf(filename, "%03d.jpg", jpgCount);
-            currentJpg = fopen(filename, "w");
-            jpgCount++;
-        }
-
-        if (currentJpg != NULL)
-        {
-            fwrite(buffer, 1, BLOCK_SIZE, currentJpg);
-        }
+        table[i] = NULL;
     }
 
-    if (currentJpg != NULL)
+    char word[LENGTH + 1];
+    while (fscanf(file, "%s", word) != EOF)
     {
-        fclose(currentJpg);
+        node *new_node = malloc(sizeof(node));
+        if (new_node == NULL)
+        {
+            fclose(file);
+            fprintf(stderr, "Out of memory.\n");
+            return false;
+        }
+
+        strcpy(new_node->word, word);
+        int index = hash(word);
+
+        new_node->next = table[index];
+        table[index] = new_node;
     }
 
     fclose(file);
+    return true;
+}
 
-    return 0;
+// Returns number of words in dictionary if loaded, else 0 if not yet loaded
+unsigned int size(void)
+{
+    int count = 0;
+
+    // Traverse each linked list in the hash table
+    for (int i = 0; i < N; i++)
+    {
+        for (node *tmp = table[i]; tmp != NULL; tmp = tmp->next)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+// Unloads dictionary from memory, returning true if successful, else false
+bool unload(void)
+{
+    // Traverse each linked list in the hash table
+    for (int i = 0; i < N; i++)
+    {
+        // Free nodes in the linked list
+        while (table[i] != NULL)
+        {
+            node *tmp = table[i]->next;
+            free(table[i]);
+            table[i] = tmp;
+        }
+    }
+
+    return true;
 }
