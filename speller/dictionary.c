@@ -28,6 +28,12 @@ int words = 0;
 bool check(const char *word)
 {
     int hashvalue = hash(word);
+    node *cursor = table[hashvalue];
+
+    while (cursor->next != NULL)
+    {
+        
+    }
 
 
     return false;
