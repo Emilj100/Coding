@@ -1,2 +1,2 @@
-for _ in range(3):
+def meow():
     print("meow")
