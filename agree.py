@@ -1,6 +1,4 @@
-s = input("Do you agree? ").lower()
-
-if s in ["y", "yes"]:
-    print("Agreed")
-elif s in ["n", "no"]:
-    print("Not agreed")
+i = 0
+while i < 3:
+    print("meow")
+    i += 1
