@@ -7,24 +7,26 @@ while True:
     except ValueError:
         print("Not an integer")
 
+cents = int(round(dollars * 100))
 coins = 0
+print(cents)
 
-while dollars > 0:
+while cents > 0:
 
-    if dollars >= 0.25:
+    if cents >= 0.25:
         coins += 1
-        dollars -= 0.25
+        cents -= 0.25
 
-    elif dollars >= 0.10:
+    elif cents >= 0.10:
         coins += 1
-        dollars -= 0.10
+        cents -= 0.10
 
-    elif dollars >= 0.05:
+    elif cents >= 0.05:
         coins += 1
-        dollars -= 0.05
+        cents -= 0.05
 
-    elif dollars >= 0.01:
+    elif cents >= 0.01:
         coins += 1
-        dollars -= 0.01
+        cents -= 0.01
 
 print(coins)
