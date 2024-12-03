@@ -1,4 +1,8 @@
-dollars = int(input("Change: "))
+
+while True:
+    dollars = int(input("Change: "))
+    if dollars > 0:
+        break
 
 coins = 0
 
