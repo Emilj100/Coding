@@ -1,5 +1,7 @@
-while
+while True:
     n = int(input("Size: "))
+    if n > 0 and n < 9:
+        break
 
 
 x = n - 1
