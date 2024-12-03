@@ -7,5 +7,6 @@ while True:
         pass
 
 for i in range(n):
-    print("#")
+    print("?", end="")
+print()
 
