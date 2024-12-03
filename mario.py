@@ -1,7 +1,10 @@
 while True:
-    n = int(input("Size: "))
-    if n > 0 and n < 9:
-        break
+    try:
+        n = int(input("Size: "))
+        if n > 0 and n < 9:
+            break
+    except ValueError:
+        print("Not an integer")
 
 
 x = n - 1
