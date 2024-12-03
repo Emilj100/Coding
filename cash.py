@@ -1,8 +1,11 @@
 
 while True:
-    dollars = int(input("Change: "))
-    if dollars > 0:
-        break
+    try:
+        dollars = int(input("Change: "))
+        if dollars > 0:
+            break
+    except ValueError:
+        print("Not an integer")
 
 coins = 0
 
