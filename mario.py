@@ -1,4 +1,6 @@
-n = int(input("Size: "))
+while
+    n = int(input("Size: "))
+
 
 x = n - 1
 y = 0
