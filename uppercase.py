@@ -1,3 +1,2 @@
 before = input("Before: ")
-print("After:  ", end="")
-print(before.upper())
+print(f"After:  {before.upper()}")
