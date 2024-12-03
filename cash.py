@@ -9,24 +9,23 @@ while True:
 
 cents = int(round(dollars * 100))
 coins = 0
-print(cents)
 
 while cents > 0:
 
-    if cents >= 0.25:
+    if cents >= 25:
         coins += 1
-        cents -= 0.25
+        cents -= 25
 
-    elif cents >= 0.10:
+    elif cents >= 10:
         coins += 1
-        cents -= 0.10
+        cents -= 10
 
-    elif cents >= 0.05:
+    elif cents >= 5:
         coins += 1
-        cents -= 0.05
+        cents -= 5
 
-    elif cents >= 0.01:
+    elif cents >= 1:
         coins += 1
-        cents -= 0.01
+        cents -= 1
 
 print(coins)
