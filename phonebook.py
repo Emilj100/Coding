@@ -4,6 +4,12 @@ people = [
     {"name": "John", "number": "+1-949-468-2750"},
 ]
 
+people = {
+    "Carter": "+1-617-495-1000",
+    "David": "+1-617-495-1000",
+    "John": "+1-949-468-2750",
+}
+
 name = input("Name: ")
 
 for person in people:
