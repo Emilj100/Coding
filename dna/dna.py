@@ -7,6 +7,7 @@ def main():
     # TODO: Check for command-line usage
     if len(sys.argv) != 3:
         print("Please input CSV file and text file")
+        sys.exit()
     csv_file = sys.argv[1]
     text_file = sys.argv[2]
 
