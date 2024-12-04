@@ -30,6 +30,8 @@ def main():
     # TODO: Check database for matching profiles
     match_found = False
     for person in rows:
+        print(f"AGATC: {agatc}, AATG: {aatg}, TATC: {tatc}")
+        print(person)
         if int(person["AGATC"]) == agatc and int(person["AATG"]) == aatg and int(person["TATC"]) == tatc:
             print(person["name"])
             match_found = True
