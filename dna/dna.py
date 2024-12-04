@@ -24,19 +24,18 @@ def main():
         read_data = file.read()
 
     # TODO: Find longest match of each STR in DNA sequence
-    agatc = longest_match(read_data, "AGATC")
-    aatg = longest_match(read_data, "AATG")
-    tatc = longest_match(read_data, "TATC")
+    str_counts = {}
+    for str in strs:
+        str_counts[str] = longest_match(read_data, str)
 
-    # TODO: Check database for matching profiles
+    # Check database for matching profiles
     match_found = False
     for person in rows:
-        print(f"AGATC: {agatc}, AATG: {aatg}, TATC: {tatc}")
-        print(person)
-        if int(person["AGATC"]) == agatc and int(person["AATG"]) == aatg and int(person["TATC"]) == tatc:
+        if all(int(person[str]) == str_counts[str] for str in strs):
             print(person["name"])
             match_found = True
             break
+        
     if not match_found:
         print("No match")
 
