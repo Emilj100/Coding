@@ -3,9 +3,10 @@ def main():
 
     letters = count_letters(text)
     words = count_words(text)
-    sentence = count_sentences(text)
+    sentences = count_sentences(text)
 
-    calculate_grade_level(letters, words, sentence)
+    grade_level = calculate_grade_level(letters, words, sentences)
+    print(grade_level)
 
 
 def count_letters(text):
@@ -29,8 +30,10 @@ def count_sentences(text):
             counter += 1
         return counter
 
-def calculate_grade_level(letters, words, sentence):
-    
+def calculate_grade_level(letters, words, sentences):
+    L = letters / words * 100
+    S = sentences / words * 100
+    return round(0.0588 * L - 0.296 * S - 15.8)
 
 
 main()
