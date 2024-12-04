@@ -6,7 +6,12 @@ def main():
     sentences = count_sentences(text)
 
     grade_level = calculate_grade_level(letters, words, sentences)
-    print(grade_level)
+    if grade_level < 1:
+        print("Before Grade 1")
+    elif grade_level >= 16:
+        print("Grade 16+")
+    else:
+        print(f"Grade: {grade_level}")
 
 
 def count_letters(text):
@@ -14,7 +19,6 @@ def count_letters(text):
     for i in range(len(text)):
         if text[i].isalpha():
             counter += 1
-    print(counter)
     return counter
 
 def count_words(text):
@@ -22,7 +26,6 @@ def count_words(text):
     for i in range(len(text)):
         if text[i].isspace():
             counter += 1
-    print(counter)
     return counter
 
 
@@ -31,7 +34,6 @@ def count_sentences(text):
     for i in range(len(text)):
         if text[i] == "?" or text[i] == "." or text[i] == "!":
             counter += 1
-    print(counter)
     return counter
 
 def calculate_grade_level(letters, words, sentences):
