@@ -1,30 +1,46 @@
-from cs50 import get_string
-
 def main():
-    text = get_string("Text: ")
-    letters, words, sentences = count_text(text)
-    grade = calculate_grade(letters, words, sentences)
-    print_grade(grade)
+    # Få input fra brugeren
+    text = input("Text: ")
 
-def count_text(text):
-    letters = sum(c.isalpha() for c in text)
-    words = len(text.split())
-    sentences = text.count('.') + text.count('!') + text.count('?')
-    return letters, words, sentences
+    # Beregn antallet af bogstaver, ord og sætninger
+    letters = count_letters(text)
+    words = count_words(text)
+    sentences = count_sentences(text)
 
-def calculate_grade(letters, words, sentences):
-    L = letters / words * 100
-    S = sentences / words * 100
-    index = 0.0588 * L - 0.296 * S - 15.8
-    return round(index)
+    # Beregn Coleman-Liau-indekset
+    index = calculate_index(letters, words, sentences)
 
-def print_grade(grade):
-    if grade < 1:
+    # Print resultatet
+    if index < 1:
         print("Before Grade 1")
-    elif grade >= 16:
+    elif index >= 16:
         print("Grade 16+")
     else:
-        print(f"Grade {grade}")
+        print(f"Grade {index}")
+
+
+def count_letters(text):
+    """Tæller antallet af bogstaver i teksten."""
+    return sum(1 for char in text if char.isalpha())
+
+
+def count_words(text):
+    """Tæller antallet af ord i teksten."""
+    return len(text.split())
+
+
+def count_sentences(text):
+    """Tæller antallet af sætninger i teksten."""
+    return sum(1 for char in text if char in ".!?")
+
+
+def calculate_index(letters, words, sentences):
+    """Beregner Coleman-Liau-indekset."""
+    L = (letters / words) * 100  # Gennemsnitligt antal bogstaver pr. 100 ord
+    S = (sentences / words) * 100  # Gennemsnitligt antal sætninger pr. 100 ord
+    index = round(0.0588 * L - 0.296 * S - 15.8)
+    return index
+
 
 if __name__ == "__main__":
     main()
