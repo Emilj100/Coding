@@ -14,6 +14,7 @@ def count_letters(text):
     for i in range(len(text)):
         if text[i].isalpha():
             counter += 1
+    print(counter)
     return counter
 
 def count_words(text):
@@ -21,13 +22,16 @@ def count_words(text):
     for i in range(len(text)):
         if text[i].isspace():
             counter += 1
+    print(counter)
     return counter
+
 
 def count_sentences(text):
     counter = 0
     for i in range(len(text)):
         if text[i] == "?" or text[i] == "." or text[i] == "!":
             counter += 1
+        print(counter)
         return counter
 
 def calculate_grade_level(letters, words, sentences):
