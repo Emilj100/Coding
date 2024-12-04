@@ -1,34 +1,30 @@
+from cs50 import get_string
+
 def main():
-    # Indhent gyldigt input fra brugeren
-    cents = get_cents()
+    text = get_string("Text: ")
+    letters, words, sentences = count_text(text)
+    grade = calculate_grade(letters, words, sentences)
+    print_grade(grade)
 
-    # Beregn og print antallet af mønter
-    coins = calculate_coins(cents)
-    print(coins)
+def count_text(text):
+    letters = sum(c.isalpha() for c in text)
+    words = len(text.split())
+    sentences = text.count('.') + text.count('!') + text.count('?')
+    return letters, words, sentences
 
+def calculate_grade(letters, words, sentences):
+    L = letters / words * 100
+    S = sentences / words * 100
+    index = 0.0588 * L - 0.296 * S - 15.8
+    return round(index)
 
-def get_cents():
-    """Indhenter gyldigt beløb i dollars og konverterer det til cent."""
-    while True:
-        try:
-            dollars = float(input("Change owed: "))
-            if dollars > 0:
-                return int(round(dollars * 100))
-        except ValueError:
-            pass  # Hvis brugeren ikke indtaster et tal, prøv igen
-
-
-def calculate_coins(cents):
-    """Beregner det mindste antal mønter."""
-    coin_values = [25, 10, 5, 1]  # Quarters, dimes, nickels, pennies
-    coins = 0
-
-    for coin in coin_values:
-        coins += cents // coin  # Find ud af hvor mange af denne mønt, der kan bruges
-        cents %= coin           # Reducer cents med værdien af de brugte mønter
-
-    return coins
-
+def print_grade(grade):
+    if grade < 1:
+        print("Before Grade 1")
+    elif grade >= 16:
+        print("Grade 16+")
+    else:
+        print(f"Grade {grade}")
 
 if __name__ == "__main__":
     main()
