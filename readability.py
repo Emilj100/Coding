@@ -41,5 +41,5 @@ def calculate_grade_level(letters, words, sentences):
     S = sentences / words * 100
     return round(0.0588 * L - 0.296 * S - 15.8)
 
-
-main()
+if __name__ == "__main__":
+    main()
