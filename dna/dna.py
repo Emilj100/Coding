@@ -24,7 +24,7 @@ def main():
         read_data = file.read()
 
     # TODO: Find longest match of each STR in DNA sequence
-    longest_match()
+    longest_match(read_data, "AGATC")
 
     # TODO: Check database for matching profiles
 
