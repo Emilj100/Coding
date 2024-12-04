@@ -31,8 +31,8 @@ def count_sentences(text):
     for i in range(len(text)):
         if text[i] == "?" or text[i] == "." or text[i] == "!":
             counter += 1
-        print(counter)
-        return counter
+    print(counter)
+    return counter
 
 def calculate_grade_level(letters, words, sentences):
     L = letters / words * 100
