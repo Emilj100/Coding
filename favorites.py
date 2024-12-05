@@ -2,5 +2,7 @@ import csv
 
 with open("favorites.csv") as file:
     reader = csv.reader(file)
-    next
+    next(reader)
+    for row in reader:
+        print(row[1])
 
