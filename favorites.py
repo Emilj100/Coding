@@ -1,5 +1,7 @@
 import csv
 
+from collections import Counter
+
 with open("favorites.csv") as file:
     reader = csv.DictReader(file)
     counts = {}
