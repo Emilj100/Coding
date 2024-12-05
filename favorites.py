@@ -1,5 +1,6 @@
 import csv
 
-file = open("favorites.csv")
+with open("favorites.csv") as file:
+    reader = csv.reader(file)
+    next
 
-close(file)
