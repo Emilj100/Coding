@@ -1,8 +1,9 @@
 import csv
 
 with open("favorites.csv") as file:
-    reader = csv.reader(file)
-    next(reader)
+    reader = csv.DictReader(file)
     for row in reader:
-        print(row[1])
+        favorite = row[1]
+        print(favorite)
+
 
