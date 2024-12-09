@@ -4,17 +4,3 @@ So if the person listen to alot of songs with a high danceabilty the person woul
 - Alot of people listen to more than 100 different songs a year including myself. The Audio Aura also only includes what the person have been listening to for that year and doesnt include other years aswell,
 which could bring even more data otherwise.
 
-
-
-
-    id INTEGER,
-    name TEXT,
-    artist_id INTEGER,
-    danceability REAL,
-    energy REAL,
-    key INTEGER,
-    loudness REAL,
-    speechiness REAL,
-    valence REAL,
-    tempo REAL,
-    duration_ms INTEGER
