@@ -1,0 +1,19 @@
+- You could look at the danceabilty, energy, loudness, speechiness, valence and tempo of each song and then use those numbers to calculate their Audio Aura.
+So if the person listen to alot of songs with a high danceabilty the person would get the Audio Aura "Dancing monkey" or something like that.
+
+- 
+
+
+
+
+    id INTEGER,
+    name TEXT,
+    artist_id INTEGER,
+    danceability REAL,
+    energy REAL,
+    key INTEGER,
+    loudness REAL,
+    speechiness REAL,
+    valence REAL,
+    tempo REAL,
+    duration_ms INTEGER
