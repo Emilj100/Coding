@@ -12,4 +12,5 @@ SELECT activity, license_plate FROM bakery_security_logs WHERE month = 7 AND day
 -- Find the thiefs account number
 SELECT account_number, transaction_type, amount FROM atm_transactions WHERE month = 7 AND day = 28 AND atm_location = 'Leggett Street';
 
--- Check the 
+-- Check the information on the account number (I checked multiple account numbers)
+SELECT person_id, creation_year FROM bank_accounts WHERE account_number = 25506511;
