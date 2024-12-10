@@ -8,3 +8,6 @@ SELECT transcript FROM interviews WHERE month = 7 AND day = 28;
 
 -- Find the car which left the parking lot within 10 minutes (I checked from minute 16-25)
 SELECT activity, license_plate FROM bakery_security_logs WHERE month = 7 AND day = 28 AND hour = 10 AND minute = 16-25;
+
+-- Find the thiefs account numbers
+SELECT account_number, transaction_type, amount FROM atm_transactions WHERE month = 7 AND day = 28 AND atm_location = 'Leggett Street';
