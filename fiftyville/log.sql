@@ -20,3 +20,11 @@ SELECT caller, receiver, duration FROM phone_calls WHERE month = 7 AND day = 28 
 
 -- Check the information on Fiftyville airport
 SELECT id, abbreviation, full_name FROM airports WHERE city = 'Fiftyville';
+
+-- Check the flights the day after the crime
+select id, destination_airport_id, hour, minute FROM flights WHERE origin_airport_id = 8 AND month = 7 AND day = 29;
+
+-- Check the passengers information on the earliest flight the day after the crime
+SELECT passport_number, seat FROM passengers WHERE flight_id = 36;
+
+
