@@ -32,3 +32,5 @@ SELECT id, name, phone_number, passport_number, license_plate FROM people WHERE 
 
 -- Check if the person_id from the people table matches any bank accounts (I checked all the person_id's)
 SELECT account_number, person_id, creation_year FROM bank_accounts WHERE person_id = 449774;
+
+-- Checked if the 
