@@ -14,3 +14,8 @@ SELECT account_number, transaction_type, amount FROM atm_transactions WHERE mont
 
 -- Check the information on the account number (I checked multiple account numbers)
 SELECT person_id, creation_year FROM bank_accounts WHERE account_number = 25506511;
+
+-- Check phone calls on the day under a minute in duration
+SELECT caller, receiver, duration FROM phone_calls WHERE month = 7 AND day = 28 AND duration <= 60;
+
+-- Check the information on Fiftyville airport
