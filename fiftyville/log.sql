@@ -41,3 +41,6 @@ SELECT id, full_name, city FROM airports WHERE id = 4;
 
 -- Checked who my suspect talked with on the given day
 SELECT id, caller, receiver, duration FROM phone_calls WHERE month = 7 AND day = 28 AND duration <= 60 AND caller = '(367) 555-5533';
+
+-- Checked the name of the person my suspect talked with
+SELECT name, phone_number FROM people WHERE phone_number = '(375) 555-8161';
