@@ -36,7 +36,8 @@ SELECT account_number, person_id, creation_year FROM bank_accounts WHERE person_
 -- Checked if the different suspects made a transaction on the given day the crime happend (I checked all the account numbers)
 SELECT id, account_number, transaction_type, amount FROM atm_transactions WHERE month = 7 AND day = 28 AND account_number = 49610011;
 
--- Checked the destination airport ID to see where the thief went;
+-- Checked the destination airport ID to see where the thief went
 SELECT id, full_name, city FROM airports WHERE id = 4;
 
-
+-- Checked who my suspect talked with on the given day
+SELECT id, caller, receiver, duration FROM phone_calls WHERE month = 7 AND day = 28 AND duration <= 60 AND caller = '(367) 555-5533';
