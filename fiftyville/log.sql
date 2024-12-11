@@ -19,3 +19,4 @@ SELECT person_id, creation_year FROM bank_accounts WHERE account_number = 255065
 SELECT caller, receiver, duration FROM phone_calls WHERE month = 7 AND day = 28 AND duration <= 60;
 
 -- Check the information on Fiftyville airport
+SELECT id, abbreviation, full_name FROM airports WHERE city = 'Fiftyville';
