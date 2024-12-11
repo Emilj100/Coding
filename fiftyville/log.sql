@@ -44,3 +44,8 @@ SELECT id, caller, receiver, duration FROM phone_calls WHERE month = 7 AND day =
 
 -- Checked the name of the person my suspect talked with
 SELECT name, phone_number FROM people WHERE phone_number = '(375) 555-8161';
+
+
+
+
+
