@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <script>
-            
+
             document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector('form').addEventListener('submit', function(e) {
                     alert('hello, ' + document.querySelector('#name').value);
@@ -15,18 +15,9 @@
         <title>hello</title>
     </head>
     <body>
-        <form onsubmit="greet(); return false;">
+        <form>
             <input autocomplete="off" autofocus id="name" placeholder="Name" type="text">
             <input type="submit">
         </form>
     </body>
-    <script>
-
-
-        document.querySelector('form').addEventListener('submit', function(event) {
-            alert('hello, ' + document.querySelector('#name').value);
-            event.preventDefault();
-        });
-
-    </script>
 </html>
