@@ -7,6 +7,11 @@
         <title>Trivia!</title>
         <script>
             // TODO: Add code to check answers to questions
+            // Part 1
+            let button = document.querySelector('button');
+            document.querySelector('#1').addEventListener('click', function(){
+                button.style.backgroundColor = 'red';
+            });
         </script>
     </head>
     <body>
@@ -20,10 +25,10 @@
                 <hr>
                 <h3>Who is the best uncle?</h3>
                 <!-- TODO: Add multiple choice question here -->
-                <button>Messi</button>
-                <button>Emil</button>
-                <button>Daniel</button>
-                <button>Felix</button>
+                <button id="1">Messi</button>
+                <button id="2">Emil</button>
+                <button id="3">Daniel</button>
+                <button id="4">Felix</button>
             </div>
 
             <div class="section">
