@@ -44,11 +44,22 @@
                 <hr>
                 <h3>Who is the best uncle?</h3>
                 <!-- TODO: Add multiple choice question here -->
-                <button id="button1">Messi</button>
-                <h5>Incorrect</h5>
-                <button id="button2">Emil</button>
-                <button id="button3">Daniel</button>
-                <button id="button4">Felix</button>
+                <div>
+                    <button id="button1" onclick="showMessage('message1')">Messi</button>
+                    <h5 id="message1" class="hidden">Incorrect</h5>
+                </div>
+                <div>
+                    <button id="button2" onclick="showMessage('message2')">Emil</button>
+                    <h5 id="message2" class="hidden">Correct</h5>
+                </div>
+                <div>
+                    <button id="button3" onclick="showMessage('message3')">Daniel</button>
+                    <h5 id="message3" class="hidden">Incorrect</h5>
+                </div>
+                <div>
+                    <button id="button4" onclick="showMessage('message4')">Felix</button>
+                    <h5 id="message4" class="hidden">Incorrect</h5>
+                </div>
             </div>
 
             <div class="section">
