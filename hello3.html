@@ -2,6 +2,16 @@
 
 <html lang="en">
     <head>
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('form').addEventListener('submit', function(e) {
+                    alert('hello, ' + document.querySelector('#name').value);
+                    e.preventDefault();
+                });
+            });
+
+        </script>
         <title>hello</title>
     </head>
     <body>
@@ -11,6 +21,7 @@
         </form>
     </body>
     <script>
+
 
         document.querySelector('form').addEventListener('submit', function(event) {
             alert('hello, ' + document.querySelector('#name').value);
