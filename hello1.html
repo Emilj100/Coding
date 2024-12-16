@@ -6,9 +6,16 @@
 
             function greet()
             {
-                alert('hello, ' + document.querySelector('#name'.valu))
+                alert('hello, ' + document.querySelector('#name').value);
             }
         </script>
-        <title>hello, title</title>
+        <title>hello</title>
     </head>
+    <body>
+        <form onsubmit="greet(); return false;">
+            <input autocomplete="off" autofocus id="name" placeholder="Name" type="text">
+            <input type="submit">
+        </form>
+    </body>
+</html>
 
