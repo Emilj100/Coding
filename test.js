@@ -27,3 +27,5 @@ function checkFreeResponse() {
     answerInput.disabled = true;
     document.querySelector("button").disabled = true;
 }
+
+
