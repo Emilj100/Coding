@@ -38,11 +38,12 @@
             });
 
             document.addEventListener('DOMContentLoaded', function() {
-                let text = document.getElementById("text5");
+                let text5 = document.getElementById("text5");
+                let text6 = document.getElementById("text6");
                 document.querySelector('#button4').addEventListener('click', function() {
                     if (input.value == 'Denmark')
                     {
-                        text.style.visibility = 'visible';
+                        text6.style.visibility = 'visible';
                     }
                 });
             });
@@ -88,12 +89,11 @@
                  <h3>Which country is Lucas Graham from?</h3>
                  <div style="display: flex;">
                     <div style="text-align: center;">
-                        <input>
-                        <button id="button5">Check Answer</button>
-                        <div style="position: relative;">
-                            <h5 id="text4" style="position: absolute; text-align: center;">Incorrect</h5>
-                            <h5 id="text5" style="position: absolute;">Correct</h5>
-                        </div>
+                    <input>
+                    <button id="button5">Check Answer</button>
+                    <h5 id="text5" style="visibility: hidden;">Incorrect</h5>
+                    <h5 id="text6" style="margin-top: -2.6rem; visibility: hidden;">Correct</h5>
+                    </div>
                 </div>
             </div>
         </div>
