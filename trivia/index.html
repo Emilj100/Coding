@@ -40,10 +40,14 @@
             document.addEventListener('DOMContentLoaded', function() {
                 let text5 = document.getElementById("text5");
                 let text6 = document.getElementById("text6");
-                document.querySelector('#button4').addEventListener('click', function() {
+                document.querySelector('#button5').addEventListener('click', function() {
                     if (input.value == 'Denmark')
                     {
                         text6.style.visibility = 'visible';
+                    }
+                    else
+                    {
+                        text5.style.visibility = 'visible';
                     }
                 });
             });
