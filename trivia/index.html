@@ -37,6 +37,15 @@
                 });
             });
 
+            document.addEventListener('DOMContentLoaded', function() {
+                let text = document.getElementById("text5");
+                document.querySelector('#button4').addEventListener('click', function() {
+                    if (input.value == 'Denmark')
+                    {
+                        text.style.visibility = 'visible';
+                    }
+                });
+            });
 
 
         </script>
@@ -77,8 +86,12 @@
                 <hr>
                 <!-- TODO: Add free response question here -->
                  <h3>Which country is Lucas Graham from?</h3>
+                 <div >
                  <input>
-                 <button>Check Answer</button>
+                 <button id="button5">Check Answer</button>
+                 <h5 id="text4" style="margin-right: 1rem;">Incorrect</h5>
+                 </div>
+
             </div>
         </div>
     </body>
