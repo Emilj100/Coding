@@ -1,31 +1,41 @@
-function checkAnswer(button) {
-    const question = document.getElementById("question1");
-    const result = document.getElementById("result1");
+document.addEventListener('DOMContentLoaded', function () {
+    // Part 1: Multiple Choice
+    const buttons = document.querySelectorAll('.options button');
+    const result1 = document.getElementById('result1');
 
-    const isCorrect = button.textContent === "Paris";
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            if (this.dataset.correct === "true") {
+                this.style.backgroundColor = 'green';
+                result1.textContent = "Correct!";
+                result1.className = "result correct";
+            } else {
+                this.style.backgroundColor = 'red';
+                result1.textContent = "Incorrect";
+                result1.className = "result incorrect";
+            }
 
-    result.textContent = isCorrect ? "Correct!" : "Incorrect :/";
-    result.className = isCorrect ? "correct" : "incorrect";
+            // Deaktiver alle knapper efter et valg
+            buttons.forEach(btn => btn.disabled = true);
+        });
+    });
 
-    button.style.backgroundColor = isCorrect ? "green" : "red";
+    // Part 2: Free Response
+    const input = document.getElementById('answerInput');
+    const checkButton = document.getElementById('checkAnswer');
+    const result2 = document.getElementById('result2');
 
-    const choices = document.querySelectorAll(".choice");
-    choices.forEach(choice => choice.disabled = true);
-}
+    checkButton.addEventListener('click', function () {
+        const answer = input.value.trim().toLowerCase();
 
-function checkFreeResponse() {
-    const question = document.getElementById("question2");
-    const answerInput = document.getElementById("answerInput");
-    const result = document.getElementById("result2");
-
-    const isCorrect = answerInput.value.toLowerCase() === "jupiter";
-
-    result.textContent = isCorrect ? "Correct!" : "Incorrect";
-    result.className = isCorrect ? "correct" : "incorrect";
-    answerInput.className = isCorrect ? "correct" : "incorrect";
-
-    answerInput.disabled = true;
-    document.querySelector("button").disabled = true;
-}
-
-
+        if (answer === "denmark") {
+            input.style.backgroundColor = 'green';
+            result2.textContent = "Correct!";
+            result2.className = "result correct";
+        } else {
+            input.style.backgroundColor = 'red';
+            result2.textContent = "Incorrect";
+            result2.className = "result incorrect";
+        }
+    });
+});
