@@ -8,6 +8,9 @@
     justify-content: center;
 }
 
+/* Til header */
 h3 {
-    color: green;
+    color: white;
+    margin: 0 10px;
+
 }
