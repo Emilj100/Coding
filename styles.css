@@ -31,6 +31,21 @@ a:hover {
     object-fit: cover;
 }
 
+.container {
+    display: flex;
+    align-items: center;
+
+}
+
 .site_picture {
-    
+    margin-right: 20px;
+
+}
+
+h2 {
+
+}
+
+.text-content {
+
 }
