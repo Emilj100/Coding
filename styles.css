@@ -4,4 +4,10 @@
     margin-bottom: 2rem;
     padding: 2rem 1rem;
     text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+h3 {
+    color: green;
 }
