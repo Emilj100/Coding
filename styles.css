@@ -85,7 +85,7 @@
 
 }
 
-.button {
+.button a {
     background-color: darkblue;
     color: white;
     cursor: pointer;
@@ -97,7 +97,7 @@
     text-align: center;
 }
 
-.button:hover {
+.button a:hover {
     background-color: #00a3ff;
     color: black;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
