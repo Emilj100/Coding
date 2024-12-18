@@ -33,14 +33,6 @@
     color: #477bff; /* Gør farven blå ved hover */
 }
 
-.footer ul {
-    list-style: none; /* Fjern punkttegn fra listen */
-    padding: 0; /* Fjern indre padding */
-}
-
-.footer ul li {
-    margin-bottom: 0.5rem; /* Giv lidt mellemrum mellem listeelementerne */
-}
 
 .footer p {
     line-height: 1.6; /* Gør teksten lettere at læse */
