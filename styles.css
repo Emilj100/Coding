@@ -67,5 +67,7 @@ button {
 }
 
 button:hover {
-    background-color: lightblue;
+    background-color: #00a3ff;
+    color: black;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
