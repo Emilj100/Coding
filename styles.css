@@ -7,14 +7,44 @@
     justify-content: center;
 }
 
+
 .footer {
     background-color: black;
     color: #fff;
-    padding: 5rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 300px;
+    padding: 5rem 1rem; /* Ekstra luft rundt om footeren */
+    display: flex; /* Flexbox for at placere elementerne horisontalt */
+    justify-content: space-around; /* Ensartet afstand mellem boksene */
+    gap: 2rem; /* Mellemrum mellem boksene */
+    text-align: left; /* Juster teksten til venstre i hver boks */
+}
+
+.footer div {
+    flex: 1; /* Gør, at hver boks fylder lige meget */
+    max-width: 300px; /* Sæt en maks-bredde for at kontrollere tekstens layout */
+}
+
+.footer h3 a {
+    color: white;
+    text-decoration: none; /* Fjern understregning fra links */
+    transition: color 0.3s ease; /* Glidende farveovergang */
+}
+
+.footer h3 a:hover {
+    color: #477bff; /* Gør farven blå ved hover */
+}
+
+.footer ul {
+    list-style: none; /* Fjern punkttegn fra listen */
+    padding: 0; /* Fjern indre padding */
+}
+
+.footer ul li {
+    margin-bottom: 0.5rem; /* Giv lidt mellemrum mellem listeelementerne */
+}
+
+.footer p {
+    line-height: 1.6; /* Gør teksten lettere at læse */
+    margin-top: 1rem; /* Ekstra mellemrum mellem overskrift og tekst */
 }
 
 /* Til header */
