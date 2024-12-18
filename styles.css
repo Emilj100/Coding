@@ -41,6 +41,18 @@
 }
 
 /* Til header */
+.header h3 a{
+    color: white;
+    margin: 0 10px;
+    cursor: pointer;
+    text-decoration: none;
+
+}
+
+.header h3 a:hover {
+    transition: color 0.3s ease;
+    color: #477bff;
+}
 
 
 .homepage_picture {
@@ -74,7 +86,7 @@
 
 }
 
-button {
+.button a {
     background-color: #477bff;
     color: white;
     cursor: pointer;
@@ -84,10 +96,11 @@ button {
     line-height: 1.5;
     padding: 0.5rem 1rem;
     text-align: center;
+    text-decoration: none;
 }
 
-button:hover {
+.button a:hover{
     background-color: #00a3ff;
-    color: black;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
