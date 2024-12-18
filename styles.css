@@ -48,5 +48,7 @@ a:hover {
 .text-content {
     line-height: 1.6;
     max-width: 600px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
 
 }
