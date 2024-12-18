@@ -55,7 +55,8 @@ a {
 }
 
 a:hover {
-    text-decoration: underline;
+    transition: color 0.3s ease;
+    color: #477bff;
 }
 
 .homepage_picture {
@@ -90,7 +91,7 @@ a:hover {
 }
 
 button {
-    background-color: darkblue;
+    background-color: #477bff;
     color: white;
     cursor: pointer;
     border-radius: 1rem;
