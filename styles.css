@@ -42,19 +42,15 @@
 }
 
 /* Til header */
-h3 {
+.h3 a  {
     color: white;
     margin: 0 10px;
     cursor: pointer;
-
-}
-
-a {
     text-decoration: none;
-    color: white;
+
 }
 
-a:hover {
+.h3 a:hover {
     text-decoration: underline;
 }
 
