@@ -34,21 +34,23 @@ a:hover {
 .container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 30px;
-    padding: 20px;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .container div {
     flex: 1;
+    max-width: 600px;
     line-height: 1.6;
     text-align: justify;
 }
 
 .site_picture {
-    margin: 10px;
     width: 35%;
-    max-width: 350px;
+    max-width: 300px;
     border-radius: 10px;
     height: auto;
 
