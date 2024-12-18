@@ -9,6 +9,7 @@
 
 .footer {
     background-color: black;
+    color: #fff;
     padding: 5rem 1rem; /* Ekstra luft rundt om footeren */
     display: flex; /* Flexbox for at placere elementerne horisontalt */
     justify-content: space-around; /* Ensartet afstand mellem boksene */
@@ -40,12 +41,6 @@
 }
 
 /* Til header */
-h3 {
-    color: white;
-    margin: 0 10px;
-    cursor: pointer;
-
-}
 
 
 .homepage_picture {
