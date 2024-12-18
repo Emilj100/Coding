@@ -33,14 +33,16 @@ a:hover {
 
 .container {
     display: flex;
-    align-items: center;
-
+    align-items: flex-start;
+    gap: 20px;
+    margin: 20px;
 }
 
 .site_picture {
-    margin-right: 20px;
+    margin: 0;
     width: 30%;
-    padding: 10rem 5rem 5rem 15rem;
+    max-width: 300px
+    border-radius: 10px;
 
 }
 
