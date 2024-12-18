@@ -34,13 +34,12 @@ a:hover {
 .container {
     display: flex;
     align-items: center;
+    justify-content: center;
 
 }
 
 .site_picture {
-    margin-right: 20px;
     width: 30%;
-    padding: 10rem 5rem 10rem 15rem;
     border-radius: 10px;
 
 }
