@@ -7,6 +7,12 @@
     justify-content: center;
 }
 
+.footer {
+    background-color: black;
+    color: #fff;
+    padding: 10rem 1rem;
+}
+
 /* Til header */
 h3 {
     color: white;
@@ -37,6 +43,7 @@ a:hover {
     justify-content: center;
     gap: 50px;
     padding-top: 100px;
+    padding-bottom: 100px;
 
 }
 
