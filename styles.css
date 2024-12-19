@@ -44,6 +44,12 @@
 
 }
 
+.container-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .site_picture {
     width: 30%;
     border-radius: 10px;
