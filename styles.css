@@ -22,21 +22,7 @@
 
 
 
-
 /* Til content på siden */
-.div-project {
-    background-color: #1a1a3d; /* Gør boksene skarpt synlige mod baggrunden */
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.text-content-project {
-    line-height: 1.6;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 16px;
-}
 .page_picture {
     background-size: cover;
     width: 100%;
@@ -61,14 +47,8 @@
     justify-content: center;
     text-align: center;
     padding-top: 100px;
+    padding-bottom: 100px;
 
-}
-
-.container-project {
-    display: grid; /* Brug grid for ensartet opsætning */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Gør den responsiv */
-    gap: 30px; /* Mellemrum mellem bokse */
-    padding: 2rem 1rem;
 }
 
 .h1 {
@@ -84,13 +64,6 @@ video {
     width: 30%;
     border-radius: 10px;
 
-}
-
-.site_picture-project {
-    width: 100%;
-    max-width: 200px;
-    margin-bottom: 20px;
-    border-radius: 10px;
 }
 
 .text-content {
@@ -118,6 +91,7 @@ video {
     background-color: #00a3ff;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
 
 
 
