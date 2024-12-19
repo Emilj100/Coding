@@ -31,6 +31,22 @@
     font-family: "Inter", serif;
 }
 
+.card-list .card-item .card-link {
+    width: 400px;
+    display: block;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+}
+
+.card-list .card-link .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+
+}
 
 /* Til content på siden */
 .page_picture {
