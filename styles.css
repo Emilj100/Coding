@@ -51,6 +51,12 @@
 
 }
 
+.div-project {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .h1 {
     font-family: 'Roboto', sans-serif;
 }
