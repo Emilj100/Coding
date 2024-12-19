@@ -5,12 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#show-more').addEventListener('click', function() {
         div.style.visibility = 'visible';
         less.style.visibility = 'visible';
+        more.style.visibilty = 'hidden';
     document.querySelector('#show-less').addEventListener('click', function() {
         div.style.visibility = 'hidden';
-        more.style.visibility = 'hidden';
+        more.style.visibility = 'visible';
 
     });
-    
+
     });
 });
 
