@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         more.style.visibilty = 'hidden';
     document.querySelector('#show-less').addEventListener('click', function() {
         div.style.visibility = 'hidden';
+        less.style.visibilty = 'hidden';
         more.style.visibility = 'visible';
 
     });
