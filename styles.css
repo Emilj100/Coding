@@ -71,13 +71,18 @@
 }
 
 .card-list .card-link .badge.app {
-    color: #B25A2B;
-    background: #FFE3D2;
+    color: #B22485;
+    background: #F7DFF5;
 }
 
 .card-list .card-link .badge.fullstack {
     color: #B25A2B;
     background: #FFE3D2;
+}
+
+.card-list .card-link .badge.fil {
+    color: #856404;
+    background: #fff3cd;
 }
 
 .card-list .card-link .badge.hjemmeside {
