@@ -21,9 +21,12 @@
 }
 
 
+/* Til slider */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
 
-
-
+* {
+    font-family: "Inter", serif;
+}
 
 
 /* Til content på siden */
@@ -60,7 +63,7 @@
 }
 
 .container-slider {
-    
+
 }
 
 video {
