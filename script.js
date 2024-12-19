@@ -3,15 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let less = document.querySelector('#show-less');
     let more = document.querySelector('#show-more');
     document.querySelector('#show-more').addEventListener('click', function() {
-        div.style.display = 'block';
-        less.style.display = 'inline-block';
-        more.style.display = 'none';
+        div.style.visibility = 'visible';
+        less.style.visibility = 'visible';
+        more.style.visibility = 'hidden';
     });
 
     document.querySelector('#show-less').addEventListener('click', function() {
-        div.style.display = 'none';
-        less.style.displayy = 'none';
-        more.style.display = 'inline-block';
+        div.style.visibility = 'hidden';
+        less.style.visibility = 'hidden';
+        more.style.visibility = 'visible';
 
     });
 });
