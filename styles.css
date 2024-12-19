@@ -72,7 +72,10 @@ video {
 
 }
 
-.site-picture
+.site-picture-project {
+    width: 50%;
+    border-radius: 10px;
+}
 
 .text-content {
     line-height: 1.6;
