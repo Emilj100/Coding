@@ -22,6 +22,14 @@
 
 
 /* Til slider */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; /* Centrer slider-container i forhold til forældreelementet */
+    overflow: hidden;
+}
+
 .slider {
     display: flex;
     transition: transform 0.5s ease-in-out;
@@ -66,7 +74,6 @@
 .prev-btn:hover, .next-btn:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
-
 
 
 
