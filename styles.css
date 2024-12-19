@@ -20,14 +20,22 @@
     color: #477bff;
 }
 
+
+
+
+/* Til content på siden */
 .div-project {
     text-align: center;
     align-items: center;
     justify-content: center;
 }
 
-
-/* Til content på siden */
+.text-content-project {
+    line-height: 1.6;
+    width: 50%;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 18px;
+}
 .page_picture {
     background-size: cover;
     width: 100%;
@@ -95,14 +103,6 @@ video {
 .button:hover{
     background-color: #00a3ff;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-
-.text-content-project {
-    line-height: 1.6;
-    width: 50%;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 18px;
 }
 
 
