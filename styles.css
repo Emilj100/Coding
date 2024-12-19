@@ -86,6 +86,12 @@
     cursor: pointer;
     border: 2px solid #5372F0;
     transform: rotate(-45deg);
+    transition: 0.4s ease;
+}
+
+.card-list .card-link:hover .card-button {
+    color: #fff;
+    background: #5372F0;
 }
 
 /* Til content på siden */
