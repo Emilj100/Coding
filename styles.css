@@ -20,6 +20,12 @@
     color: #477bff;
 }
 
+.div-project {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /* Til content på siden */
 .page_picture {
