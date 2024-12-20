@@ -19,13 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     quizContaioner = document.getElementById('quiz-container');
     buttons = quizContainer.querySelectorAll('button');
-    quizButtons.forEach(button) => {
-        if (this.dataset.correct === "true") {
-            this.style.backgroundColor = 'green';
-        } else {
-            this.style.backgroundColor = 'red';
-        }
-
-
-    }
+    buttons.forEach(button) => {
+        button.addEventListener('click', function () {
+            if (this.dataset.correct === "true") {
+                this.style.backgroundColor = 'green';
+            } else {
+                this.style.backgroundColor = 'red';
+            }
+        });
+    });
+});
 
