@@ -22,12 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     quizButtons.forEach(button) => {
         if (this.dataset.correct === "true") {
             this.style.backgroundColor = 'green';
-            result1.textContent = "Correct!";
-            result1.className = "result correct";
         } else {
             this.style.backgroundColor = 'red';
-            result1.textContent = "Incorrect";
-            result1.className = "result incorrect";
         }
 
 
