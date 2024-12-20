@@ -27,6 +27,44 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 this.style.backgroundColor = 'red';
             }
+        });
+    });
+    question2 = document.getElementById('question2');
+    buttons = question2.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', function () {
+            if (this.dataset.correct === "true") {
+                this.style.backgroundColor = 'green';
+                buttons.forEach(btn => btn.disabled = true);
+            } else {
+                this.style.backgroundColor = 'red';
+            }
+
+        });
+    });
+    question3 = document.getElementById('question3');
+    buttons = question3.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', function () {
+            if (this.dataset.correct === "true") {
+                this.style.backgroundColor = 'green';
+                buttons.forEach(btn => btn.disabled = true);
+            } else {
+                this.style.backgroundColor = 'red';
+            }
+
+        });
+    });
+    question4 = document.getElementById('question4');
+    buttons = question4.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', function () {
+            if (this.dataset.correct === "true") {
+                this.style.backgroundColor = 'green';
+                buttons.forEach(btn => btn.disabled = true);
+            } else {
+                this.style.backgroundColor = 'red';
+            }
 
         });
     });
