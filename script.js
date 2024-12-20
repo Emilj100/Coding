@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     quizContainer = document.getElementById('quiz-container');
     buttons = quizContainer.querySelectorAll('button');
-    buttons.forEach(button) => {
+    buttons.forEach((button) => {
         button.addEventListener('click', function () {
             if (this.dataset.correct === "true") {
                 this.style.backgroundColor = 'green';
