@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    quizContaioner = document.getElementById('quiz-container');
+    quizContainer = document.getElementById('quiz-container');
     buttons = quizContainer.querySelectorAll('button');
     buttons.forEach(button) => {
         button.addEventListener('click', function () {
