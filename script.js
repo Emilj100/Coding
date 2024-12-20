@@ -17,15 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    quizContainer = document.getElementById('quiz-container');
-    buttons = quizContainer.querySelectorAll('button');
+    question1 = document.getElementById('question1');
+    buttons = question1.querySelectorAll('button');
     buttons.forEach((button) => {
         button.addEventListener('click', function () {
             if (this.dataset.correct === "true") {
                 this.style.backgroundColor = 'green';
+                buttons.forEach(btn => btn.disabled = true);
             } else {
                 this.style.backgroundColor = 'red';
             }
+
         });
     });
 });
