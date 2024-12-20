@@ -51,17 +51,50 @@
 
 }
 
-.div-project {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin: 2rem auto;
-    gap: 20px;
-    max-width: 800px;
+/* Container for alle projekter */
+#div-project {
+    display: flex; /* Aktiverer flexbox */
+    justify-content: space-between; /* Lige mellemrum mellem sektionerne */
+    flex-wrap: wrap; /* Tillader indpakning, hvis skærmbredden ikke er stor nok */
+    gap: 20px; /* Afstand mellem sektionerne */
+    padding: 20px; /* Indrykning omkring containeren */
+    background-color: darkblue; /* Baggrundsfarve */
+    color: white; /* Tekstfarve */
 }
 
+/* Hver sektion (billede, overskrift, tekst) */
+.div-project {
+    display: flex; /* Aktiverer flexbox */
+    flex-direction: column; /* Stabler indholdet lodret */
+    align-items: center; /* Centrer indholdet horisontalt */
+    text-align: center; /* Centrer teksten */
+    background-color: white; /* Baggrund for hver sektion */
+    color: black; /* Tekstfarve for hver sektion */
+    border-radius: 10px; /* Bløde kanter */
+    padding: 15px; /* Indrykning inde i sektionen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Lidt skygge for bedre udseende */
+    flex: 1; /* Gør sektionerne fleksible */
+    max-width: 22%; /* Begrænser bredden for hver sektion */
+}
+
+/* Billede styling */
+.site-picture-project {
+    width: 100%; /* Billedet fylder sektionen */
+    height: auto; /* Bevarer proportionerne */
+    border-radius: 5px; /* Bløde kanter på billeder */
+    margin-bottom: 15px; /* Afstand mellem billede og tekst */
+}
+
+/* Typografi for overskrift og tekst */
+.div-project h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.div-project p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
 .h1 {
     font-family: 'Roboto', sans-serif;
 }
@@ -77,10 +110,6 @@ video {
 
 }
 
-.site-picture-project {
-    width: 50%;
-    border-radius: 10px;
-}
 
 .text-content {
     line-height: 1.6;
