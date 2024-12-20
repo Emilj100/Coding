@@ -18,24 +18,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     question1 = document.getElementById('question1');
-    buttons = question1.querySelectorAll('button');
-    buttons.forEach((button) => {
+    buttons1 = question1.querySelectorAll('button');
+    buttons1.forEach((button) => {
         button.addEventListener('click', function () {
             if (this.dataset.correct === "true") {
                 this.style.backgroundColor = 'green';
-                buttons.forEach(btn => btn.disabled = true);
+                buttons1.forEach(btn => btn.disabled = true);
             } else {
                 this.style.backgroundColor = 'red';
             }
         });
     });
     question2 = document.getElementById('question2');
-    buttons = question2.querySelectorAll('button');
-    buttons.forEach((button) => {
+    buttons2 = question2.querySelectorAll('button');
+    buttons2.forEach((button) => {
         button.addEventListener('click', function () {
             if (this.dataset.correct === "true") {
                 this.style.backgroundColor = 'green';
-                buttons.forEach(btn => btn.disabled = true);
+                buttons2.forEach(btn => btn.disabled = true);
             } else {
                 this.style.backgroundColor = 'red';
             }
@@ -43,12 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     question3 = document.getElementById('question3');
-    buttons = question3.querySelectorAll('button');
-    buttons.forEach((button) => {
+    buttons3 = question3.querySelectorAll('button');
+    buttons3.forEach((button) => {
         button.addEventListener('click', function () {
             if (this.dataset.correct === "true") {
                 this.style.backgroundColor = 'green';
-                buttons.forEach(btn => btn.disabled = true);
+                buttons3.forEach(btn => btn.disabled = true);
             } else {
                 this.style.backgroundColor = 'red';
             }
@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     question4 = document.getElementById('question4');
-    buttons = question4.querySelectorAll('button');
-    buttons.forEach((button) => {
+    buttons4 = question4.querySelectorAll('button');
+    buttons4.forEach((button) => {
         button.addEventListener('click', function () {
             if (this.dataset.correct === "true") {
                 this.style.backgroundColor = 'green';
-                buttons.forEach(btn => btn.disabled = true);
+                buttons4.forEach(btn => btn.disabled = true);
             } else {
                 this.style.backgroundColor = 'red';
             }
