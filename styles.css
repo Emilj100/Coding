@@ -63,11 +63,24 @@ footer .text-body-secondary {
 }
 
 
+.h1 {
+    font-family: 'Roboto', sans-serif;
+}
+
 video {
     width: 60%;
     height: auto;
 }
 
+
+
+.text-content {
+    line-height: 1.6;
+    max-width: 600px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 18px;
+
+}
 
 .button {
     background-color: #477bff;
