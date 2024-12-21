@@ -1,0 +1,14 @@
+HTML tags:
+header
+ul
+li
+div
+img
+h2
+p
+a
+footer
+video
+source
+button
+h1
