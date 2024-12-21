@@ -24,8 +24,7 @@
 /* Til footer */
 footer {
     background-color: black; /* Ændrer baggrundsfarven */
-    padding-bottom: 50px !important;
-    padding-top: 50px !important;
+    padding: 50px !important;
 }
 
 footer .text-body-secondary {
@@ -120,42 +119,4 @@ video {
     background-color: #00a3ff;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
-
-
-
-/* Til footer */
-.footer {
-    background-color: black;
-    color: #fff;
-    padding: 5rem 1rem;
-    display: flex;
-    justify-content: space-around;
-    gap: 2rem;
-    text-align: left;
-}
-
-.footer div {
-    flex: 1; /* Gør, at hver boks fylder lige meget */
-    max-width: 300px; /* Sæt en maks-bredde for at kontrollere tekstens layout */
-}
-
-.footer h3 a {
-    color: white;
-    font-size: 25px;
-    margin-bottom: 5rem;
-    text-decoration: none; /* Fjern understregning fra links */
-    transition: color 0.3s ease; /* Glidende farveovergang */
-}
-
-.footer h3 a:hover {
-    color: #477bff; /* Gør farven blå ved hover */
-}
-
-
-.footer p {
-    line-height: 1.6; /* Gør teksten lettere at læse */
-    margin-top: 1rem; /* Ekstra mellemrum mellem overskrift og tekst */
-}
-
 
