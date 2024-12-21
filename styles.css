@@ -24,21 +24,13 @@
 /* Til footer */
 footer {
     background-color: black; /* Ændrer baggrundsfarven */
-    color: white; /* Ændrer tekstfarven */
 }
 
-footer .nav-link {
-    color: white; /* Ændrer linkfarven */
+footer .text-body-secondary {
+    color: white !important;
 }
 
-footer .nav-link:hover {
-    color: #f8f9fa; /* Ændrer linkfarven ved hover */
-}
 
-footer p {
-    font-size: 14px; /* Ændrer fontstørrelsen på teksten */
-    color: white; /* Ændrer tekstfarven */
-}
 
 /* Til content på siden */
 .page_picture {
