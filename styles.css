@@ -1,6 +1,8 @@
 /* Til header */
 header {
     background-color: black;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 header .nav-link {
