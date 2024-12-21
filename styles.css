@@ -3,7 +3,13 @@ header {
     background-color: black;
 }
 
+header .nav-link {
+    color: white;
+}
 
+header .nav-link:hover {
+    color: gray;
+}
 
 
 /* Til footer */
