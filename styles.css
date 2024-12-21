@@ -24,19 +24,15 @@
 /* Til footer */
 footer {
     background-color: black; /* Ændrer baggrundsfarven */
-    padding: 50px !important;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
 }
 
 footer .text-body-secondary {
     color: white !important;
 }
 
-.custom footer {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding-top: 3rem;
-    padding-bottom: 1rem;
-}
+
 
 
 
