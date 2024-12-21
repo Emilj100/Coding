@@ -14,6 +14,10 @@ header .nav-link:hover {
 }
 
 
+/* Til billeder */
+.picture {
+    border-radius: 10px;
+}
 
 
 /* Til footer */
