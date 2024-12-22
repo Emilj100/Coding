@@ -13,3 +13,4 @@ def register():
     if not request.form.get("name") or not request.form.get("sport"):
         return render_template("failure.html")
     return render_template("success.html")
+
