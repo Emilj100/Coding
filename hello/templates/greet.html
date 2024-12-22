@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    hello, {{ name }}
+    hello, {% if name%}{{ name }}{% else %}world{% endif %}
 
 {% endblock %}
 
