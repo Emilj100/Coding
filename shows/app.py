@@ -15,3 +15,5 @@ def index():
 def search():
     movies = db.execute("SELECT * FROM movies WHERE title = ?", request.args.get("q"))
     return render_template("search.html", movies=movies)
+
+
