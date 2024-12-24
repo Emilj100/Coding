@@ -20,7 +20,7 @@ def deregister():
 
     id = request.form.get("id")
     if id:
-        db.execute("DELTE FROM registrants WHERE id = ?", id)
+        db.execute("DELETE FROM registrants WHERE id = ?", id)
     return redirect("/registrants")
 
 @app.route("/register", methods=["POST"])
