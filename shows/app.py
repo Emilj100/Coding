@@ -13,5 +13,5 @@ def index():
 
 @app.route("/search")
 def search():
-    shows = db.execute("SELECT * FROM movies WHERE title = ?", request.args.get("q"))
-    return render_template("search.html", shows=shows)
+    movies = db.execute("SELECT * FROM movies WHERE title = ?", request.args.get("q"))
+    return render_template("search.html", movies=movies)
