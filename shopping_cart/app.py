@@ -13,3 +13,9 @@ Session(app)
 @app.route("/")
 def index():
     books = db.execute("SELECT * FROM books")
+    return render_template("books.html", books=books)
+
+@app.route("/cart", methods=["GET", "POST"])
+def cart():
+
+    if "cart" not in session:
