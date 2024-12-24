@@ -27,5 +27,5 @@ def cart():
             session["cart"].append(book_id)
         return redirect("/cart")
 
-    books = db.execute("SELECT * FROM books WHERE id IN (?)",)
+    books = db.execute("SELECT * FROM books WHERE id IN (?)", session["cart"])
     return render_template("cart.html", books=books)
