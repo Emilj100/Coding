@@ -31,7 +31,7 @@ def register():
     if not name or sport not in SPORTS:
         return render_template("failure.html")
 
-    db.execute("INSERT INTO registrants (name, sport) VALUTES(?, ?)", name, sport)
+    db.execute("INSERT INTO registrants (name, sport) VALUES(?, ?)", name, sport)
 
     return redirect("/registrants")
 
