@@ -13,7 +13,7 @@
 
         <script>
 
-            let input = document, querySelector('input');
+            let input = document.querySelector('input');
             input.addEventListener('input', async function() {
                 let response = await fetch('/search?q=' + input.value);
                 let movies = await respone.text();
