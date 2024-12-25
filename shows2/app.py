@@ -18,6 +18,6 @@ def search():
         movies = db.execute("SELECT * FROM movies WHERE title LIKE ? LIMIT 50", "%" + q + "%")
     else:
         movies = []
-    return render_template("search.html", shows=shows)
+    return render_template("search.html", movies=movies)
 
 
