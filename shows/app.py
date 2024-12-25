@@ -18,3 +18,4 @@ def search():
     return render_template("search.html", movies=movies)
 
 
+
