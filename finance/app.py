@@ -50,7 +50,7 @@ def buy():
         shares = request.form.get("shares")
         if not shares > 0:
             return apology("Enter positive number", 407)
-
+        cash = db.execute("SELECT cash FROM users WHERE username = ?", session["user_id"])
 
 
 @app.route("/history")
