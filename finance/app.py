@@ -53,6 +53,9 @@ def buy():
         cash = db.execute("SELECT cash FROM users WHERE username = ?", session["user_id"])
 
 
+        redirect()
+
+
 @app.route("/history")
 @login_required
 def history():
