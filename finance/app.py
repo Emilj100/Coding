@@ -37,6 +37,8 @@ def index():
     """Show portfolio of stocks"""
 
     transactions = db.execute("SELECT * FROM transactions WHERE user_id = ?", session["user_id"])
+    for transaction in transactions["price"]:
+        usd(transaction)
     price = usd(transactions["price"])
     total = usd(transactions["total"])
 
