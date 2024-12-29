@@ -41,7 +41,7 @@ def index():
     total = usd(transactions["total"])
 
 
-    return render_template("index.html", transactions=transactions)
+    return render_template("index.html", transactions=transactions, price=price, total=total)
 
 
 @app.route("/buy", methods=["GET", "POST"])
