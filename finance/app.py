@@ -48,14 +48,14 @@ def buy():
         if not symbol:
             return apology("Enter valid symbol", 406)
         try:
-            shares = float(request.form.get("shares"))
+            shares = int(request.form.get("shares"))
             if not shares > 0:
                 return apology("Enter positive number", 407)
         except ValueError:
             return apology("Shares must be a number", 409)
         price = float(symbol["price"])
         cash = db.execute("SELECT cash FROM users WHERE username = ?", session["user_id"])[0]["cash"]
-        cash float(cash)
+        cash = float(cash)
         if cash - (shares * price) < 0:
             return apology("Not enough money", 408)
 
