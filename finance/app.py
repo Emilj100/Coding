@@ -40,6 +40,8 @@ def index():
     price = usd(transactions["price"])
     total = usd(transactions["total"])
 
+    cash = db.execute("SELECT * FROM transactions WHERE user_id = ?", session["user_id"])
+
 
     return render_template("index.html", transactions=transactions, price=price, total=total)
 
