@@ -53,6 +53,7 @@ def buy():
         cash = db.execute("SELECT cash FROM users WHERE username = ?", session["user_id"])
         if cash - (shares * symbol) < 0:
             return apology("Not enough money", 408)
+        
 
 
 
