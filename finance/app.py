@@ -36,13 +36,11 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
 
-    transactions = db.execute("SELECT * FROM transactions")
-    price = int(transactions["price"])
-    price = usd(price)
-    total = int(transactions["total"])
-    total = usd(total)
+    transactions = db.execute("SELECT * FROM transactions WHERE user_id = ?", session["user_id"])
+    price = usd(transactions["price"])
+    total = usd(transactions["total"])
 
-    cash = db.execute("SELECT * FROM users WHERE user_id = ?", session["user_id"])
+    cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
 
     total_cash = cash + total
     total_cash = usd(total_cash)
