@@ -17,12 +17,13 @@
                 </tr>
             </thead>
         <tbody>
-            <tr>
-                <td class="text-start">TSLA</td>
-                <td class="text-end">5</td>
-                <td class="text-end">$209.99</td>
-                <td class="text-end">$1,049.95</td>
-            </tr>
+            {% for transaction in transactions %}
+                <tr>
+                    <td class="text-start">{{ transaction. }}</td>
+                    <td class="text-end">5</td>
+                    <td class="text-end">$209.99</td>
+                    <td class="text-end">$1,049.95</td>
+                </tr>
         </tbody>
             <tfoot>
                 <tr>
