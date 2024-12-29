@@ -19,9 +19,9 @@
         <tbody>
             {% for transaction in transactions %}
                 <tr>
-                    <td class="text-start">{{ transaction. }}</td>
-                    <td class="text-end">5</td>
-                    <td class="text-end">$209.99</td>
+                    <td class="text-start">{{ transaction.symbol }}</td>
+                    <td class="text-end">{{ transaction.shares }}</td>
+                    <td class="text-end">{{ transaction.price }}</td>
                     <td class="text-end">$1,049.95</td>
                 </tr>
         </tbody>
