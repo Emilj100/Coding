@@ -40,7 +40,9 @@ def index():
     for transaction in transactions:
         transaction["price"] = usd(transaction["price"])
         transaction["total"] = usd(transaction["total"])
-        total = sum(transaction["total"])
+
+    total = sum(transaction["total"])
+    price = transaction["price"]
 
     cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
 
