@@ -59,7 +59,7 @@ def buy():
         if cash - (shares * price) < 0:
             return apology("Not enough money", 408)
 
-        db.execute("INSERT INTO users (user_id, symbol, shares, price) VALUES (?, ?)", session["user_id"], symbol["symbol"], shares, price)
+        db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?)", session["user_id"], symbol["symbol"], shares, price)
 
         cash = cash - (shares * price)
 
