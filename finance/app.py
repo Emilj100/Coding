@@ -54,7 +54,7 @@ def buy():
         except ValueError:
             return apology("Shares must be a number", 409)
         price = float(symbol["price"])
-        cash = db.execute("SELECT cash FROM users WHERE username = ?", session["user_id"])[0]["cash"]
+        cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
         cash = float(cash)
         total = cash - (shares * price)
         if total < 0:
