@@ -54,7 +54,7 @@ def buy():
         if cash - (shares * symbol) < 0:
             return apology("Not enough money", 408)
 
-        db.execute("INSERT INTO users (username, symbol, shares, price) VALUES (?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"], )
+        db.execute("INSERT INTO users (user_id, symbol, shares, price) VALUES (?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"], )
 
 
         return redirect("/")
