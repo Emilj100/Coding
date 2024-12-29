@@ -172,6 +172,8 @@ def register():
 
         session["user_id"] = rows[0]["id"]
 
+        return redirect("/")
+
     else:
         return render_template("register.html")
 
