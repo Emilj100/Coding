@@ -57,12 +57,12 @@ def buy():
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
         cash = float(cash)
         remaining_cash = cash - (shares * price)
-        if total < 0:
+        if remaining_cash < 0:
             return apology("Not enough money", 408)
 
         db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, price)
 
-        cash = cash - remaining_cash
+        cash = remaining_cash
 
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
 
