@@ -37,6 +37,8 @@ def index():
     """Show portfolio of stocks"""
 
     transactions = db.execute("SELECT * FROM transactions")
+    price = usd(transactions["price"])
+    price = usd(transactions[""])
 
     return render_template("index.html", transactions=transactions)
 
