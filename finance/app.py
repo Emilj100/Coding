@@ -53,13 +53,14 @@ def buy():
                 return apology("Enter positive number", 407)
         except ValueError:
             return apology("Shares must be a number", 409)
+        price = int(symbol["price"])
         cash = db.execute("SELECT cash FROM users WHERE username = ?", session["user_id"])[0]["cash"]
-        if cash - (shares * symbol["price"]) < 0:
+        if cash - (shares * price) < 0:
             return apology("Not enough money", 408)
 
-        db.execute("INSERT INTO users (user_id, symbol, shares, price) VALUES (?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
+        db.execute("INSERT INTO users (user_id, symbol, shares, price) VALUES (?, ?)", session["user_id"], symbol["symbol"], shares, price)
 
-        cash = cash - (shares * symbol["price"])
+        cash = cash - (shares * price)
 
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
 
