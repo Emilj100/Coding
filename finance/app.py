@@ -61,11 +61,12 @@ def buy():
         price = float(symbol["price"])
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
         cash = float(cash)
-        remaining_cash = cash - (shares * price)
+        total = shares * price
+        remaining_cash = cash - total
         if remaining_cash < 0:
             return apology("Not enough money", 408)
 
-        db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, price)
+        db.execute("INSERT INTO transactions (user_id, symbol, shares, price, total) VALUES (?, ?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, price, total)
 
         cash = remaining_cash
 
