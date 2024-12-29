@@ -48,7 +48,7 @@ def index():
     cash = usd(cash)
     total_cash = usd(total_cash)
 
-    return render_template("index.html", transactions=transactions, total=total, cash=cash, total_cash=total_cash)
+    return render_template("index.html", transactions=transactions, total=total, price=price, cash=cash, total_cash=total_cash)
 
 
 @app.route("/buy", methods=["GET", "POST"])
