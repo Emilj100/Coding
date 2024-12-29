@@ -62,7 +62,7 @@ def buy():
 
         db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, price)
 
-        cash - total
+        cash = cash - total
 
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
 
