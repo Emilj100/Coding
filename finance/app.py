@@ -206,7 +206,7 @@ def sell():
             return apology("Please input positive number of shares", 411)
         owned_shares = db.execute("SELECT shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
         if owned_shares < request.form.get("shares"):
-            return apology("You do not own that many shares of the stock", 411)
+            return apology("You do not own that many shares of the stock", 412)
 
 
     else:
