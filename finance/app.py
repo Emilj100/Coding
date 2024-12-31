@@ -231,18 +231,21 @@ def sell():
         if not request.form.get("symbol"):
             return apology("Please select a valid stock", 410)
         symbol = lookup(request.form.get("symbol"))
-        if not request.form.get("symbol") in symbols["symbol"] or not symbol:
-            return apology("Please select a valid stock that you own", 410)
+        if not symbol:
+            return apology("Please select a valid stock", 410)
+        for symbol in symbols:
+            if not request.form.get("symbol") in symbol["symbol"]:
+                return apology("Please select a valid stock that you own", 410)
         shares = int(request.form.get("shares"))
         if shares <=  0:
             return apology("Please input positive number of shares", 411)
         owned_shares = db.execute("SELECT SUM(shares) as total_shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
         if owned_shares[0]["total_shares"] < shares:
             return apology("You do not own that many shares of the stock", 412)
-        if owned_shares == shares:
+        if owned_shares[0]["total_shares"] == shares:
             db.execute("DELETE FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
         else:
-            db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? AND symbol = ?", owned_shares - shares, session["user_id"], request.form.get("symbol") )
+            db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? AND symbol = ?", owned_shares[0]["total_shares"] - shares, session["user_id"], request.form.get("symbol") )
 
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
         cash = cash + symbol["price"]
