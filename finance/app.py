@@ -233,9 +233,8 @@ def sell():
         symbol = lookup(request.form.get("symbol"))
         if not symbol:
             return apology("Please select a valid stock", 410)
-        for symbol in symbols:
-            if not request.form.get("symbol") in symbol["symbol"]:
-                return apology("Please select a valid stock that you own", 410)
+        if not any(request.form.get("symbol") == symbol["symbol"] for symbol in symbols):
+            return apology("Please select a valid stock that you own", 410)
         shares = int(request.form.get("shares"))
         if shares <=  0:
             return apology("Please input positive number of shares", 411)
