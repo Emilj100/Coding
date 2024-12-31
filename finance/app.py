@@ -248,6 +248,7 @@ def sell():
         cash = cash + symbol["price"]
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
 
+        return redirect("/")
 
     else:
         return render_template("sell.html", symbols=symbols)
