@@ -17,12 +17,12 @@
                 </tr>
             </thead>
         <tbody>
-            {% for transaction in transactions %}
+            {% for stock in stocks %}
                 <tr>
-                    <td class="text-start">{{ transaction.symbol }}</td>
-                    <td class="text-end">{{ transaction.shares }}</td>
-                    <td class="text-end">{{ transaction.price }}</td>
-                    <td class="text-end">{{ transaction.total }}</td>
+                    <td class="text-start">{{ stock.symbol }}</td>
+                    <td class="text-end">{{ stock.shares }}</td>
+                    <td class="text-end">{{ stock.price }}</td>
+                    <td class="text-end">{{ stock.total }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -36,19 +36,40 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
 
-    transactions = db.execute("SELECT * FROM transactions WHERE user_id = ?", session["user_id"])
-    total = sum(transaction["total"] for transaction in transactions)
+    transactions = db.execute("SELECT symbol, shares FROM transactions WHERE user_id = ?", session["user_id"])
+
+    stocks = []
+
     for transaction in transactions:
-        transaction["price"] = usd(transaction["price"])
-        transaction["total"] = usd(transaction["total"])
+
+        symbol = transaction["symbol"]
+        shares = transaction["shares"]
+        stock_data = lookup(symbol)
+
+        if stock_data:
+
+            stock = {
+                "symbol": symbol,
+                "shares": shares,
+                "price": stock_data["price"],
+                "total": shares * stock_data["price"]
+            }
+            stocks.append(stock)
 
     cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
+
+    total = 0
+    for stock in stocks:
+        total += stock["total"]
+        stock["price"] = usd(stock["price"])
+        stock["total"] = usd(stock["total"])
+
 
     total_cash = cash + total
     cash = usd(cash)
     total_cash = usd(total_cash)
 
-    return render_template("index.html", transactions=transactions, total=total, cash=cash, total_cash=total_cash)
+    return render_template("index.html", stocks=stocks, cash=cash, total_cash=total_cash)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -74,11 +95,17 @@ def buy():
         if remaining_cash < 0:
             return apology("Not enough money", 408)
 
-        db.execute("INSERT INTO transactions (user_id, symbol, shares, price, total) VALUES (?, ?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, price, total)
+        owned_shares = db.execute("SELECT shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], symbol["symbol"] )
+        if owned_shares:
+            owned_shares = owned_shares[0]["shares"] + shares
+            db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? and symbol = ?", owned_shares, session["user_id"], symbol["symbol"])
 
-        cash = remaining_cash
+        else:
+            db.execute("INSERT INTO transactions (user_id, symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol["symbol"], shares)
 
-        db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
+        remaining_cash
+
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", remaining_cash, session["user_id"])
 
         return redirect("/")
 
@@ -198,16 +225,29 @@ def register():
 def sell():
     """Sell shares of stock"""
 
-    if request.method == "POST":
+    symbols = db.execute("SELECT symbol FROM transactions WHERE user_id = ?" , session["user_id"])
 
+    if request.method == "POST":
         if not request.form.get("symbol"):
             return apology("Please select a valid stock", 410)
-        if not request.form.get("shares") > 0:
+        symbol = lookup(request.form.get("symbol"))
+        if not request.form.get("symbol") in symbols["symbol"] or not symbol:
+            return apology("Please select a valid stock that you own", 410)
+        shares = int(request.form.get("shares"))
+        if shares <=  0:
             return apology("Please input positive number of shares", 411)
-        owned_shares = db.execute("SELECT shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
-        if owned_shares < request.form.get("shares"):
+        owned_shares = db.execute("SELECT SUM(shares) as total_shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
+        if owned_shares[0]["total_shares"] < shares:
             return apology("You do not own that many shares of the stock", 412)
+        if owned_shares == shares:
+            db.execute("DELETE FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
+        else:
+            db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? AND symbol = ?", owned_shares - shares, session["user_id"], request.form.get("symbol") )
+
+        cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
+        cash = cash + symbol["price"]
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
 
 
     else:
-        return render_template("sell.html")
+        return render_template("sell.html", symbols=symbols)
