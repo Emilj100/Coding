@@ -233,7 +233,7 @@ def sell():
         symbol = lookup(request.form.get("symbol"))
         if not symbol:
             return apology("Please select a valid stock", 410)
-        if not any(request.form.get("symbol") == symbol["symbol"] for symbol in symbols):
+        if not any(request.form.get("symbol") == s["symbol"] for s in symbols):
             return apology("Please select a valid stock that you own", 410)
         shares = int(request.form.get("shares"))
         if shares <=  0:
@@ -246,8 +246,8 @@ def sell():
         else:
             db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? AND symbol = ?", owned_shares[0]["total_shares"] - shares, session["user_id"], request.form.get("symbol") )
 
-        cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
-        cash += (symbol["price"] * shares)
+        cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
+        cash += symbol["price"] * shares
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
 
         return redirect("/")
