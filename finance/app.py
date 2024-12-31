@@ -235,9 +235,12 @@ def sell():
             return apology("Please select a valid stock", 410)
         if not any(request.form.get("symbol") == s["symbol"] for s in symbols):
             return apology("Please select a valid stock that you own", 410)
-        shares = int(request.form.get("shares"))
-        if shares <=  0:
-            return apology("Please input positive number of shares", 411)
+        try:
+            shares = int(request.form.get("shares"))
+            if shares <=  0:
+                return apology("Please input positive number of shares", 411)
+        except ValueError:
+            return apology("Shares must be a valid number", 413)
         owned_shares = db.execute("SELECT SUM(shares) as total_shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
         if owned_shares[0]["total_shares"] < shares:
             return apology("You do not own that many shares of the stock", 412)
