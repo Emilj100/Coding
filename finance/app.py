@@ -247,7 +247,7 @@ def sell():
             db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? AND symbol = ?", owned_shares[0]["total_shares"] - shares, session["user_id"], request.form.get("symbol") )
 
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
-        cash = cash + (symbol["price"] * shares)
+        cash += (symbol["price"] * shares)
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
 
         return redirect("/")
