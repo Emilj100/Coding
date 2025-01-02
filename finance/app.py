@@ -176,6 +176,9 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
+@app.route("/password", methods=["GET", "POST"])
+def login():
+
 
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
