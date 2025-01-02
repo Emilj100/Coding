@@ -17,12 +17,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for stock in stocks %}
+            {% for transaction in transactions %}
                 <tr>
-                    <td class="text-start">TSLA</td>
-                    <td class="text-end">10</td>
-                    <td class="text-end">$210.74</td>
-                    <td class="text-end">2024-12-27 13:02:26</td>
+                    <td class="text-start">{transaction.symbol}</td>
+                    <td class="text-end">{transaction.shares}</td>
+                    <td class="text-end">{transaction.price}</td>
+                    <td class="text-end">{transaction.timestamp}</td>
                 </tr>
             {% endfor %}
         </tbody>
