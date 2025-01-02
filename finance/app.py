@@ -101,9 +101,8 @@ def buy():
             db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? and symbol = ?", owned_shares, session["user_id"], symbol["symbol"])
 
         else:
-            db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
-
-        remaining_cash
+            db.execute("INSERT INTO transactions_history (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
+            db.execute("INSERT INTO transactions (user_id, symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol["symbol"], shares)
 
         db.execute("UPDATE users SET cash = ? WHERE id = ?", remaining_cash, session["user_id"])
 
