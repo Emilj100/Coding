@@ -19,10 +19,10 @@
         <tbody>
             {% for transaction in transactions %}
                 <tr>
-                    <td class="text-start">{transaction.symbol}</td>
-                    <td class="text-end">{transaction.shares}</td>
-                    <td class="text-end">{transaction.price}</td>
-                    <td class="text-end">{transaction.timestamp}</td>
+                    <td class="text-start">{{ transaction.symbol }}</td>
+                    <td class="text-end">{{ transaction.shares }}</td>
+                    <td class="text-end">{{ transaction.price }}</td>
+                    <td class="text-end">{{ transaction.timestamp }}</td>
                 </tr>
             {% endfor %}
         </tbody>

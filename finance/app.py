@@ -119,6 +119,8 @@ def history():
 
     transactions = db.execute("SELECT * FROM transactions_history WHERE user_id = ?", session["user_id"])
 
+    for 
+
     return render_template("history.html", transactions=transactions)
 
 
