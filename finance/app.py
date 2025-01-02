@@ -102,8 +102,8 @@ def buy():
             db.execute("INSERT INTO transactions_history (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
 
         else:
-            db.execute("INSERT INTO transactions_history (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
             db.execute("INSERT INTO transactions (user_id, symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol["symbol"], shares)
+            db.execute("INSERT INTO transactions_history (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
 
         db.execute("UPDATE users SET cash = ? WHERE id = ?", remaining_cash, session["user_id"])
 
@@ -251,8 +251,11 @@ def sell():
             return apology("You do not own that many shares of the stock", 412)
         if owned_shares[0]["total_shares"] == shares:
             db.execute("DELETE FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
+            db.execute("INSERT INTO transactions_history (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
+
         else:
             db.execute("UPDATE transactions SET shares = ? WHERE user_id = ? AND symbol = ?", owned_shares[0]["total_shares"] - shares, session["user_id"], request.form.get("symbol") )
+            db.execute("INSERT INTO transactions_history (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], shares, symbol["price"])
 
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
         cash += symbol["price"] * shares
