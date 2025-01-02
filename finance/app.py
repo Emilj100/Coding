@@ -194,7 +194,7 @@ def quote():
 
 
 @app.route("/password", methods=["GET", "POST"])
-def login():
+def password():
 
     if request.method == "POST":
 
