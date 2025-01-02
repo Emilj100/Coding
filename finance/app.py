@@ -179,6 +179,12 @@ def logout():
 @app.route("/password", methods=["GET", "POST"])
 def login():
 
+    if request.method == "POST":
+
+    else:
+        return render_template("password.html")
+
+
 
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
