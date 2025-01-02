@@ -176,15 +176,6 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
-@app.route("/password", methods=["GET", "POST"])
-def login():
-
-    if request.method == "POST":
-
-    else:
-        return render_template("password.html")
-
-
 
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
@@ -202,6 +193,21 @@ def quote():
         return render_template("quote.html")
 
 
+@app.route("/password", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+            if not request.form.get("password"):
+                return apology("must provide password", 403)
+            if not request.form.get("password") == request.form.get("confirmation"):
+                return apology("Password and confirmation of password doesnt match", 404)
+            
+
+    else:
+        return render_template("password.html")
+
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -213,7 +219,7 @@ def register():
         if not request.form.get("password"):
             return apology("must provide password", 403)
         if not request.form.get("password") == request.form.get("confirmation"):
-            return apology("Password and confirmation of password doesnt match", 404)
+            return apology("Password and confirmation doesnt match", 404)
 
         password = request.form.get("password")
         password = generate_password_hash(password)
