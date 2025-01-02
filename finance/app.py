@@ -202,7 +202,10 @@ def login():
                 return apology("must provide password", 403)
             if not request.form.get("password") == request.form.get("confirmation"):
                 return apology("Password and confirmation of password doesnt match", 404)
-            
+
+            password = generate_password_hash(request.form.get("password"))
+
+            db.execute("UPDATE users SET hash = ? WHERE user_id = ?", password)
 
     else:
         return render_template("password.html")
