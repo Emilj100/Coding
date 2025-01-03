@@ -41,13 +41,10 @@ def index():
     stocks = []
 
     for transaction in transactions:
-
         symbol = transaction["symbol"]
         shares = transaction["shares"]
         stock_data = lookup(symbol)
-
         if stock_data:
-
             stock = {
                 "symbol": symbol,
                 "shares": shares,
@@ -185,7 +182,7 @@ def quote():
     if request.method == "POST":
         symbol = request.form.get("symbol")
         symbol = lookup(symbol)
-        
+
         if not symbol:
             return apology("Enter valid symbol", 400)
         symbol["price"] = usd(symbol["price"])
