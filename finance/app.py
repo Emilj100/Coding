@@ -80,20 +80,20 @@ def buy():
         symbol = request.form.get("symbol")
         symbol = lookup(symbol)
         if not symbol:
-            return apology("Enter valid symbol", 406)
+            return apology("Enter valid symbol", 400)
         try:
             shares = int(request.form.get("shares"))
             if not shares > 0:
-                return apology("Enter positive number", 407)
+                return apology("Enter positive number", 400)
         except ValueError:
-            return apology("Shares must be a number", 409)
+            return apology("Shares must be a number", 400)
         price = float(symbol["price"])
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
         cash = float(cash)
         total = shares * price
         remaining_cash = cash - total
         if remaining_cash < 0:
-            return apology("Not enough money", 408)
+            return apology("Not enough money", 400)
 
         owned_shares = db.execute("SELECT shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], symbol["symbol"] )
         if owned_shares:
@@ -138,11 +138,11 @@ def login():
     if request.method == "POST":
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password", 400)
 
         # Query database for username
         rows = db.execute(
@@ -153,7 +153,7 @@ def login():
         if len(rows) != 1 or not check_password_hash(
             rows[0]["hash"], request.form.get("password")
         ):
-            return apology("invalid username and/or password", 403)
+            return apology("invalid username and/or password", 400)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -186,7 +186,7 @@ def quote():
         symbol = request.form.get("symbol")
         symbol = lookup(symbol)
         if not symbol:
-            return apology("Enter valid symbol", 406)
+            return apology("Enter valid symbol", 400)
         return render_template("quoted.html", name=symbol["name"], price=symbol["price"], symbol=symbol["symbol"])
 
     else:
@@ -199,18 +199,43 @@ def password():
     if request.method == "POST":
 
             if not request.form.get("password"):
-                return apology("must provide password", 403)
+                return apology("must provide password", 400)
             if not request.form.get("password") == request.form.get("confirmation"):
-                return apology("Password and confirmation of password doesnt match", 404)
+                return apology("Password and confirmation of password doesnt match", 400)
 
             password = generate_password_hash(request.form.get("password"))
 
-            db.execute("UPDATE users SET hash = ? WHERE user_id = ?", password)
+            db.execute("UPDATE users SET hash = ? WHERE id = ?", password, session["user_id"])
+
+            return redirect("/")
 
     else:
         return render_template("password.html")
 
 
+@app.route("/insert", methods=["GET", "POST"])
+def insert():
+
+    if request.method == "POST":
+        if not request.form.get("insert"):
+            return apology("must insert cash", 400)
+        try:
+            insert = int(request.form.get("insert"))
+            if not insert > 0:
+                return apology("Enter positive number", 400)
+        except ValueError:
+            return apology("Please insert a number", 400)
+
+        cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
+
+        cash = insert + cash[0]["cash"]
+
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", cash, session["user_id"])
+
+        return redirect("/")
+
+    else:
+        return render_template("insert.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -218,11 +243,11 @@ def register():
     if request.method == "POST":
 
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username", 400)
         if not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password", 400)
         if not request.form.get("password") == request.form.get("confirmation"):
-            return apology("Password and confirmation doesnt match", 404)
+            return apology("Password and confirmation doesnt match", 400)
 
         password = request.form.get("password")
         password = generate_password_hash(password)
@@ -230,7 +255,7 @@ def register():
         try:
             db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), password)
         except ValueError:
-            return apology("Username already exist", 405)
+            return apology("Username already exist", 400)
 
 
         rows = db.execute(
@@ -255,22 +280,22 @@ def sell():
 
     if request.method == "POST":
         if not request.form.get("symbol"):
-            return apology("Please select a valid stock", 410)
+            return apology("Please select a valid stock", 400)
         symbol = lookup(request.form.get("symbol"))
         if not symbol:
-            return apology("Please select a valid stock", 410)
+            return apology("Please select a valid stock", 400)
         if not any(request.form.get("symbol") == s["symbol"] for s in symbols):
-            return apology("Please select a valid stock that you own", 410)
+            return apology("Please select a valid stock that you own", 400)
         try:
             shares = int(request.form.get("shares"))
             negative_shares = -shares
             if shares <=  0:
-                return apology("Please input positive number of shares", 411)
+                return apology("Please input positive number of shares", 400)
         except ValueError:
-            return apology("Shares must be a valid number", 413)
+            return apology("Shares must be a valid number", 400)
         owned_shares = db.execute("SELECT SUM(shares) as total_shares FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
         if owned_shares[0]["total_shares"] < shares:
-            return apology("You do not own that many shares of the stock", 412)
+            return apology("You do not own that many shares of the stock", 400)
         if owned_shares[0]["total_shares"] == shares:
             db.execute("DELETE FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], request.form.get("symbol") )
             db.execute("INSERT INTO transactions_history (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], symbol["symbol"], negative_shares, symbol["price"])
