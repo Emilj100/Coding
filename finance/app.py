@@ -185,8 +185,10 @@ def quote():
     if request.method == "POST":
         symbol = request.form.get("symbol")
         symbol = lookup(symbol)
+        
         if not symbol:
             return apology("Enter valid symbol", 400)
+        symbol["price"] = usd(symbol["price"])
         return render_template("quoted.html", name=symbol["name"], price=symbol["price"], symbol=symbol["symbol"])
 
     else:
