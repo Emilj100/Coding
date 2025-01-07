@@ -54,6 +54,10 @@ def register():
 def login():
     return "login page"
 
+@app.route("/logout")
+def logout():
+    return "logout page"
+
 @app.route("/calorietracker")
 @login_required
 def calorietracker():
