@@ -39,9 +39,23 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+@login_required
+
 @app.route("/")
 def index():
 
 
+@app.route("/register")
+def register():
 
+@app.route("/login")
+def login():
 
+@app.route("/calorietracker")
+def calorietracker():
+
+@app.route("/traininglog")
+def traininglog():
+
+@app.route("/dashboard")
+def dashboard():
