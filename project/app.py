@@ -47,22 +47,28 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    return "register page"
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    return "login page"
 
 @app.route("/calorietracker")
 @login_required
 def calorietracker():
+    return "register page"
 
 @app.route("/traininglog")
 @login_required
 def traininglog():
+    return "register page"
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    return "register page"
 
 @app.route("/mealplan")
 @login_required
 def mealplan():
+    return "register page"
