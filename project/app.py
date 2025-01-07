@@ -18,7 +18,7 @@ db = SQL("sqlite:///health.db")
 
 def login_required(f):
     """
-    Decorate routes to require login.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    Decorate routes to require login.
 
     https://flask.palletsprojects.com/en/latest/patterns/viewdecorators/
     """
@@ -43,6 +43,7 @@ def after_request(response):
 
 @app.route("/")
 def index():
+    return render_template("index.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
