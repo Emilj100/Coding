@@ -1,3 +1,9 @@
 .nav-link:hover {
     text-decoration: underline !important;
 }
+
+footer {
+    background-color: black; /* Ændrer baggrundsfarven */
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
