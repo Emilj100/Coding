@@ -56,19 +56,19 @@ def login():
 @app.route("/calorietracker")
 @login_required
 def calorietracker():
-    return "register page"
+    return "calorietracker page"
 
 @app.route("/traininglog")
 @login_required
 def traininglog():
-    return "register page"
+    return "traininglog page"
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return "register page"
+    return "dashboard page"
 
 @app.route("/mealplan")
 @login_required
 def mealplan():
-    return "register page"
+    return "mealplan page"
