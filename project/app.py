@@ -79,9 +79,14 @@ def registerpart2():
 
         if request.method == "POST":
 
-        if not request.form.get("age"):
-            return render_template("register-part1.html", error="Must provide age")
-        elif not request.form.get("gender"):
+        try:
+            age = int(request.form.get("age"))
+            if not age:
+                return render_template("register-part1.html", error="Must provide age")
+        except ValueError:
+            return render_template("register-part1.html", error="Age must be a number")
+
+        if not request.form.get("gender"):
             return render_template("register-part1.html", error="Must select gender")
         elif not request.form.get("height"):
             return render_template("register-part1.html", error="Must provide height")
