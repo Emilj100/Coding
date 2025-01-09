@@ -88,9 +88,18 @@
                     <label for="floatingGoalType">Goal</label>
                 </div>
 
-                <!-- Training days -->
+                <!-- Training Days -->
                 <div class="form-floating mb-3">
-                    <input type="number" class="form-control" id="floatingTrainingDays" name="training_days" placeholder="3" min="1" max="7" required>
+                    <select class="form-select" id="floatingTrainingDays" name="training_days" required>
+                        <option value="" disabled selected>Select training days</option>
+                        <option value="1">1 day</option>
+                        <option value="2">2 days</option>
+                        <option value="3">3 days</option>
+                        <option value="4">4 days</option>
+                        <option value="5">5 days</option>
+                        <option value="6">6 days</option>
+                        <option value="7">7 days</option>
+                    </select>
                     <label for="floatingTrainingDays">Training days per week</label>
                 </div>
 
@@ -105,6 +114,7 @@
             </form>
         </main>
     </div>
+
 
 </body>
 </html>
