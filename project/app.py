@@ -45,9 +45,6 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
-
-from flask import session
-
 @app.route("/register-part1", methods=["GET", "POST"])
 def registerpart1():
     if request.method == "POST":
@@ -60,7 +57,6 @@ def registerpart1():
         elif request.form.get("password") != request.form.get("confirm_password"):
             return render_template("register-part1.html", error="Passwords must match")
 
-        # Gem data midlertidigt i sessionen
         session["name"] = request.form.get("name")
         session["email"] = request.form.get("email")
         session["password"] = generate_password_hash(request.form.get("password"))
@@ -92,9 +88,8 @@ def registerpart2():
         except ValueError:
             return render_template("register-part2.html", error="Training days must be a number")
 
-        # Indsæt data i databasen
         try:
-            db.execute(
+            user_id = db.execute(
                 """
                 INSERT INTO users (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -103,15 +98,19 @@ def registerpart2():
                 request.form.get("gender"), height, weight, goal_weight,
                 request.form.get("goal_type"), training_days
             )
+
+            session["user_id"] = user_id
+
         except Exception as e:
             return render_template("register-part2.html", error="An error occurred: " + str(e))
 
-        # Ryd sessionen
-        rows = db.execute("SELECT * FROM users WHERE email = ?", session["email"])
-        session["user_id"] = rows[0]["id"]
+        session.pop("name", None)
+        session.pop("email", None)
+        session.pop("password", None)
         return redirect("/")
 
     return render_template("register-part2.html")
+
 
 
 @app.route("/login", methods=["GET", "POST"])
