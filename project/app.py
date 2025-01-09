@@ -67,7 +67,7 @@ def login():
 
         rows = db.execute("SELECT * FROM users WHERE email = ?", email)
 
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
+        if len(rows) != 1 or not check_password_hash(rows[0]["password"], password):
             return render_template("login.html", error="Invalid username and/or password")
 
         session["user_id"] = rows[0]["id"]
