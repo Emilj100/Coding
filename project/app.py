@@ -117,11 +117,11 @@ def registerpart2():
 
 
         try:
-            db.execute("INSERT INTO users (, email, password) VALUES (?, ?, ?)", request.form.get("name"), request.form.get("email"), password)
+            db.execute("INSERT INTO users (age, gender, height, weight, goal_weight, goal_type, training_days) VALUES (?, ?, ?, ?, ?, ?, ?)", age, request.form.get("gender"), height, weight, goal_weight, request.form.get("goal_type"), training_days)
         except ValueError:
             return render_template("register-part1.html", error="Email already exist")
 
-        return redirect("register-part2")
+        return redirect("/")
 
     else:
         return render_template("register-part1.html")
