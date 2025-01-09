@@ -82,25 +82,39 @@ def registerpart2():
         try:
             age = int(request.form.get("age"))
             if not age:
-                return render_template("register-part1.html", error="Must provide age")
+                return render_template("register-part2.html", error="Must provide age")
         except ValueError:
-            return render_template("register-part1.html", error="Age must be a number")
+            return render_template("register-part2.html", error="Age must be a number")
 
-        if not request.form.get("gender"):
-            return render_template("register-part1.html", error="Must select gender")
-        elif not request.form.get("height"):
-            return render_template("register-part1.html", error="Must provide height")
-        elif not request.form.get("weight"):
-            return render_template("register-part1.html", error="Must provide weight")
-        elif not request.form.get("goal_weight"):
-            return render_template("register-part1.html", error="Must provide goal weight")
-        elif not request.form.get("goal_type"):
-            return render_template("register-part1.html", error="Must select goal")
-        elif not request.form.get("training_days"):
-            return render_template("register-part1.html", error="Must select training days")
+        if not request.form.get("gender") == "Male" or not request.form.get("gender") == "Female":
+            return render_template("register-part2.html", error="Must select valid gender")
+        try:
+            height = int(request.form.get("height"))
+            if not height:
+                return render_template("register-part2.html", error="Must provide height")
+        except ValueError:
+            return render_template("register-part2.html", error="Height must be a number")
+        try:
+            weight = int(request.form.get("weight"))
+            if not weight:
+                return render_template("register-part2.html", error="Must provide weight")
+        except ValueError:
+            return render_template("register-part2.html", error="weight must be a number")
+        try:
+            goal_weight = int(request.form.get("goal_weight"))
+            if not goal_weight:
+                return render_template("register-part2.html", error="Must provide goal weight")
+        except ValueError:
+            return render_template("register-part2.html", error="goal weight must be a number")
+        if not request.form.get("goal_type") == "Lose weight" or not request.form.get("goal_type") == "Gain weight" or not request.form.get("goal_type") == "Stay at current weight":
+            return render_template("register-part2.html", error="Must select valid goal")
+        try:
+            training_days = int(request.form.get("training_days"))
+            if not training_days:
+                return render_template("register-part2.html", error="Must provide training days")
+        except ValueError:
+            return render_template("register-part2.html", error="Training days must be a number")
 
-
-        password = generate_password_hash(request.form.get("password"))
 
         try:
             db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", request.form.get("name"), request.form.get("email"), password)
