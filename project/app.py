@@ -46,9 +46,13 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register-part1", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    return render_template("register-part1.html")
+
+@app.route("/register-part2", methods=["GET", "POST"])
+def register():
+    return render_template("register-part2.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
