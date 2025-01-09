@@ -142,7 +142,8 @@ def login():
 
 @app.route("/logout")
 def logout():
-    return "logout page"
+    session.clear()
+    redirect("/")
 
 @app.route("/calorietracker")
 @login_required
