@@ -13,72 +13,98 @@
 </head>
 <body>
 
-<div class="form-container">
-    <main class="form-signin">
-        <form action="/login" method="post">
-            <img src="/static/logo-black.png" alt="Logo" width="132" height="117" style="margin-bottom: -20px;">
-            <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+    <div class="form-container">
+        <main class="form-signin">
+            <form action="/register" method="post">
+                <img src="/static/logo-black.png" alt="Logo" width="132" height="117" style="margin-bottom: -20px;">
+                <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
 
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Name</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
-                <label for="floatingPassword">Confirm password</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Age</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Gender</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Weight</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Height</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Goal weight</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Goal</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-                <label for="floatingInput">Training days</label>
-            </div>
+                <!-- Name -->
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingName" name="name" placeholder="John Doe" required>
+                    <label for="floatingName">Name</label>
+                </div>
 
+                <!-- Email -->
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingEmail" name="email" placeholder="name@example.com" required>
+                    <label for="floatingEmail">Email address</label>
+                </div>
 
-            {% if error %}
-            <div class="text-danger mb-3">
-                {{ error }}
-            </div>
-            {% endif %}
+                <!-- Password -->
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+                    <label for="floatingPassword">Password</label>
+                </div>
 
-            <div class="form-check text-start my-3">
-                <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">Remember me</label>
-            </div>
-            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-        </form>
-    </main>
-</div>
+                <!-- Confirm Password -->
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingConfirmPassword" name="confirm_password" placeholder="Confirm Password" required>
+                    <label for="floatingConfirmPassword">Confirm password</label>
+                </div>
+
+                <!-- Age -->
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingAge" name="age" placeholder="18" min="1" required>
+                    <label for="floatingAge">Age</label>
+                </div>
+
+                <!-- Gender -->
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="floatingGender" name="gender" required>
+                        <option value="" disabled selected>Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <label for="floatingGender">Gender</label>
+                </div>
+
+                <!-- Weight -->
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingWeight" name="weight" placeholder="75.5" step="0.1" required>
+                    <label for="floatingWeight">Weight (kg)</label>
+                </div>
+
+                <!-- Height -->
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingHeight" name="height" placeholder="180" step="0.1" required>
+                    <label for="floatingHeight">Height (cm)</label>
+                </div>
+
+                <!-- Goal weight -->
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingGoalWeight" name="goal_weight" placeholder="70" step="0.1" required>
+                    <label for="floatingGoalWeight">Goal weight (kg)</label>
+                </div>
+
+                <!-- Goal Type -->
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="floatingGoalType" name="goal_type" required>
+                        <option value="" disabled selected>Select goal</option>
+                        <option value="lose weight">Lose weight</option>
+                        <option value="gain weight">Gain weight</option>
+                        <option value="stay at current weight">Stay at current weight</option>
+                    </select>
+                    <label for="floatingGoalType">Goal</label>
+                </div>
+
+                <!-- Training days -->
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingTrainingDays" name="training_days" placeholder="3" min="1" max="7" required>
+                    <label for="floatingTrainingDays">Training days per week</label>
+                </div>
+
+                <!-- Error message -->
+                {% if error %}
+                <div class="text-danger mb-3">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+            </form>
+        </main>
+    </div>
 
 </body>
 </html>
