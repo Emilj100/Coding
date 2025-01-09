@@ -67,7 +67,7 @@ def registerpart1():
         except ValueError:
             return render_template("register-part1.html", error="Email already exist")
 
-        return redirect("register-part2.html")
+        return redirect("register-part2")
 
     else:
         return render_template("register-part1.html")
