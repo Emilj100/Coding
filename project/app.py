@@ -51,21 +51,16 @@ def registerpart1():
 
     if request.method == "POST":
 
-        name = request.form.get("name")
-        email = request.form.get("email")
-        password = request.form.get("password")
-        confirm_password = request.form.get("confirm_password")
-
-
-        if not name:
+        if not request.form.get("name"):
             return render_template("register-part1.html", error="Must provide Name")
-        elif not email:
+        elif not request.form.get("email"):
             return render_template("register-part1.html", error="Must provide email")
-        elif not password:
+        elif not request.form.get("password"):
             return render_template("login.html", error="Must provide password")
-        elif not password == confirm_password:
+        elif not request.form.get("password") == request.form.get("confirm_password"):
             return render_template("login.html", error="Password must match")
 
+        password = generate_password_hash(request.form.get("password"))
 
     return render_template("register-part1.html")
 
