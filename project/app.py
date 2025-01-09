@@ -107,8 +107,9 @@ def registerpart2():
             return render_template("register-part2.html", error="An error occurred: " + str(e))
 
         # Ryd sessionen
-        session.clear()
-        return redirect("/login")
+        rows = db.execute("SELECT * FROM users WHERE email = ?", session["email"])
+        session["user_id"] = rows[0]["id"]
+        return redirect("/")
 
     return render_template("register-part2.html")
 
