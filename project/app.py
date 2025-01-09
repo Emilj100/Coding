@@ -48,7 +48,7 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    return "register page"
+    return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
