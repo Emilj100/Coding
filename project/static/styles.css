@@ -1,5 +1,97 @@
+/* Generelle settings for skrift og knapper */
 .nav-link:hover {
     text-decoration: underline !important;
 }
 
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif !important;
+}
+p {
+    font-family: 'Roboto', sans-serif !important;
+}
 
+.btn-custom {
+    color: black;
+    border-color: black;
+}
+
+.btn-custom:hover {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+/* Animationer */
+
+.section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in-immediate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in-left, .slide-in-right {
+    opacity: 0;
+    transform: translateX(100px); /* Standard position for højre */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Slide-in fra venstre */
+.slide-in-left {
+    transform: translateX(-100px); /* Flytter elementet til venstre */
+}
+
+.slide-in-left.visible {
+    opacity: 1;
+    transform: translateX(0); /* Elementet glider ind fra venstre */
+}
+
+/* Slide-in fra højre */
+.slide-in-right {
+    transform: translateX(100px); /* Flytter elementet til højre */
+}
+
+.slide-in-right.visible {
+    opacity: 1;
+    transform: translateX(0); /* Elementet glider ind fra højre */
+}
+
+/* Login side */
+.form-signin {
+    padding-right: 100px;
+    padding-left: 100px;
+    padding-bottom: 40px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Centrerer indholdet i boksen */
+}
+
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}

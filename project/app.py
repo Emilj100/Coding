@@ -52,7 +52,30 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    return "login page"
+    session.clear()
+
+    if request.method == "POST":
+
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+
+        if not email:
+            return render_template("login.html", error="Must provide email")
+        elif not password:
+            return render_template("login.html", error="Must provide password")
+
+        rows = db.execute("SELECT * FROM users WHERE email = ?", email)
+
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
+            return render_template("login.html", error="Invalid username and/or password")
+
+        session["user_id"] = rows[0]["id"]
+
+        return redirect("/")
+
+    else:
+        return render_template("login.html", error=None)
 
 @app.route("/logout")
 def logout():
