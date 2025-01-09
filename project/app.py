@@ -56,11 +56,16 @@ def registerpart1():
         elif not request.form.get("email"):
             return render_template("register-part1.html", error="Must provide email")
         elif not request.form.get("password"):
-            return render_template("login.html", error="Must provide password")
+            return render_template("register-part1.html", error="Must provide password")
         elif not request.form.get("password") == request.form.get("confirm_password"):
-            return render_template("login.html", error="Password must match")
+            return render_template("register-part1.html", error="Password must match")
 
         password = generate_password_hash(request.form.get("password"))
+
+        try:
+            db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", request.form.get("name"), request.form.get("email"), password)
+        except ValueError:
+            return render_template("register-part1.html", error="Email already exist")
 
     return render_template("register-part1.html")
 
