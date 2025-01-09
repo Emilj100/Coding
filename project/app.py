@@ -48,6 +48,25 @@ def index():
 
 @app.route("/register-part1", methods=["GET", "POST"])
 def registerpart1():
+
+    if request.method == "POST":
+
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+
+
+        if not name:
+            return render_template("register-part1.html", error="Must provide Name")
+        elif not email:
+            return render_template("register-part1.html", error="Must provide email")
+        elif not password:
+            return render_template("login.html", error="Must provide password")
+        elif not password == confirm_password:
+            return render_template("login.html", error="Password must match")
+
+
     return render_template("register-part1.html")
 
 @app.route("/register-part2", methods=["GET", "POST"])
