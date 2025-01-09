@@ -76,7 +76,36 @@ def registerpart1():
 
 @app.route("/register-part2", methods=["GET", "POST"])
 def registerpart2():
-    return render_template("register-part2.html")
+
+        if request.method == "POST":
+
+        if not request.form.get("age"):
+            return render_template("register-part1.html", error="Must provide age")
+        elif not request.form.get("gender"):
+            return render_template("register-part1.html", error="Must select gender")
+        elif not request.form.get("height"):
+            return render_template("register-part1.html", error="Must provide height")
+        elif not request.form.get("weight"):
+            return render_template("register-part1.html", error="Must provide weight")
+        elif not request.form.get("goal_weight"):
+            return render_template("register-part1.html", error="Must provide goal weight")
+        elif not request.form.get("goal_type"):
+            return render_template("register-part1.html", error="Must select goal")
+        elif not request.form.get("training_days"):
+            return render_template("register-part1.html", error="Must select training days")
+
+
+        password = generate_password_hash(request.form.get("password"))
+
+        try:
+            db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", request.form.get("name"), request.form.get("email"), password)
+        except ValueError:
+            return render_template("register-part1.html", error="Email already exist")
+
+        return redirect("register-part2")
+
+    else:
+        return render_template("register-part1.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
