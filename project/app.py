@@ -47,11 +47,11 @@ def index():
 
 
 @app.route("/register-part1", methods=["GET", "POST"])
-def register():
+def registerpart1():
     return render_template("register-part1.html")
 
 @app.route("/register-part2", methods=["GET", "POST"])
-def register():
+def registerpart2():
     return render_template("register-part2.html")
 
 @app.route("/login", methods=["GET", "POST"])
