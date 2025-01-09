@@ -46,85 +46,72 @@ def index():
     return render_template("index.html")
 
 
+from flask import session
+
 @app.route("/register-part1", methods=["GET", "POST"])
 def registerpart1():
-
     if request.method == "POST":
-
         if not request.form.get("name"):
             return render_template("register-part1.html", error="Must provide Name")
         elif not request.form.get("email"):
             return render_template("register-part1.html", error="Must provide email")
         elif not request.form.get("password"):
             return render_template("register-part1.html", error="Must provide password")
-        elif not request.form.get("password") == request.form.get("confirm_password"):
-            return render_template("register-part1.html", error="Password must match")
+        elif request.form.get("password") != request.form.get("confirm_password"):
+            return render_template("register-part1.html", error="Passwords must match")
 
-        password = generate_password_hash(request.form.get("password"))
+        # Gem data midlertidigt i sessionen
+        session["name"] = request.form.get("name")
+        session["email"] = request.form.get("email")
+        session["password"] = generate_password_hash(request.form.get("password"))
 
-        try:
-            db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", request.form.get("name"), request.form.get("email"), password)
-        except ValueError:
-            return render_template("register-part1.html", error="Email already exist")
+        return redirect("/register-part2")
 
-        return redirect("register-part2")
-
-    else:
-        return render_template("register-part1.html")
-
+    return render_template("register-part1.html")
 
 
 @app.route("/register-part2", methods=["GET", "POST"])
 def registerpart2():
-
-        if request.method == "POST":
-
+    if request.method == "POST":
         try:
             age = int(request.form.get("age"))
-            if not age:
-                return render_template("register-part2.html", error="Must provide age")
         except ValueError:
             return render_template("register-part2.html", error="Age must be a number")
-
-        if not request.form.get("gender") == "Male" or not request.form.get("gender") == "Female":
-            return render_template("register-part2.html", error="Must select valid gender")
+        if not request.form.get("gender") in ["Male", "Female"]:
+            return render_template("register-part2.html", error="Must select a valid gender")
         try:
-            height = int(request.form.get("height"))
-            if not height:
-                return render_template("register-part2.html", error="Must provide height")
+            height = float(request.form.get("height"))
+            weight = float(request.form.get("weight"))
+            goal_weight = float(request.form.get("goal_weight"))
         except ValueError:
-            return render_template("register-part2.html", error="Height must be a number")
-        try:
-            weight = int(request.form.get("weight"))
-            if not weight:
-                return render_template("register-part2.html", error="Must provide weight")
-        except ValueError:
-            return render_template("register-part2.html", error="weight must be a number")
-        try:
-            goal_weight = int(request.form.get("goal_weight"))
-            if not goal_weight:
-                return render_template("register-part2.html", error="Must provide goal weight")
-        except ValueError:
-            return render_template("register-part2.html", error="goal weight must be a number")
-        if not request.form.get("goal_type") == "Lose weight" or not request.form.get("goal_type") == "Gain weight" or not request.form.get("goal_type") == "Stay at current weight":
-            return render_template("register-part2.html", error="Must select valid goal")
+            return render_template("register-part2.html", error="Height, weight, and goal weight must be numbers")
+        if not request.form.get("goal_type") in ["lose weight", "gain weight", "stay at current weight"]:
+            return render_template("register-part2.html", error="Must select a valid goal type")
         try:
             training_days = int(request.form.get("training_days"))
-            if not training_days:
-                return render_template("register-part2.html", error="Must provide training days")
         except ValueError:
             return render_template("register-part2.html", error="Training days must be a number")
 
-
+        # Indsæt data i databasen
         try:
-            db.execute("INSERT INTO users (age, gender, height, weight, goal_weight, goal_type, training_days) VALUES (?, ?, ?, ?, ?, ?, ?)", age, request.form.get("gender"), height, weight, goal_weight, request.form.get("goal_type"), training_days)
-        except ValueError:
-            return render_template("register-part1.html", error="Email already exist")
+            db.execute(
+                """
+                INSERT INTO users (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                session["name"], session["email"], session["password"], age,
+                request.form.get("gender"), height, weight, goal_weight,
+                request.form.get("goal_type"), training_days
+            )
+        except Exception as e:
+            return render_template("register-part2.html", error="An error occurred: " + str(e))
 
-        return redirect("/")
+        # Ryd sessionen
+        session.clear()
+        return redirect("/login")
 
-    else:
-        return render_template("register-part1.html")
+    return render_template("register-part2.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
