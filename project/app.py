@@ -68,9 +68,11 @@ def registerpart1():
             return render_template("register-part1.html", error="Email already exist")
 
         return redirect("register-part2.html")
-    
+
     else:
         return render_template("register-part1.html")
+
+
 
 @app.route("/register-part2", methods=["GET", "POST"])
 def registerpart2():
