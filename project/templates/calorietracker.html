@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+
+
+<div class="container my-5">
+
+    <!-- Calorie Intake Summary -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Calories Consumed</h5>
+                    <p class="display-4 fw-bold text-success">1,200</p>
+                    <p class="text-muted">Calories consumed today</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Remaining Calories</h5>
+                    <p class="display-4 fw-bold text-danger">800</p>
+                    <p class="text-muted">Calories remaining to reach your goal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Daily Calorie Goal: 2,000 kcal</h5>
+            <div class="progress" style="height: 25px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="1200" aria-valuemin="0" aria-valuemax="2000">
+                    60%
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Calorie Tracker</h2>
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Example: 'Today I ate 250 gram of chicken and 1 banana'" aria-label="Food item" aria-describedby="search-button">
+        <button class="btn btn-primary" type="button" id="search-button">Add food</button>
+    </div>
+
+    <p class="text-muted text-center">Use the search bar above to log your meals.</p>
+</div>
+
+
+{% endblock %}

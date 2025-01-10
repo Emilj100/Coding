@@ -64,10 +64,10 @@
                     <p class="lead">Our platform simplifies fitness tracking and planning, making it easy to stay consistent and achieve your goals. With tools designed to fit your lifestyle, you can track calories, create personalized meal plans, and monitor your workout progress—all in one place. Whether you're a beginner or an experienced athlete, we provide the insights and support you need to succeed. Join a community that prioritizes your health and fitness..</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                         {% if session["user_id"] %}
-                            <p><a class="btn btn-primary btn-lg px-4 me-md-2" href="dashboard">View Dashboard</a></p>
+                            <a class="btn btn-primary btn-lg px-4 me-md-2" href="dashboard">View Dashboard</a>
                         {% else %}
-                            <button type="button" class="btn btn-outline-secondary btn-lg px-4 btn-custom">Log in</button>
-                            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Sign up</button>
+                            <a href="/login" class="btn btn-outline-secondary btn-lg px-4 btn-custom">Log in</a>
+                            <a href="/register-part1" class="btn btn-primary btn-lg px-4 me-md-2">Sign up</a>
                         {% endif %}
                     </div>
                   </div>
@@ -85,10 +85,10 @@
                             <p class="lead">Our mission is to make health and fitness accessible to everyone, no matter where you are on your journey. We believe that achieving your goals should be simple, enjoyable, and sustainable. That’s why we’ve created a platform that combines powerful tools, personalized insights, and a supportive community to help you succeed. Whether you’re looking to lose weight, build muscle, or improve your overall well-being, we’re here to guide and motivate you every step of the way.</p>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                                 {% if session["user_id"] %}
-                                    <p><a class="btn btn-primary btn-lg px-4 me-md-2" href="dashboard">View Dashboard</a></p>
+                                    <a class="btn btn-primary btn-lg px-4 me-md-2" href="dashboard">View Dashboard</a>
                                 {% else %}
-                                    <button type="button" class="btn btn-outline-secondary btn-lg px-4 btn-custom">Log in</button>
-                                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Sign up</button>
+                                    <a href="/login" class="btn btn-outline-secondary btn-lg px-4 btn-custom">Log in</a>
+                                    <a href="/register-part1" class="btn btn-primary btn-lg px-4 me-md-2">Sign up</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -103,10 +103,10 @@
                   <p class="lead mb-4">Take the first step toward a healthier, stronger, and more confident you. With our all-in-one platform, you can track your progress, create personalized meal plans, and stay consistent with your workouts. Don’t wait for tomorrow—your journey starts today. Sign up now and let’s achieve your goals together.</p>
                   <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     {% if session["user_id"] %}
-                        <p><a class="btn btn-primary btn-lg px-4 me-md-2" href="dashboard">View Dashboard</a></p>
+                        <a class="btn btn-primary btn-lg px-4 me-md-2" href="dashboard">View Dashboard</a>
                     {% else %}
-                        <button type="button" class="btn btn-outline-secondary btn-lg px-4 btn-custom">Log in</button>
-                        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Sign up</button>
+                        <a href="/login" class="btn btn-outline-secondary btn-lg px-4 btn-custom">Log in</a>
+                        <a href="/register-part1" class="btn btn-primary btn-lg px-4 me-md-2">Sign up</a>
                     {% endif %}
                   </div>
                 </div>

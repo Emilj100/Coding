@@ -5,6 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+import re
 
 # Configure application
 app = Flask(__name__)
@@ -48,12 +49,15 @@ def index():
 @app.route("/register-part1", methods=["GET", "POST"])
 def registerpart1():
     if request.method == "POST":
+
+        email = request.form.get("email")
+
         if not request.form.get("name"):
             return render_template("register-part1.html", error="Must provide Name")
-        elif not request.form.get("email"):
-            return render_template("register-part1.html", error="Must provide email")
-        elif not request.form.get("password"):
-            return render_template("register-part1.html", error="Must provide password")
+        elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            return render_template("register-part1.html", error="Must provide valid email")
+        elif not request.form.get("password") or not len(request.form.get("password")) >= 8:
+            return render_template("register-part1.html", error="Password must be at least 8 characters long")
         elif request.form.get("password") != request.form.get("confirm_password"):
             return render_template("register-part1.html", error="Passwords must match")
 
@@ -72,9 +76,9 @@ def registerpart2():
         try:
             age = int(request.form.get("age"))
         except ValueError:
-            return render_template("register-part2.html", error="Age must be a number")
+            return render_template("register-part2.html", error="Please enter a valid number for age.")
         if not request.form.get("gender") in ["Male", "Female"]:
-            return render_template("register-part2.html", error="Must select a valid gender")
+            return render_template("register-part2.html", error="Please select a valid gender")
         try:
             height = float(request.form.get("height"))
             weight = float(request.form.get("weight"))
@@ -82,9 +86,11 @@ def registerpart2():
         except ValueError:
             return render_template("register-part2.html", error="Height, weight, and goal weight must be numbers")
         if not request.form.get("goal_type") in ["lose weight", "gain weight", "stay at current weight"]:
-            return render_template("register-part2.html", error="Must select a valid goal type")
+            return render_template("register-part2.html", error="Please select a valid goal")
         try:
             training_days = int(request.form.get("training_days"))
+            if not (1 <= training_days <= 7):
+                return render_template("register-part2.html", error="Training days must be between 1 and 7.")
         except ValueError:
             return render_template("register-part2.html", error="Training days must be a number")
 
@@ -101,8 +107,8 @@ def registerpart2():
 
             session["user_id"] = user_id
 
-        except Exception as e:
-            return render_template("register-part2.html", error="An error occurred: " + str(e))
+        except ValueError:
+            return render_template("register-part1.html", error="Email already exist")
 
         session.pop("name", None)
         session.pop("email", None)
@@ -142,6 +148,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+
     session.clear()
 
     return redirect("/")
@@ -149,7 +156,7 @@ def logout():
 @app.route("/calorietracker")
 @login_required
 def calorietracker():
-    return "calorietracker page"
+    return render_template("calorietracker.html")
 
 @app.route("/traininglog")
 @login_required
