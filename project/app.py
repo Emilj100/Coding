@@ -6,6 +6,7 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 import re
+import requests
 
 # Configure application
 app = Flask(__name__)
@@ -157,17 +158,15 @@ def logout():
 @login_required
 def calorietracker():
 
-     try:
-        # Spørger brugeren om hvad de har spist i dag, som vi så indsætter i vores API
-        food_query = input("What did you eat today? ")
+    if request.method == "POST":
 
+        # Spørger brugeren om hvad de har spist i dag
+        food_query = input("What did you eat today? ")
 
         API_KEY = "6158963245cf646896228de0c3d0ba3a"
         APP_ID = "584633a6"
 
-
         url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
-
 
         headers = {
             "x-app-id": APP_ID,
@@ -175,38 +174,20 @@ def calorietracker():
             "Content-Type": "application/json"
         }
 
-        # Data, der skal sendes i anmodningen - den tekstbaserede forespørgsel
         data = {
             "query": food_query
         }
 
-        # Send POST-forespørgsel til Nutritionix API
         response = requests.post(url, headers=headers, json=data)
 
-        # Ændre svaret til JSON-format
-        nutrition_data = response.json()
+        if response.status_code == 200:
+            nutrition_data = response.json()
+            print(nutrition_data)
+        else:
+            print("Error:", response.status_code, response.text)
 
-        # Viser brugeren tallene for det som brugeren har indtastet
-        print("Here is the data for the food you have been eating today:\n")
-
-        all_calories = []
-        all_protein = []
-        all_carbohydrate = []
-        all_fat = []
-
-        for food in nutrition_data["foods"]:
-            all_calories.append(food["nf_calories"])
-            all_protein.append(food["nf_protein"])
-            all_carbohydrate.append(food["nf_total_carbohydrate"])
-            all_fat.append(food["nf_total_fat"])
-
-
-        print(f"{sum(all_calories):.2f} calories")
-        print(f"{sum(all_protein):.2f} protein")
-        print(f"{sum(all_carbohydrate):.2f} carbohydrate")
-        print(f"{sum(all_fat):.2f} fat")
-
-    return render_template("calorietracker.html")
+    else:
+        return render_template("calorietracker.html")
 
 @app.route("/traininglog")
 @login_required
