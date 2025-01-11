@@ -223,18 +223,18 @@ def calorietracker():
 
         # Redirect til GET efter POST
         return redirect("/calorietracker")
+    else:
+        # Select madlog for i dag
+        food_log = db.execute(
+            """
+            SELECT food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
+            FROM food_log
+            WHERE user_id = ? AND DATE(created_at) = DATE('now')
+            """,
+            user_id
+        )
 
-    # Select madlog for i dag
-    food_log = db.execute(
-        """
-        SELECT food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-        FROM food_log
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        """,
-        user_id
-    )
-
-    return render_template("calorietracker.html", food_log=food_log)
+        return render_template("calorietracker.html", food_log=food_log)
 
 
 
