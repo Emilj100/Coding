@@ -209,7 +209,7 @@ def calorietracker():
 
 
 
-        return render_template("calorietracker.html", nutrition=nutrition)
+        return render_template("calorietracker.html")
 
 
     else:
