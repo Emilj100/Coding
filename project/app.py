@@ -211,12 +211,12 @@ def calorietracker():
                     """,
                     user_id,
                     food["food_name"].title(),
-                    round(food["serving_qty"]),
+                    int(round(food["serving_qty"])),
                     food["serving_unit"],
-                    round(food["nf_calories"]),
-                    round(food["nf_protein"]),
-                    round(food["nf_total_carbohydrate"]),
-                    round(food["nf_total_fat"])
+                    int(round(food["nf_calories"])),
+                    int(round(food["nf_protein"])),
+                    int(round(food["nf_total_carbohydrate"])),
+                    int(round(food["nf_total_fat"]))
                 )
         else:
             return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
