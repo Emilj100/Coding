@@ -78,12 +78,13 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{ nutrition.food_name }}
                             <div>
-                                <span class="badge bg-success rounded-pill me-2">500 kcal</span>
+                                <span class="badge bg-success rounded-pill me-2">{{ nutrition.nf_calories }}</span>
                                 <button class="btn btn-sm btn-danger">
                                     <i class="bi bi-x-circle-fill"></i>
                                 </button>
                             </div>
                         </li>
+                        {% endfor %}
                     </ul>
                 </div>
 
