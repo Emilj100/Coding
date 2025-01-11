@@ -199,6 +199,9 @@ def calorietracker():
 
         nutrition_data = response.json()
 
+        for food in nutrition_data["foods"]:
+            
+
         return render_template("calorietracker.html", nutrition_data=nutrition_data["foods"])
 
 
