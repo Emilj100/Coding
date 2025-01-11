@@ -200,7 +200,11 @@ def calorietracker():
         nutrition_data = response.json()
 
         for food in nutrition_data["foods"]:
-            
+            db.execute(
+                """
+                INSERT INTO foodlog (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """),
 
         return render_template("calorietracker.html", nutrition_data=nutrition_data["foods"])
 
