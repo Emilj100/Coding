@@ -74,6 +74,7 @@ def registerpart1():
 @app.route("/register-part2", methods=["GET", "POST"])
 def registerpart2():
     if request.method == "POST":
+
         try:
             age = int(request.form.get("age"))
         except ValueError:
@@ -88,6 +89,8 @@ def registerpart2():
             return render_template("register-part2.html", error="Height, weight, and goal weight must be numbers")
         if not request.form.get("goal_type") in ["lose weight", "gain weight", "stay at current weight"]:
             return render_template("register-part2.html", error="Please select a valid goal")
+        if not request.form.get("experience_level") in ["beginner", "intermediate", "advanced"]:
+            return render_template("register-part2.html", error="Please select a valid experience level")
         try:
             training_days = int(request.form.get("training_days"))
             if not (1 <= training_days <= 7):
@@ -95,15 +98,30 @@ def registerpart2():
         except ValueError:
             return render_template("register-part2.html", error="Training days must be a number")
 
+        if request.form.get("gender") == "Male":
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+        else:
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+        if (1 <= training_days <= 3):
+            calorie_intake = bmr * 1.375
+        elif (4 <= training_days <= 5):
+            calorie_intake = bmr * 1.55
+        else:
+            calorie_intake = bmr * 1.725
+        if request.form.get("goal_type") == "lose weight":
+            calorie_intake = round(calorie_intake - 500)
+        elif request.form.get("goal_type") == "gain weight":
+            calorie_intake = round(calorie_intake + 500)
+
         try:
             user_id = db.execute(
                 """
-                INSERT INTO users (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO users (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 session["name"], session["email"], session["password"], age,
                 request.form.get("gender"), height, weight, goal_weight,
-                request.form.get("goal_type"), training_days
+                request.form.get("goal_type"), training_days, request.form.get("experience_level"), calorie_intake
             )
 
             session["user_id"] = user_id

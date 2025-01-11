@@ -27,16 +27,6 @@
                         <label for="floatingAge">Age</label>
                     </div>
 
-                    <!-- Gender -->
-                    <div class="form-floating mb-3">
-                        <select class="form-select" id="floatingGender" name="gender" required>
-                            <option value="" disabled selected>Select gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                        <label for="floatingGender">Gender</label>
-                    </div>
-
                     <!-- Height -->
                     <div class="form-floating mb-3">
                         <input type="number" class="form-control" id="floatingHeight" name="height" placeholder="180" step="0.1" required>
@@ -48,14 +38,25 @@
                         <input type="number" class="form-control" id="floatingWeight" name="weight" placeholder="75.5" step="0.1" required>
                         <label for="floatingWeight">Weight (kg)</label>
                     </div>
-                </div>
 
-                <!-- Second Column -->
-                <div class="col-md-6">
                     <!-- Goal weight -->
                     <div class="form-floating mb-3">
                         <input type="number" class="form-control" id="floatingGoalWeight" name="goal_weight" placeholder="70" step="0.1" required>
                         <label for="floatingGoalWeight">Goal weight (kg)</label>
+                    </div>
+                </div>
+
+
+                <!-- Second Column -->
+                <div class="col-md-6">
+                    <!-- Gender -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="floatingGender" name="gender" required>
+                            <option value="" disabled selected>Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                        <label for="floatingGender">Gender</label>
                     </div>
 
                     <!-- Goal Type -->
@@ -67,6 +68,17 @@
                             <option value="stay at current weight">Stay at current weight</option>
                         </select>
                         <label for="floatingGoalType">Goal</label>
+                    </div>
+
+                    <!-- Experience Level -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="floatingExperience" name="experience_level" required>
+                            <option value="" disabled selected>Select experience level</option>
+                            <option value="beginner">Beginner (0-6 months)</option>
+                            <option value="intermediate">Intermediate (6-24 months)</option>
+                            <option value="advanced">Advanced (2+ years)</option>
+                        </select>
+                        <label for="floatingExperience">Experience Level</label>
                     </div>
 
                     <!-- Training Days -->
