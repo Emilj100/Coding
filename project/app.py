@@ -154,7 +154,7 @@ def logout():
 
     return redirect("/")
 
-@app.route("/calorietracker")
+@app.route("/calorietracker", methods=["GET", "POST"])
 @login_required
 def calorietracker():
 
