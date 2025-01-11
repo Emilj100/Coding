@@ -202,7 +202,7 @@ def calorietracker():
         for food in nutrition_data["foods"]:
             db.execute(
                 """
-                INSERT INTO foodlog (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
+                INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, ser)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """),
 
