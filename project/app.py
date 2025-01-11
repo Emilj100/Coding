@@ -160,8 +160,7 @@ def calorietracker():
 
     if request.method == "POST":
 
-        # Spørger brugeren om hvad de har spist i dag
-        food_query = input("What did you eat today? ")
+        food_query = request.form.get("food")
 
         API_KEY = "6158963245cf646896228de0c3d0ba3a"
         APP_ID = "584633a6"
