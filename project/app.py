@@ -176,17 +176,8 @@ def logout():
 @login_required
 def calorietracker():
 
-@app.route("/calorietracker", methods=["GET", "POST"])
-@login_required
-def calorietracker():
-    # Hent brugerens ID fra session
-    user_id = session["user_id"]
-
-    # Initialiser en variabel til at holde madloggen
-    food_log = []
-
     if request.method == "POST":
-        # Hent mad, som brugeren har indtastet
+
         food_query = request.form.get("food")
 
         API_KEY = "6158963245cf646896228de0c3d0ba3a"
@@ -206,40 +197,23 @@ def calorietracker():
 
         response = requests.post(url, headers=headers, json=data)
 
-        if response.status_code == 200:
-            nutrition_data = response.json()
+        nutrition_data = response.json()
 
-            # Indsæt data i databasen
-            for food in nutrition_data["foods"]:
-                db.execute(
-                    """
-                    INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """,
-                    user_id,
-                    food["food_name"],
-                    food["serving_qty"],
-                    food["serving_unit"],
-                    food["nf_calories"],
-                    food["nf_protein"],
-                    food["nf_total_carbohydrate"],
-                    food["nf_total_fat"]
-                )
-        else:
-            return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
+        for food in nutrition_data["foods"]:
+            db.execute(
+                """
+                INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """, session["user_id"], food["food_name"], food["serving_qty"], food["serving_unit"], food["nf_calories"], food["nf_protein"], food["nf_total_carbohydrate"], food["nf_total_fat"]
+            )
 
-    # Select madlog for i dag
-    food_log = db.execute(
-        """
-        SELECT food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-        FROM food_log
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        """,
-        user_id
-    )
+
+
+        return render_template("calorietracker.html")
+
+
     else:
-        return render_template("calorietracker.html", food_log=food_log)
-
+        return render_template("calorietracker.html")
 
 @app.route("/traininglog")
 @login_required
