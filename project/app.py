@@ -175,10 +175,6 @@ def logout():
 @app.route("/calorietracker", methods=["GET", "POST"])
 @login_required
 def calorietracker():
-
-@app.route("/calorietracker", methods=["GET", "POST"])
-@login_required
-def calorietracker():
     # Hent brugerens ID fra session
     user_id = session["user_id"]
 
@@ -225,8 +221,8 @@ def calorietracker():
                     food["nf_total_carbohydrate"],
                     food["nf_total_fat"]
                 )
-        else:
-            return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
+    else:
+        return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
 
     # Select madlog for i dag
     food_log = db.execute(
