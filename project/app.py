@@ -181,6 +181,8 @@ def calorietracker():
 
         nutrition_data = response.json()
 
+        return render_template("calorietracker.html", nutrition_data=nutrition_data)
+
 
     else:
         return render_template("calorietracker.html")
