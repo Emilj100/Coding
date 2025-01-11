@@ -1,12 +1,26 @@
-from flask import Flask, render_template, request
+import requests
 
-app = Flask(__name__)
+food_query = input("What did you eat today?")
 
-@app.route("/")
-def index():
-    if "name" in request.args:
-        name = request.args["name"]
-    else:
-        name = "world"
-    return render_template("index.html", placeholder=name)
+API_KEY = "6158963245cf646896228de0c3d0ba3a"
+APP_ID = "584633a6"
 
+url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+
+headers = {
+    "x-app-id": APP_ID,
+    "x-app-key": API_KEY,
+    "Content-Type": "application/json"
+}
+
+data = {
+    "query": food_query
+}
+
+response = requests.post(url, headers=headers, json=data)
+
+if response.status_code == 200:
+    nutrition_data = response.json()
+    print(nutrition_data)
+else:
+    print("Error:", response.status_code, response.text)
