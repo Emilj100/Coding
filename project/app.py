@@ -179,11 +179,8 @@ def calorietracker():
 
         response = requests.post(url, headers=headers, json=data)
 
-        if response.status_code == 200:
-            nutrition_data = response.json()
-            print(nutrition_data)
-        else:
-            print("Error:", response.status_code, response.text)
+        nutrition_data = response.json()
+
 
     else:
         return render_template("calorietracker.html")
