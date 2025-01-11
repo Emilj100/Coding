@@ -178,9 +178,6 @@ def calorietracker():
     # Hent brugerens ID fra session
     user_id = session["user_id"]
 
-    # Initialiser en variabel til at holde madloggen
-    food_log = []
-
     if request.method == "POST":
         # Hent mad, som brugeren har indtastet
         food_query = request.form.get("food")
@@ -221,8 +218,11 @@ def calorietracker():
                     food["nf_total_carbohydrate"],
                     food["nf_total_fat"]
                 )
-    else:
-        return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
+        else:
+            return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
+
+        # Redirect til GET efter POST
+        return redirect("/calorietracker")
 
     # Select madlog for i dag
     food_log = db.execute(
@@ -235,6 +235,7 @@ def calorietracker():
     )
 
     return render_template("calorietracker.html", food_log=food_log)
+
 
 
 @app.route("/traininglog")
