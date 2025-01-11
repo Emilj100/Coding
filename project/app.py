@@ -204,7 +204,8 @@ def calorietracker():
                 """
                 INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """), session["user_id"], food["food_name"], food["serving_qty"], food["serving_unit"], food["nf_calories"], food["nf_protein"], food["nf_total_carbohydrate"], food["nf_total_fat"]
+                """, session["user_id"], food["food_name"], food["serving_qty"], food["serving_unit"], food["nf_calories"], food["nf_protein"], food["nf_total_carbohydrate"], food["nf_total_fat"]
+            )
 
         return render_template("calorietracker.html", nutrition_data=nutrition_data["foods"])
 
