@@ -196,23 +196,34 @@ def calorietracker():
 
             if response.status_code == 200:
                 nutrition_data = response.json()
-                for food in nutrition_data["foods"]:
-                    db.execute(
-                        """
-                        INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                        """,
-                        user_id,
-                        food["food_name"].title(),
-                        food["serving_qty"],
-                        food["serving_unit"],
-                        food["nf_calories"],
-                        food["nf_protein"],
-                        food["nf_total_carbohydrate"],
-                        food["nf_total_fat"]
-                    )
+                failed_items = []
+
+                for food in nutrition_data.get("foods", []):
+                    try:
+                        db.execute(
+                            """
+                            INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                            """,
+                            user_id,
+                            food["food_name"].title(),
+                            food["serving_qty"],
+                            food["serving_unit"],
+                            food["nf_calories"],
+                            food["nf_protein"],
+                            food["nf_total_carbohydrate"],
+                            food["nf_total_fat"]
+                        )
+                    except KeyError:
+                        failed_items.append(food.get("food_name", "Unknown item"))
+
+                if failed_items:
+                    error_message = f"The following items could not be processed: {', '.join(failed_items)}."
+                    return render_template("calorietracker.html", error=error_message, food_log=food_log, macros=macros, total_consumed=total_consumed, remaining_calories=remaining_calories, calorie_goal=calorie_goal)
             else:
-                return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
+                # Her kan du stadig have en fallback-fejlmeddelelse, hvis API-kaldet fejler helt
+                return render_template("calorietracker.html", error="The API request failed. Please try again later.", food_log=food_log, macros=macros, total_consumed=total_consumed, remaining_calories=remaining_calories, calorie_goal=calorie_goal)
+
 
         elif action == "delete":  # Handling for deleting food
             food_id = request.form.get("food_id")
