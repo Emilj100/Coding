@@ -92,6 +92,12 @@
             <div class="tab-pane fade" id="nutrition" role="tabpanel">
                 <div class="text-center">
                     <h5 class="mt-3">Nutritional Breakdown</h5>
+
+                    <!-- Skjulte felter til makrodata -->
+                    <span id="macro-proteins" style="display: none;">{{ macros.total_proteins | default(0) }}</span>
+                    <span id="macro-carbohydrates" style="display: none;">{{ macros.total_carbohydrates | default(0) }}</span>
+                    <span id="macro-fats" style="display: none;">{{ macros.total_fats | default(0) }}</span>
+
                     <canvas id="nutritionPieChart" style="max-width: 300px; margin: auto;"></canvas>
                 </div>
             </div>
