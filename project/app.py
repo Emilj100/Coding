@@ -245,16 +245,16 @@ def calorietracker():
             user_id
         )[0]
 
-        food_log = db.execute(
+        calorie_intake = db.execute(
             """
-            SELECT 
-            FROM food_log
-            WHERE user_id = ? AND DATE(created_at) = DATE('now')
+            SELECT daily_calorie_goal
+            FROM users
+            WHERE user_id = ?
             """,
             user_id
         )
 
-        remaining_calories =
+        remaining_calories = calorie_intake - macros["calories"]
 
         return render_template("calorietracker.html", food_log=food_log, macros=macros)
 
