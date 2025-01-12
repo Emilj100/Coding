@@ -175,93 +175,79 @@ def logout():
 @app.route("/calorietracker", methods=["GET", "POST"])
 @login_required
 def calorietracker():
-    # Hent brugerens ID fra session
     user_id = session["user_id"]
 
     if request.method == "POST":
-        # Hent mad, som brugeren har indtastet
-        food_query = request.form.get("food")
+        action = request.form.get("action")
 
-        API_KEY = "6158963245cf646896228de0c3d0ba3a"
-        APP_ID = "584633a6"
+        if action == "add":  # Handling for adding food
+            food_query = request.form.get("food")
+            API_KEY = "6158963245cf646896228de0c3d0ba3a"
+            APP_ID = "584633a6"
 
-        url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+            url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+            headers = {
+                "x-app-id": APP_ID,
+                "x-app-key": API_KEY,
+                "Content-Type": "application/json"
+            }
+            data = {"query": food_query}
+            response = requests.post(url, headers=headers, json=data)
 
-        headers = {
-            "x-app-id": APP_ID,
-            "x-app-key": API_KEY,
-            "Content-Type": "application/json"
-        }
+            if response.status_code == 200:
+                nutrition_data = response.json()
+                for food in nutrition_data["foods"]:
+                    db.execute(
+                        """
+                        INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        user_id,
+                        food["food_name"].title(),
+                        food["serving_qty"],
+                        food["serving_unit"],
+                        food["nf_calories"],
+                        food["nf_protein"],
+                        food["nf_total_carbohydrate"],
+                        food["nf_total_fat"]
+                    )
+            else:
+                return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
 
-        data = {
-            "query": food_query
-        }
+        elif action == "delete":  # Handling for deleting food
+            food_id = request.form.get("food_id")
+            db.execute("DELETE FROM food_log WHERE id = ? AND user_id = ?", food_id, user_id)
 
-        response = requests.post(url, headers=headers, json=data)
-
-        if response.status_code == 200:
-            nutrition_data = response.json()
-
-            # Indsæt data i databasen
-            for food in nutrition_data["foods"]:
-                db.execute(
-                    """
-                    INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """,
-                    user_id,
-                    food["food_name"].title(),
-                    food["serving_qty"],
-                    food["serving_unit"],
-                    food["nf_calories"],
-                    food["nf_protein"],
-                    food["nf_total_carbohydrate"],
-                    food["nf_total_fat"]
-                )
-        else:
-            return render_template("calorietracker.html", error="Failed to fetch data from the API. Please try again.")
-
-        # Redirect til GET efter POST
         return redirect("/calorietracker")
-    else:
-        # Select madlog for i dag
-        food_log = db.execute(
-            """
-            SELECT food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-            FROM food_log
-            WHERE user_id = ? AND DATE(created_at) = DATE('now')
-            """,
-            user_id
-        )
 
-        # Hent totaler for makronæringsstoffer og kalorier
-        macros = db.execute(
-            """
-            SELECT SUM(proteins) AS total_proteins,
-                SUM(carbohydrates) AS total_carbohydrates,
-                SUM(fats) AS total_fats,
-                SUM(calories) AS total_calories
-            FROM food_log
-            WHERE user_id = ? AND DATE(created_at) = DATE('now')
-            """,
-            user_id
-        )[0]
+    # Fetch food log for the current day
+    food_log = db.execute(
+        """
+        SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
+        FROM food_log
+        WHERE user_id = ? AND DATE(created_at) = DATE('now')
+        """,
+        user_id
+    )
 
-        # Hent brugerens daglige kaloriemål
-        calorie_goal = db.execute(
-            """
-            SELECT daily_calorie_goal
-            FROM users
-            WHERE id = ?
-            """,
-            user_id
-        )[0]["daily_calorie_goal"]
+    # Fetch macros and calculate remaining calories
+    macros = db.execute(
+        """
+        SELECT SUM(proteins) AS total_proteins,
+               SUM(carbohydrates) AS total_carbohydrates,
+               SUM(fats) AS total_fats,
+               SUM(calories) AS total_calories
+        FROM food_log
+        WHERE user_id = ? AND DATE(created_at) = DATE('now')
+        """,
+        user_id
+    )[0]
+    calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
+    total_consumed = macros["total_calories"] if macros["total_calories"] else 0
+    remaining_calories = calorie_goal - total_consumed
 
-        # Beregn resterende kalorier
-        total_consumed = macros["total_calories"] if macros["total_calories"] else 0  # Håndter null
-        remaining_calories = calorie_goal - total_consumed
+    return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=total_consumed, remaining_calories=remaining_calories, calorie_goal=calorie_goal)
 
-        return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=total_consumed, remaining_calories=remaining_calories, calorie_goal=calorie_goal)
 
 
 
