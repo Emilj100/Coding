@@ -19,7 +19,7 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h5 class="card-title text-muted">Calories Consumed</h5>
-                    <p class="display-4 text-success fw-bold">1,200 kcal</p>
+                    <p class="display-4 text-success fw-bold">{{ total_consumed }}</p>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h5 class="card-title text-muted">Daily Goal</h5>
-                    <p class="display-4 text-primary fw-bold">2,000 kcal</p>
+                    <p class="display-4 text-primary fw-bold">{{ calorie_goal }}</p>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h5 class="card-title text-muted">Remaining Calories</h5>
-                    <p class="display-4 text-danger fw-bold">800 kcal</p>
+                    <p class="display-4 text-danger fw-bold">{{ remaining_calories }}</p>
                 </div>
             </div>
         </div>
