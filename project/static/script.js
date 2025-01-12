@@ -35,19 +35,26 @@ document.addEventListener("DOMContentLoaded", () => {
     checkVisibility();
 });
 
-  // Pie chart til calorietracker
-  document.addEventListener("DOMContentLoaded", () => {
+ // Pie chart til calorietracker
+document.addEventListener("DOMContentLoaded", () => {
     let nutritionPieChart;
 
     // Initialiser pie chart, når fanen aktiveres
     document.querySelector('#nutrition-tab').addEventListener('shown.bs.tab', () => {
         const ctx = document.getElementById('nutritionPieChart').getContext('2d');
 
+        // Hent makronæringsstoffer fra data, der sendes via Jinja
+        const macroData = {
+            proteins: parseFloat(document.getElementById('macro-proteins').textContent) || 0,
+            carbohydrates: parseFloat(document.getElementById('macro-carbohydrates').textContent) || 0,
+            fats: parseFloat(document.getElementById('macro-fats').textContent) || 0
+        };
+
         if (!nutritionPieChart) { // Initialiser kun chartet én gang
             const data = {
                 labels: ['Proteins', 'Carbohydrates', 'Fats'],
                 datasets: [{
-                    data: [25, 50, 25],
+                    data: [macroData.proteins, macroData.carbohydrates, macroData.fats],
                     backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
                     hoverOffset: 4
                 }]
@@ -65,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         tooltip: {
                             callbacks: {
                                 label: function(tooltipItem) {
-                                    return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                    return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(1) + ' g';
                                 }
                             }
                         }
@@ -73,7 +80,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         } else {
-            nutritionPieChart.resize(); // Hvis chartet allerede er initialiseret, tilpas størrelsen
+            // Opdater data, hvis chartet allerede er initialiseret
+            nutritionPieChart.data.datasets[0].data = [
+                macroData.proteins,
+                macroData.carbohydrates,
+                macroData.fats
+            ];
+            nutritionPieChart.update();
         }
     });
 });
