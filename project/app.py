@@ -238,12 +238,23 @@ def calorietracker():
             """
             SELECT SUM(proteins) AS total_proteins,
                 SUM(carbohydrates) AS total_carbohydrates,
-                SUM(fats) AS total_fats
+                SUM(fats) AS total_fats, SUM(calories)
             FROM food_log
             WHERE user_id = ? AND DATE(created_at) = DATE('now')
             """,
             user_id
         )[0]
+
+        food_log = db.execute(
+            """
+            SELECT 
+            FROM food_log
+            WHERE user_id = ? AND DATE(created_at) = DATE('now')
+            """,
+            user_id
+        )
+
+        remaining_calories =
 
         return render_template("calorietracker.html", food_log=food_log, macros=macros)
 
