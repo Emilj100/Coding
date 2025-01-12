@@ -234,27 +234,32 @@ def calorietracker():
             user_id
         )
 
+        # Hent totaler for makronæringsstoffer og kalorier
         macros = db.execute(
             """
             SELECT SUM(proteins) AS total_proteins,
                 SUM(carbohydrates) AS total_carbohydrates,
-                SUM(fats) AS total_fats, SUM(calories)
+                SUM(fats) AS total_fats,
+                SUM(calories) AS total_calories
             FROM food_log
             WHERE user_id = ? AND DATE(created_at) = DATE('now')
             """,
             user_id
         )[0]
 
-        calorie_intake = db.execute(
+        # Hent brugerens daglige kaloriemål
+        calorie_goal = db.execute(
             """
             SELECT daily_calorie_goal
             FROM users
-            WHERE user_id = ?
+            WHERE id = ?
             """,
             user_id
-        )
+        )[0]["daily_calorie_goal"]
 
-        remaining_calories = calorie_intake - macros["calories"]
+        # Beregn resterende kalorier
+        total_consumed = macros["total_calories"] if macros["total_calories"] else 0  # Håndter null
+        remaining_calories = calorie_goal - total_consumed
 
         return render_template("calorietracker.html", food_log=food_log, macros=macros)
 
