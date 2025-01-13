@@ -257,7 +257,7 @@ def calorietracker():
     total_consumed = macros["total_calories"] if macros["total_calories"] else 0
     remaining_calories = calorie_goal - total_consumed
 
-    return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=total_consumed, remaining_calories=remaining_calories, calorie_goal=calorie_goal)
+    return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal))
 
 
 
