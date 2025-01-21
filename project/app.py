@@ -221,7 +221,6 @@ def calorietracker():
             response = requests.post(url, headers=headers, json=data)
 
             failed_items = []  # Items not recognized
-            added_items = []   # Items successfully added
 
             if response.status_code == 200:
                 nutrition_data = response.json()
@@ -249,14 +248,13 @@ def calorietracker():
                                 food["nf_total_carbohydrate"],
                                 food["nf_total_fat"]
                             )
-                            added_items.append(food["food_name"].lower())
                         except Exception:
-                            pass  # Undgå at afbryde processen, hvis der opstår en fejl
+                            pass  # Ignorer fejl under tilføjelse af fødevarer
 
                     # Tjek for ikke-genkendte varer
                     failed_items = [
                         item for item in input_items
-                        if not any(recognized_food in item for recognized_food in added_items)
+                        if not any(recognized_food in item for recognized_food in recognized_foods)
                     ]
                 else:
                     # Ingen fødevarer blev genkendt
@@ -274,14 +272,10 @@ def calorietracker():
                     error="Unable to connect to the Nutritionix API. Please try again later."
                 )
 
-            # Generer feedbackbesked
+            # Kun vis fejlbesked, hvis der er varer, der fejlede
             error = None
             if failed_items:
                 error = f"The following items could not be processed: {', '.join(failed_items)}."
-            if added_items and failed_items:
-                error = f"Some items were added successfully: {', '.join(added_items)}. However, these items could not be processed: {', '.join(failed_items)}."
-            elif added_items:
-                error = f"The following items were added successfully: {', '.join(added_items)}."
 
             # Always render the updated page
             return render_template(
