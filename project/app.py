@@ -272,7 +272,7 @@ def calorietracker():
                     total_consumed=round(total_consumed),
                     remaining_calories=round(remaining_calories),
                     calorie_goal=round(calorie_goal),
-                    error="Unable to connect to the Nutritionix API. Please try again later."
+                    error="Unable to find "
                 )
 
             # Kun vis fejlbesked, hvis der er varer, der fejlede
