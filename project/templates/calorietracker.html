@@ -54,6 +54,11 @@
                     <button class="btn btn-primary" type="submit">Add Food</button>
                 </div>
             </form>
+            {% if error %}
+            <div class="text-danger mb-3">
+                {{ error }}
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
