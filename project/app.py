@@ -252,16 +252,8 @@ def calorietracker():
 
                     # Return error message for failed items
                     if failed_items:
-                        error_message = f"The following items could not be processed: {', '.join(failed_items)}."
-                        return render_template(
-                            "calorietracker.html",
-                            food_log=food_log,
-                            macros=macros,
-                            total_consumed=round(total_consumed),
-                            remaining_calories=round(remaining_calories),
-                            calorie_goal=round(calorie_goal),
-                            error=error_message
-                        )
+                        error = f"The following items could not be processed: {', '.join(failed_items)}."
+                        return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal), error=error)
                 else:
                     # Return an error if no foods are found in the response
                     return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal), error="No valid foods recognized in your input.")
