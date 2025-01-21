@@ -175,145 +175,61 @@ def logout():
 @app.route("/calorietracker", methods=["GET", "POST"])
 @login_required
 def calorietracker():
-    user_id = session["user_id"]
+   if response.status_code == 200:
+    nutrition_data = response.json()
 
-    # Fetch food log for the current day
-    food_log = db.execute(
-        """
-        SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-        FROM food_log
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        """,
-        user_id
-    )
+    if "foods" in nutrition_data and nutrition_data["foods"]:
+        # Genkendte fødevarer fra API'et
+        recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
 
-    # Fetch macros and calculate remaining calories
-    macros = db.execute(
-        """
-        SELECT SUM(proteins) AS total_proteins,
-               SUM(carbohydrates) AS total_carbohydrates,
-               SUM(fats) AS total_fats,
-               SUM(calories) AS total_calories
-        FROM food_log
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        """,
-        user_id
-    )[0]
-    calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
-    total_consumed = macros["total_calories"] if macros["total_calories"] else 0
-    remaining_calories = calorie_goal - total_consumed
+        # Inputfødevarer splittet ved komma og strippet for mellemrum
+        input_items = [item.strip().lower() for item in food_query.split(",")]
 
-    if request.method == "POST":
-        action = request.form.get("action")
-
-        if action == "add":  # Handling for adding food
-            food_query = request.form.get("food")
-            API_KEY = "6158963245cf646896228de0c3d0ba3a"
-            APP_ID = "584633a6"
-
-            url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
-            headers = {
-                "x-app-id": APP_ID,
-                "x-app-key": API_KEY,
-                "Content-Type": "application/json"
-            }
-            data = {"query": food_query}
-            response = requests.post(url, headers=headers, json=data)
-
-            failed_items = []
-            if response.status_code == 200:
-                nutrition_data = response.json()
-
-                # Check if the 'foods' key exists and contains data
-                if "foods" in nutrition_data and nutrition_data["foods"]:
-                    recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
-                    input_items = [item.strip().lower() for item in food_query.split(",")]
-
-                    # Process recognized foods
-                    for food in nutrition_data["foods"]:
-                        try:
-                            db.execute(
-                                """
-                                INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                                """,
-                                user_id,
-                                food["food_name"].title(),
-                                food["serving_qty"],
-                                food["serving_unit"],
-                                food["nf_calories"],
-                                food["nf_protein"],
-                                food["nf_total_carbohydrate"],
-                                food["nf_total_fat"]
-                            )
-                        except KeyError:
-                            failed_items.append(food.get("food_name", "Unknown item"))
-
-                    # Identify failed items
-                    failed_items += [item for item in input_items if item not in recognized_foods]
-
-                else:
-                    # No foods recognized by the API
-                    failed_items = food_query.split(",")
-
-            else:
-                # If the API call itself fails (status code not 200)
-                return render_template(
-                    "calorietracker.html",
-                    food_log=food_log,
-                    macros=macros,
-                    total_consumed=round(total_consumed),
-                    remaining_calories=round(remaining_calories),
-                    calorie_goal=round(calorie_goal),
-                    error="The API request failed. Please try again later."
+        # Match fødevarer
+        for food in nutrition_data["foods"]:
+            try:
+                db.execute(
+                    """
+                    INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    user_id,
+                    food["food_name"].title(),
+                    food["serving_qty"],
+                    food["serving_unit"],
+                    food["nf_calories"],
+                    food["nf_protein"],
+                    food["nf_total_carbohydrate"],
+                    food["nf_total_fat"]
                 )
+            except KeyError:
+                # Tilføj ukendte fødevarer til fejl-listen
+                failed_items.append(food.get("food_name", "Unknown item"))
 
-            # Generate error message for failed items
-            error = None
-            if failed_items:
-                error = f"The following items could not be processed: {', '.join([item.strip() for item in failed_items])}."
+        # Fødevarer, der ikke blev genkendt af API'et
+        failed_items += [item for item in input_items if item not in recognized_foods]
 
-            # Always render the updated page
-            return render_template(
-                "calorietracker.html",
-                food_log=db.execute(
-                    """
-                    SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-                    FROM food_log
-                    WHERE user_id = ? AND DATE(created_at) = DATE('now')
-                    """,
-                    user_id
-                ),
-                macros=db.execute(
-                    """
-                    SELECT SUM(proteins) AS total_proteins,
-                           SUM(carbohydrates) AS total_carbohydrates,
-                           SUM(fats) AS total_fats,
-                           SUM(calories) AS total_calories
-                    FROM food_log
-                    WHERE user_id = ? AND DATE(created_at) = DATE('now')
-                    """,
-                    user_id
-                )[0],
-                total_consumed=round(total_consumed),
-                remaining_calories=round(remaining_calories),
-                calorie_goal=round(calorie_goal),
-                error=error
-            )
+    else:
+        # Ingen genkendte fødevarer
+        failed_items = [item.strip() for item in food_query.split(",")]
 
-        elif action == "delete":  # Handling for deleting food
-            food_id = request.form.get("food_id")
-            db.execute("DELETE FROM food_log WHERE id = ? AND user_id = ?", food_id, user_id)
-            return redirect("/calorietracker")
-
+else:
+    # Hvis API-anmodningen fejler
     return render_template(
         "calorietracker.html",
         food_log=food_log,
         macros=macros,
         total_consumed=round(total_consumed),
         remaining_calories=round(remaining_calories),
-        calorie_goal=round(calorie_goal)
+        calorie_goal=round(calorie_goal),
+        error="The API request failed. Please try again later."
     )
+
+# Generer fejlbesked for ikke-genkendte varer
+error = None
+if failed_items:
+    error = f"The following items could not be processed: {', '.join(failed_items)}."
+
 
 
 
