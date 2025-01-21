@@ -194,36 +194,47 @@ def calorietracker():
             data = {"query": food_query}
             response = requests.post(url, headers=headers, json=data)
 
+            # Check if API responded successfully
             if response.status_code == 200:
                 nutrition_data = response.json()
-                failed_items = []
 
-                for food in nutrition_data.get("foods", []):
-                    try:
-                        db.execute(
-                            """
-                            INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                            """,
-                            user_id,
-                            food["food_name"].title(),
-                            food["serving_qty"],
-                            food["serving_unit"],
-                            food["nf_calories"],
-                            food["nf_protein"],
-                            food["nf_total_carbohydrate"],
-                            food["nf_total_fat"]
-                        )
-                    except KeyError:
-                        failed_items.append(food.get("food_name", "Unknown item"))
+                # Check if the 'foods' key exists and contains data
+                if "foods" in nutrition_data and nutrition_data["foods"]:
+                    recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
+                    input_items = [item.strip().lower() for item in food_query.split(",")]
+                    failed_items = [item for item in input_items if item not in recognized_foods]
 
-                if failed_items:
-                    error_message = f"The following items could not be processed: {', '.join(failed_items)}."
-                    return render_template("calorietracker.html", error=error_message, food_log=food_log, macros=macros, total_consumed=total_consumed, remaining_calories=remaining_calories, calorie_goal=calorie_goal)
+                    # Process recognized foods
+                    for food in nutrition_data["foods"]:
+                        try:
+                            db.execute(
+                                """
+                                INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                                """,
+                                user_id,
+                                food["food_name"].title(),
+                                food["serving_qty"],
+                                food["serving_unit"],
+                                food["nf_calories"],
+                                food["nf_protein"],
+                                food["nf_total_carbohydrate"],
+                                food["nf_total_fat"]
+                            )
+                        except KeyError:
+                            failed_items.append(food.get("food_name", "Unknown item"))
+
+                    # Return error message for failed items
+                    if failed_items:
+                        error_message = f"The following items could not be processed: {', '.join(failed_items)}."
+                        return render_template("calorietracker.html", error=error_message)
+
+                else:
+                    # Return an error if no foods are found in the response
+                    return render_template("calorietracker.html", error="No valid foods recognized in your input.")
             else:
-                # Her kan du stadig have en fallback-fejlmeddelelse, hvis API-kaldet fejler helt
-                return render_template("calorietracker.html", error="The API request failed. Please try again later.", food_log=food_log, macros=macros, total_consumed=total_consumed, remaining_calories=remaining_calories, calorie_goal=calorie_goal)
-
+                # If the API call itself fails (status code not 200)
+                return render_template("calorietracker.html", error="The API request failed. Please try again later.")
 
         elif action == "delete":  # Handling for deleting food
             food_id = request.form.get("food_id")
@@ -258,6 +269,7 @@ def calorietracker():
     remaining_calories = calorie_goal - total_consumed
 
     return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal))
+
 
 
 
