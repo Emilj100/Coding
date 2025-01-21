@@ -12,4 +12,7 @@ params = {
 }
 
 response = requests.get(url, params=params)
-print(response.json())
+
+# Konverter JSON-respons til tekst
+json_text = json.dumps(response.json(), indent=4)
+print(json_text)
