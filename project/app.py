@@ -272,7 +272,7 @@ def calorietracker():
                     total_consumed=round(total_consumed),
                     remaining_calories=round(remaining_calories),
                     calorie_goal=round(calorie_goal),
-                    error="Unable to find "
+                    error="No valid food items were recognized. Please try again with specific food descriptions."
                 )
 
             # Kun vis fejlbesked, hvis der er varer, der fejlede
@@ -346,4 +346,4 @@ def dashboard():
 @app.route("/mealplan")
 @login_required
 def mealplan():
-    return "mealplan page"
+    return render_template("mealplan.html")

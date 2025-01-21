@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Meal Plan
+{% endblock %}
+
+{% block main %}
+<!-- Hero Section -->
+<div class="container my-5 text-center">
+    <h1 class="display-4 mb-3 fw-bold">Meal Plan</h1>
+    <p class="lead text-muted">Create a personalized meal plan tailored to your dietary needs and preferences!</p>
+</div>
+
+<!-- Meal Plan Preferences Form -->
+<div class="container my-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h4 class="card-title text-center mb-4">Customize Your Meal Plan</h4>
+            <form action="/mealplan" method="post">
+                <!-- Number of meals per day -->
+                <div class="mb-3">
+                    <label for="meals_per_day" class="form-label">Meals Per Day</label>
+                    <select class="form-select" id="meals_per_day" name="meals_per_day" required>
+                        <option value="1" selected>1 Meals</option>
+                        <option value="2">2 Meals</option>
+                        <option value="3">3 Meals</option>
+                        <option value="4">4 Meals</option>
+                        <option value="5">5 Meals</option>
+                        <option value="6">6 Meals</option>
+                        <option value="7">7 Meals</option>
+                    </select>
+                </div>
+
+                <!-- Diet preferences -->
+                <div class="mb-3">
+                    <label for="diet" class="form-label">Diet Preference</label>
+                    <select class="form-select" id="diet" name="diet">
+                        <option value="" selected>None</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="keto">Keto</option>
+                        <option value="paleo">Paleo</option>
+                        <option value="gluten free">Gluten Free</option>
+                    </select>
+                </div>
+
+                <!-- Allergies or ingredients to exclude -->
+                <div class="mb-3">
+                    <label for="exclude" class="form-label">Exclude Ingredients</label>
+                    <input type="text" class="form-control" id="exclude" name="exclude" placeholder="E.g., nuts, shellfish, dairy">
+                    <div class="form-text">Enter ingredients to exclude, separated by commas.</div>
+                </div>
+
+                <!-- Favorite ingredients -->
+                <div class="mb-3">
+                    <label for="preferences" class="form-label">Include Favorite Ingredients</label>
+                    <input type="text" class="form-control" id="preferences" name="preferences" placeholder="E.g., chicken, broccoli, rice">
+                    <div class="form-text">Enter ingredients you want to include, separated by commas.</div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Generate Meal Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
