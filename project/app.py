@@ -224,13 +224,16 @@ def calorietracker():
             if response.status_code == 200:
                 nutrition_data = response.json()
 
-                # Check if the 'foods' key exists and contains data
-                if "foods" in nutrition_data and nutrition_data["foods"]:
-                    # Genkendte fødevarer fra API'et
-                    recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
+                # Log response for debugging
+                print("API Response:", nutrition_data)
 
-                    # Inputfødevarer splittet ved komma
+                if "foods" in nutrition_data and nutrition_data["foods"]:
+                    recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
+                    print("Recognized Foods:", recognized_foods)
+
+                    # Split input items
                     input_items = [item.strip().lower() for item in food_query.split(",")]
+                    print("Input Items:", input_items)
 
                     # Process recognized foods
                     for food in nutrition_data["foods"]:
@@ -252,7 +255,7 @@ def calorietracker():
                         except KeyError:
                             failed_items.append(food.get("food_name", "Unknown item"))
 
-                    # Identify failed items
+                    # Identify failed items: Items in input not in recognized
                     failed_items += [item for item in input_items if item not in recognized_foods]
 
                 else:
@@ -317,6 +320,7 @@ def calorietracker():
         remaining_calories=round(remaining_calories),
         calorie_goal=round(calorie_goal)
     )
+
 
 
 @app.route("/traininglog")
