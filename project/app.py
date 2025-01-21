@@ -229,10 +229,10 @@ def calorietracker():
                 if "foods" in nutrition_data and nutrition_data["foods"]:
                     recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
 
-                    # Split input into individual items
+                    # Inputvarer splittet på komma
                     input_items = [item.strip().lower() for item in food_query.split(",")]
 
-                    # Add recognized foods to database
+                    # Indsæt genkendte fødevarer i databasen
                     for food in nutrition_data["foods"]:
                         try:
                             db.execute(
@@ -249,14 +249,17 @@ def calorietracker():
                                 food["nf_total_carbohydrate"],
                                 food["nf_total_fat"]
                             )
-                            added_items.append(food["food_name"])
+                            added_items.append(food["food_name"].lower())
                         except Exception:
-                            failed_items.append(food.get("food_name", "Unknown item"))
+                            pass  # Undgå at afbryde processen, hvis der opstår en fejl
 
-                    # Identify unrecognized items
-                    failed_items += [item for item in input_items if item not in recognized_foods]
+                    # Tjek for ikke-genkendte varer
+                    failed_items = [
+                        item for item in input_items
+                        if not any(recognized_food in item for recognized_food in added_items)
+                    ]
                 else:
-                    # No foods recognized
+                    # Ingen fødevarer blev genkendt
                     failed_items = [item.strip() for item in food_query.split(",")]
 
             else:
@@ -271,7 +274,7 @@ def calorietracker():
                     error="Unable to connect to the Nutritionix API. Please try again later."
                 )
 
-            # Generate feedback message
+            # Generer feedbackbesked
             error = None
             if failed_items:
                 error = f"The following items could not be processed: {', '.join(failed_items)}."
