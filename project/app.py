@@ -177,6 +177,32 @@ def logout():
 def calorietracker():
     user_id = session["user_id"]
 
+    # Fetch food log for the current day
+    food_log = db.execute(
+        """
+        SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
+        FROM food_log
+        WHERE user_id = ? AND DATE(created_at) = DATE('now')
+        """,
+        user_id
+    )
+
+    # Fetch macros and calculate remaining calories
+    macros = db.execute(
+        """
+        SELECT SUM(proteins) AS total_proteins,
+               SUM(carbohydrates) AS total_carbohydrates,
+               SUM(fats) AS total_fats,
+               SUM(calories) AS total_calories
+        FROM food_log
+        WHERE user_id = ? AND DATE(created_at) = DATE('now')
+        """,
+        user_id
+    )[0]
+    calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
+    total_consumed = macros["total_calories"] if macros["total_calories"] else 0
+    remaining_calories = calorie_goal - total_consumed
+
     if request.method == "POST":
         action = request.form.get("action")
 
@@ -227,48 +253,29 @@ def calorietracker():
                     # Return error message for failed items
                     if failed_items:
                         error_message = f"The following items could not be processed: {', '.join(failed_items)}."
-                        return render_template("calorietracker.html", error=error_message)
-
+                        return render_template(
+                            "calorietracker.html",
+                            food_log=food_log,
+                            macros=macros,
+                            total_consumed=round(total_consumed),
+                            remaining_calories=round(remaining_calories),
+                            calorie_goal=round(calorie_goal),
+                            error=error_message
+                        )
                 else:
                     # Return an error if no foods are found in the response
-                    return render_template("calorietracker.html", error="No valid foods recognized in your input.")
+                    return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal), error="No valid foods recognized in your input.")
             else:
                 # If the API call itself fails (status code not 200)
-                return render_template("calorietracker.html", error="The API request failed. Please try again later.")
+                return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal), error="The API request failed. Please try again later.")
 
         elif action == "delete":  # Handling for deleting food
             food_id = request.form.get("food_id")
             db.execute("DELETE FROM food_log WHERE id = ? AND user_id = ?", food_id, user_id)
-
-        return redirect("/calorietracker")
-
-    # Fetch food log for the current day
-    food_log = db.execute(
-        """
-        SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-        FROM food_log
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        """,
-        user_id
-    )
-
-    # Fetch macros and calculate remaining calories
-    macros = db.execute(
-        """
-        SELECT SUM(proteins) AS total_proteins,
-               SUM(carbohydrates) AS total_carbohydrates,
-               SUM(fats) AS total_fats,
-               SUM(calories) AS total_calories
-        FROM food_log
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        """,
-        user_id
-    )[0]
-    calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
-    total_consumed = macros["total_calories"] if macros["total_calories"] else 0
-    remaining_calories = calorie_goal - total_consumed
+            return redirect("/calorietracker")
 
     return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal))
+
 
 
 
