@@ -220,13 +220,21 @@ def calorietracker():
             data = {"query": food_query}
             response = requests.post(url, headers=headers, json=data)
 
-            # General error handling
+            failed_items = []  # Items not recognized
+            added_items = []   # Items successfully added
+
             if response.status_code == 200:
                 nutrition_data = response.json()
 
                 if "foods" in nutrition_data and nutrition_data["foods"]:
-                    try:
-                        for food in nutrition_data["foods"]:
+                    recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
+
+                    # Split input into individual items
+                    input_items = [item.strip().lower() for item in food_query.split(",")]
+
+                    # Add recognized foods to database
+                    for food in nutrition_data["foods"]:
+                        try:
                             db.execute(
                                 """
                                 INSERT INTO food_log (user_id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats)
@@ -241,27 +249,18 @@ def calorietracker():
                                 food["nf_total_carbohydrate"],
                                 food["nf_total_fat"]
                             )
-                    except Exception as e:
-                        return render_template(
-                            "calorietracker.html",
-                            food_log=food_log,
-                            macros=macros,
-                            total_consumed=round(total_consumed),
-                            remaining_calories=round(remaining_calories),
-                            calorie_goal=round(calorie_goal),
-                            error="An error occurred while saving the food items. Please try again."
-                        )
+                            added_items.append(food["food_name"])
+                        except Exception:
+                            failed_items.append(food.get("food_name", "Unknown item"))
+
+                    # Identify unrecognized items
+                    failed_items += [item for item in input_items if item not in recognized_foods]
                 else:
-                    return render_template(
-                        "calorietracker.html",
-                        food_log=food_log,
-                        macros=macros,
-                        total_consumed=round(total_consumed),
-                        remaining_calories=round(remaining_calories),
-                        calorie_goal=round(calorie_goal),
-                        error="No valid food items were recognized. Please check your input and try again."
-                    )
+                    # No foods recognized
+                    failed_items = [item.strip() for item in food_query.split(",")]
+
             else:
+                # API call failed
                 return render_template(
                     "calorietracker.html",
                     food_log=food_log,
@@ -272,8 +271,42 @@ def calorietracker():
                     error="Unable to connect to the Nutritionix API. Please try again later."
                 )
 
-            # If everything is successful, reload the page with updated data
-            return redirect("/calorietracker")
+            # Generate feedback message
+            error = None
+            if failed_items:
+                error = f"The following items could not be processed: {', '.join(failed_items)}."
+            if added_items and failed_items:
+                error = f"Some items were added successfully: {', '.join(added_items)}. However, these items could not be processed: {', '.join(failed_items)}."
+            elif added_items:
+                error = f"The following items were added successfully: {', '.join(added_items)}."
+
+            # Always render the updated page
+            return render_template(
+                "calorietracker.html",
+                food_log=db.execute(
+                    """
+                    SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
+                    FROM food_log
+                    WHERE user_id = ? AND DATE(created_at) = DATE('now')
+                    """,
+                    user_id
+                ),
+                macros=db.execute(
+                    """
+                    SELECT SUM(proteins) AS total_proteins,
+                           SUM(carbohydrates) AS total_carbohydrates,
+                           SUM(fats) AS total_fats,
+                           SUM(calories) AS total_calories
+                    FROM food_log
+                    WHERE user_id = ? AND DATE(created_at) = DATE('now')
+                    """,
+                    user_id
+                )[0],
+                total_consumed=round(total_consumed),
+                remaining_calories=round(remaining_calories),
+                calorie_goal=round(calorie_goal),
+                error=error
+            )
 
         elif action == "delete":  # Handling for deleting food
             food_id = request.form.get("food_id")
@@ -288,7 +321,6 @@ def calorietracker():
         remaining_calories=round(remaining_calories),
         calorie_goal=round(calorie_goal)
     )
-
 
 
 @app.route("/traininglog")
