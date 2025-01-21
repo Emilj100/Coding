@@ -269,10 +269,6 @@ def calorietracker():
     return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal))
 
 
-
-
-
-
 @app.route("/traininglog")
 @login_required
 def traininglog():
