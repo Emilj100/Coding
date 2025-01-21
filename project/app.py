@@ -228,7 +228,7 @@ def calorietracker():
                 if "foods" in nutrition_data and nutrition_data["foods"]:
                     recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
                     input_items = [item.strip().lower() for item in food_query.split(",")]
-                    failed_items = [item for item in input_items if item not in recognized_foods]
+                    failed_items = list(set(input_items) - set(recognized_foods))
 
                     # Process recognized foods
                     for food in nutrition_data["foods"]:
@@ -250,23 +250,50 @@ def calorietracker():
                         except KeyError:
                             failed_items.append(food.get("food_name", "Unknown item"))
 
-                    # Return error message for failed items
+                    # Show error only for failed items
+                    error = None
                     if failed_items:
                         error = f"The following items could not be processed: {', '.join(failed_items)}."
-                        return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal), error=error)
+
+                    return redirect("/calorietracker")
+
                 else:
                     # Return an error if no foods are found in the response
-                    return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal), error="No valid foods recognized in your input.")
+                    return render_template(
+                        "calorietracker.html",
+                        food_log=food_log,
+                        macros=macros,
+                        total_consumed=round(total_consumed),
+                        remaining_calories=round(remaining_calories),
+                        calorie_goal=round(calorie_goal),
+                        error="No valid foods recognized in your input."
+                    )
             else:
                 # If the API call itself fails (status code not 200)
-                return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal), error="The API request failed. Please try again later.")
+                return render_template(
+                    "calorietracker.html",
+                    food_log=food_log,
+                    macros=macros,
+                    total_consumed=round(total_consumed),
+                    remaining_calories=round(remaining_calories),
+                    calorie_goal=round(calorie_goal),
+                    error="The API request failed. Please try again later."
+                )
 
         elif action == "delete":  # Handling for deleting food
             food_id = request.form.get("food_id")
             db.execute("DELETE FROM food_log WHERE id = ? AND user_id = ?", food_id, user_id)
             return redirect("/calorietracker")
 
-    return render_template("calorietracker.html", food_log=food_log, macros=macros, total_consumed=round(total_consumed), remaining_calories=round(remaining_calories), calorie_goal=round(calorie_goal))
+    return render_template(
+        "calorietracker.html",
+        food_log=food_log,
+        macros=macros,
+        total_consumed=round(total_consumed),
+        remaining_calories=round(remaining_calories),
+        calorie_goal=round(calorie_goal)
+    )
+
 
 
 @app.route("/traininglog")
