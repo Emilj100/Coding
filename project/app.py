@@ -220,7 +220,6 @@ def calorietracker():
             data = {"query": food_query}
             response = requests.post(url, headers=headers, json=data)
 
-            # Check if API responded successfully
             if response.status_code == 200:
                 nutrition_data = response.json()
 
@@ -228,7 +227,7 @@ def calorietracker():
                 if "foods" in nutrition_data and nutrition_data["foods"]:
                     recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
                     input_items = [item.strip().lower() for item in food_query.split(",")]
-                    failed_items = list(set(input_items) - set(recognized_foods))
+                    failed_items = [item for item in input_items if item not in recognized_foods]
 
                     # Process recognized foods
                     for food in nutrition_data["foods"]:
@@ -251,14 +250,12 @@ def calorietracker():
                             failed_items.append(food.get("food_name", "Unknown item"))
 
                     # Show error only for failed items
-                    error = None
                     if failed_items:
                         error = f"The following items could not be processed: {', '.join(failed_items)}."
+                    else:
+                        error = None
 
-                    return redirect("/calorietracker")
-
-                else:
-                    # Return an error if no foods are found in the response
+                    # Redirect to refresh data and clear form
                     return render_template(
                         "calorietracker.html",
                         food_log=food_log,
@@ -266,7 +263,19 @@ def calorietracker():
                         total_consumed=round(total_consumed),
                         remaining_calories=round(remaining_calories),
                         calorie_goal=round(calorie_goal),
-                        error="No valid foods recognized in your input."
+                        error=error
+                    )
+                else:
+                    # No foods recognized by the API
+                    error = f"The following items could not be processed: {food_query}."
+                    return render_template(
+                        "calorietracker.html",
+                        food_log=food_log,
+                        macros=macros,
+                        total_consumed=round(total_consumed),
+                        remaining_calories=round(remaining_calories),
+                        calorie_goal=round(calorie_goal),
+                        error=error
                     )
             else:
                 # If the API call itself fails (status code not 200)
