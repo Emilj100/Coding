@@ -188,17 +188,20 @@ def calorietracker():
     )
 
     # Fetch macros and calculate remaining calories
-    macros = db.execute(
-        """
-        SELECT SUM(proteins) AS total_proteins,
-               SUM(carbohydrates) AS total_carbohydrates,
-               SUM(fats) AS total_fats,
-               SUM(calories) AS total_calories
-        FROM food_log
-        WHERE user_id = ? AND DATE(created_at) = DATE('now')
-        """,
-        user_id
-    )[0]
+    def get_macros():
+        return db.execute(
+            """
+            SELECT SUM(proteins) AS total_proteins,
+                   SUM(carbohydrates) AS total_carbohydrates,
+                   SUM(fats) AS total_fats,
+                   SUM(calories) AS total_calories
+            FROM food_log
+            WHERE user_id = ? AND DATE(created_at) = DATE('now')
+            """,
+            user_id
+        )[0]
+
+    macros = get_macros()
     calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
     total_consumed = macros["total_calories"] if macros["total_calories"] else 0
     remaining_calories = calorie_goal - total_consumed
@@ -277,28 +280,24 @@ def calorietracker():
             if failed_items:
                 error = f"The following items could not be processed: {', '.join(failed_items)}."
 
+            # Opdater makrodata og food log efter tilføjelser
+            food_log = db.execute(
+                """
+                SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
+                FROM food_log
+                WHERE user_id = ? AND DATE(created_at) = DATE('now')
+                """,
+                user_id
+            )
+            macros = get_macros()
+            total_consumed = macros["total_calories"] if macros["total_calories"] else 0
+            remaining_calories = calorie_goal - total_consumed
+
             # Always render the updated page
             return render_template(
                 "calorietracker.html",
-                food_log=db.execute(
-                    """
-                    SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-                    FROM food_log
-                    WHERE user_id = ? AND DATE(created_at) = DATE('now')
-                    """,
-                    user_id
-                ),
-                macros=db.execute(
-                    """
-                    SELECT SUM(proteins) AS total_proteins,
-                           SUM(carbohydrates) AS total_carbohydrates,
-                           SUM(fats) AS total_fats,
-                           SUM(calories) AS total_calories
-                    FROM food_log
-                    WHERE user_id = ? AND DATE(created_at) = DATE('now')
-                    """,
-                    user_id
-                )[0],
+                food_log=food_log,
+                macros=macros,
                 total_consumed=round(total_consumed),
                 remaining_calories=round(remaining_calories),
                 calorie_goal=round(calorie_goal),
@@ -308,6 +307,20 @@ def calorietracker():
         elif action == "delete":  # Handling for deleting food
             food_id = request.form.get("food_id")
             db.execute("DELETE FROM food_log WHERE id = ? AND user_id = ?", food_id, user_id)
+
+            # Opdater makrodata og genindlæs siden
+            food_log = db.execute(
+                """
+                SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
+                FROM food_log
+                WHERE user_id = ? AND DATE(created_at) = DATE('now')
+                """,
+                user_id
+            )
+            macros = get_macros()
+            total_consumed = macros["total_calories"] if macros["total_calories"] else 0
+            remaining_calories = calorie_goal - total_consumed
+
             return redirect("/calorietracker")
 
     return render_template(
