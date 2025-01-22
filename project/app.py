@@ -360,10 +360,10 @@ def mealplan():
             return render_template("mealplan.html", error="Please select a valid amount of meals")
         if not request.form.get("diet") in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
             return render_template("mealplan.html", error="Please select a valid diet preference")
-        for char in request.form.get("exclude"):
+        for char in request.form.get("exclude", "").strip():
             if char.isdigit():
                 return render_template("mealplan.html", error="Please enter valid ingredients to exclude")
-        for char in request.form.get("preferences"):
+        for char in request.form.get("preferences", "").strip():
             if char.isdigit():
                 return render_template("mealplan.html", error="Please enter valid ingredients to include")
         for intolerance in request.form.getlist("intolerances"):
