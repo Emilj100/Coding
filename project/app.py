@@ -366,8 +366,10 @@ def mealplan():
         for char in request.form.get("preferences"):
             if char.isdigit():
                 return render_template("mealplan.html", error="Please enter valid ingredients to include")
+        for intolorance in intolorances
 
         calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
+
 
 
         api_key = "71433d93ff0445e68f984bb19ca3048f"
