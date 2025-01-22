@@ -352,12 +352,6 @@ def mealplan():
 
     if request.method == "POST":
 
-        try:
-            meals = int(request.form.get("meals_per_day"))
-            if not (1 <= meals <= 7):
-                return render_template("mealplan.html", error="Amount of meals must be between 1 and 7")
-        except ValueError:
-            return render_template("mealplan.html", error="Please select a valid amount of meals")
         if request.form.get("diet") and request.form.get("diet") not in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
             return render_template("mealplan.html", error="Please select a valid diet preference")
         exclude = request.form.get("exclude", "").strip()
