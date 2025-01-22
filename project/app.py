@@ -352,42 +352,51 @@ def mealplan():
 
     if request.method == "POST":
 
+        # Valider brugerens input
         if request.form.get("diet") and request.form.get("diet") not in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
             return render_template("mealplan.html", error="Please select a valid diet preference")
+
         exclude = request.form.get("exclude", "").strip()
         preferences = request.form.get("preferences", "").strip()
+
         if any(char.isdigit() for char in exclude):
             return render_template("mealplan.html", error="Please enter valid ingredients to exclude")
         if any(char.isdigit() for char in preferences):
             return render_template("mealplan.html", error="Please enter valid ingredients to include")
+
         valid_intolerances = ["dairy", "gluten", "peanut", "shellfish", "soy", "egg"]
         for intolerance in request.form.getlist("intolerances"):
             if intolerance not in valid_intolerances:
                 return render_template("mealplan.html", error="Please select valid intolerances")
 
-
+        # Hent brugerens kaloriebudget fra databasen
         calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
 
-
-
+        # Spoonacular API-opkald
         api_key = "71433d93ff0445e68f984bb19ca3048f"
         url = f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}"
 
         params = {
-            "timeFrame": "day",  # Kan være 'day' eller 'week'
-            "targetCalories": calorie_goal,  # Brugerens daglige kalorimål
-            "diet": request.form.get("diet"),  # Diætpræference, fx 'vegetarian', 'vegan', osv.
-            "exclude": exclude,  # Ingredienser, der skal undgås
-            "includeIngredients": preferences, # Ingredienser der skal med i madplanen
-            "intolerances": request.form.getlist("intolerances")
+            "timeFrame": "day",  # 'day' eller 'week'
+            "targetCalories": calorie_goal,
+            "diet": request.form.get("diet"),
+            "exclude": exclude,
+            "includeIngredients": preferences,
+            "intolerances": ",".join(request.form.getlist("intolerances"))  # Konverter liste til kommasepareret streng
         }
 
+        # Send forespørgsel til API
         response = requests.get(url, params=params)
 
-        # Konverter JSON-respons til tekst
-        json_text = json.dumps(response.json(), indent=4)
-        print(json_text)
+        # Håndter API-respons
+        if response.status_code == 200:
+            api_data = response.json()  # Parse JSON-data til et Python-objekt
+            meals = api_data.get("meals", [])
+            nutrients = api_data.get("nutrients", {})
 
+            # Returnér data til frontend (eller anden logik)
+            return render_template("mealplan.html", meals=meals, nutrients=nutrients)
+        else:
+            # Fejl ved API-kald
+            return render_template("mealplan.html", error="Failed to fetch meal plan. Please try again later.")
 
-    else:
-        return render_template("mealplan.html")
