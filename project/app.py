@@ -358,17 +358,19 @@ def mealplan():
                 return render_template("mealplan.html", error="Amount of meals must be between 1 and 7")
         except ValueError:
             return render_template("mealplan.html", error="Please select a valid amount of meals")
-        if not request.form.get("diet") in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
+        if request.form.get("diet") and request.form.get("diet") not in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
             return render_template("mealplan.html", error="Please select a valid diet preference")
-        for char in request.form.get("exclude", "").strip():
-            if char.isdigit():
-                return render_template("mealplan.html", error="Please enter valid ingredients to exclude")
-        for char in request.form.get("preferences", "").strip():
-            if char.isdigit():
-                return render_template("mealplan.html", error="Please enter valid ingredients to include")
+        exclude = request.form.get("exclude", "").strip()
+        preferences = request.form.get("preferences", "").strip()
+        if any(char.isdigit() for char in exclude):
+            return render_template("mealplan.html", error="Please enter valid ingredients to exclude")
+        if any(char.isdigit() for char in preferences):
+            return render_template("mealplan.html", error="Please enter valid ingredients to include")
+        valid_intolerances = ["dairy", "gluten", "peanut", "shellfish", "soy", "egg"]
         for intolerance in request.form.getlist("intolerances"):
-            if intolerance not in ["dairy, gluten, peanut, shellfish, soy, egg"]:
+            if intolerance not in valid_intolerances:
                 return render_template("mealplan.html", error="Please select valid intolerances")
+
 
         calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
 
@@ -381,8 +383,8 @@ def mealplan():
             "timeFrame": "day",  # Kan være 'day' eller 'week'
             "targetCalories": calorie_goal,  # Brugerens daglige kalorimål
             "diet": request.form.get("diet"),  # Diætpræference, fx 'vegetarian', 'vegan', osv.
-            "exclude": request.form.get("exclude"),  # Ingredienser, der skal undgås
-            "includeIngredients": request.form.get("preferences"), # Ingredienser der skal med i madplanen
+            "exclude": exclude,  # Ingredienser, der skal undgås
+            "includeIngredients": preferences, # Ingredienser der skal med i madplanen
         }
 
         response = requests.get(url, params=params)
