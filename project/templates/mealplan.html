@@ -40,14 +40,61 @@
                         <option value="vegan">Vegan</option>
                         <option value="keto">Keto</option>
                         <option value="paleo">Paleo</option>
-                        <option value="gluten free">Gluten Free</option>
                     </select>
                 </div>
+
+                <!-- Food Intolerances -->
+                <div class="mb-3">
+                    <label class="form-label">Food Intolerances</label>
+                    <div class="row">
+                        <!-- First Row -->
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="lactose" name="intolerances" value="dairy">
+                                <label class="form-check-label" for="lactose">Lactose Intolerant</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gluten" name="intolerances" value="gluten">
+                                <label class="form-check-label" for="gluten">Gluten Intolerant</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="peanut" name="intolerances" value="peanut">
+                                <label class="form-check-label" for="peanut">Peanut Allergy</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <!-- Second Row -->
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="shellfish" name="intolerances" value="shellfish">
+                                <label class="form-check-label" for="shellfish">Shellfish Allergy</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="soy" name="intolerances" value="soy">
+                                <label class="form-check-label" for="soy">Soy Intolerance</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="egg" name="intolerances" value="egg">
+                                <label class="form-check-label" for="egg">Egg Intolerance</label>
+                            </div>
+                        </div>
+                    </div>
+</div>
+
 
                 <!-- Allergies or ingredients to exclude -->
                 <div class="mb-3">
                     <label for="exclude" class="form-label">Exclude Ingredients</label>
-                    <input type="text" class="form-control" id="exclude" name="exclude" placeholder="E.g., nuts, shellfish, dairy">
+                    <input type="text" class="form-control" id="exclude" name="exclude" placeholder="E.g., nuts, fish, broccoli">
                     <div class="form-text">Enter ingredients to exclude, separated by commas.</div>
                 </div>
 

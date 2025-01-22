@@ -7,6 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 import re
 import requests
+import json
 
 # Configure application
 app = Flask(__name__)
@@ -343,7 +344,49 @@ def traininglog():
 def dashboard():
     return "dashboard page"
 
-@app.route("/mealplan")
+@app.route("/mealplan", methods=["GET", "POST"])
 @login_required
 def mealplan():
-    return render_template("mealplan.html")
+
+    user_id = session["user_id"]
+
+    if request.method == "POST":
+
+        try:
+            meals = int(request.form.get("meals_per_day"))
+            if not (1 <= meals <= 7):
+                return render_template("mealplan.html", error="Amount of meals must be between 1 and 7")
+        except ValueError:
+            return render_template("mealplan.html", error="Please select a valid amount of meals")
+        if not request.form.get("diet") in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
+            return render_template("mealplan.html", error="Please select a valid diet preference")
+        for char in request.form.get("exclude"):
+            if char.isdigit():
+                return render_template("mealplan.html", error="Please enter valid ingredients to exclude")
+        for char in request.form.get("preferences"):
+            if char.isdigit():
+                return render_template("mealplan.html", error="Please enter valid ingredients to include")
+
+        calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
+
+
+        api_key = "71433d93ff0445e68f984bb19ca3048f"
+        url = f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}"
+
+        params = {
+            "timeFrame": "day",  # Kan være 'day' eller 'week'
+            "targetCalories": calorie_goal,  # Brugerens daglige kalorimål
+            "diet": request.form.get("diet"),  # Diætpræference, fx 'vegetarian', 'vegan', osv.
+            "exclude": request.form.get("exclude"),  # Ingredienser, der skal undgås
+            "includeIngredients": request.form.get("preferences"), # Ingredienser der skal med i madplanen
+        }
+
+        response = requests.get(url, params=params)
+
+        # Konverter JSON-respons til tekst
+        json_text = json.dumps(response.json(), indent=4)
+        print(json_text)
+
+
+    else:
+        return render_template("mealplan.html")
