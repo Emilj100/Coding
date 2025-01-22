@@ -105,4 +105,16 @@
         </div>
     </div>
 </div>
+
+{% if meals %}
+<div>
+    {{ meals.title }}
+</div>
+{% endif %}
+
+{% if nutrients %}
+<div>
+    {{ nutrients.calories }}
+</div>
+{% endif %}
 {% endblock %}
