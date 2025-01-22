@@ -385,6 +385,7 @@ def mealplan():
             "diet": request.form.get("diet"),  # Diætpræference, fx 'vegetarian', 'vegan', osv.
             "exclude": exclude,  # Ingredienser, der skal undgås
             "includeIngredients": preferences, # Ingredienser der skal med i madplanen
+            "intolerances": request.form.getlist("intolerances")
         }
 
         response = requests.get(url, params=params)
