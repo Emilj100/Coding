@@ -103,10 +103,12 @@
             </div>
             {% endif %}
             {% if meals %}
+            {% for meal in meals %}
             <div>
-                {{ meals.title }}
+                {{ meal.title }}
             </div>
             {% endif %}
+            {% endfor %}
 
             {% if nutrients %}
             <div>
