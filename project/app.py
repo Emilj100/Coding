@@ -399,4 +399,7 @@ def mealplan():
         else:
             # Fejl ved API-kald
             return render_template("mealplan.html", error="Failed to fetch meal plan. Please try again later.")
+    else:
+        return render_template("mealplan.html", error="Please select a valid diet preference")
+
 
