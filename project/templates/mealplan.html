@@ -102,19 +102,20 @@
                 {{ error }}
             </div>
             {% endif %}
+            {% if meals %}
+            <div>
+                {{ meals.title }}
+            </div>
+            {% endif %}
+
+            {% if nutrients %}
+            <div>
+                {{ nutrients.calories }}
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
 
-{% if meals %}
-<div>
-    {{ meals.title }}
-</div>
-{% endif %}
 
-{% if nutrients %}
-<div>
-    {{ nutrients.calories }}
-</div>
-{% endif %}
 {% endblock %}
