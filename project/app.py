@@ -366,7 +366,9 @@ def mealplan():
         for char in request.form.get("preferences"):
             if char.isdigit():
                 return render_template("mealplan.html", error="Please enter valid ingredients to include")
-        for intolorance in intolorances
+        for intolerance in request.form.getlist("intolerances"):
+            if intolerance not in ["dairy, gluten, peanut, shellfish, soy, egg"]:
+                return render_template("mealplan.html", error="Please select valid intolerances")
 
         calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
 
