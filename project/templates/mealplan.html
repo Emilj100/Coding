@@ -97,6 +97,11 @@
                     <button type="submit" class="btn btn-primary btn-lg">Generate Meal Plan</button>
                 </div>
             </form>
+            {% if error %}
+            <div class="text-danger mb-3 text-center">
+                {{ error }}
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
