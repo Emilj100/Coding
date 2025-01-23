@@ -428,7 +428,7 @@ def mealplan():
                     INSERT INTO meal_plan_meals (meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
                     VALUES (?, ?, ?, ?, ?, ?)
                     """,
-                    meal_plan_id, meal["title"], meal["source_url"], meal["ready_in_minutes"], "Recipe unavailable", meal["imagetype"]
+                    meal_plan_id, meal["title"], meal["sourceUrl"], meal["ready_in_minutes"], "Recipe unavailable", meal["imageType"]
 
                 )
 
