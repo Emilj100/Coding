@@ -373,8 +373,6 @@ def mealplan():
         return meal_plans, meal_plan_meals
 
 
-
-
     if request.method == "POST":
 
         # Valider brugerens input
@@ -442,11 +440,14 @@ def mealplan():
             meal_plans, meal_plan_meals = select_data(user_id)
 
             # Returnér data til frontend (eller anden logik)
-            return render_template("mealplan.html", meals=meals, nutrients=nutrients)
+            return render_template("mealplan.html", meal_plans=meal_plans, meal_plan_meals=meal_plan_meals)
         else:
             # Fejl ved API-kald
-            return render_template("mealplan.html", error="Failed to fetch meal plan. Please try again later.")
+            return render_template("mealplan.html", meal_plans=meal_plans, meal_plan_meals=meal_plan_meals, error="Failed to fetch meal plan. Please try again later.")
     else:
-        return render_template("mealplan.html")
+
+        meal_plans, meal_plan_meals = select_data(user_id)
+
+        return render_template("mealplan.html", meal_plans=meal_plans, meal_plan_meals=meal_plan_meals)
 
 
