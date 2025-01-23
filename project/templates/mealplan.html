@@ -75,8 +75,7 @@
                             </div>
                         </div>
                     </div>
-</div>
-
+                </div>
 
                 <!-- Allergies or ingredients to exclude -->
                 <div class="mb-3">
@@ -106,5 +105,62 @@
     </div>
 </div>
 
+<!-- Saved Meal Plans Section -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Your Saved Meal Plans</h2>
+    <div class="row">
+        {% for plan in meal_plans %}
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Meal Plan #{{ plan.id }}</h5>
+                    <p class="card-text">
+                        Calories: {{ plan.calories }} kcal<br>
+                        Protein: {{ plan.protein }}g<br>
+                        Carbohydrates: {{ plan.carbohydrates }}g<br>
+                        Fat: {{ plan.fat }}g
+                    </p>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#mealplan-{{ plan.id }}">
+                        View Meals
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
+<!-- Meal Plan Details -->
+<div class="container my-5">
+    <h3 class="text-center">Meal Plan Details</h3>
+    <div class="accordion" id="mealPlansAccordion">
+        {% for plan in meal_plans %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-{{ plan.id }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ plan.id }}" aria-expanded="false" aria-controls="collapse-{{ plan.id }}">
+                    Meal Plan #{{ plan.id }}
+                </button>
+            </h2>
+            <div id="collapse-{{ plan.id }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ plan.id }}" data-bs-parent="#mealPlansAccordion">
+                <div class="accordion-body">
+                    <ul>
+                        {% for meal in plan.meals %}
+                        <li>
+                            <strong>{{ meal.title }}</strong><br>
+                            <img src="https://spoonacular.com/recipeImages/{{ meal.id }}-312x231.{{ meal.imageType }}" class="img-fluid" alt="{{ meal.title }}">
+                            <p>
+                                Ready in: {{ meal.readyInMinutes }} minutes<br>
+                                Servings: {{ meal.servings }}<br>
+                                <a href="{{ meal.sourceUrl }}" target="_blank" class="btn btn-sm btn-secondary">View Recipe</a>
+                            </p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
+
