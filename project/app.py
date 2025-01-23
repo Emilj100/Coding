@@ -405,6 +405,14 @@ def mealplan():
                 user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"],nutrients["carbohydrates"], nutrients["fat"],
             )
 
+            db.execute(
+                """
+                INSERT INTO meal_plan_meals (meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"],nutrients["carbohydrates"], nutrients["fat"],
+            )
+
             # Returnér data til frontend (eller anden logik)
             return render_template("mealplan.html", meals=meals, nutrients=nutrients)
         else:
