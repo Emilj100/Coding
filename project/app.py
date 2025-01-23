@@ -415,6 +415,10 @@ def mealplan():
             meals = api_data.get("meals", [])
             nutrients = api_data.get("nutrients", {})
 
+            if not meals or not nutrients:
+                return render_template("mealplan.html", error="The API did not return valid data. Please try again.")
+
+
             meal_plan_id = db.execute(
                 """
                 INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
