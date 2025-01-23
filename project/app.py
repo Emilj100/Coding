@@ -354,24 +354,18 @@ def mealplan():
 
         meal_plans = db.execute(
             """
-            SELECT name, calories, protein, carbohydrates, fat
-            FROM meal_plans
-            WHERE user_id = ?
+            SELECT mp.id AS meal_plan_id, mp.name, mp.calories, mp.protein, mp.carbohydrates, mp.fat,
+                mpm.title, mpm.source_url, mpm.ready_in_minutes, mpm.recipe, mpm.imagetype
+            FROM meal_plans mp
+            LEFT JOIN meal_plan_meals mpm ON mp.id = mpm.meal_plan_id
+            WHERE mp.user_id = ?
+            ORDER BY mp.created_at DESC
             """,
             user_id
         )
 
-        meal_plan_meals= db.execute(
-            """
-            SELECT title, source_url, ready_in_minutes, recipe, imagetype
-            FROM meal_plan_meals
-            WHERE meal_plan_id IN (
-            SELECT id FROM meal_plans WHERE meal_ = ?
-            """,
-            user_id
-        )
 
-        return meal_plans, meal_plan_meals
+        return meal_plans
 
 
     if request.method == "POST":
@@ -438,17 +432,17 @@ def mealplan():
 
                 )
 
-            meal_plans, meal_plan_meals = select_data(user_id)
+            meal_plans = select_data(user_id)
 
             # Returnér data til frontend (eller anden logik)
-            return render_template("mealplan.html", meal_plans=meal_plans, meal_plan_meals=meal_plan_meals)
+            return render_template("mealplan.html", meal_plans=meal_plans)
         else:
             # Fejl ved API-kald
-            return render_template("mealplan.html", meal_plans=meal_plans, meal_plan_meals=meal_plan_meals, error="Failed to fetch meal plan. Please try again later.")
+            return render_template("mealplan.html", meal_plans=meal_plans,  error="Failed to fetch meal plan. Please try again later.")
     else:
 
-        meal_plans, meal_plan_meals = select_data(user_id)
+        meal_plans = select_data(user_id)
 
-        return render_template("mealplan.html", meal_plans=meal_plans, meal_plan_meals=meal_plan_meals)
+        return render_template("mealplan.html", meal_plans=meal_plans)
 
 
