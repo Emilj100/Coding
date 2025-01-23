@@ -410,7 +410,8 @@ def mealplan():
                 INSERT INTO meal_plan_meals (meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                
+                user_id, meals["title"], meals["source_url"], meals["ready_in_minutes"], meals["recipe"], meals["imagetype"],
+
             )
 
             # Returnér data til frontend (eller anden logik)
