@@ -366,7 +366,7 @@ def mealplan():
             SELECT title, source_url, ready_in_minutes, recipe, imagetype
             FROM meal_plan_meals
             WHERE meal_plan_id IN (
-            SELECT id FROM meal_plans WHERE user_id = ?
+            SELECT id FROM meal_plans WHERE meal_ = ?
             """,
             user_id
         )
