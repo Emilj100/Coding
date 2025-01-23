@@ -421,22 +421,22 @@ def mealplan():
             meals = api_data.get("meals", [])
             nutrients = api_data.get("nutrients", {})
 
-            db.execute(
+            meal_plan_id = db.execute(
                 """
                 INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """,
                 user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"],nutrients["carbohydrates"], nutrients["fat"],
             )
+            for meal in meals:
+                db.execute(
+                    """
+                    INSERT INTO meal_plan_meals (meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """,
+                    meal_plan_id, meal["title"], meal["source_url"], meal["ready_in_minutes"], "Recipe unavailable", meal["imagetype"]
 
-            db.execute(
-                """
-                INSERT INTO meal_plan_meals (meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                user_id, meals["title"], meals["source_url"], meals["ready_in_minutes"], meals["recipe"], meals["imagetype"],
-
-            )
+                )
 
             meal_plans, meal_plan_meals = select_data(user_id)
 
