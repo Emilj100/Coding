@@ -350,6 +350,31 @@ def mealplan():
 
     user_id = session["user_id"]
 
+    def select_data(user_id):
+
+        meal_plans = db.execute(
+            """
+            SELECT name, calories, protein, carbohydrates, fat
+            FROM meal_plans
+            WHERE user_id = ?
+            """,
+            user_id
+        )
+
+        meal_plan_meals= db.execute(
+            """
+            SELECT title, source_url, ready_in_minutes, recipe, imagetype
+            FROM meal_plan_meals
+            WHERE user_id = ?
+            """,
+            user_id
+        )
+
+        return meal_plans, meal_plan_meals
+
+
+
+
     if request.method == "POST":
 
         # Valider brugerens input
@@ -413,6 +438,8 @@ def mealplan():
                 user_id, meals["title"], meals["source_url"], meals["ready_in_minutes"], meals["recipe"], meals["imagetype"],
 
             )
+
+            meal_plans, meal_plan_meals = select_data(user_id)
 
             # Returnér data til frontend (eller anden logik)
             return render_template("mealplan.html", meals=meals, nutrients=nutrients)
