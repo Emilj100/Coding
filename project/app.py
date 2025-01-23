@@ -353,6 +353,9 @@ def mealplan():
     if request.method == "POST":
 
         # Valider brugerens input
+        if not request.form.get("plan_name"):
+            return render_template("mealplan.html", error="Please enter a meal plan name")
+
         if request.form.get("diet") and request.form.get("diet") not in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
             return render_template("mealplan.html", error="Please select a valid diet preference")
 
@@ -393,6 +396,14 @@ def mealplan():
             api_data = response.json()  # Parse JSON-data til et Python-objekt
             meals = api_data.get("meals", [])
             nutrients = api_data.get("nutrients", {})
+
+            db.execute(
+                """
+                INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                user_id, request.form.get("plan_name")
+            )
 
             # Returnér data til frontend (eller anden logik)
             return render_template("mealplan.html", meals=meals, nutrients=nutrients)
