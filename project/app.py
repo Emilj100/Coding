@@ -410,7 +410,7 @@ def mealplan():
                 INSERT INTO meal_plan_meals (meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"],nutrients["carbohydrates"], nutrients["fat"],
+                
             )
 
             # Returnér data til frontend (eller anden logik)
