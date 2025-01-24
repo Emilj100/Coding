@@ -87,7 +87,9 @@
                                 <strong>{{ meal.title }}</strong><br>
                                 <img src="https://img.spoonacular.com/recipes/{{ meal.meal_id }}-312x231.{{ meal.imagetype }}"
                                     alt="{{ meal.title }}"
-                                    class="img-fluid mb-2 border rounded">
+                                    class="img-fluid mb-2 border rounded"
+                                    onerror="this.style.display='none';">
+
 
                                 <p>
                                     <strong>Ready in:</strong> {{ meal.ready_in_minutes }} minutes<br>
