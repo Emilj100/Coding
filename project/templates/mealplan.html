@@ -75,9 +75,15 @@
                         <strong>Carbohydrates:</strong> {{ plan.carbohydrates }}g<br>
                         <strong>Fat:</strong> {{ plan.fat }}g
                     </p>
-                    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#plan-{{ plan.id }}">
-                        View Meals
-                    </button>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#plan-{{ plan.id }}">
+                            View Meals
+                        </button>
+                        <form action="/delete_mealplan" method="post" class="mb-0">
+                            <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="collapse" id="plan-{{ plan.id }}">
                     <div class="card-body">
@@ -89,8 +95,6 @@
                                     alt="{{ meal.title }}"
                                     class="img-fluid mb-2 border rounded"
                                     onerror="this.style.display='none';">
-
-
                                 <p>
                                     <strong>Ready in:</strong> {{ meal.ready_in_minutes }} minutes<br>
                                     <a href="{{ meal.source_url }}" target="_blank" class="btn btn-sm btn-primary">View Recipe</a>
@@ -105,5 +109,6 @@
     </div>
     {% endfor %}
 </div>
+
 
 {% endblock %}
