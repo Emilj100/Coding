@@ -400,6 +400,8 @@ def mealplan():
             "targetCalories": calorie_goal,
             "diet": request.form.get("diet"),
             "exclude": request.form.get("exclude", "").strip(),
+            "includeIngredients": request.form.get("preferences", "").strip(),
+            "intolerances": ",".join(request.form.getlist("intolerances"))
         }
         print(params)
         response = requests.get(url, params=params)
