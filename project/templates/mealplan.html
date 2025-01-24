@@ -115,26 +115,46 @@
 
 <!-- Saved Meal Plans Section -->
 <div class="container my-5">
-    <h2 class="text-center mb-4">Your Saved Meal Plans</h2>
-    <div class="row">
-        {% for plan in meal_plans %}
-        <div class="col-md-4">
+    <h2 class="text-center mb-4">Your Meal Plans</h2>
+    {% for plan in meal_plans %}
+    <div class="row mb-4">
+        <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">{{ plan.name or "Meal Plan #{{ plan.id }}" }}</h5>
-                    <p class="card-text">
-                        Calories: {{ plan.calories }} kcal<br>
-                        Protein: {{ plan.protein }}g<br>
-                        Carbohydrates: {{ plan.carbohydrates }}g<br>
-                        Fat: {{ plan.fat }}g
+                    <h5 class="card-title">{{ plan.name }}</h5>
+                    <p>
+                        <strong>Calories:</strong> {{ plan.calories }} kcal<br>
+                        <strong>Protein:</strong> {{ plan.protein }}g<br>
+                        <strong>Carbohydrates:</strong> {{ plan.carbohydrates }}g<br>
+                        <strong>Fat:</strong> {{ plan.fat }}g
                     </p>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#mealplan-{{ plan.id }}">
+                    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#plan-{{ plan.id }}">
                         View Meals
                     </button>
                 </div>
+                <div class="collapse" id="plan-{{ plan.id }}">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            {% for meal in meals_by_plan[plan.id] %}
+                            <li class="list-group-item">
+                                <strong>{{ meal.title }}</strong><br>
+                                <img src="https://img.spoonacular.com/recipes/{{ meal.meal_id }}-312x231.{{ meal.imagetype }}"
+                                    alt="{{ meal.title }}"
+                                    class="img-fluid mb-2 border rounded">
+
+                                <p>
+                                    <strong>Ready in:</strong> {{ meal.ready_in_minutes }} minutes<br>
+                                    <a href="{{ meal.source_url }}" target="_blank" class="btn btn-sm btn-primary">View Recipe</a>
+                                </p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
+
 {% endblock %}

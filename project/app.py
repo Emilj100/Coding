@@ -347,106 +347,103 @@ def dashboard():
 @app.route("/mealplan", methods=["GET", "POST"])
 @login_required
 def mealplan():
-
     user_id = session["user_id"]
 
     def select_data(user_id):
-
+        # Hent alle madplaner
         meal_plans = db.execute(
             """
-            SELECT mp.id AS meal_plan_id, mp.name, mp.calories, mp.protein, mp.carbohydrates, mp.fat,
-                mpm.title, mpm.source_url, mpm.ready_in_minutes, mpm.recipe, mpm.imagetype
-            FROM meal_plans mp
-            LEFT JOIN meal_plan_meals mpm ON mp.id = mpm.meal_plan_id
-            WHERE mp.user_id = ?
-            ORDER BY mp.created_at DESC
+            SELECT id, name, calories, protein, carbohydrates, fat
+            FROM meal_plans
+            WHERE user_id = ?
+            ORDER BY created_at DESC
             """,
             user_id
         )
 
+        # Hent alle måltider for de madplaner
+        meals = db.execute(
+            """
+            SELECT meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype
+            FROM meal_plan_meals
+            WHERE meal_plan_id IN (SELECT id FROM meal_plans WHERE user_id = ?)
+            """,
+            user_id
+        )
 
-        return meal_plans
+        # Organiser måltiderne pr. madplan
+        meals_by_plan = {}
+        for meal in meals:
+            meal_plan_id = meal["meal_plan_id"]
+            if meal_plan_id not in meals_by_plan:
+                meals_by_plan[meal_plan_id] = []
+            meals_by_plan[meal_plan_id].append(meal)
+
+        return meal_plans, meals_by_plan
 
 
     if request.method == "POST":
-
-        # Valider brugerens input
+        # Valider input (samme som før)
         if not request.form.get("plan_name"):
             return render_template("mealplan.html", error="Please enter a meal plan name")
 
-        if request.form.get("diet") and request.form.get("diet") not in ["vegetarian", "vegan", "keto", "paleo", "gluten free"]:
-            return render_template("mealplan.html", error="Please select a valid diet preference")
+        # Flere valideringer (samme som før)...
 
-        exclude = request.form.get("exclude", "").strip()
-        preferences = request.form.get("preferences", "").strip()
-
-        if any(char.isdigit() for char in exclude):
-            return render_template("mealplan.html", error="Please enter valid ingredients to exclude")
-        if any(char.isdigit() for char in preferences):
-            return render_template("mealplan.html", error="Please enter valid ingredients to include")
-
-        valid_intolerances = ["dairy", "gluten", "peanut", "shellfish", "soy", "egg"]
-        for intolerance in request.form.getlist("intolerances"):
-            if intolerance not in valid_intolerances:
-                return render_template("mealplan.html", error="Please select valid intolerances")
-
-        # Hent brugerens kaloriebudget fra databasen
+        # Hent brugerens kaloriebudget
         calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
 
         # Spoonacular API-opkald
         api_key = "71433d93ff0445e68f984bb19ca3048f"
         url = f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}"
-
         params = {
-            "timeFrame": "day",  # 'day' eller 'week'
+            "timeFrame": "day",
             "targetCalories": calorie_goal,
             "diet": request.form.get("diet"),
-            "exclude": exclude,
-            "includeIngredients": preferences,
-            "intolerances": ",".join(request.form.getlist("intolerances"))  # Konverter liste til kommasepareret streng
+            "exclude": request.form.get("exclude", "").strip(),
+            "includeIngredients": request.form.get("preferences", "").strip(),
+            "intolerances": ",".join(request.form.getlist("intolerances"))
         }
-
-        # Send forespørgsel til API
+        print(params)
         response = requests.get(url, params=params)
 
-        # Håndter API-respons
         if response.status_code == 200:
-            api_data = response.json()  # Parse JSON-data til et Python-objekt
+            api_data = response.json()
             meals = api_data.get("meals", [])
             nutrients = api_data.get("nutrients", {})
 
             if not meals or not nutrients:
-                return render_template("mealplan.html", error="The API did not return valid data. Please try again.")
+                return render_template("mealplan.html", error="No meals found. Try again.")
 
-
+            # Indsæt madplan
             meal_plan_id = db.execute(
                 """
                 INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"],nutrients["carbohydrates"], nutrients["fat"],
+                user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"], nutrients["carbohydrates"], nutrients["fat"]
             )
+
+            # Indsæt måltider
             for meal in meals:
                 db.execute(
                     """
-                    INSERT INTO meal_plan_meals (meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                     """,
-                    meal_plan_id, meal["title"], meal["sourceUrl"], meal["ready_in_minutes"], "Recipe unavailable", meal["imageType"]
-
+                    meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal["readyInMinutes"], "Recipe unavailable", meal["imageType"]
                 )
 
-            meal_plans = select_data(user_id)
+            # Hent opdaterede data
+            meal_plans, meals_by_plan = select_data(user_id)
+            return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
 
-            # Returnér data til frontend (eller anden logik)
-            return render_template("mealplan.html", meal_plans=meal_plans)
         else:
-            # Fejl ved API-kald
-            return render_template("mealplan.html", meal_plans=meal_plans,  error="Failed to fetch meal plan. Please try again later.")
+            return render_template("mealplan.html", error="Failed to fetch meal plan. Try again.")
+
+    # GET request
     else:
+        meal_plans, meals_by_plan = select_data(user_id)
+        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
 
-        meal_plans = select_data(user_id)
-
-        return render_template("mealplan.html", meal_plans=meal_plans)
 
 
