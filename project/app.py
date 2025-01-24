@@ -381,67 +381,81 @@ def mealplan():
 
         return meal_plans, meals_by_plan
 
-
     if request.method == "POST":
-        # Valider input (samme som før)
-        if not request.form.get("plan_name"):
-            return render_template("mealplan.html", error="Please enter a meal plan name")
+        action = request.form.get("action")
 
-        # Flere valideringer (samme som før)...
+        if action == "delete":
+            plan_id = request.form.get("plan_id")
+            if plan_id:
+                # Slet madplan og tilknyttede måltider
+                db.execute("DELETE FROM meal_plan_meals WHERE meal_plan_id = ?", plan_id)
+                db.execute("DELETE FROM meal_plans WHERE id = ? AND user_id = ?", plan_id, user_id)
 
-        # Hent brugerens kaloriebudget
-        calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
+        elif action == "add":
+            # Valider "plan_name"
+            if not request.form.get("plan_name"):
+                return render_template("mealplan.html", error="Please enter a meal plan name.")
 
-        # Spoonacular API-opkald
-        api_key = "71433d93ff0445e68f984bb19ca3048f"
-        url = f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}"
-        params = {
-            "timeFrame": "day",
-            "targetCalories": calorie_goal,
-            "diet": request.form.get("diet"),
-            "exclude": request.form.get("exclude", "").strip(),
-        }
-        print(params)
-        response = requests.get(url, params=params)
+            # Valider "diet preference"
+            valid_diet_preferences = ["", "vegetarian", "vegan", "keto", "paleo"]
+            diet = request.form.get("diet")
+            if diet not in valid_diet_preferences:
+                return render_template("mealplan.html", error="Invalid diet preference selected.")
 
-        if response.status_code == 200:
-            api_data = response.json()
-            meals = api_data.get("meals", [])
-            nutrients = api_data.get("nutrients", {})
+            # Hent brugerens kaloriebudget
+            calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
 
-            if not meals or not nutrients:
-                return render_template("mealplan.html", error="No meals found. Try again.")
+            # Spoonacular API-opkald
+            api_key = "71433d93ff0445e68f984bb19ca3048f"
+            url = f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}"
+            params = {
+                "timeFrame": "day",
+                "targetCalories": calorie_goal,
+                "diet": diet,
+                "exclude": request.form.get("exclude", "").strip(),
+            }
+            print(params)
+            response = requests.get(url, params=params)
 
-            # Indsæt madplan
-            meal_plan_id = db.execute(
-                """
-                INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"], nutrients["carbohydrates"], nutrients["fat"]
-            )
+            if response.status_code == 200:
+                api_data = response.json()
+                meals = api_data.get("meals", [])
+                nutrients = api_data.get("nutrients", {})
 
-            # Indsæt måltider
-            for meal in meals:
-                db.execute(
+                if not meals or not nutrients:
+                    return render_template("mealplan.html", error="No meals found. Try again.")
+
+                # Indsæt madplan
+                meal_plan_id = db.execute(
                     """
-                    INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
+                    VALUES (?, ?, ?, ?, ?, ?)
                     """,
-                    meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal["readyInMinutes"], "Recipe unavailable", meal["imageType"]
+                    user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"], nutrients["carbohydrates"], nutrients["fat"]
                 )
 
-            # Hent opdaterede data
-            meal_plans, meals_by_plan = select_data(user_id)
-            return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
+                # Indsæt måltider
+                for meal in meals:
+                    db.execute(
+                        """
+                        INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal["readyInMinutes"], "Recipe unavailable", meal["imageType"]
+                    )
 
-        else:
-            return render_template("mealplan.html", error="Failed to fetch meal plan. Try again.")
+            else:
+                return render_template("mealplan.html", error="Failed to fetch meal plan. Try again.")
+
+        # Hent opdaterede data
+        meal_plans, meals_by_plan = select_data(user_id)
+        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
 
     # GET request
     else:
         meal_plans, meals_by_plan = select_data(user_id)
         return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
+
 
 
 
