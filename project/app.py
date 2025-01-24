@@ -387,7 +387,7 @@ def mealplan():
 
         # Hent brugerens valg
         meal_types = ["breakfast", "lunch", "dinner"]  # Standard måltidstyper
-        num_meals = int(request.form.get("meals_per_day", 3))  # Antal måltider om dagen
+        num_meals = int(request.form.get("meals_per_day", 5))  # Antal måltider om dagen
 
         meals_per_type = num_meals // len(meal_types)  # Fordel måltider ligeligt
         extra_meals = num_meals % len(meal_types)  # Fordel evt. overskydende måltider
