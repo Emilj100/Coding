@@ -381,6 +381,20 @@ def mealplan():
 
         return meal_plans, meals_by_plan
 
+    def calculate_macronutrients(calorie_goal, goal_type):
+        """Beregner minimum protein, kulhydrat og fedt baseret på mål og kalorieindtag."""
+        if goal_type == "weight_loss":
+            protein_ratio, carb_ratio, fat_ratio = 0.35, 0.30, 0.35
+        elif goal_type == "muscle_gain":
+            protein_ratio, carb_ratio, fat_ratio = 0.40, 0.40, 0.20
+        else:  # maintenance
+            protein_ratio, carb_ratio, fat_ratio = 0.30, 0.40, 0.30
+
+        protein = calorie_goal * protein_ratio / 4  # 1 gram protein = 4 kcal
+        carbs = calorie_goal * carb_ratio / 4      # 1 gram kulhydrat = 4 kcal
+        fat = calorie_goal * fat_ratio / 9         # 1 gram fedt = 9 kcal
+        return round(protein), round(carbs), round(fat)
+
     if request.method == "POST":
         action = request.form.get("action")
 
@@ -402,59 +416,76 @@ def mealplan():
             if diet not in valid_diet_preferences:
                 return render_template("mealplan.html", error="Invalid diet preference selected.")
 
-            # Hent brugerens kaloriebudget
-            calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
+            # Hent brugerens kaloriebudget og mål
+            user_data = db.execute("SELECT daily_calorie_goal, goal_type FROM users WHERE id = ?", user_id)[0]
+            calorie_goal = user_data["daily_calorie_goal"]
+            goal_type = user_data["goal_type"]
 
-            # Spoonacular API-opkald
-            api_key = "71433d93ff0445e68f984bb19ca3048f"
-            url = f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}"
-            params = {
-                "timeFrame": "day",
-                "targetCalories": calorie_goal,
-                "diet": diet,
-                "exclude": request.form.get("exclude", "").strip(),
-            }
-            print(params)
-            response = requests.get(url, params=params)
+            # Beregn makronæringsstoffer for hele planen og fordel dem
+            total_protein, total_carbs, total_fat = calculate_macronutrients(calorie_goal, goal_type)
+            meal_protein = round(total_protein / 3)
+            meal_carbs = round(total_carbs / 3)
+            meal_fat = round(total_fat / 3)
 
-            if response.status_code == 200:
-                api_data = response.json()
-                meals = api_data.get("meals", [])
-                nutrients = api_data.get("nutrients", {})
+            # Spoonacular API-opkald for morgenmad, frokost og aftensmad
+            api_key = "YOUR_API_KEY"
+            meal_types = ["breakfast", "lunch", "dinner"]
+            meals = []
 
-                if not meals or not nutrients:
-                    return render_template("mealplan.html", error="No meals found. Try again.")
+            for meal_type in meal_types:
+                url = "https://api.spoonacular.com/recipes/complexSearch"
+                params = {
+                    "apiKey": api_key,
+                    "diet": diet,
+                    "excludeIngredients": request.form.get("exclude", "").strip(),
+                    "type": meal_type,
+                    "addRecipeNutrition": True,
+                    "number": 1,
+                    "minProtein": meal_protein,
+                    "minCarbs": meal_carbs,
+                    "minFat": meal_fat
+                }
+                response = requests.get(url, params=params)
+                if response.status_code == 200:
+                    result = response.json().get("results", [])
+                    if result:
+                        meals.append(result[0])
+                else:
+                    return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
 
-                # Indsæt madplan
-                meal_plan_id = db.execute(
+            if not meals or len(meals) != 3:
+                return render_template("mealplan.html", error="Could not generate a complete meal plan. Try again.")
+
+            # Indsæt madplan
+            meal_plan_id = db.execute(
+                """
+                INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                user_id, request.form.get("plan_name"), calorie_goal, total_protein, total_carbs, total_fat
+            )
+
+            # Indsæt måltider
+            for meal in meals:
+                db.execute(
                     """
-                    INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                     """,
-                    user_id, request.form.get("plan_name"), nutrients["calories"], nutrients["protein"], nutrients["carbohydrates"], nutrients["fat"]
+                    meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal.get("readyInMinutes", 0),
+                    "Recipe unavailable", meal["imageType"]
                 )
-
-                # Indsæt måltider
-                for meal in meals:
-                    db.execute(
-                        """
-                        INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
-                        """,
-                        meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal["readyInMinutes"], "Recipe unavailable", meal["imageType"]
-                    )
-
-            else:
-                return render_template("mealplan.html", error="Failed to fetch meal plan. Try again.")
 
         # Hent opdaterede data
         meal_plans, meals_by_plan = select_data(user_id)
         return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
 
-    # GET request
-    else:
+    else:  # GET request
         meal_plans, meals_by_plan = select_data(user_id)
         return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
+
+
+
 
 
 
