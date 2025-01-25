@@ -8,6 +8,7 @@ from functools import wraps
 import re
 import requests
 import json
+import random
 
 # Configure application
 app = Flask(__name__)
@@ -432,9 +433,16 @@ def mealplan():
             api_key = "71433d93ff0445e68f984bb19ca3048f"
             meal_types = ["breakfast", "main course", "main course"]
             meals = []
-            offset = 0
+            available_offsets = list(range(1, 4))  # Liste med offsets fra 1 til 10
 
             for meal_type in meal_types:
+                if not available_offsets:
+                    return render_template("mealplan.html", error="Could not generate a complete meal plan. Not enough unique offsets available.")
+
+                # Vælg et tilfældigt offset fra listen og fjern det bagefter
+                offset = random.choice(available_offsets)
+                available_offsets.remove(offset)
+
                 url = "https://api.spoonacular.com/recipes/complexSearch"
                 params = {
                     "apiKey": api_key,
@@ -446,22 +454,22 @@ def mealplan():
                     "minProtein": meal_protein,
                     "minCarbs": meal_carbs,
                     "minFat": meal_fat,
-                    "offset": offset
+                    "offset": offset  # Brug det tilfældige offset
                 }
                 response = requests.get(url, params=params)
                 print(f"Response status code for {meal_type}: {response.status_code}")
                 print(f"Response for {meal_type}: {response.text}")  # Debugging API response
+
                 if response.status_code == 200:
                     result = response.json().get("results", [])
                     if result:
                         meals.append(result[0])
-                        offset += 1
-
                 else:
                     return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
 
             if not meals or len(meals) != 3:
                 return render_template("mealplan.html", error="Could not generate a complete meal plan. Try again.")
+
 
             # Indsæt madplan
             meal_plan_id = db.execute(
