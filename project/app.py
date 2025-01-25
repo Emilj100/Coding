@@ -432,6 +432,7 @@ def mealplan():
             api_key = "71433d93ff0445e68f984bb19ca3048f"
             meal_types = ["breakfast", "main course", "main course"]
             meals = []
+            offset = 0
 
             for meal_type in meal_types:
                 url = "https://api.spoonacular.com/recipes/complexSearch"
@@ -444,7 +445,8 @@ def mealplan():
                     "number": 1,
                     "minProtein": meal_protein,
                     "minCarbs": meal_carbs,
-                    "minFat": meal_fat
+                    "minFat": meal_fat,
+                    "offset": offset
                 }
                 response = requests.get(url, params=params)
                 print(f"Response status code for {meal_type}: {response.status_code}")
@@ -453,6 +455,8 @@ def mealplan():
                     result = response.json().get("results", [])
                     if result:
                         meals.append(result[0])
+                        offset += 1
+
                 else:
                     return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
 
