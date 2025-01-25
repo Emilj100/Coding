@@ -433,7 +433,7 @@ def mealplan():
             api_key = "71433d93ff0445e68f984bb19ca3048f"
             meal_types = ["breakfast", "main course", "main course"]
             meals = []
-            available_offsets = list(range(1, 6))  # Liste med offsets fra 1 til 10
+            available_offsets = list(range(1, 4))  # Liste med offsets fra 1 til 10
 
             for meal_type in meal_types:
                 if not available_offsets:
