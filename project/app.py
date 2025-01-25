@@ -433,11 +433,11 @@ def mealplan():
             api_key = "71433d93ff0445e68f984bb19ca3048f"
             meal_types = ["breakfast", "main course", "main course"]
             meals = []
-            available_offsets = list(range(1, 4))  # Liste med offsets fra 1 til 10
+            available_offsets = list(range(1, 6))  # Liste med offsets fra 1 til 10
 
             for meal_type in meal_types:
                 if not available_offsets:
-                    return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan, error="Could not generate a complete meal plan. Not enough unique offsets available.")
+                    return render_template("mealplan.html", error="Could not generate a complete meal plan. Not enough unique offsets available.")
 
                 # Vælg et tilfældigt offset fra listen og fjern det bagefter
                 offset = random.choice(available_offsets)
@@ -468,7 +468,7 @@ def mealplan():
                     return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
 
             if not meals or len(meals) != 3:
-                return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan, error="Could not generate a complete meal plan. Try again.")
+                return render_template("mealplan.html", error="Could not generate a complete meal plan. Try again.")
 
 
             # Indsæt madplan
