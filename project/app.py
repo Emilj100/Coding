@@ -430,7 +430,7 @@ def mealplan():
 
             # Spoonacular API-opkald for morgenmad, frokost og aftensmad
             api_key = "71433d93ff0445e68f984bb19ca3048f"
-            meal_types = ["breakfast", "lunch", "dinner"]
+            meal_types = ["breakfast", "main course", "main course"]
             meals = []
 
             for meal_type in meal_types:
