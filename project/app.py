@@ -468,7 +468,7 @@ def mealplan():
                     return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
 
             if not meals or len(meals) != 3:
-                return render_template("mealplan.html", error="Could not generate a complete meal plan. Try again.")
+                return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan, error="Could not generate a complete meal plan. Try again.")
 
 
             # Indsæt madplan
