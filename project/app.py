@@ -423,12 +423,13 @@ def mealplan():
 
             # Beregn makronæringsstoffer for hele planen og fordel dem
             total_protein, total_carbs, total_fat = calculate_macronutrients(calorie_goal, goal_type)
-            meal_protein = round(total_protein / 3)
-            meal_carbs = round(total_carbs / 3)
-            meal_fat = round(total_fat / 3)
+            # Reducér minimumskravene for hvert måltid
+            meal_protein = round((total_protein / 3) * 0.65)  # F.eks. 75% af det tidligere krav
+            meal_carbs = round((total_carbs / 3) * 0.65)
+            meal_fat = round((total_fat / 3) * 0.65)
 
             # Spoonacular API-opkald for morgenmad, frokost og aftensmad
-            api_key = "YOUR_API_KEY"
+            api_key = "71433d93ff0445e68f984bb19ca3048f"
             meal_types = ["breakfast", "lunch", "dinner"]
             meals = []
 
@@ -446,6 +447,8 @@ def mealplan():
                     "minFat": meal_fat
                 }
                 response = requests.get(url, params=params)
+                print(f"Response status code for {meal_type}: {response.status_code}")
+                print(f"Response for {meal_type}: {response.text}")  # Debugging API response
                 if response.status_code == 200:
                     result = response.json().get("results", [])
                     if result:
