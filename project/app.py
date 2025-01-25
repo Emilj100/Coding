@@ -446,7 +446,8 @@ def mealplan():
                     "minProtein": meal_protein,
                     "minCarbs": meal_carbs,
                     "minFat": meal_fat,
-                    "offset": offset
+                    "offset": offset,
+                    "instructionsRequired": True
                 }
                 response = requests.get(url, params=params)
                 print(f"Response status code for {meal_type}: {response.status_code}")
