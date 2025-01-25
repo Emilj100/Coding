@@ -441,7 +441,6 @@ def mealplan():
 
                 # Vælg et tilfældigt offset fra listen og fjern det bagefter
                 offset = random.choice(available_offsets)
-                available_offsets.remove(offset)
 
                 url = "https://api.spoonacular.com/recipes/complexSearch"
                 params = {
