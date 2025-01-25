@@ -437,7 +437,7 @@ def mealplan():
 
             for meal_type in meal_types:
                 if not available_offsets:
-                    return render_template("mealplan.html", error="Could not generate a complete meal plan. Not enough unique offsets available.")
+                    return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan, error="Could not generate a complete meal plan. Not enough unique offsets available.")
 
                 # Vælg et tilfældigt offset fra listen og fjern det bagefter
                 offset = random.choice(available_offsets)
