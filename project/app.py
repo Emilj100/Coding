@@ -369,7 +369,7 @@ def mealplan():
         # Hent alle måltider for de madplaner
         meals = db.execute(
             """
-            SELECT meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype, instructions, ingredients
+            SELECT meal_id, meal_plan_id, title, source_url, ready_in_minutes, imagetype, instructions, ingredients
             FROM meal_plan_meals
             WHERE meal_plan_id IN (SELECT id FROM meal_plans WHERE user_id = ?)
             """,
