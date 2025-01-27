@@ -340,6 +340,8 @@ def traininglog():
 
      user_id = session["user_id"]
 
+     return render_template("traininglog.html")
+
 @app.route("/dashboard")
 @login_required
 def dashboard():
