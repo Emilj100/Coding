@@ -337,7 +337,8 @@ def calorietracker():
 @app.route("/traininglog")
 @login_required
 def traininglog():
-    return "traininglog page"
+
+     user_id = session["user_id"]
 
 @app.route("/dashboard")
 @login_required
