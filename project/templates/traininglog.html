@@ -14,50 +14,31 @@
 <!-- Training Program Overview -->
 <div class="container my-5">
     <h2 class="text-center mb-4">Your Training Program</h2>
+    {% for day in training_program %}
     <div class="card mb-3 shadow-sm">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Day 1: Push Day</h5>
-            <a href="/training/day/1" class="btn btn-sm btn-light">Start Training</a>
+            <h5 class="mb-0">Day {{ day.number }}: {{ day.name }}</h5>
+            <div>
+                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#day-{{ day.number }}">
+                    View Exercises
+                </button>
+                <a href="/training/day/{{ day.number }}" class="btn btn-sm btn-success ms-2">Start Training</a>
+            </div>
         </div>
-        <div class="card-body">
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Bench Press (4 sets x 10 reps)
-                    <span>Target Weight: 60 kg</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Overhead Press (3 sets x 12 reps)
-                    <span>Target Weight: 40 kg</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Tricep Dips (3 sets x 15 reps)
-                    <span>Bodyweight</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="card mb-3 shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Day 2: Pull Day</h5>
-            <a href="/training/day/2" class="btn btn-sm btn-light">Start Training</a>
-        </div>
-        <div class="card-body">
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Deadlift (4 sets x 8 reps)
-                    <span>Target Weight: 80 kg</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Barbell Rows (3 sets x 10 reps)
-                    <span>Target Weight: 60 kg</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Pull-ups (3 sets x 12 reps)
-                    <span>Bodyweight</span>
-                </li>
-            </ul>
+        <div class="collapse" id="day-{{ day.number }}">
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for exercise in day.exercises %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ exercise.name }} ({{ exercise.sets }} sets x {{ exercise.reps }} reps)
+                        <span>Target Weight: {{ exercise.weight }} kg</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
+    {% endfor %}
 </div>
 
 <!-- Training History -->
@@ -114,5 +95,6 @@
 </div>
 
 {% endblock %}
+
 
 
