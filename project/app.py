@@ -424,6 +424,7 @@ def mealplan():
             # Hent brugerens kaloriebudget og mål
             user_data = db.execute("SELECT daily_calorie_goal, goal_type FROM users WHERE id = ?", user_id)[0]
             calorie_goal = user_data["daily_calorie_goal"]
+            calorie_goal = calorie_goal / 3
             goal_type = user_data["goal_type"]
 
             # Beregn makronæringsstoffer for hele planen og fordel dem
@@ -449,19 +450,14 @@ def mealplan():
                     "apiKey": api_key,
                     "diet": diet,
                     "type": meal_type,
-                    "minCalories": calorie_goal // 3,  # Fordel kalorierne på tre måltider
+                    "minCalories": calorie_goal,  # Fordel kalorierne på tre måltider
                     "addRecipeNutrition": True,
                     "number": 1,
                     "offset": offset,
                     "instructionsRequired": True
                 }
                 # Kun inkludér minimumskrav, hvis diet ikke er valgt
-                if not diet:
-                    params.update({
-                        "minProtein": meal_protein,
-                        "minCarbs": meal_carbs,
-                        "minFat": meal_fat
-                    })
+
 
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
