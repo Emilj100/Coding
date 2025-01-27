@@ -428,9 +428,15 @@ def mealplan():
 
             # Beregn makronæringsstoffer for hele planen og fordel dem
             total_protein, total_carbs, total_fat = calculate_macronutrients(calorie_goal, goal_type)
-            meal_protein = round(total_protein / 3)
-            meal_carbs = round(total_carbs / 3)
-            meal_fat = round(total_fat / 3)
+
+            # Indsæt madplan først og hent dens ID
+            meal_plan_id = db.execute(
+                """
+                INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                user_id, request.form.get("plan_name"), calorie_goal, total_protein, total_carbs, total_fat
+            )
 
             # Spoonacular API-opkald for morgenmad, frokost og aftensmad
             api_key = "71433d93ff0445e68f984bb19ca3048f"
@@ -444,23 +450,23 @@ def mealplan():
 
             for meal_type in meal_types:
                 url = "https://api.spoonacular.com/recipes/complexSearch"
-                # Tilpas params baseret på diet
                 params = {
                     "apiKey": api_key,
                     "diet": diet,
                     "type": meal_type,
-                    "targetCalories": calorie_goal // 3,  # Fordel kalorierne på tre måltider
+                    "targetCalories": calorie_goal // 3,
                     "addRecipeNutrition": True,
                     "number": 1,
                     "offset": offset,
                     "instructionsRequired": True
                 }
+
                 # Kun inkludér minimumskrav, hvis diet ikke er valgt
                 if not diet:
                     params.update({
-                        "minProtein": meal_protein,
-                        "minCarbs": meal_carbs,
-                        "minFat": meal_fat
+                        "minProtein": round(total_protein / 3),
+                        "minCarbs": round(total_carbs / 3),
+                        "minFat": round(total_fat / 3)
                     })
 
                 response = requests.get(url, params=params)
@@ -496,22 +502,14 @@ def mealplan():
                             INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, imagetype, instructions, ingredients)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                             """,
-                            meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal.get("readyInMinutes", 0), meal["imageType"], instructions, ingredients
+                            meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal.get("readyInMinutes", 0),
+                            meal["imageType"], instructions, ingredients
                         )
                 else:
                     return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
 
             if not meals or len(meals) != 3:
                 return render_template("mealplan.html", error="Could not generate a complete meal plan. Try again.")
-
-            # Indsæt madplan
-            meal_plan_id = db.execute(
-                """
-                INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                user_id, request.form.get("plan_name"), round(total_calories), round(total_protein), round(total_carbs), round(total_fat)
-            )
 
         # Hent opdaterede data
         meal_plans, meals_by_plan = select_data(user_id)
@@ -520,3 +518,4 @@ def mealplan():
     else:  # GET request
         meal_plans, meals_by_plan = select_data(user_id)
         return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
+
