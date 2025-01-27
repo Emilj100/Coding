@@ -457,7 +457,12 @@ def mealplan():
                     "instructionsRequired": True
                 }
                 # Kun inkludér minimumskrav, hvis diet ikke er valgt
-
+                if not diet:
+                    params.update({
+                        "minProtein": meal_protein,
+                        "minCarbs": meal_carbs,
+                        "minFat": meal_fat
+                    })
 
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
@@ -476,9 +481,6 @@ def mealplan():
 
                 else:
                     return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
-
-            if not meals or len(meals) != 3:
-                return render_template("mealplan.html", error="Could not generate a complete meal plan. Try again.")
 
             # Indsæt madplan
             meal_plan_id = db.execute(
