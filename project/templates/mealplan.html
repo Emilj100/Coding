@@ -27,6 +27,7 @@
                     <div class="form-text">Please enter a name for your meal plan.</div>
                 </div>
 
+
                 <!-- Diet preferences -->
                 <div class="mb-3">
                     <label for="diet" class="form-label">Diet Preference</label>
@@ -93,16 +94,8 @@
                                     onerror="this.style.display='none';">
                                 <p>
                                     <strong>Ready in:</strong> {{ meal.ready_in_minutes }} minutes<br>
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#meal-{{ meal.meal_id }}">
-                                        View Recipe
-                                    </button>
+                                    <a href="{{ meal.source_url }}" target="_blank" class="btn btn-sm btn-primary">View Recipe</a>
                                 </p>
-                                <div class="collapse mt-3" id="meal-{{ meal.meal_id }}">
-                                    <h6><strong>Ingredients:</strong></h6>
-                                    <p>{{ meal.ingredients }}</p>
-                                    <h6><strong>Instructions:</strong></h6>
-                                    <p>{{ meal.instructions }}</p>
-                                </div>
                             </li>
                             {% endfor %}
                         </ul>
@@ -113,5 +106,6 @@
     </div>
     {% endfor %}
 </div>
+
 
 {% endblock %}

@@ -369,7 +369,7 @@ def mealplan():
         # Hent alle måltider for de madplaner
         meals = db.execute(
             """
-            SELECT meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype
+            SELECT meal_id, meal_plan_id, title, source_url, ready_in_minutes, imagetype
             FROM meal_plan_meals
             WHERE meal_plan_id IN (SELECT id FROM meal_plans WHERE user_id = ?)
             """,
@@ -497,11 +497,10 @@ def mealplan():
             for meal in meals:
                 db.execute(
                     """
-                    INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, recipe, imagetype)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO meal_plan_meals (meal_id, meal_plan_id, title, source_url, ready_in_minutes, imagetype)
+                    VALUES (?, ?, ?, ?, ?, ?)
                     """,
-                    meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal.get("readyInMinutes", 0),
-                    "Recipe unavailable", meal["imageType"]
+                    meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal.get("readyInMinutes", 0), meal["imageType"]
                 )
 
         # Hent opdaterede data
