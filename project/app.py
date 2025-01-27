@@ -467,6 +467,9 @@ def mealplan():
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
                     result = response.json().get("results", [])
+                    print("Requesting recipes with parameters:", params)
+                    print("Response status code:", response.status_code)
+                    print("Response data:", response.json())
                     if result:
                         meal = result[0]
                         meals.append(meal)
