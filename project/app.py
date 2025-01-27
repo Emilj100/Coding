@@ -415,33 +415,27 @@ def mealplan():
             if not request.form.get("plan_name"):
                 return render_template("mealplan.html", error="Please enter a meal plan name.")
 
-            # Valider "diet preference"
-            valid_diet_preferences = ["", "vegetarian", "vegan", "keto", "paleo"]
-            diet = request.form.get("diet")
-            if diet not in valid_diet_preferences:
-                return render_template("mealplan.html", error="Invalid diet preference selected.")
-
             # Hent brugerens kaloriebudget og mål
             user_data = db.execute("SELECT daily_calorie_goal, goal_type FROM users WHERE id = ?", user_id)[0]
+            calorie_goal = user_data["daily_calorie_goal"]
 
             MAX_CALORIES = 3443
             if calorie_goal > MAX_CALORIES:
                 calorie_goal = MAX_CALORIES  # Begræns til 3443 kalorier
                 error_message = (
-                    "Your daily calorie goal exceeds the maximum we can generate a plan for (3443 kcal). "
-                    "We have created a plan with the highest available calorie value of 3443 kcal."
+                    "Your daily calorie goal exceeds the maximum we can generate a plan for (3440 kcal). "
+                    "We have created a plan with the highest available calorie value."
                 )
             else:
                 error_message = None
 
-            calorie_goal = user_data["daily_calorie_goal"]
             goal_type = user_data["goal_type"]
 
             # Beregn makronæringsstoffer for hele planen og fordel dem
             total_protein, total_carbs, total_fat = calculate_macronutrients(calorie_goal, goal_type)
-            meal_protein = round(total_protein / 3)
-            meal_carbs = round(total_carbs / 3)
-            meal_fat = round(total_fat / 3)
+            meal_protein = round(total_protein / 3 * 0.70)
+            meal_carbs = round(total_carbs / 3 * 0.70)
+            meal_fat = round(total_fat / 3 * 0.70)
             calorie_goal = calorie_goal / 3
 
             # Spoonacular API-opkald for morgenmad, frokost og aftensmad
@@ -459,22 +453,20 @@ def mealplan():
                 # Tilpas params baseret på diet
                 params = {
                     "apiKey": api_key,
-                    "diet": diet,
                     "type": meal_type,
                     "minCalories": min(calorie_goal - 100, 1100),  # Fordel kalorierne på tre måltider
                     "maxCalories": min(calorie_goal + 100, 1300),
                     "addRecipeNutrition": True,
                     "number": 1,
                     "offset": offset,
-                    "instructionsRequired": True
+                    "instructionsRequired": True,
+                    "minProtein": meal_protein,
+                    "minCarbs": meal_carbs,
+                    "minFat": meal_fat
                 }
-                # Kun inkludér minimumskrav, hvis diet ikke er valgt
-                if not diet:
-                    params.update({
-                        "minProtein": meal_protein,
-                        "minCarbs": meal_carbs,
-                        "minFat": meal_fat
-                    })
+
+
+
 
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
@@ -521,7 +513,7 @@ def mealplan():
 
         # Hent opdaterede data
         meal_plans, meals_by_plan = select_data(user_id)
-        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
+        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan, error=error_message)
 
     else:  # GET request
         meal_plans, meals_by_plan = select_data(user_id)
