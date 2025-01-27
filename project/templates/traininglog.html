@@ -14,47 +14,53 @@
 <!-- Training Program Overview -->
 <div class="container my-5">
     <h2 class="text-center mb-4">Your Training Program</h2>
-    <div class="card mb-3 shadow-sm border-0">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 text-success">Day 1: Push Day</h5>
-            <div>
-                <button class="btn btn-sm btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#day-1">
-                    View Exercises
-                </button>
-                <a href="/training/day/1" class="btn btn-sm btn-success ms-2">Start Training</a>
+    <div class="list-group">
+        <div class="list-group-item p-4 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1">Day 1: Push Day</h5>
+                    <small class="text-muted">Upper-body push-focused day</small>
+                </div>
+                <div>
+                    <button class="btn btn-outline-secondary btn-sm me-2" type="button" data-bs-toggle="collapse" data-bs-target="#step-day-1">
+                        View Exercises
+                    </button>
+                    <a href="/training/day/1" class="btn btn-success btn-sm">Start Training</a>
+                </div>
             </div>
-        </div>
-        <div class="collapse" id="day-1">
-            <div class="card-body">
+            <div class="collapse mt-3" id="step-day-1">
                 <ul class="list-group">
-                    <li class="list-group-item">Bench Press (4 sets x 10 reps) - Target Weight: 60 kg</li>
-                    <li class="list-group-item">Overhead Press (3 sets x 12 reps) - Target Weight: 40 kg</li>
+                    <li class="list-group-item">Bench Press (4 sets x 10 reps) - 60 kg</li>
+                    <li class="list-group-item">Overhead Press (3 sets x 12 reps) - 40 kg</li>
                     <li class="list-group-item">Tricep Dips (3 sets x 15 reps) - Bodyweight</li>
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="card mb-3 shadow-sm border-0">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 text-success">Day 2: Pull Day</h5>
-            <div>
-                <button class="btn btn-sm btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#day-2">
-                    View Exercises
-                </button>
-                <a href="/training/day/2" class="btn btn-sm btn-success ms-2">Start Training</a>
+        <div class="list-group-item p-4 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1">Day 2: Pull Day</h5>
+                    <small class="text-muted">Upper-body pull-focused day</small>
+                </div>
+                <div>
+                    <button class="btn btn-outline-secondary btn-sm me-2" type="button" data-bs-toggle="collapse" data-bs-target="#step-day-2">
+                        View Exercises
+                    </button>
+                    <a href="/training/day/2" class="btn btn-success btn-sm">Start Training</a>
+                </div>
             </div>
-        </div>
-        <div class="collapse" id="day-2">
-            <div class="card-body">
+            <div class="collapse mt-3" id="step-day-2">
                 <ul class="list-group">
-                    <li class="list-group-item">Deadlift (4 sets x 8 reps) - Target Weight: 80 kg</li>
-                    <li class="list-group-item">Barbell Rows (3 sets x 10 reps) - Target Weight: 60 kg</li>
+                    <li class="list-group-item">Deadlift (4 sets x 8 reps) - 80 kg</li>
+                    <li class="list-group-item">Barbell Rows (3 sets x 10 reps) - 60 kg</li>
                     <li class="list-group-item">Pull-ups (3 sets x 12 reps) - Bodyweight</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 <!-- Training History -->
