@@ -345,8 +345,8 @@ def traininglog():
 @app.route("/trainingsession")
 @login_required
 def trainingsession():
-    
-    return render_template("traininglog.html")
+
+    return render_template("training-session.html")
 
 @app.route("/dashboard")
 @login_required
