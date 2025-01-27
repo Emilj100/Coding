@@ -423,8 +423,18 @@ def mealplan():
 
             # Hent brugerens kaloriebudget og mål
             user_data = db.execute("SELECT daily_calorie_goal, goal_type FROM users WHERE id = ?", user_id)[0]
+
+            MAX_CALORIES = 3443
+            if calorie_goal > MAX_CALORIES:
+                calorie_goal = MAX_CALORIES  # Begræns til 3443 kalorier
+                error_message = (
+                    "Your daily calorie goal exceeds the maximum we can generate a plan for (3443 kcal). "
+                    "We have created a plan with the highest available calorie value of 3443 kcal."
+                )
+            else:
+                error_message = None
+
             calorie_goal = user_data["daily_calorie_goal"]
-            calorie_goal = calorie_goal / 3
             goal_type = user_data["goal_type"]
 
             # Beregn makronæringsstoffer for hele planen og fordel dem
@@ -432,6 +442,7 @@ def mealplan():
             meal_protein = round(total_protein / 3)
             meal_carbs = round(total_carbs / 3)
             meal_fat = round(total_fat / 3)
+            calorie_goal = calorie_goal / 3
 
             # Spoonacular API-opkald for morgenmad, frokost og aftensmad
             api_key = "71433d93ff0445e68f984bb19ca3048f"
