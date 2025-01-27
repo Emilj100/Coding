@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Training Log
+{% endblock %}
+
+{% block main %}
+<!-- Hero Section -->
+<div class="container my-5 text-center">
+    <h1 class="display-4 mb-3 fw-bold">Training Log</h1>
+    <p class="lead text-muted">Track your workouts and monitor your progress over time!</p>
+</div>
+
+<!-- Add Workout Form -->
+<div class="container my-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h4 class="card-title text-center mb-4">Add a New Workout</h4>
+            <form action="/traininglog" method="post">
+                <input type="hidden" name="action" value="add">
+
+                <!-- Workout Name -->
+                <div class="mb-3">
+                    <label for="workout_name" class="form-label">Workout Name</label>
+                    <input type="text" class="form-control" id="workout_name" name="workout_name" placeholder="E.g., Push Day" required>
+                </div>
+
+                <!-- Date -->
+                <div class="mb-3">
+                    <label for="workout_date" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="workout_date" name="workout_date" required>
+                </div>
+
+                <!-- Exercises -->
+                <div class="mb-3">
+                    <label for="workout_exercises" class="form-label">Exercises</label>
+                    <textarea class="form-control" id="workout_exercises" name="workout_exercises" rows="3" placeholder="E.g., Bench Press: 3x12 @ 60kg, Squats: 3x10 @ 80kg" required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Add Workout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Workout History -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Your Workout History</h2>
+    {% for log in workout_logs %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ log.workout_name }}</h5>
+                    <p>
+                        <strong>Date:</strong> {{ log.workout_date }}<br>
+                        <strong>Exercises:</strong><br>
+                        <pre class="bg-light p-2">{{ log.workout_exercises }}</pre>
+                    </p>
+                    <div class="d-flex justify-content-end">
+                        <form action="/traininglog" method="post" style="display: inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="log_id" value="{{ log.id }}">
+                            <button class="btn btn-sm btn-danger" type="submit">
+                                <i class="bi bi-x-circle-fill"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Progress Chart -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Your Progress</h2>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <canvas id="progressChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dummy Data for Progress Chart
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            datasets: [{
+                label: 'Weight Lifted (kg)',
+                data: [100, 110, 120, 130, 140],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
