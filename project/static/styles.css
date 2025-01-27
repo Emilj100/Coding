@@ -95,3 +95,17 @@ p {
     min-height: 100vh;
     background-color: #f8f9fa;
 }
+
+/* Traininglog side */
+
+.start-training-btn {
+    background-color: #388e3c;
+    color: white;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.start-training-btn:hover {
+    background-color: #2e7d32; /* Mørkere grøn for hover */
+    color: white;
+}
+
