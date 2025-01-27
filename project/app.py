@@ -450,8 +450,8 @@ def mealplan():
                     "apiKey": api_key,
                     "diet": diet,
                     "type": meal_type,
-                    "minCalories": min(calorie_goal - 100, 1000),  # Fordel kalorierne på tre måltider
-                    "maxCalories": min(calorie_goal + 100, 1100),
+                    "minCalories": min(calorie_goal - 100, 1100),  # Fordel kalorierne på tre måltider
+                    "maxCalories": min(calorie_goal + 100, 1300),
                     "addRecipeNutrition": True,
                     "number": 1,
                     "offset": offset,
