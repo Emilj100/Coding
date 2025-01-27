@@ -8,125 +8,55 @@
 <!-- Hero Section -->
 <div class="container my-5 text-center">
     <h1 class="display-4 mb-3 fw-bold">Training Log</h1>
-    <p class="lead text-muted">Log your workouts, track progress, and stay consistent with your fitness goals!</p>
+    <p class="lead text-muted">Manage your training program, log workouts, and track progress effectively!</p>
 </div>
 
 <!-- Training Program Overview -->
 <div class="container my-5">
     <h2 class="text-center mb-4">Your Training Program</h2>
     <div class="card mb-3 shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">
-                Day 1: Push Day
-                <button class="btn btn-sm btn-light float-end" type="button" data-bs-toggle="collapse" data-bs-target="#day-1">
-                    View Exercises
-                </button>
-            </h5>
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Day 1: Push Day</h5>
+            <a href="/training/day/1" class="btn btn-sm btn-light">Start Training</a>
         </div>
-        <div class="collapse" id="day-1">
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Bench Press (4 sets x 10 reps)
-                        <span>Target Weight: 60 kg</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Overhead Press (3 sets x 12 reps)
-                        <span>Target Weight: 40 kg</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Tricep Dips (3 sets x 15 reps)
-                        <span>Bodyweight</span>
-                    </li>
-                </ul>
-            </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Bench Press (4 sets x 10 reps)
+                    <span>Target Weight: 60 kg</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Overhead Press (3 sets x 12 reps)
+                    <span>Target Weight: 40 kg</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Tricep Dips (3 sets x 15 reps)
+                    <span>Bodyweight</span>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="card mb-3 shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">
-                Day 2: Pull Day
-                <button class="btn btn-sm btn-light float-end" type="button" data-bs-toggle="collapse" data-bs-target="#day-2">
-                    View Exercises
-                </button>
-            </h5>
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Day 2: Pull Day</h5>
+            <a href="/training/day/2" class="btn btn-sm btn-light">Start Training</a>
         </div>
-        <div class="collapse" id="day-2">
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Deadlift (4 sets x 8 reps)
-                        <span>Target Weight: 80 kg</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Barbell Rows (3 sets x 10 reps)
-                        <span>Target Weight: 60 kg</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Pull-ups (3 sets x 12 reps)
-                        <span>Bodyweight</span>
-                    </li>
-                </ul>
-            </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Deadlift (4 sets x 8 reps)
+                    <span>Target Weight: 80 kg</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Barbell Rows (3 sets x 10 reps)
+                    <span>Target Weight: 60 kg</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Pull-ups (3 sets x 12 reps)
+                    <span>Bodyweight</span>
+                </li>
+            </ul>
         </div>
-    </div>
-</div>
-
-<!-- Log Training -->
-<div class="container my-5">
-    <h2 class="text-center mb-4">Log Today's Training</h2>
-    <form action="/traininglog" method="post">
-        <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Bench Press</h5>
-                <div class="row g-2">
-                    <div class="col-md-4">
-                        <label for="sets-bench" class="form-label">Sets Completed</label>
-                        <input type="number" class="form-control" id="sets-bench" name="sets-bench" min="0" value="4" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="reps-bench" class="form-label">Reps Completed</label>
-                        <input type="number" class="form-control" id="reps-bench" name="reps-bench" min="0" value="10" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="weight-bench" class="form-label">Weight Used (kg)</label>
-                        <input type="number" class="form-control" id="weight-bench" name="weight-bench" min="0" step="0.1" value="60" required>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Overhead Press</h5>
-                <div class="row g-2">
-                    <div class="col-md-4">
-                        <label for="sets-overhead" class="form-label">Sets Completed</label>
-                        <input type="number" class="form-control" id="sets-overhead" name="sets-overhead" min="0" value="3" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="reps-overhead" class="form-label">Reps Completed</label>
-                        <input type="number" class="form-control" id="reps-overhead" name="reps-overhead" min="0" value="12" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="weight-overhead" class="form-label">Weight Used (kg)</label>
-                        <input type="number" class="form-control" id="weight-overhead" name="weight-overhead" min="0" step="0.1" value="40" required>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center">
-            <button type="submit" class="btn btn-success btn-lg">Save Log</button>
-        </div>
-    </form>
-</div>
-
-<!-- Feedback Section -->
-<div class="container my-5">
-    <h2 class="text-center mb-4">Today's Progress</h2>
-    <div class="alert alert-success text-center">
-        You have completed 2 out of 3 exercises today! Great work!
     </div>
 </div>
 
@@ -135,9 +65,10 @@
     <h2 class="text-center mb-4">Training History</h2>
     <div class="table-responsive">
         <table class="table table-striped">
-            <thead>
+            <thead class="table-dark">
                 <tr>
                     <th>Date</th>
+                    <th>Day</th>
                     <th>Exercise</th>
                     <th>Sets</th>
                     <th>Reps</th>
@@ -147,24 +78,35 @@
             <tbody>
                 <tr>
                     <td>2025-01-25</td>
+                    <td>Push Day</td>
                     <td>Bench Press</td>
                     <td>4</td>
                     <td>10</td>
-                    <td>60</td>
+                    <td>62.5</td>
                 </tr>
                 <tr>
                     <td>2025-01-25</td>
+                    <td>Push Day</td>
                     <td>Overhead Press</td>
                     <td>3</td>
                     <td>12</td>
-                    <td>40</td>
+                    <td>42.5</td>
                 </tr>
                 <tr>
                     <td>2025-01-24</td>
+                    <td>Pull Day</td>
                     <td>Deadlift</td>
                     <td>4</td>
                     <td>8</td>
-                    <td>80</td>
+                    <td>85</td>
+                </tr>
+                <tr>
+                    <td>2025-01-24</td>
+                    <td>Pull Day</td>
+                    <td>Barbell Rows</td>
+                    <td>3</td>
+                    <td>10</td>
+                    <td>65</td>
                 </tr>
             </tbody>
         </table>
@@ -172,4 +114,5 @@
 </div>
 
 {% endblock %}
+
 
