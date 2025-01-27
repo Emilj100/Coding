@@ -342,6 +342,12 @@ def traininglog():
 
      return render_template("traininglog.html")
 
+@app.route("/trainingsession")
+@login_required
+def trainingsession():
+    
+    return render_template("traininglog.html")
+
 @app.route("/dashboard")
 @login_required
 def dashboard():
