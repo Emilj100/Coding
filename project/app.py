@@ -356,7 +356,7 @@ def traininglog():
             user_id
             )
 
-     return render_template("traininglog.html")
+        return render_template("traininglog.html")
 
 @app.route("/trainingsession")
 @login_required
