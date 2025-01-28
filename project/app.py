@@ -382,7 +382,7 @@ def traininglog():
             user_data[0]["training_days"], user_data[0]["experience_level"]
         )
 
-        return render_template("traininglog.html")
+        return render_template("traininglog.html", program_data=program_data)
 
 @app.route("/trainingsession")
 @login_required
