@@ -25,7 +25,11 @@
                     <button class="btn btn-primary btn-sm text-white me-2" type="button" data-bs-toggle="collapse" data-bs-target="#day-{{ day_number }}">
                         View Exercises
                     </button>
-                    <a href="/training/day/{{ day_number }}" class="btn btn-sm start-training-btn">Start Training</a>
+                    <!-- Start Training Form -->
+                    <form action="/traininglog" method="POST" class="d-inline">
+                        <input type="hidden" name="day_number" value="{{ day_number }}">
+                        <button type="submit" class="btn btn-sm btn-success">Start Training</button>
+                    </form>
                 </div>
             </div>
             <!-- Table for Exercises -->
@@ -55,6 +59,7 @@
         {% endfor %}
     </div>
 </div>
+
 
 
 
