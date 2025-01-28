@@ -90,7 +90,7 @@ def registerpart2():
             return render_template("register-part2.html", error="Height, weight, and goal weight must be numbers")
         if not request.form.get("goal_type") in ["lose weight", "gain weight", "stay at current weight"]:
             return render_template("register-part2.html", error="Please select a valid goal")
-        if not request.form.get("experience_level") in ["beginner", "intermediate", "advanced"]:
+        if not request.form.get("experience_level") in ["Beginner", "Intermediate", "Advanced"]:
             return render_template("register-part2.html", error="Please select a valid experience level")
         try:
             training_days = int(request.form.get("training_days"))
