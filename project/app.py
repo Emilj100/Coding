@@ -382,6 +382,11 @@ def traininglog():
             user_data[0]["training_days"], user_data[0]["experience_level"]
         )
 
+        grouped_data = {
+            day_number: list(items)
+            for day_number, items in groupby(program_data, key=itemgetter("day_number"))
+        }
+
         return render_template("traininglog.html", program_data=program_data)
 
 @app.route("/trainingsession")
