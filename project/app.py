@@ -340,7 +340,17 @@ def traininglog():
     user_id = session["user_id"]
 
     if request.method == "POST":
-        
+
+        user_data = db.execute(
+            """
+            SELECT training_days, experience_level
+            FROM users
+            WHERE user_id = ?
+            """,
+            user_id
+            )
+
+
 
     else:
 
