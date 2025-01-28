@@ -351,7 +351,7 @@ def traininglog():
             """
             SELECT training_days, experience_level
             FROM users
-            WHERE user_id = ?
+            WHERE id = ?
             """,
             user_id
             )
