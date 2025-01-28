@@ -6,7 +6,7 @@
 
 {% block main %}
 <div class="container my-5">
-    <h2 class="text-center mb-4">Training Session: Day 1 - Push Day</h2>
+    <h2 class="text-center mb-4">Training Session: Day {{ day_number }} - {{ day_name }}</h2>
     <p class="text-center text-muted">Log the weights you used for each exercise below.</p>
 
     <form action="/end-training" method="post">
@@ -19,28 +19,16 @@
                 </tr>
             </thead>
             <tbody>
+                {% for exercise in training_data %}
                 <tr>
-                    <td>Bench Press</td>
-                    <td>4 x 10</td>
+                    <td>{{ exercise.exercise_name }}</td>
+                    <td>{{ exercise.sets }} x {{ exercise.reps }}</td>
                     <td>
                         <!-- Placeholder viser vægten fra sidste træning -->
-                        <input type="number" name="weight-bench" class="form-control" placeholder="60 kg" min="0" required>
+                        <input type="number" name="weight-bench" class="form-control" placeholder="{{ exercise.weight }}" min="0" required>
                     </td>
                 </tr>
-                <tr>
-                    <td>Overhead Press</td>
-                    <td>3 x 12</td>
-                    <td>
-                        <input type="number" name="weight-overhead" class="form-control" placeholder="40 kg" min="0" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Tricep Dips</td>
-                    <td>3 x 15</td>
-                    <td>
-                        <input type="number" name="weight-dips" class="form-control" min="0">
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
