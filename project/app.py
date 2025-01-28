@@ -340,7 +340,15 @@ def traininglog():
     user_id = session["user_id"]
 
     if request.method == "POST":
-        return redirect("trainingsession")
+        # Hent day_number fra formen
+        day_number = request.form.get("day_number")
+
+        # Gem day_number i sessionen
+        session["day_number"] = day_number
+
+        # Redirect til trainingsession
+        return redirect("/trainingsession")
+
     else:
         # Hent brugerdata
         user_data = db.execute(
@@ -395,11 +403,35 @@ def traininglog():
 
         return render_template("traininglog.html", program_data=program_data)
 
-@app.route("/trainingsession")
+
+@app.route("/trainingsession", methods=["GET"])
 @login_required
 def trainingsession():
+    # Hent day_number fra sessionen
+    day_number = session.get("day_number")
 
-    return render_template("training-session.html")
+    # Hent data for den pågældende dag
+    training_data = db.execute(
+        """
+        SELECT
+            pd.day_name,
+            pe.exercise_name,
+            pe.sets,
+            pe.reps,
+            pe.weight
+        FROM
+            program_days pd
+        JOIN
+            program_exercises pe ON pd.id = pe.day_id
+        WHERE
+            pd.day_number = ?
+        ORDER BY
+            pe.exercise_name
+        """,
+        day_number
+    )
+
+    return render_template("training-session.html", day_number=day_number, training_data=training_data)
 
 @app.route("/dashboard")
 @login_required
