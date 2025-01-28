@@ -356,6 +356,32 @@ def traininglog():
             user_id
             )
 
+        program_data = db.execute(
+            """
+            SELECT
+                tp.program_name,
+                pd.day_number,
+                pd.day_name,
+                pe.exercise_name,
+                pe.sets,
+                pe.reps,
+                pe.weight,
+                pe.rest_time
+            FROM
+                training_programs tp
+            JOIN
+                program_days pd ON tp.id = pd.program_id
+            JOIN
+                program_exercises pe ON pd.id = pe.day_id
+            WHERE
+                tp.days_per_week = ? AND
+                tp.experience_level = ?
+            ORDER BY
+                pd.day_number, pe.exercise_name
+            """,
+            user_data[0]["training_days"], user_data[0]["experience_level"]
+        )
+
         return render_template("traininglog.html")
 
 @app.route("/trainingsession")
