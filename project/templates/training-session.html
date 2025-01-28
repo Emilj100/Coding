@@ -10,8 +10,8 @@
     <p class="text-center text-muted">Log the weights you used for each exercise below.</p>
 
     <form action="/end-training" method="post">
-        <table class="table table-striped">
-            <thead class="table-dark">
+        <table class="table table-bordered table-striped">
+            <thead style="background-color: #0d6efd; color: white;">
                 <tr>
                     <th>Exercise</th>
                     <th>Sets x Reps</th>
@@ -23,31 +23,34 @@
                     <td>Bench Press</td>
                     <td>4 x 10</td>
                     <td>
-                        <input type="number" name="weight-bench" class="form-control" placeholder="Enter weight used" min="0" required>
+                        <!-- Placeholder viser vægten fra sidste træning -->
+                        <input type="number" name="weight-bench" class="form-control" placeholder="Last: 60" min="0" required>
                     </td>
                 </tr>
                 <tr>
                     <td>Overhead Press</td>
                     <td>3 x 12</td>
                     <td>
-                        <input type="number" name="weight-overhead" class="form-control" placeholder="Enter weight used" min="0" required>
+                        <input type="number" name="weight-overhead" class="form-control" placeholder="Last: 40" min="0" required>
                     </td>
                 </tr>
                 <tr>
                     <td>Tricep Dips</td>
                     <td>3 x 15</td>
                     <td>
-                        <input type="number" name="weight-dips" class="form-control" placeholder="Enter weight used" min="0">
+                        <input type="number" name="weight-dips" class="form-control" placeholder="Last: Bodyweight" min="0">
                     </td>
                 </tr>
             </tbody>
         </table>
 
+        <!-- Rød "End Training"-knap -->
         <div class="text-center mt-5">
-            <button type="submit" class="btn btn-success btn-lg">End Training</button>
+            <button type="submit" class="btn btn-danger btn-lg">End Training</button>
         </div>
     </form>
 </div>
+
 
 
 
