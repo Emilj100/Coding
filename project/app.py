@@ -340,7 +340,7 @@ def traininglog():
     user_id = session["user_id"]
 
     if request.method == "POST":
-        return redirect("training-session")
+        return redirect("trainingsession")
     else:
         # Hent brugerdata
         user_data = db.execute(
@@ -395,6 +395,7 @@ def traininglog():
 
         return render_template("traininglog.html", program_data=program_data)
 
+@app.route("/trainingsession")
 @login_required
 def trainingsession():
 
