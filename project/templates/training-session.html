@@ -10,44 +10,46 @@
     <p class="text-center text-muted">Log the weights you used for each exercise below.</p>
 
     <form action="/end-training" method="post">
-        <ul class="nav nav-tabs" id="exerciseTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="bench-tab" data-bs-toggle="tab" data-bs-target="#bench" type="button" role="tab">
-                    Bench Press
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="overhead-tab" data-bs-toggle="tab" data-bs-target="#overhead" type="button" role="tab">
-                    Overhead Press
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="dips-tab" data-bs-toggle="tab" data-bs-target="#dips" type="button" role="tab">
-                    Tricep Dips
-                </button>
-            </li>
-        </ul>
-        <div class="tab-content mt-4">
-            <div class="tab-pane fade show active" id="bench" role="tabpanel">
-                <h6 class="fw-bold">Bench Press (4 sets x 10 reps)</h6>
-                <input type="number" name="weight-bench" id="weight-bench" class="form-control" placeholder="Enter weight used" min="0" required>
-            </div>
-            <div class="tab-pane fade" id="overhead" role="tabpanel">
-                <h6 class="fw-bold">Overhead Press (3 sets x 12 reps)</h6>
-                <input type="number" name="weight-overhead" id="weight-overhead" class="form-control" placeholder="Enter weight used" min="0" required>
-            </div>
-            <div class="tab-pane fade" id="dips" role="tabpanel">
-                <h6 class="fw-bold">Tricep Dips (3 sets x 15 reps)</h6>
-                <input type="number" name="weight-dips" id="weight-dips" class="form-control" placeholder="Enter weight used" min="0">
-            </div>
-        </div>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>Weight (kg)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Bench Press</td>
+                    <td>4 x 10</td>
+                    <td>
+                        <input type="number" name="weight-bench" class="form-control" placeholder="Enter weight used" min="0" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Overhead Press</td>
+                    <td>3 x 12</td>
+                    <td>
+                        <input type="number" name="weight-overhead" class="form-control" placeholder="Enter weight used" min="0" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tricep Dips</td>
+                    <td>3 x 15</td>
+                    <td>
+                        <input type="number" name="weight-dips" class="form-control" placeholder="Enter weight used" min="0">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-        <!-- End Training Button -->
         <div class="text-center mt-5">
             <button type="submit" class="btn btn-success btn-lg">End Training</button>
         </div>
     </form>
 </div>
+
+
 
 
 
