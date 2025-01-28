@@ -41,12 +41,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>{{ program.exercise_name }}</td>
-                            <td>{{ program.sets}}</td>
-                            <td>{{ program.reps}}</td>
-                            <td>{{ program.weight }}</td>
-                        </tr>
+                        {% for exercise in program_data %}
+                            <tr>
+                                <td>{{ exercise.exercise_name }}</td>
+                                <td>{{ exercise.sets}}</td>
+                                <td>{{ exercise.reps}}</td>
+                                <td>{{ exercise.weight }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
