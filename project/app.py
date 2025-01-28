@@ -334,11 +334,15 @@ def calorietracker():
     )
 
 
-@app.route("/traininglog")
+@app.route("/traininglog", methods=["GET", "POST"])
 @login_required
 def traininglog():
+    user_id = session["user_id"]
 
-     user_id = session["user_id"]
+    if request.method == "POST":
+        
+
+    else:
 
      return render_template("traininglog.html")
 
