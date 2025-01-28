@@ -341,6 +341,12 @@ def traininglog():
 
     if request.method == "POST":
 
+        return redirect("training-session")
+
+
+
+    else:
+
         user_data = db.execute(
             """
             SELECT training_days, experience_level
@@ -349,10 +355,6 @@ def traininglog():
             """,
             user_id
             )
-
-
-
-    else:
 
      return render_template("traininglog.html")
 
