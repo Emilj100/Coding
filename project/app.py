@@ -340,11 +340,11 @@ def traininglog():
     user_id = session["user_id"]
 
     if request.method == "POST":
-        # Hent day_number fra formen
-        day_number = request.form.get("day_number")
+        # Hent day_id fra formen
+        day_id = request.form.get("day_id")
 
-        # Gem day_number i sessionen
-        session["day_number"] = day_number
+        # Gem day_id i sessionen
+        session["day_id"] = day_id
 
         # Redirect til trainingsession
         return redirect("/trainingsession")
@@ -364,6 +364,7 @@ def traininglog():
         raw_program_data = db.execute(
             """
             SELECT
+                pd.id AS day_id,
                 pd.day_number,
                 pd.day_name,
                 pe.exercise_name,
@@ -391,6 +392,7 @@ def traininglog():
             day_number = row["day_number"]
             if day_number not in program_data:
                 program_data[day_number] = {
+                    "day_id": row["day_id"],
                     "day_name": row["day_name"],
                     "exercises": []
                 }
@@ -404,13 +406,14 @@ def traininglog():
         return render_template("traininglog.html", program_data=program_data)
 
 
+
 @app.route("/trainingsession", methods=["GET"])
 @login_required
 def trainingsession():
-    # Hent day_number fra sessionen
-    day_number = session.get("day_number")
+    # Hent day_id fra sessionen
+    day_id = session.get("day_id")
 
-    # Hent data for den pågældende dag
+    # Hent data for den pågældende dag baseret på day_id
     training_data = db.execute(
         """
         SELECT
@@ -424,14 +427,14 @@ def trainingsession():
         JOIN
             program_exercises pe ON pd.id = pe.day_id
         WHERE
-            pd.day_number = ?
+            pd.id = ?
         ORDER BY
             pe.exercise_name
         """,
-        day_number
+        day_id
     )
 
-    return render_template("training-session.html", day_number=day_number, training_data=training_data)
+    return render_template("training-session.html", training_data=training_data, day_id=day_id)
 
 @app.route("/dashboard")
 @login_required
