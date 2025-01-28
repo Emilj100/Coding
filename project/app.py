@@ -342,9 +342,11 @@ def traininglog():
     if request.method == "POST":
         # Hent day_id fra formen
         day_id = request.form.get("day_id")
+        print(f"Day ID received from form: {day_id}")  # Debugging
 
         # Gem day_id i sessionen
         session["day_id"] = day_id
+        print(f"Day ID saved in session: {session.get('day_id')}")  # Debugging
 
         # Redirect til trainingsession
         return redirect("/trainingsession")
@@ -413,6 +415,8 @@ def trainingsession():
     # Hent day_id fra sessionen
     day_id = session.get("day_id")
 
+    print(f"Day ID in session: {day_id}")  # Debugging
+
     # Hent data for den pågældende dag baseret på day_id
     training_data = db.execute(
         """
@@ -434,7 +438,11 @@ def trainingsession():
         day_id
     )
 
+    print(f"Training data: {training_data}")  # Debugging
+
     return render_template("training-session.html", training_data=training_data, day_id=day_id)
+
+
 
 @app.route("/dashboard")
 @login_required
