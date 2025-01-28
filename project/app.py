@@ -340,13 +340,9 @@ def traininglog():
     user_id = session["user_id"]
 
     if request.method == "POST":
-
         return redirect("training-session")
-
-
-
     else:
-
+        # Hent brugerdata
         user_data = db.execute(
             """
             SELECT training_days, experience_level
@@ -354,19 +350,18 @@ def traininglog():
             WHERE id = ?
             """,
             user_id
-            )
+        )
 
-        program_data = db.execute(
+        # Hent programdata
+        raw_program_data = db.execute(
             """
             SELECT
-                tp.program_name,
                 pd.day_number,
                 pd.day_name,
                 pe.exercise_name,
                 pe.sets,
                 pe.reps,
-                pe.weight,
-                pe.rest_time
+                pe.weight
             FROM
                 training_programs tp
             JOIN
@@ -382,9 +377,24 @@ def traininglog():
             user_data[0]["training_days"], user_data[0]["experience_level"]
         )
 
+        # Gruppér dataen efter day_number
+        program_data = {}
+        for row in raw_program_data:
+            day_number = row["day_number"]
+            if day_number not in program_data:
+                program_data[day_number] = {
+                    "day_name": row["day_name"],
+                    "exercises": []
+                }
+            program_data[day_number]["exercises"].append({
+                "exercise_name": row["exercise_name"],
+                "sets": row["sets"],
+                "reps": row["reps"],
+                "weight": row["weight"]
+            })
+
         return render_template("traininglog.html", program_data=program_data)
 
-@app.route("/trainingsession")
 @login_required
 def trainingsession():
 

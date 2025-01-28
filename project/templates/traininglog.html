@@ -15,22 +15,21 @@
 <div class="container my-5">
     <h2 class="text-center mb-4">Your Training Program</h2>
     <div class="list-group">
-        <!-- Day 1: Push Day -->
-        {% for program in program_data %}
+        {% for day_number, day_data in program_data.items() %}
         <div class="list-group-item p-4 shadow-sm">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="mb-1">Day {{ program.day_number }}: {{ program.day_name }} </h5>
+                    <h5 class="mb-1">Day {{ day_number }}: {{ day_data.day_name }}</h5>
                 </div>
                 <div>
-                    <button class="btn btn-primary btn-sm text-white me-2" type="button" data-bs-toggle="collapse" data-bs-target="#step-day-1">
+                    <button class="btn btn-primary btn-sm text-white me-2" type="button" data-bs-toggle="collapse" data-bs-target="#day-{{ day_number }}">
                         View Exercises
                     </button>
-                    <a href="/training/day/1" class="btn btn-sm start-training-btn">Start Training</a>
+                    <a href="/training/day/{{ day_number }}" class="btn btn-sm start-training-btn">Start Training</a>
                 </div>
             </div>
-            <!-- Table for Push Day Exercises -->
-            <div class="collapse mt-3" id="step-day-1">
+            <!-- Table for Exercises -->
+            <div class="collapse mt-3" id="day-{{ day_number }}">
                 <table class="table table-striped">
                     <thead class="table-dark">
                         <tr>
@@ -41,21 +40,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for exercise in program_data %}
-                            <tr>
-                                <td>{{ exercise.exercise_name }}</td>
-                                <td>{{ exercise.sets}}</td>
-                                <td>{{ exercise.reps}}</td>
-                                <td>{{ exercise.weight }}</td>
-                            </tr>
+                        {% for exercise in day_data.exercises %}
+                        <tr>
+                            <td>{{ exercise.exercise_name }}</td>
+                            <td>{{ exercise.sets }}</td>
+                            <td>{{ exercise.reps }}</td>
+                            <td>{{ exercise.weight }}</td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-        {% endfor %}
         </div>
+        {% endfor %}
     </div>
 </div>
+
 
 
 
