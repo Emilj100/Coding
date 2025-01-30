@@ -544,7 +544,9 @@ def trainingsession():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return "dashboard page"
+
+    return render_template("dashboard.html")
+
 
 @app.route("/mealplan", methods=["GET", "POST"])
 @login_required
