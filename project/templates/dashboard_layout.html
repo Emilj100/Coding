@@ -16,26 +16,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* Gør sidebar-linkene mere interaktive */
-        .nav-link {
-            transition: background-color 0.2s ease-in-out;
-        }
+        /* Hover-effekt uden tekst-understregning */
         .nav-link:hover {
             background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Gør den aktive side mere tydelig */
-        .nav-link.active {
-            background-color: #0d6efd;
-            color: white !important;
-        }
-
-        /* Juster logoets størrelse */
-        .logo-container img {
-            max-width: 120px;
-            height: auto;
-            margin: auto;
-            display: block;
+            transition: background-color 0.2s ease-in-out;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -45,8 +30,8 @@
     <!-- Sidebar -->
     <div class="d-flex flex-column flex-shrink-0 p-3 bg-black vh-100" style="width: 280px;">
         <!-- Logo -->
-        <div class="text-center mb-3 logo-container">
-            <img src="/static/logo-white.png" alt="Logo">
+        <div class="text-center mb-3">
+            <img src="/static/logo-white.png" alt="Logo" class="img-fluid mx-auto d-block" style="max-width: 120px;">
         </div>
 
         <!-- Sidebar navigation -->
@@ -56,32 +41,32 @@
                     <i class="bi bi-house-door me-2"></i> Dashboard Overview
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="/checkin" class="nav-link text-white">
                     <i class="bi bi-pencil-square me-2"></i> Track Your Progress
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="/weight" class="nav-link text-white">
                     <i class="bi bi-graph-up me-2"></i> Weight Progress
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="/calories" class="nav-link text-white">
                     <i class="bi bi-bar-chart me-2"></i> Calorie Insights
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="/training" class="nav-link text-white">
                     <i class="bi bi-activity me-2"></i> Training Analytics
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="/settings" class="nav-link text-white">
                     <i class="bi bi-gear me-2"></i> Personal Settings
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="/" class="nav-link text-white">
                     <i class="bi bi-arrow-left me-2"></i> Back to Website
                 </a>
@@ -90,7 +75,7 @@
         <hr>
 
         <!-- Logout -->
-        <a href="/logout" class="btn btn-danger w-100">
+        <a href="/logout" class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
             <i class="bi bi-box-arrow-right me-2"></i> Log out
         </a>
     </div>
