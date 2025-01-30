@@ -342,11 +342,9 @@ def traininglog():
     if request.method == "POST":
         # Hent day_id fra formen
         day_id = request.form.get("day_id")
-        print(f"Day ID received from form: {day_id}")  # Debugging
 
         # Gem day_id i sessionen
         session["day_id"] = day_id
-        print(f"Day ID saved in session: {session.get('day_id')}")  # Debugging
 
         # Redirect til trainingsession
         return redirect("/trainingsession")
@@ -362,7 +360,7 @@ def traininglog():
             user_id
         )
 
-        # Hent programdata
+        # Hent programdata med sidste vægt fra LastSession
         raw_program_data = db.execute(
             """
             SELECT
@@ -372,20 +370,24 @@ def traininglog():
                 pe.exercise_name,
                 pe.sets,
                 pe.reps,
-                pe.weight
+                COALESCE(ls.last_weight, pe.weight) AS weight
             FROM
                 training_programs tp
             JOIN
                 program_days pd ON tp.id = pd.program_id
             JOIN
                 program_exercises pe ON pd.id = pe.day_id
+            LEFT JOIN LastSession ls
+                ON pe.exercise_name = ls.exercise_name
+                AND ls.user_id = ?
+                AND ls.day_id = pd.id
             WHERE
                 tp.days_per_week = ? AND
                 tp.experience_level = ?
             ORDER BY
                 pd.day_number, pe.exercise_name
             """,
-            user_data[0]["training_days"], user_data[0]["experience_level"]
+            user_id, user_data[0]["training_days"], user_data[0]["experience_level"]
         )
 
         # Gruppér dataen efter day_number
@@ -405,42 +407,137 @@ def traininglog():
                 "weight": row["weight"]
             })
 
-        return render_template("traininglog.html", program_data=program_data)
+        # Hent træningshistorik fra `TrainingLogs`, kun de sidste 7 dage
+        training_history = db.execute(
+            """
+            SELECT date, day_name, exercise_name, sets, reps, weight
+            FROM TrainingLogs
+            WHERE user_id = ? AND date >= DATE('now', '-7 days')
+            ORDER BY DATE(date) DESC, id DESC
+            """,
+            user_id
+        )
+
+
+        return render_template("traininglog.html", program_data=program_data, training_history=training_history)
 
 
 
-@app.route("/trainingsession", methods=["GET"])
+
+@app.route("/trainingsession", methods=["GET", "POST"])
 @login_required
 def trainingsession():
-    # Hent day_id fra sessionen
+    user_id = session["user_id"]
     day_id = session.get("day_id")
 
-    print(f"Day ID in session: {day_id}")  # Debugging
+    if not day_id:
+        return redirect("/traininglog")  # Hvis ingen dag er valgt, send brugeren tilbage
 
-    # Hent data for den pågældende dag baseret på day_id
-    training_data = db.execute(
+    # 🔹 Intern funktion til at hente træningsdata
+    def get_training_data(user_id, day_id):
         """
-        SELECT
-            pd.day_name,
-            pe.exercise_name,
-            pe.sets,
-            pe.reps,
-            pe.weight
-        FROM
-            program_days pd
-        JOIN
-            program_exercises pe ON pd.id = pe.day_id
-        WHERE
-            pd.id = ?
-        ORDER BY
-            pe.exercise_name
-        """,
-        day_id
-    )
+        Henter træningsdata for en given træningsdag inkl. sidste vægt fra LastSession.
+        Returnerer en liste af øvelser og dagens info.
+        """
 
-    print(f"Training data: {training_data}")  # Debugging
+        # Hent dagens navn
+        day_info = db.execute(
+            """
+            SELECT day_number, day_name
+            FROM program_days
+            WHERE id = ?
+            """,
+            day_id
+        )
 
-    return render_template("training-session.html", training_data=training_data, day_id=day_id)
+        # Hent øvelsesdata inkl. seneste vægt fra LastSession
+        exercises = db.execute(
+            """
+            SELECT
+                pe.exercise_name,
+                pe.sets,
+                pe.reps,
+                COALESCE(ls.last_weight, NULL) AS weight
+            FROM program_exercises pe
+            LEFT JOIN LastSession ls
+                ON pe.exercise_name = ls.exercise_name
+                AND ls.user_id = ?
+                AND ls.day_id = pe.day_id
+            WHERE pe.day_id = ?
+            ORDER BY pe.exercise_name
+            """,
+            user_id, day_id
+        )
+
+        if not day_info:
+            return None, None  # Hvis dag_id ikke findes
+
+        return exercises, day_info[0]  # Returner listen af øvelser og dagens info
+
+    if request.method == "POST":
+        exercises, day_info = get_training_data(user_id, day_id)  # Hent træningsdata
+
+        if not exercises or not day_info:
+            return redirect("/traininglog")  # Hvis dagen ikke findes, redirect
+
+        for exercise in exercises:
+            exercise_name = exercise["exercise_name"]
+            weight = request.form.get(exercise_name, type=float)
+
+            if weight is None:
+                continue  # Spring over, hvis brugeren ikke har indtastet en vægt
+
+            # Indsæt træningen i `TrainingLogs`
+            db.execute(
+                """
+                INSERT INTO TrainingLogs (user_id, date, day_id, day_name, exercise_name, sets, reps, weight)
+                VALUES (?, DATE('now'), ?, ?, ?, ?, ?, ?)
+                """,
+                user_id, day_id, day_info["day_name"], exercise_name, exercise["sets"], exercise["reps"], weight
+            )
+
+            # Opdater eller indsæt i `LastSession`
+            last_session_exists = db.execute(
+                """
+                SELECT last_weight FROM LastSession
+                WHERE user_id = ? AND day_id = ? AND exercise_name = ?
+                """,
+                user_id, day_id, exercise_name
+            )
+
+            if last_session_exists:
+                db.execute(
+                    """
+                    UPDATE LastSession
+                    SET last_weight = ?
+                    WHERE user_id = ? AND day_id = ? AND exercise_name = ?
+                    """,
+                    weight, user_id, day_id, exercise_name
+                )
+            else:
+                db.execute(
+                    """
+                    INSERT INTO LastSession (user_id, day_id, exercise_name, last_weight)
+                    VALUES (?, ?, ?, ?)
+                    """,
+                    user_id, day_id, exercise_name, weight
+                )
+
+        session.pop("day_id", None)  # Ryd sessionen efter træningen er afsluttet
+        return redirect("/traininglog")
+
+    else:
+        exercises, day_info = get_training_data(user_id, day_id)  # Hent træningsdata
+
+        if not exercises or not day_info:
+            return redirect("/traininglog")  # Hvis dagen ikke findes, redirect
+
+        return render_template(
+            "training-session.html",
+            training_data=exercises,
+            day_info=day_info
+        )
+
 
 
 
@@ -576,9 +673,7 @@ def mealplan():
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
                     result = response.json().get("results", [])
-                    print("Requesting recipes with parameters:", params)
-                    print("Response status code:", response.status_code)
-                    print("Response data:", response.json())
+
                     if result:
                         meal = result[0]
                         meals.append(meal)
