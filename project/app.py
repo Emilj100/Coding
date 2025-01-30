@@ -544,8 +544,39 @@ def trainingsession():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-
+    
     return render_template("dashboard.html")
+
+@app.route("/checkin")
+@login_required
+def checkin():
+
+    return render_template("checkin.html")
+
+@app.route("/weight")
+@login_required
+def weight():
+
+    return render_template("weight.html")
+
+@app.route("/calories")
+@login_required
+def calories():
+
+    return render_template("calories.html")
+
+@app.route("/training")
+@login_required
+def training():
+
+    return render_template("training.html")
+
+@app.route("/settings")
+@login_required
+def settings():
+
+    return render_template("settings.html")
+
 
 
 @app.route("/mealplan", methods=["GET", "POST"])
