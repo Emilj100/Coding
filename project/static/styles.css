@@ -109,3 +109,12 @@ p {
     color: white;
 }
 
+/* Sidebar hover-effekt uden tekst-understregning */
+.sidebar .nav-link {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none !important;
+}
