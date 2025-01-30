@@ -390,6 +390,8 @@ def traininglog():
             user_id, user_data[0]["training_days"], user_data[0]["experience_level"]
         )
 
+        print(f"raw_program_data: {raw_program_data}")
+
         # Gruppér dataen efter day_number
         program_data = {}
         for row in raw_program_data:
