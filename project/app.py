@@ -360,6 +360,8 @@ def traininglog():
             user_id
         )
 
+        print(f"user_data: {user_data}")
+
         # Hent programdata med sidste vægt fra LastSession
         raw_program_data = db.execute(
             """
@@ -389,8 +391,6 @@ def traininglog():
             """,
             user_id, user_data[0]["training_days"], user_data[0]["experience_level"]
         )
-
-        print(f"raw_program_data: {raw_program_data}")
 
         # Gruppér dataen efter day_number
         program_data = {}
