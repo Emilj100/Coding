@@ -360,8 +360,6 @@ def traininglog():
             user_id
         )
 
-        print(f"user_data: {user_data}")
-
         # Hent programdata med sidste vægt fra LastSession
         raw_program_data = db.execute(
             """
