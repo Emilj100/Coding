@@ -1,0 +1,102 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Weight Progress{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h2 class="mb-3">Weight Progress</h2>
+
+    <!-- Progressbar -->
+    <div class="progress mb-3" style="height: 30px;">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            50% towards goal
+        </div>
+    </div>
+
+    <!-- Dropdown for tidsperiode -->
+    <label for="time-period" class="form-label">Select Time Period:</label>
+    <select id="time-period" class="form-select mb-3">
+        <option value="30">Last 30 days</option>
+        <option value="90">Last 3 months</option>
+        <option value="180">Last 6 months</option>
+        <option value="365">Last 1 year</option>
+    </select>
+
+    <!-- Vægtlog tabel -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Weight (kg)</th>
+                    <th>Change (kg)</th>
+                </tr>
+            </thead>
+            <tbody id="weight-log">
+                <tr>
+                    <td>2025-01-01</td>
+                    <td>100.5</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>2025-01-15</td>
+                    <td>98.8</td>
+                    <td>-1.7</td>
+                </tr>
+                <tr>
+                    <td>2025-02-01</td>
+                    <td>97.0</td>
+                    <td>-1.8</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Line chart -->
+    <canvas id="weight-line-chart" class="mb-4"></canvas>
+
+    <!-- Bar chart -->
+    <canvas id="weight-bar-chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctxLine = document.getElementById("weight-line-chart").getContext("2d");
+        const ctxBar = document.getElementById("weight-bar-chart").getContext("2d");
+
+        // Dummy data
+        const labels = ["2025-01-01", "2025-01-15", "2025-02-01"];
+        const weightData = [100.5, 98.8, 97.0];
+        const weightChanges = [0, -1.7, -1.8];
+
+        // Line Chart - Weight Progress
+        new Chart(ctxLine, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Weight (kg)",
+                    data: weightData,
+                    borderColor: "blue",
+                    fill: false,
+                    tension: 0.1
+                }]
+            }
+        });
+
+        // Bar Chart - Weight Change
+        new Chart(ctxBar, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Weight Change (kg)",
+                    data: weightChanges,
+                    backgroundColor: "green"
+                }]
+            }
+        });
+    });
+</script>
+{% endblock %}
