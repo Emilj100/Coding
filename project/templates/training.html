@@ -96,36 +96,36 @@
 </div>
 
 <script>
-    // Dummy data for bar chart (training frequency per week)
-    const frequencyData = {
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-        datasets: [{
-            label: "Training Sessions",
-            data: [3, 4, 5, 2],
-            backgroundColor: "rgba(75, 192, 192, 0.6)"
-        }]
-    };
-
-    // Dummy data for line chart (progression over time)
-    const progressionData = {
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-        datasets: [{
-            label: "Avg Weight Increase (kg)",
-            data: [2, 3, 4, 5],
-            borderColor: "rgba(255, 99, 132, 1)",
-            fill: false
-        }]
-    };
-
-    // Initialize charts
-    new Chart(document.getElementById("trainingFrequencyChart"), {
+    // Training Frequency Bar Chart
+    const freqCtx = document.getElementById('trainingFrequencyChart').getContext('2d');
+    new Chart(freqCtx, {
         type: 'bar',
-        data: frequencyData
+        data: {
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            datasets: [{
+                label: "Training Sessions",
+                data: [3, 4, 5, 2],
+                backgroundColor: '#007bff'
+            }]
+        }
     });
 
-    new Chart(document.getElementById("progressionChart"), {
+    // Progression Over Time Line Chart
+    const progCtx = document.getElementById('progressionChart').getContext('2d');
+    new Chart(progCtx, {
         type: 'line',
-        data: progressionData
+        data: {
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            datasets: [{
+                label: "Avg Weight Increase (kg)",
+                data: [2, 3, 4, 5],
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                fill: true,
+                tension: 0.3
+            }]
+        }
     });
 </script>
 {% endblock %}
+
