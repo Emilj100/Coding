@@ -6,23 +6,35 @@
 <div class="container mt-4">
     <h2 class="mb-4">Training Analytics</h2>
 
-    <!-- Dropdown for week selection -->
-    <div class="mb-3">
-        <label for="weekSelect" class="form-label">Select Week</label>
-        <select id="weekSelect" class="form-select">
-            <option value="week1">This Week</option>
-            <option value="week2">Last Week</option>
-            <option value="week3">2 Weeks Ago</option>
-        </select>
+    <!-- Overview Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                <h5>Total Sessions This Week</h5>
+                <h3>4</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                <h5>Average Weight Increase</h5>
+                <h3>+5 kg</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                <h5>Most Frequent Workout</h5>
+                <h3>Push Day</h3>
+            </div>
+        </div>
     </div>
 
     <!-- Training Sessions Overview -->
     <div class="card p-3 mb-4">
         <h4>Training Sessions</h4>
         <ul class="list-group">
-            <li class="list-group-item">January 29 - Push Day (Bench Press: 4x10, Shoulder Press: 3x8)</li>
-            <li class="list-group-item">January 30 - Pull Day (Deadlift: 3x6, Pull-ups: 4x8)</li>
-            <li class="list-group-item">February 1 - Leg Day (Squats: 4x10, Lunges: 3x12)</li>
+            <li class="list-group-item">January 29 - Push Day</li>
+            <li class="list-group-item">January 30 - Pull Day</li>
+            <li class="list-group-item">February 1 - Leg Day</li>
         </ul>
     </div>
 
@@ -52,8 +64,8 @@
     const progressionData = {
         labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
         datasets: [{
-            label: "Weight Lifted (kg)",
-            data: [60, 65, 70, 75],
+            label: "Avg Weight Increase (kg)",
+            data: [2, 3, 4, 5],
             borderColor: "rgba(255, 99, 132, 1)",
             fill: false
         }]
