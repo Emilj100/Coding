@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+
+{% block title %}Training Analytics{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Training Analytics</h2>
+
+    <!-- Dropdown for week selection -->
+    <div class="mb-3">
+        <label for="weekSelect" class="form-label">Select Week</label>
+        <select id="weekSelect" class="form-select">
+            <option value="week1">This Week</option>
+            <option value="week2">Last Week</option>
+            <option value="week3">2 Weeks Ago</option>
+        </select>
+    </div>
+
+    <!-- Training Sessions Overview -->
+    <div class="card p-3 mb-4">
+        <h4>Training Sessions</h4>
+        <ul class="list-group">
+            <li class="list-group-item">January 29 - Push Day (Bench Press: 4x10, Shoulder Press: 3x8)</li>
+            <li class="list-group-item">January 30 - Pull Day (Deadlift: 3x6, Pull-ups: 4x8)</li>
+            <li class="list-group-item">February 1 - Leg Day (Squats: 4x10, Lunges: 3x12)</li>
+        </ul>
+    </div>
+
+    <!-- Charts -->
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="trainingFrequencyChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="progressionChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dummy data for bar chart (training frequency per week)
+    const frequencyData = {
+        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+        datasets: [{
+            label: "Training Sessions",
+            data: [3, 4, 5, 2],
+            backgroundColor: "rgba(75, 192, 192, 0.6)"
+        }]
+    };
+
+    // Dummy data for line chart (progression over time)
+    const progressionData = {
+        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+        datasets: [{
+            label: "Weight Lifted (kg)",
+            data: [60, 65, 70, 75],
+            borderColor: "rgba(255, 99, 132, 1)",
+            fill: false
+        }]
+    };
+
+    // Initialize charts
+    new Chart(document.getElementById("trainingFrequencyChart"), {
+        type: 'bar',
+        data: frequencyData
+    });
+
+    new Chart(document.getElementById("progressionChart"), {
+        type: 'line',
+        data: progressionData
+    });
+</script>
+{% endblock %}
