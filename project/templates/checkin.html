@@ -6,8 +6,31 @@
 <div class="container mt-4">
     <h2 class="mb-3">Check-in</h2>
 
+    <!-- Statistik Cards -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center p-3 shadow-sm">
+                <h5>Gennemsnitlig vægt</h5>
+                <h2 id="avgWeight">-- kg</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-3 shadow-sm">
+                <h5>Gennemsnitlig søvn</h5>
+                <h2 id="avgSleep">-- timer</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-3 shadow-sm">
+                <h5>Gennemsnitligt energiniveau</h5>
+                <h2 id="avgEnergy">-- / 10</h2>
+            </div>
+        </div>
+    </div>
+
     <!-- Check-in Form -->
-    <div class="card p-4 shadow-sm">
+    <div class="card p-4 mt-4 shadow-sm">
+        <h4 class="mb-3">Nyt Check-in</h4>
         <form id="checkin-form">
             <div class="mb-3">
                 <label for="weight" class="form-label">Nuværende vægt (kg)</label>
@@ -21,46 +44,40 @@
                 <label for="sleep" class="form-label">Søvn (timer)</label>
                 <input type="number" class="form-control" id="sleep" min="0" max="24" required>
             </div>
-            <div class="mb-3">
-                <label for="notes" class="form-label">Noter/kommentarer</label>
-                <textarea class="form-control" id="notes" rows="3"></textarea>
-            </div>
             <button type="submit" class="btn btn-primary w-100">Gem Check-in</button>
         </form>
     </div>
 
-    <!-- Seneste check-ins -->
+    <!-- Seneste Check-ins -->
     <h3 class="mt-5">Seneste Check-ins</h3>
-    <table class="table table-striped mt-3">
-        <thead>
-            <tr>
-                <th>Dato</th>
-                <th>Vægt (kg)</th>
-                <th>Energiniveau</th>
-            </tr>
-        </thead>
-        <tbody id="checkin-table-body">
-            <!-- Dummy data indsættes her via JavaScript -->
-        </tbody>
-    </table>
+    <div id="checkin-cards" class="row">
+        <!-- Check-in kort indsættes her via JS -->
+    </div>
 
     <!-- Charts -->
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <h4>Vægt over tid</h4>
-            <canvas id="weightChart"></canvas>
-        </div>
-        <div class="col-md-6">
-            <h4>Energiniveau vs. Søvn</h4>
-            <canvas id="energySleepChart"></canvas>
+    <div class="mt-5">
+        <ul class="nav nav-pills mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" id="weight-tab" data-bs-toggle="pill" href="#weightChartDiv">Vægt over tid</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="energy-tab" data-bs-toggle="pill" href="#energyChartDiv">Energiniveau vs. Søvn</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="weightChartDiv">
+                <canvas id="weightChart"></canvas>
+            </div>
+            <div class="tab-pane fade" id="energyChartDiv">
+                <canvas id="energySleepChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Dummy data
     let checkinData = [
         { date: "2025-01-24", weight: 98.5, energy: 8, sleep: 7 },
         { date: "2025-01-17", weight: 99.2, energy: 7, sleep: 6 },
@@ -69,16 +86,29 @@
         { date: "2024-12-27", weight: 102.3, energy: 6, sleep: 7 }
     ];
 
-    function renderTable() {
-        let tableBody = document.getElementById("checkin-table-body");
-        tableBody.innerHTML = ""; // Ryd tidligere indhold
+    function updateStats() {
+        let avgWeight = (checkinData.reduce((sum, c) => sum + c.weight, 0) / checkinData.length).toFixed(1);
+        let avgSleep = (checkinData.reduce((sum, c) => sum + c.sleep, 0) / checkinData.length).toFixed(1);
+        let avgEnergy = (checkinData.reduce((sum, c) => sum + c.energy, 0) / checkinData.length).toFixed(1);
+
+        document.getElementById("avgWeight").textContent = avgWeight + " kg";
+        document.getElementById("avgSleep").textContent = avgSleep + " timer";
+        document.getElementById("avgEnergy").textContent = avgEnergy + " / 10";
+    }
+
+    function renderCheckinCards() {
+        let container = document.getElementById("checkin-cards");
+        container.innerHTML = "";
         checkinData.forEach(entry => {
-            let row = `<tr>
-                <td>${entry.date}</td>
-                <td>${entry.weight}</td>
-                <td>${entry.energy}</td>
-            </tr>`;
-            tableBody.innerHTML += row;
+            let card = `<div class="col-md-4">
+                <div class="card p-3 mb-3 shadow-sm">
+                    <h5>${entry.date}</h5>
+                    <p><strong>Vægt:</strong> ${entry.weight} kg</p>
+                    <p><strong>Energiniveau:</strong> ${entry.energy}/10</p>
+                    <p><strong>Søvn:</strong> ${entry.sleep} timer</p>
+                </div>
+            </div>`;
+            container.innerHTML += card;
         });
     }
 
@@ -88,66 +118,34 @@
         let energyLevels = checkinData.map(d => d.energy);
         let sleepHours = checkinData.map(d => d.sleep);
 
-        // Line Chart: Vægt over tid
         new Chart(document.getElementById('weightChart'), {
             type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: 'Vægt (kg)',
-                    data: weights,
-                    borderColor: 'blue',
-                    fill: false
-                }]
-            }
+            data: { labels: dates, datasets: [{ label: 'Vægt (kg)', data: weights, borderColor: 'blue', fill: false }] }
         });
 
-        // Bar Chart: Energiniveau vs. Søvn
         new Chart(document.getElementById('energySleepChart'), {
             type: 'bar',
-            data: {
-                labels: dates,
-                datasets: [
-                    {
-                        label: 'Energiniveau',
-                        data: energyLevels,
-                        backgroundColor: 'green'
-                    },
-                    {
-                        label: 'Søvn (timer)',
-                        data: sleepHours,
-                        backgroundColor: 'orange'
-                    }
-                ]
-            }
+            data: { labels: dates, datasets: [{ label: 'Energiniveau', data: energyLevels, backgroundColor: 'green' }, { label: 'Søvn (timer)', data: sleepHours, backgroundColor: 'orange' }] }
         });
     }
 
-    // Håndter check-in form submission
     document.getElementById("checkin-form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Forhindrer siden i at reloade
-
-        // Hent inputværdier
+        event.preventDefault();
         let weight = document.getElementById("weight").value;
         let energy = document.getElementById("energy").value;
         let sleep = document.getElementById("sleep").value;
-        let today = new Date().toISOString().split("T")[0]; // Få dagens dato
-
-        // Tilføj nyt check-in til dummy data
+        let today = new Date().toISOString().split("T")[0];
         let newEntry = { date: today, weight: parseFloat(weight), energy: parseInt(energy), sleep: parseInt(sleep) };
-        checkinData.unshift(newEntry); // Tilføj til starten af listen
-
-        if (checkinData.length > 5) checkinData.pop(); // Bevar kun de seneste 5
-
-        renderTable(); // Opdater tabellen
-        updateCharts(); // Opdater graferne
-
-        // Nulstil formen
+        checkinData.unshift(newEntry);
+        if (checkinData.length > 5) checkinData.pop();
+        renderCheckinCards();
+        updateCharts();
+        updateStats();
         document.getElementById("checkin-form").reset();
     });
 
-    // Initial rendering af data
-    renderTable();
+    renderCheckinCards();
     updateCharts();
+    updateStats();
 </script>
 {% endblock %}
