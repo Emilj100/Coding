@@ -4,49 +4,46 @@
 
 {% block main %}
 <div class="container mt-4">
-    <h2 class="mb-3 text-center">Weight Progress</h2>
-
-    <!-- Progress Bar Section -->
-    <div class="card p-4 mb-4 shadow-sm">
-        <h5>Weight Loss Progress</h5>
-        <div class="progress" style="height: 25px;">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
-                35% towards goal
-            </div>
-        </div>
-    </div>
+    <h2 class="mb-4 fw-bold text-center">Weight Progress</h2>
 
     <!-- Weight Overview -->
     <div class="row">
         <div class="col-md-4">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Current Weight</h6>
-                <h4>97 kg</h4>
+            <div class="card text-center p-4 shadow-sm">
+                <i class="bi bi-person-fill fs-2 text-primary"></i>
+                <h6 class="fw-bold mt-2">Current Weight</h6>
+                <h3 class="fw-bold">97 kg</h3>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Weight Lost</h6>
-                <h4>-3.5 kg</h4>
+            <div class="card text-center p-4 shadow-sm">
+                <i class="bi bi-graph-down fs-2 text-danger"></i>
+                <h6 class="fw-bold mt-2">Weight Lost</h6>
+                <h3 class="fw-bold">-3.5 kg</h3>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Avg. Loss per Week</h6>
-                <h4>-0.8 kg</h4>
+            <div class="card text-center p-4 shadow-sm">
+                <i class="bi bi-clock-history fs-2 text-success"></i>
+                <h6 class="fw-bold mt-2">Avg. Loss per Week</h6>
+                <h3 class="fw-bold">-0.8 kg</h3>
             </div>
         </div>
     </div>
 
-    <!-- Line Chart -->
-    <div class="card p-4 mt-4 shadow-sm">
-        <h5>Weight Progress Over Time</h5>
-        <canvas id="weight-line-chart"></canvas>
+    <!-- Progress Bar Section -->
+    <div class="p-4 bg-white rounded shadow-sm mt-4">
+        <h5 class="fw-bold">Progress Towards Weight Goal</h5>
+        <div class="progress" style="height: 25px; border-radius: 12px; overflow: hidden;">
+            <div class="progress-bar bg-primary fw-bold" style="width: 35%; font-size: 14px;">
+                35%
+            </div>
+        </div>
     </div>
 
     <!-- Weight Log Table -->
-    <div class="card p-4 mt-4 shadow-sm">
-        <h5>Weight Log</h5>
+    <div class="p-4 bg-white rounded shadow-sm mt-4">
+        <h5 class="fw-bold">Weight Log</h5>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -64,28 +61,28 @@
             </table>
         </div>
     </div>
+
+    <!-- Line Chart -->
+    <div class="p-4 bg-white rounded shadow-sm mt-4">
+        <h5 class="fw-bold">Weight Progress Over Time</h5>
+        <canvas id="weightChart" style="max-height: 400px;"></canvas>
+    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const ctxLine = document.getElementById("weight-line-chart").getContext("2d");
-
-        // Dummy data
-        const labels = ["2025-01-01", "2025-01-15", "2025-02-01"];
-        const weightData = [100.5, 98.8, 97.0];
-
-        new Chart(ctxLine, {
-            type: "line",
+        const weightCtx = document.getElementById('weightChart').getContext('2d');
+        new Chart(weightCtx, {
+            type: 'line',
             data: {
-                labels: labels,
+                labels: ['2025-01-01', '2025-01-15', '2025-02-01'],
                 datasets: [{
-                    label: "Weight (kg)",
-                    data: weightData,
-                    borderColor: "#4CAF50",
-                    backgroundColor: "rgba(76, 175, 80, 0.2)",
+                    label: 'Weight (kg)',
+                    data: [100.5, 98.8, 97.0],
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
                     fill: true,
-                    tension: 0.2
+                    tension: 0.3
                 }]
             },
             options: {
