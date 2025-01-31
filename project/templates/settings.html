@@ -1,0 +1,48 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Personal Settings{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h2 class="mb-4">Personal Settings</h2>
+    <form>
+        <!-- Opdater personlige oplysninger -->
+        <h5>Update Personal Information</h5>
+        <div class="mb-3">
+            <label for="height" class="form-label">Height (cm)</label>
+            <input type="number" class="form-control" id="height" value="186">
+        </div>
+        <div class="mb-3">
+            <label for="weight" class="form-label">Weight (kg)</label>
+            <input type="number" class="form-control" id="weight" value="100.5">
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" class="form-control" id="age" value="19">
+        </div>
+
+        <!-- Opdater mål -->
+        <h5>Update Goals</h5>
+        <div class="mb-3">
+            <label for="goalType" class="form-label">Goal</label>
+            <select class="form-select" id="goalType">
+                <option value="weight_loss">Weight Loss</option>
+                <option value="muscle_gain" selected>Muscle Gain</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="calories" class="form-label">Daily Caloric Intake</label>
+            <input type="number" class="form-control" id="calories" value="2700">
+        </div>
+
+        <!-- Opdater træningsplan -->
+        <h5>Update Training Plan</h5>
+        <div class="mb-3">
+            <label for="trainingDays" class="form-label">Training Days per Week</label>
+            <input type="number" class="form-control" id="trainingDays" value="5">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
