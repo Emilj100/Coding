@@ -4,32 +4,51 @@
 
 {% block main %}
 <div class="container mt-4">
-    <h2 class="mb-4">🔥 Keep going, Emil! Din uge ser stærk ud 💪</h2>
+    <h2 class="mb-4">📅 Din plan for næste uge</h2>
 
     <div class="row">
         <div class="col-md-6">
-            <h5 class="fw-bold">Træninger denne uge</h5>
-            <div class="progress" style="height: 20px;">
-                <div class="progress-bar bg-primary fw-bold" style="width: 80%;">4/5 færdige</div>
-            </div>
+            <h5 class="fw-bold">Næste uges træningsplan</h5>
+            <ul class="list-group">
+                <li class="list-group-item">Mandag: Push Day</li>
+                <li class="list-group-item">Tirsdag: Cardio</li>
+                <li class="list-group-item">Onsdag: Pull Day</li>
+                <li class="list-group-item">Torsdag: Rest</li>
+                <li class="list-group-item">Fredag: Leg Day</li>
+            </ul>
         </div>
         <div class="col-md-6">
-            <h5 class="fw-bold">Kaloriebalance</h5>
-            <p class="text-muted">Gennemsnitligt indtag: <strong>2300 kcal</strong></p>
+            <h5 class="fw-bold">AI-anbefaling</h5>
+            <p class="text-muted">🔥 Du har trænet 4 gange denne uge. Overvej en ekstra cardio-session for optimal fedtforbrænding!</p>
         </div>
     </div>
 
     <div class="row mt-4">
         <div class="col-md-6">
-            <h5 class="fw-bold">Vægtændring</h5>
-            <canvas id="weightChart"></canvas>
-        </div>
-        <div class="col-md-6">
             <h5 class="fw-bold">Kalorieindtag - Sidste 7 dage</h5>
             <canvas id="calorieChart"></canvas>
         </div>
+        <div class="col-md-6">
+            <h5 class="fw-bold">Vægtændring - Sidste 5 uger</h5>
+            <canvas id="weightChart"></canvas>
+        </div>
     </div>
 </div>
+
+<script>
+    const calorieCtx = document.getElementById('calorieChart').getContext('2d');
+    new Chart(calorieCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'],
+            datasets: [{
+                label: 'Kalorier (kcal)',
+                data: [2500, 2400, 2300, 2250, 2200, 2150, 2100],
+                backgroundColor: 'orange'
+            }]
+        }
+    });
+</script>
 {% endblock %}
 
 
