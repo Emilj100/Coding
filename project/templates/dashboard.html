@@ -4,45 +4,60 @@
 
 {% block main %}
 <div class="container mt-4">
-    <h2 class="mb-3">Hej, Emil! Her er dine fremskridt denne uge 🚀</h2>
+    <h2 class="mb-3">🔥 Keep going, Emil! Dit fremskridt ser godt ud! 🚀</h2>
 
     <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-3">
-            <div class="card p-3 mb-3">
-                <h6>Sidste check-in vægt</h6>
-                <h4>98.5 kg</h4>
-            </div>
-            <div class="card p-3 mb-3">
-                <h6>Gennemsnitligt kalorieindtag</h6>
-                <h4>2300 kcal</h4>
-            </div>
-            <div class="card p-3 mb-3">
-                <h6>Træninger denne uge</h6>
-                <h4>5 gange</h4>
-            </div>
-            <div class="card p-3">
-                <h6>Fremskridt mod vægtmål</h6>
-                <div class="progress">
-                    <div class="progress-bar bg-success" style="width: 35%">35%</div>
-                </div>
+        <div class="col-md-6">
+            <h5>Træninger denne uge</h5>
+            <div class="progress">
+                <div class="progress-bar bg-success" style="width: 80%">4/5 færdige</div>
             </div>
         </div>
+        <div class="col-md-6">
+            <h5>Kaloriebalance</h5>
+            <p class="text-muted">Denne uge har du i gennemsnit indtaget 2300 kcal.</p>
+        </div>
+    </div>
 
-        <!-- Main content -->
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Vægtændring - Sidste 5 uger</h5>
-                    <canvas id="weightChart"></canvas>
-                </div>
-                <div class="col-md-6">
-                    <h5>Kalorieindtag - Sidste 7 dage</h5>
-                    <canvas id="calorieChart"></canvas>
-                </div>
-            </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h5>Vægtændring</h5>
+            <canvas id="weightChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h5>Kalorieindtag - Sidste 7 dage</h5>
+            <canvas id="calorieChart"></canvas>
         </div>
     </div>
 </div>
+
+<script>
+    const weightCtx = document.getElementById('weightChart').getContext('2d');
+    new Chart(weightCtx, {
+        type: 'line',
+        data: {
+            labels: ['Uge 1', 'Uge 2', 'Uge 3', 'Uge 4', 'Uge 5'],
+            datasets: [{
+                label: 'Vægt (kg)',
+                data: [100.5, 100.0, 99.2, 98.9, 98.5],
+                borderColor: 'blue',
+                tension: 0.3
+            }]
+        }
+    });
+
+    const calorieCtx = document.getElementById('calorieChart').getContext('2d');
+    new Chart(calorieCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'],
+            datasets: [{
+                label: 'Kalorier (kcal)',
+                data: [2500, 2400, 2300, 2250, 2200, 2150, 2100],
+                backgroundColor: 'orange'
+            }]
+        }
+    });
+</script>
 {% endblock %}
 
