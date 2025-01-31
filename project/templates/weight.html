@@ -4,7 +4,7 @@
 
 {% block main %}
 <div class="container mt-4">
-    <h2 class="mb-4 fw-bold text-center">Weight Progress</h2>
+    <h2 class="mb-4 fw-bold text-center">Stay on track, Emil! Your weight journey in focus 📉</h2>
 
     <!-- Weight Overview -->
     <div class="row">
@@ -41,6 +41,12 @@
         </div>
     </div>
 
+    <!-- Line Chart -->
+    <div class="p-4 bg-white rounded shadow-sm mt-4">
+        <h5 class="fw-bold">Weight Progress Over Time</h5>
+        <canvas id="weightChart" style="max-height: 400px;"></canvas>
+    </div>
+
     <!-- Weight Log Table -->
     <div class="p-4 bg-white rounded shadow-sm mt-4">
         <h5 class="fw-bold">Weight Log</h5>
@@ -60,12 +66,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <!-- Line Chart -->
-    <div class="p-4 bg-white rounded shadow-sm mt-4">
-        <h5 class="fw-bold">Weight Progress Over Time</h5>
-        <canvas id="weightChart" style="max-height: 400px;"></canvas>
     </div>
 </div>
 
