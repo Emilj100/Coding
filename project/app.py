@@ -675,7 +675,7 @@ def weight_progress():
         total_loss = start_weight - last_entry["weight"]
         avg_loss_per_week = round(total_loss / weeks, 1)
     else:
-        avg_loss_per_week = 0
+        avg_loss_per_week = "N/A"
 
     # Beregn progress percentage (hvis alle værdier findes)
     if start_weight is not None and goal_weight is not None and current_weight is not None:
@@ -683,7 +683,7 @@ def weight_progress():
         progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
         progress = min(max(round(progress, 1), 0), 100)  # Begræns til intervallet 0-100%
     else:
-        progress = 0
+        progress = "N/A"
 
     # Beregn weight log: sammenlign hvert check-in med det foregående for at udregne ændringen
     weight_log = []
