@@ -607,7 +607,7 @@ def checkin():
             avg_energy = round(total_energy / count, 1)
             avg_sleep  = round(total_sleep / count, 1)
         else:
-            avg_weight = avg_energy = avg_sleep = 0
+            avg_weight = avg_energy = avg_sleep = "N/A"
 
         return render_template(
             "checkin.html",
@@ -621,34 +621,97 @@ def checkin():
 
 
 
-@app.route("/weight", methods=["GET"])
+from datetime import datetime
+
+@app.route("/weight")
 @login_required
 def weight_progress():
     user_id = session.get("user_id")
 
-    # Hent check-in data med kun weight og created_at (du kan evt. tilføje flere felter, hvis du ønsker det)
+    # Hent alle check-ins for brugeren (sorteret kronologisk, ældste først)
     checkin_data = db.execute(
-        "SELECT weight, date(created_at) as created_at FROM check_ins WHERE user_id = ?",
+        "SELECT weight, date(created_at) as created_at FROM check_ins WHERE user_id = ? ORDER BY created_at ASC",
         user_id
     )
 
-    # Hent brugerens navn fra users-tabellen
-    user = db.execute("SELECT name FROM users WHERE id = ?", user_id)
-    user_name = user[0]["name"] if user else "User"
-
-    # Beregn gennemsnitlig vægt (kan bruges som en indikator)
-    if checkin_data:
-        total_weight = sum(entry["weight"] for entry in checkin_data)
-        count = len(checkin_data)
-        avg_weight = round(total_weight / count, 1)
+    # Hent brugerens oplysninger, herunder navn, start_weight og goal_weight
+    user = db.execute("SELECT name, start_weight, goal_weight FROM users WHERE id = ?", user_id)
+    if user:
+        user_info = user[0]
+        user_name   = user_info["name"]
+        start_weight = user_info.get("start_weight")  # Sørg for, at denne kolonne findes
+        goal_weight  = user_info.get("goal_weight")
     else:
-        avg_weight = 0
+        user_name = "User"
+        start_weight = "N/A"
+        goal_weight = "N/A"
+
+    # Bestem current weight ud fra den seneste check-in
+    if checkin_data:
+        current_weight = checkin_data[-1]["weight"]
+    else:
+        current_weight = None
+
+    # Beregn weight lost
+    if start_weight is not None and current_weight is not None:
+        weight_lost = round(start_weight - current_weight, 1)
+    else:
+        weight_lost = 0
+
+    # Beregn avg. loss per week
+    if checkin_data and len(checkin_data) > 1 and start_weight is not None:
+        first_entry = checkin_data[0]
+        last_entry  = checkin_data[-1]
+
+        # Konverter dato-strenge til datetime-objekter
+        try:
+            first_date = datetime.strptime(first_entry["created_at"], "%Y-%m-%d")
+            last_date  = datetime.strptime(last_entry["created_at"], "%Y-%m-%d")
+        except Exception:
+            first_date = last_date = datetime.now()
+
+        diff_days = (last_date - first_date).days
+        weeks = diff_days / 7 if diff_days > 0 else 1
+        total_loss = start_weight - last_entry["weight"]
+        avg_loss_per_week = round(total_loss / weeks, 1)
+    else:
+        avg_loss_per_week = 0
+
+    # Beregn progress percentage (hvis alle værdier findes)
+    if start_weight is not None and goal_weight is not None and current_weight is not None:
+        # Eksempelberegning: hvor stor en del af det ønskede vægttab der er opnået
+        progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
+        progress = min(max(round(progress, 1), 0), 100)  # Begræns til intervallet 0-100%
+    else:
+        progress = 0
+
+    # Beregn weight log: sammenlign hvert check-in med det foregående for at udregne ændringen
+    weight_log = []
+    for i, entry in enumerate(checkin_data):
+        if i == 0:
+            change = "-"  # Intet tidligere check-in
+        else:
+            prev_weight = checkin_data[i-1]["weight"]
+            change = round(entry["weight"] - prev_weight, 1)
+        weight_log.append({
+            "date": entry["created_at"],
+            "weight": entry["weight"],
+            "change": change
+        })
+
+    # For grafen (weight progress over time) kan du evt. bruge alle check-ins eller de seneste 6:
+    # Eksempel: brug de seneste 6, hvis der er flere
+    graph_data = checkin_data[-6:] if len(checkin_data) >= 6 else checkin_data
 
     return render_template(
         "weight.html",
-        avg_weight=avg_weight,
-        checkin_data=checkin_data,
-        user_name=user_name
+        user_name=user_name,
+        current_weight=current_weight,
+        weight_lost=weight_lost,
+        avg_loss_per_week=avg_loss_per_week,
+        progress=progress,
+        weight_log=weight_log,
+        graph_data=graph_data
     )
 
 
