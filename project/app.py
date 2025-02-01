@@ -120,7 +120,7 @@ def registerpart2():
                 INSERT INTO users (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
-                session["name"], session["email"], session["password"], age,
+                session["name"].title(), session["email"], session["password"], age,
                 request.form.get("gender"), height, weight, goal_weight,
                 request.form.get("goal_type"), training_days, request.form.get("experience_level"), calorie_intake
             )
@@ -547,15 +547,79 @@ def dashboard():
 
     return render_template("dashboard.html")
 
-@app.route("/checkin",  methods=["GET", "POST"])
+@app.route("/checkin", methods=["GET", "POST"])
 @login_required
 def checkin():
+    user_id = session.get("user_id")
 
     if request.method == "POST":
+
+        energy = request.form.get("energy")
+        sleep = request.form.get("sleep")
+
+        try:
+            weight = float(request.form.get("weight"))
+        except ValueError:
+            return render_template("checkin.html", error="Weight must be a number")
+
+        try:
+            energy = int(energy)
+            if not 1 <= energy <= 10:
+                raise ValueError
+        except ValueError:
+            return render_template("checkin.html", error="Energy must be a number between 1 and 10.")
+
+        try:
+            sleep = float(sleep)
+            if not 0 <= sleep <= 24:
+                raise ValueError
+        except ValueError:
+            return render_template("checkin.html", error="Sleep must be a number between 0 and 24.")
+
+        db.execute(
+            "INSERT INTO check_ins (user_id, weight, energy, sleep) VALUES (?, ?, ?, ?)",
+            user_id, weight, energy, sleep
+        )
 
         return redirect("checkin")
 
     else:
+        checkin_data = db.execute(
+            "SELECT weight, energy, sleep, date(created_at) as created_at FROM check_ins WHERE user_id = ?",
+            user_id
+        )
+
+        # Hent brugerens navn fra users tabellen
+        user = db.execute("SELECT name FROM users WHERE id = ?", user_id)
+        if user:
+            user_name = user[0]["name"]
+        else:
+            user_name = "User"
+
+        # Beregn gennemsnittene, hvis der er data
+        if checkin_data:
+            total_weight = sum(entry["weight"] for entry in checkin_data)
+            total_energy = sum(entry["energy"] for entry in checkin_data)
+            total_sleep  = sum(entry["sleep"] for entry in checkin_data)
+            count = len(checkin_data)
+
+            avg_weight = round(total_weight / count, 1)
+            avg_energy = round(total_energy / count, 1)
+            avg_sleep  = round(total_sleep / count, 1)
+        else:
+            avg_weight = avg_energy = avg_sleep = 0
+
+        return render_template(
+            "checkin.html",
+            avg_weight=avg_weight,
+            avg_energy=avg_energy,
+            avg_sleep=avg_sleep,
+            checkin_data=checkin_data,
+            user_name=user_name
+        )
+
+
+
 
 @app.route("/weight")
 @login_required
