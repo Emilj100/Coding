@@ -14,22 +14,46 @@
 
   <link href="/static/styles.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Gør, at sidebaren mindst fylder hele viewport-højden, men den udvides, hvis indholdet er længere */
+    .sidebar {
+      min-height: 100vh;
+    }
+    /* Offcanvas styling: sort baggrund og hvid tekst */
+    .offcanvas.bg-black {
+      background-color: #000;
+    }
+    .offcanvas.bg-black .nav-link {
+      color: #fff;
+    }
+    /* Overskriv active state for mobile offcanvas, så dashboard overview (og andre aktive links) bliver blå */
+    .offcanvas.bg-black .nav-link.active {
+      background-color: #0d6efd; /* Bootstrap's primære blå */
+      color: #fff;
+    }
+    /* Hover-effekt for links i offcanvas */
+    .offcanvas.bg-black .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    /* Inverterer farven på lukkeknappen, så den bliver synlig på sort baggrund */
+    .offcanvas.bg-black .btn-close {
+      filter: invert(1);
+    }
+  </style>
 </head>
 <body>
 
-<div class="d-flex">
-
+<div class="d-flex flex-column flex-md-row">
   <!-- Desktop Sidebar (vises fra md og opefter) -->
-  <div class="sidebar d-none d-md-flex flex-column flex-shrink-0 p-3 bg-black vh-100" style="width: 280px;">
+  <div class="sidebar d-none d-md-flex flex-column flex-shrink-0 p-3 bg-black" style="width: 280px;">
     <!-- Logo -->
     <div class="text-center">
       <a href="/">
         <img src="/static/logo-white-small.png" alt="Logo" class="img-fluid mx-auto d-block" style="max-width: 140px;">
       </a>
     </div>
-
     <hr style="color: white;">
-
     <!-- Sidebar navigation -->
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
@@ -76,7 +100,7 @@
   </div>
 
   <!-- Offcanvas Sidebar til Mobile (vises under md) -->
-  <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+  <div class="offcanvas offcanvas-start d-md-none bg-black" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
         <a href="/">
@@ -94,39 +118,39 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="/checkin" class="nav-link text-dark">
+          <a href="/checkin" class="nav-link">
             <i class="bi bi-pencil-square me-2"></i> Check-In
           </a>
         </li>
         <li class="nav-item">
-          <a href="/weight" class="nav-link text-dark">
+          <a href="/weight" class="nav-link">
             <i class="bi bi-graph-up me-2"></i> Weight Progress
           </a>
         </li>
         <li class="nav-item">
-          <a href="/calories" class="nav-link text-dark">
+          <a href="/calories" class="nav-link">
             <i class="bi bi-bar-chart me-2"></i> Calorie Insights
           </a>
         </li>
         <li class="nav-item">
-          <a href="/training" class="nav-link text-dark">
+          <a href="/training" class="nav-link">
             <i class="bi bi-activity me-2"></i> Training Analytics
           </a>
         </li>
         <li class="nav-item">
-          <a href="/settings" class="nav-link text-dark">
+          <a href="/settings" class="nav-link">
             <i class="bi bi-gear me-2"></i> Personal Settings
           </a>
         </li>
         <li class="nav-item">
-          <a href="/" class="nav-link text-dark">
+          <a href="/" class="nav-link">
             <i class="bi bi-arrow-left me-2"></i> Back to Website
           </a>
         </li>
       </ul>
       <hr>
       <!-- Logout-knap -->
-      <a href="/logout" class="btn btn-outline-dark w-100">
+      <a href="/logout" class="btn btn-outline-light w-100">
         <i class="bi bi-box-arrow-right me-2"></i> Logout
       </a>
     </div>
@@ -141,7 +165,9 @@
 
     {% block main %}{% endblock %}
   </div>
-
 </div>
+
 </body>
 </html>
+
+
