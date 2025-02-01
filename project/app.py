@@ -650,13 +650,13 @@ def weight_progress():
     if checkin_data:
         current_weight = checkin_data[-1]["weight"]
     else:
-        current_weight = None
+        current_weight = "N/A"
 
     # Beregn weight lost
     if start_weight is not None and current_weight is not None:
         weight_lost = round(start_weight - current_weight, 1)
     else:
-        weight_lost = 0
+        weight_lost = "N/A"
 
     # Beregn avg. loss per week
     if checkin_data and len(checkin_data) > 1 and start_weight is not None:
