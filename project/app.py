@@ -544,14 +544,18 @@ def trainingsession():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    
+
     return render_template("dashboard.html")
 
-@app.route("/checkin")
+@app.route("/checkin",  methods=["GET", "POST"])
 @login_required
 def checkin():
 
+    if request.method == "POST":
+
     return render_template("checkin.html")
+
+    else:
 
 @app.route("/weight")
 @login_required
