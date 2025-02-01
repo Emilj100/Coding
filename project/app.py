@@ -639,24 +639,24 @@ def weight_progress():
     if user:
         user_info = user[0]
         user_name   = user_info["name"]
-        start_weight = user_info.get("start_weight")  # Sørg for, at denne kolonne findes
+        start_weight = user_info.get("start_weight")  # Forventet numerisk værdi
         goal_weight  = user_info.get("goal_weight")
     else:
         user_name = "User"
-        start_weight = "N/A"
-        goal_weight = "N/A"
+        start_weight = None
+        goal_weight = None
 
     # Bestem current weight ud fra den seneste check-in
     if checkin_data:
         current_weight = checkin_data[-1]["weight"]
     else:
-        current_weight = "N/A"
+        current_weight = None
 
     # Beregn weight lost
     if start_weight is not None and current_weight is not None:
         weight_lost = round(start_weight - current_weight, 1)
     else:
-        weight_lost = "N/A"
+        weight_lost = None
 
     # Beregn avg. loss per week
     if checkin_data and len(checkin_data) > 1 and start_weight is not None:
@@ -675,7 +675,7 @@ def weight_progress():
         total_loss = start_weight - last_entry["weight"]
         avg_loss_per_week = round(total_loss / weeks, 1)
     else:
-        avg_loss_per_week = "N/A"
+        avg_loss_per_week = None
 
     # Beregn progress percentage (hvis alle værdier findes)
     if start_weight is not None and goal_weight is not None and current_weight is not None:
@@ -683,7 +683,7 @@ def weight_progress():
         progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
         progress = min(max(round(progress, 1), 0), 100)  # Begræns til intervallet 0-100%
     else:
-        progress = "N/A"
+        progress = None
 
     # Beregn weight log: sammenlign hvert check-in med det foregående for at udregne ændringen
     weight_log = []
@@ -699,19 +699,15 @@ def weight_progress():
             "change": change
         })
 
-    # For grafen (weight progress over time) kan du evt. bruge alle check-ins eller de seneste 6:
-    # Eksempel: brug de seneste 6, hvis der er flere
-    graph_data = checkin_data[-6:] if len(checkin_data) >= 6 else checkin_data
-
     return render_template(
         "weight.html",
         user_name=user_name,
-        current_weight=current_weight,
-        weight_lost=weight_lost,
-        avg_loss_per_week=avg_loss_per_week,
-        progress=progress,
+        current_weight=current_weight if current_weight is not None else "N/A",
+        weight_lost=weight_lost if weight_lost is not None else "N/A",
+        avg_loss_per_week=avg_loss_per_week if avg_loss_per_week is not None else "N/A",
+        progress=progress if progress is not None else "N/A",
         weight_log=weight_log,
-        graph_data=graph_data
+        graph_data=checkin_data[-6:] if len(checkin_data) >= 6 else checkin_data
     )
 
 
