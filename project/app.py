@@ -117,7 +117,7 @@ def registerpart2():
         try:
             user_id = db.execute(
                 """
-                INSERT INTO users (name, email, password, age, gender, height, weight, start_weight goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
+                INSERT INTO users (name, email, password, age, gender, height, weight, start_weight, goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
                 """,
                 session["name"].title(), session["email"], session["password"], age,
