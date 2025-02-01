@@ -553,7 +553,7 @@ def checkin():
 
     if request.method == "POST":
 
-    return render_template("checkin.html")
+        return redirect("checkin")
 
     else:
 
