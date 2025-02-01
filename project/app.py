@@ -621,11 +621,36 @@ def checkin():
 
 
 
-@app.route("/weight")
+@app.route("/weight", methods=["GET"])
 @login_required
-def weight():
+def weight_progress():
+    user_id = session.get("user_id")
 
-    return render_template("weight.html")
+    # Hent check-in data med kun weight og created_at (du kan evt. tilføje flere felter, hvis du ønsker det)
+    checkin_data = db.execute(
+        "SELECT weight, date(created_at) as created_at FROM check_ins WHERE user_id = ?",
+        user_id
+    )
+
+    # Hent brugerens navn fra users-tabellen
+    user = db.execute("SELECT name FROM users WHERE id = ?", user_id)
+    user_name = user[0]["name"] if user else "User"
+
+    # Beregn gennemsnitlig vægt (kan bruges som en indikator)
+    if checkin_data:
+        total_weight = sum(entry["weight"] for entry in checkin_data)
+        count = len(checkin_data)
+        avg_weight = round(total_weight / count, 1)
+    else:
+        avg_weight = 0
+
+    return render_template(
+        "weight.html",
+        avg_weight=avg_weight,
+        checkin_data=checkin_data,
+        user_name=user_name
+    )
+
 
 @app.route("/calories")
 @login_required
