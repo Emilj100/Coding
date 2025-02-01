@@ -3,104 +3,96 @@
 {% block title %}Weight Progress{% endblock %}
 
 {% block main %}
-<h2 class="mb-4 fw-bold">Stay on track, {{ user_name | title }}! Your weight journey in focus 📉</h2>
+<div class="container mt-4">
+    <h2 class="mb-4 fw-bold">Stay on track, Emil! Your weight journey in focus 📉</h2>
 
-<!-- Weight Overview -->
-<div class="row">
-    <div class="col-md-4">
-        <div class="card text-center p-4 shadow-sm">
-            <i class="bi bi-person-fill fs-2 text-primary"></i>
-            <h6 class="fw-bold mt-2">Current Weight</h6>
-            <h3 class="fw-bold">{{ current_weight }} kg</h3>
+    <!-- Weight Overview -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center p-4 shadow-sm">
+                <i class="bi bi-person-fill fs-2 text-primary"></i>
+                <h6 class="fw-bold mt-2">Current Weight</h6>
+                <h3 class="fw-bold">97 kg</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-4 shadow-sm">
+                <i class="bi bi-graph-down fs-2 text-danger"></i>
+                <h6 class="fw-bold mt-2">Weight Lost</h6>
+                <h3 class="fw-bold">-3.5 kg</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-4 shadow-sm">
+                <i class="bi bi-clock-history fs-2 text-success"></i>
+                <h6 class="fw-bold mt-2">Avg. Loss per Week</h6>
+                <h3 class="fw-bold">-0.8 kg</h3>
+            </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-center p-4 shadow-sm">
-            <i class="bi bi-graph-down fs-2 text-danger"></i>
-            <h6 class="fw-bold mt-2">Weight Lost</h6>
-            <h3 class="fw-bold">{{ weight_lost }} kg</h3>
+
+    <!-- Progress Bar Section -->
+    <div class="p-4 bg-white rounded shadow-sm mt-4">
+        <h5 class="fw-bold">Progress Towards Weight Goal</h5>
+        <div class="progress" style="height: 25px; border-radius: 12px; overflow: hidden;">
+            <div class="progress-bar bg-primary fw-bold" style="width: 35%; font-size: 14px;">
+                35%
+            </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-center p-4 shadow-sm">
-            <i class="bi bi-clock-history fs-2 text-success"></i>
-            <h6 class="fw-bold mt-2">Avg. Loss per Week</h6>
-            <h3 class="fw-bold">{{ avg_loss_per_week }} kg</h3>
+
+    <!-- Weight Log Table -->
+    <div class="p-4 bg-white rounded shadow-sm mt-4">
+        <h5 class="fw-bold">Weight Log</h5>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Weight (kg)</th>
+                        <th>Change (kg)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>2025-01-01</td><td>100.5</td><td>-</td></tr>
+                    <tr><td>2025-01-15</td><td>98.8</td><td>-1.7</td></tr>
+                    <tr><td>2025-02-01</td><td>97.0</td><td>-1.8</td></tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+
+    <!-- Line Chart -->
+    <div class="p-4 bg-white rounded shadow-sm mt-4">
+        <h5 class="fw-bold">Weight Progress Over Time</h5>
+        <canvas id="weightChart" style="max-height: 400px;"></canvas>
     </div>
 </div>
 
-<!-- Progress Bar Section -->
-<div class="p-4 bg-white rounded shadow-sm mt-4">
-    <h5 class="fw-bold">Progress Towards Weight Goal</h5>
-    <div class="progress" style="height: 25px; border-radius: 12px; overflow: hidden;">
-        <div class="progress-bar bg-primary fw-bold" style="width: {{ progress }}%; font-size: 14px;">
-            {{ progress }}%
-        </div>
-    </div>
-</div>
-
-<!-- Weight Log Table -->
-<div class="p-4 bg-white rounded shadow-sm mt-4">
-    <h5 class="fw-bold">Weight Log</h5>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Weight (kg)</th>
-                    <th>Change (kg)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for entry in weight_log %}
-                <tr>
-                    <td>{{ entry.date }}</td>
-                    <td>{{ entry.weight }}</td>
-                    <td>{{ entry.change }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Line Chart -->
-<div class="p-4 bg-white rounded shadow-sm mt-4">
-    <h5 class="fw-bold">Weight Progress Over Time</h5>
-    <canvas id="weightChart" style="max-height: 400px;"></canvas>
-</div>
-
-<!-- Inkluder Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Brug graph_data fra backend
-    let graphData = {{ graph_data | tojson }};
-    // Udtræk datoer og vægte
-    let dates = graphData.map(d => d.created_at);
-    let weights = graphData.map(d => d.weight);
-
-    const ctx = document.getElementById('weightChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: dates,
-            datasets: [{
-                label: 'Weight (kg)',
-                data: weights,
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: false }
+    document.addEventListener("DOMContentLoaded", function () {
+        const weightCtx = document.getElementById('weightChart').getContext('2d');
+        new Chart(weightCtx, {
+            type: 'line',
+            data: {
+                labels: ['2025-01-01', '2025-01-15', '2025-02-01'],
+                datasets: [{
+                    label: 'Weight (kg)',
+                    data: [100.5, 98.8, 97.0],
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: false }
+                }
             }
-        }
+        });
     });
 </script>
 {% endblock %}
