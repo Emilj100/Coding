@@ -607,7 +607,7 @@ def checkin():
             avg_energy = round(total_energy / count, 1)
             avg_sleep  = round(total_sleep / count, 1)
         else:
-            avg_weight = avg_energy = avg_sleep = "N/A"
+            avg_weight = avg_energy = avg_sleep = 0
 
         return render_template(
             "checkin.html",
