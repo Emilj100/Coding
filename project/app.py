@@ -117,11 +117,11 @@ def registerpart2():
         try:
             user_id = db.execute(
                 """
-                INSERT INTO users (name, email, password, age, gender, height, weight, goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO users (name, email, password, age, gender, height, weight, start_weight goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
                 """,
                 session["name"].title(), session["email"], session["password"], age,
-                request.form.get("gender"), height, weight, goal_weight,
+                request.form.get("gender"), height, weight, weight, goal_weight,
                 request.form.get("goal_type"), training_days, request.form.get("experience_level"), calorie_intake
             )
 
