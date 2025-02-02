@@ -8,6 +8,7 @@
 
     <!-- Weight Overview -->
     <div class="row">
+        <!-- Current Weight Card -->
         <div class="col-md-4">
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-person-fill fs-2 text-primary"></i>
@@ -15,17 +16,19 @@
                 <h3 class="fw-bold">{{ current_weight }} kg</h3>
             </div>
         </div>
+        <!-- Weight Change Card (Lost/Gain/Change) -->
         <div class="col-md-4">
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-graph-down fs-2 text-danger"></i>
-                <h6 class="fw-bold mt-2">Weight Lost</h6>
+                <h6 class="fw-bold mt-2">{{ weight_change_label }}</h6>
                 <h3 class="fw-bold">{{ weight_lost }} kg</h3>
             </div>
         </div>
+        <!-- Average Change per Week Card -->
         <div class="col-md-4">
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-clock-history fs-2 text-success"></i>
-                <h6 class="fw-bold mt-2">Avg. Loss per Week</h6>
+                <h6 class="fw-bold mt-2">{{ avg_change_label }}</h6>
                 <h3 class="fw-bold">{{ avg_loss_per_week }} kg</h3>
             </div>
         </div>
@@ -66,20 +69,20 @@
         </div>
     </div>
 
-    <!-- Line Chart -->
+    <!-- Line Chart Section -->
     <div class="p-4 bg-white rounded shadow-sm mt-4">
         <h5 class="fw-bold">Weight Progress Over Time</h5>
         <canvas id="weightChart" style="max-height: 400px;"></canvas>
     </div>
 </div>
 
-<!-- Inkluder Chart.js -->
+<!-- Include Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Brug graph_data fra backend med safe filter, så editoren ikke klager
+        // Brug graph_data fra backend med | tojson | safe for at undgå editor-fejl
         let graphData = {{ graph_data | tojson | safe }};
-        // Udtræk datoer og vægte
+        // Udtræk datoer og vægte fra graphData
         let dates = graphData.map(d => d.created_at);
         let weights = graphData.map(d => d.weight);
 
