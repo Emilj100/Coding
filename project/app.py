@@ -8,6 +8,7 @@ from functools import wraps
 import re
 import requests
 import json
+from datetime import datetime
 
 # Configure application
 app = Flask(__name__)
@@ -621,7 +622,6 @@ def checkin():
 
 
 
-from datetime import datetime
 
 @app.route("/weight")
 @login_required
