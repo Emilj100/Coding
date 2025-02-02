@@ -766,9 +766,10 @@ def weight_progress():
         avg_loss_per_week=avg_change_display,
         progress=progress if progress is not None else 0,
         weight_log=weight_log,
-        graph_data=graph_data
+        graph_data=graph_data,
+        start_weight=start_weight if start_weight is not None else default_text,
+        goal_weight=goal_weight if goal_weight is not None else default_text
     )
-
 
 @app.route("/calories")
 @login_required
