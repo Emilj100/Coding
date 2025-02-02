@@ -854,7 +854,7 @@ def calories():
     worst_day = max(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
 
     return render_template(
-        "calorieinsights.html",
+        "calories.html",
         user_name=user_name,
         average_daily_intake=average_daily_intake,
         planned_vs_actual=planned_vs_actual,

@@ -6,7 +6,9 @@
 <div class="container mt-4">
     <div class="mt-4">
         <h2 class="mb-2 fw-bold">Optimize your weekly calorie intake, {{ user_name | title }}! 🔥</h2>
-        <p class="text-muted">Nutrition statistics for the week ({{ start_of_week }} - {{ end_of_week }})</p>
+        <p class="text-muted">
+            Nutrition statistics for this week ({{ start_of_week }} to {{ end_of_week }})
+        </p>
     </div>
 
     <!-- Overview Cards -->
@@ -62,15 +64,39 @@
             <div class="col-md-6">
                 <div class="p-3 border rounded shadow-sm">
                     <h6 class="fw-bold text-success">Best Day</h6>
-                    <p class="mb-0">{{ best_day.day if best_day else 'N/A' }}</p>
-                    <h4 class="fw-bold">{{ best_day.total_calories if best_day else 'N/A' }} kcal</h4>
+                    <p class="mb-0">
+                        {% if best_day %}
+                            {{ best_day.weekday }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </p>
+                    <h4 class="fw-bold">
+                        {% if best_day %}
+                            {{ best_day.total_calories }} kcal
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </h4>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="p-3 border rounded shadow-sm">
                     <h6 class="fw-bold text-danger">Worst Day</h6>
-                    <p class="mb-0">{{ worst_day.day if worst_day else 'N/A' }}</p>
-                    <h4 class="fw-bold">{{ worst_day.total_calories if worst_day else 'N/A' }} kcal</h4>
+                    <p class="mb-0">
+                        {% if worst_day %}
+                            {{ worst_day.weekday }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </p>
+                    <h4 class="fw-bold">
+                        {% if worst_day %}
+                            {{ worst_day.total_calories }} kcal
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </h4>
                 </div>
             </div>
         </div>
@@ -91,7 +117,7 @@
 
 <script>
     // For grafen "Caloric Intake - Current Week"
-    const days = {{ daily_data | tojson | safe }}.map(d => d.day);
+    const days = {{ daily_data | tojson | safe }}.map(d => d.weekday); // Brug weekday i stedet for dato
     const calories = {{ daily_data | tojson | safe }}.map(d => d.total_calories);
 
     const calorieCtx = document.getElementById('calorieChart').getContext('2d');
@@ -107,7 +133,7 @@
         }
     });
 
-    // Goal Chart: viser den faktiske indtagelse og den daglige målvægt som en konstant linje
+    // Goal Chart: viser den faktiske indtagelse og den daglige kalorie-mål som en konstant linje
     const goalCtx = document.getElementById('goalChart').getContext('2d');
     new Chart(goalCtx, {
         type: 'line',
