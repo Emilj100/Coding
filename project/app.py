@@ -636,7 +636,7 @@ def weight_progress():
     if user:
         user_info   = user[0]
         user_name   = user_info["name"]
-        start_weight = user_info.get("start_weight")  # Forventet numerisk (fx 91.0)
+        start_weight = user_info.get("start_weight")  # Skal være numerisk
         goal_weight  = user_info.get("goal_weight")
         goal_type    = user_info.get("goal_type", "stay at current weight")
     else:
@@ -653,31 +653,30 @@ def weight_progress():
 
     default_text = "No data yet"
 
-    # Beregn den rå ændring (positivt tal) ud fra måltypen
+    # Beregn vægtændring (det, der skal vises i det midterste kort)
     if start_weight is not None and current_weight is not None:
         if goal_type.lower() == "lose weight":
-            raw_change = start_weight - current_weight  # fx 91.0 - 90.2 = 0.8
+            weight_change = round(start_weight - current_weight, 1)
         elif goal_type.lower() == "gain weight":
-            raw_change = current_weight - start_weight
+            weight_change = round(current_weight - start_weight, 1)
         elif goal_type.lower() == "stay at current weight":
-            raw_change = 0
+            weight_change = 0
         else:
-            raw_change = None
+            weight_change = None
     else:
-        raw_change = None
+        weight_change = None
 
-    # Formater weight change med fortegn:
-    if raw_change is not None:
+    if weight_change is not None:
         if goal_type.lower() == "lose weight":
-            weight_change_display = "-" + str(round(raw_change, 1))
+            weight_change_display = "-" + str(weight_change)
         elif goal_type.lower() == "gain weight":
-            weight_change_display = "+" + str(round(raw_change, 1))
+            weight_change_display = "+" + str(weight_change)
         else:
-            weight_change_display = str(round(raw_change, 1))
+            weight_change_display = str(weight_change)
     else:
         weight_change_display = default_text
 
-    # Vælg et passende label for det midterste kort
+    # Vælg et passende label afhængig af måltypen
     if goal_type.lower() == "lose weight":
         weight_change_label = "Weight Lost"
     elif goal_type.lower() == "gain weight":
@@ -687,7 +686,7 @@ def weight_progress():
     else:
         weight_change_label = "Weight Change"
 
-    # Beregn gennemsnitlig ændring per uge (avg change per week)
+    # Beregn gennemsnitlig ændring per uge baseret på hele perioden
     if checkin_data and len(checkin_data) > 1 and start_weight is not None:
         first_entry = checkin_data[0]
         last_entry  = checkin_data[-1]
@@ -696,25 +695,24 @@ def weight_progress():
             last_date  = datetime.strptime(last_entry["created_at"], "%Y-%m-%d")
         except Exception:
             first_date = last_date = datetime.now()
+
         diff_days = (last_date - first_date).days
-        # Hvis perioden er under 7 dage, vis "Not enough data" (du kan evt. vælge at vise weight change i stedet)
-        if diff_days < 7:
-            avg_change_per_week = None
+        # Hvis perioden er mindre end 7 dage, brug 1 uge
+        weeks = diff_days / 7 if diff_days >= 7 else 1
+
+        if goal_type.lower() == "lose weight":
+            total_change = start_weight - last_entry["weight"]
+        elif goal_type.lower() == "gain weight":
+            total_change = last_entry["weight"] - start_weight
+        elif goal_type.lower() == "stay at current weight":
+            total_change = 0
         else:
-            weeks = diff_days / 7
-            if goal_type.lower() == "lose weight":
-                total_change = start_weight - last_entry["weight"]
-            elif goal_type.lower() == "gain weight":
-                total_change = last_entry["weight"] - start_weight
-            elif goal_type.lower() == "stay at current weight":
-                total_change = 0
-            else:
-                total_change = 0
-            avg_change_per_week = round(total_change / weeks, 1)
+            total_change = 0
+
+        avg_change_per_week = round(total_change / weeks, 1)
     else:
         avg_change_per_week = None
 
-    # Formater avg change med fortegn
     if avg_change_per_week is not None:
         if goal_type.lower() == "lose weight":
             avg_change_display = "-" + str(avg_change_per_week)
@@ -723,9 +721,9 @@ def weight_progress():
         else:
             avg_change_display = str(avg_change_per_week)
     else:
-        avg_change_display = "Not enough data"
+        avg_change_display = default_text
 
-    # Beregn progress procent – hvor stor en del af målet er opnået
+    # Beregn progress procent – hvor stor en del af målet der er opnået
     if start_weight is not None and goal_weight is not None and current_weight is not None:
         if goal_type.lower() == "lose weight":
             progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
