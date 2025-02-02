@@ -70,55 +70,59 @@
 <!-- Inkluder Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Brug backend-dataene: 'checkin_data' sendes fra din route via render_template
-    let checkinData = {{ checkin_data | tojson }};
+    document.addEventListener("DOMContentLoaded", function() {
+        // Brug backend-dataene: 'checkin_data' sendes fra din route via render_template
+        let checkinData = {{ checkin_data | tojson | safe }};
 
-    // Udtræk de seneste 6 check-ins.
-    let recentData = checkinData.slice(-6);
+        // Udtræk de seneste 6 check-ins og vend rækkefølgen, så de nyeste vises først
+        let recentData = checkinData.slice(-6).reverse();
 
-    function renderCheckinCards() {
-        let container = document.getElementById("checkin-cards");
-        container.innerHTML = "";
-        recentData.forEach(entry => {
-            let card = `<div class="col-md-4">
-                <div class="card p-3 mb-3 shadow-sm">
-                    <h5>${entry.created_at}</h5>
-                    <p><strong>Weight:</strong> ${entry.weight} kg</p>
-                    <p><strong>Energy:</strong> ${entry.energy}/10</p>
-                    <p><strong>Sleep:</strong> ${entry.sleep} hours</p>
-                </div>
-            </div>`;
-            container.innerHTML += card;
-        });
-    }
+        // Render Recent Check-ins
+        function renderCheckinCards() {
+            let container = document.getElementById("checkin-cards");
+            container.innerHTML = "";
+            recentData.forEach(entry => {
+                let card = `<div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow-sm">
+                        <h5>${entry.created_at}</h5>
+                        <p><strong>Weight:</strong> ${entry.weight} kg</p>
+                        <p><strong>Energy:</strong> ${entry.energy}/10</p>
+                        <p><strong>Sleep:</strong> ${entry.sleep} hours</p>
+                    </div>
+                </div>`;
+                container.innerHTML += card;
+            });
+        }
 
-    function updateChart() {
-        let dates = recentData.map(d => d.created_at);
-        let energyLevels = recentData.map(d => d.energy);
-        let sleepHours = recentData.map(d => d.sleep);
+        // Update Chart using recentData so the latest check-in is first in the graph
+        function updateChart() {
+            let dates = recentData.map(d => d.created_at);
+            let energyLevels = recentData.map(d => d.energy);
+            let sleepHours = recentData.map(d => d.sleep);
 
-        new Chart(document.getElementById('energySleepChart'), {
-            type: 'bar',
-            data: {
-                labels: dates,
-                datasets: [
-                    {
-                        label: 'Energy Level',
-                        data: energyLevels,
-                        backgroundColor: '#ffca28'
-                    },
-                    {
-                        label: 'Sleep (hrs)',
-                        data: sleepHours,
-                        backgroundColor: '#007bff'
-                    }
-                ]
-            }
-        });
-    }
+            new Chart(document.getElementById('energySleepChart'), {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Energy Level',
+                            data: energyLevels,
+                            backgroundColor: '#ffca28'
+                        },
+                        {
+                            label: 'Sleep (hrs)',
+                            data: sleepHours,
+                            backgroundColor: '#007bff'
+                        }
+                    ]
+                }
+            });
+        }
 
-    // Når siden er indlæst, rendr kortene og diagrammet
-    renderCheckinCards();
-    updateChart();
+        // Når siden er indlæst, rendr kortene og diagrammet
+        renderCheckinCards();
+        updateChart();
+    });
 </script>
 {% endblock %}
