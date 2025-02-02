@@ -7,7 +7,7 @@
     <div class="mt-4">
         <h2 class="mb-2 fw-bold">Optimize your weekly calorie intake, {{ user_name | title }}! 🔥</h2>
         <p class="text-muted">
-            Nutrition statistics for this week ({{ start_of_week }} to {{ end_of_week }})
+            Nutrition statistics for this week (starting {{ start_of_week }})
         </p>
     </div>
 
@@ -116,8 +116,8 @@
 </div>
 
 <script>
-    // For grafen "Caloric Intake - Current Week"
-    const days = {{ daily_data | tojson | safe }}.map(d => d.weekday); // Brug weekday i stedet for dato
+    // Udtræk ugedage og kalorier fra daily_data (brug weekday)
+    const days = {{ daily_data | tojson | safe }}.map(d => d.weekday);
     const calories = {{ daily_data | tojson | safe }}.map(d => d.total_calories);
 
     const calorieCtx = document.getElementById('calorieChart').getContext('2d');
@@ -133,7 +133,6 @@
         }
     });
 
-    // Goal Chart: viser den faktiske indtagelse og den daglige kalorie-mål som en konstant linje
     const goalCtx = document.getElementById('goalChart').getContext('2d');
     new Chart(goalCtx, {
         type: 'line',
