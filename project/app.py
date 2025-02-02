@@ -621,10 +621,6 @@ def checkin():
 
 
 
-
-
-
-
 @app.route("/weight")
 @login_required
 def weight_progress():
@@ -639,9 +635,9 @@ def weight_progress():
     # Hent brugerens oplysninger, inklusiv navn, start_weight, goal_weight og goal_type
     user = db.execute("SELECT name, start_weight, goal_weight, goal_type FROM users WHERE id = ?", user_id)
     if user:
-        user_info = user[0]
+        user_info   = user[0]
         user_name   = user_info["name"]
-        start_weight = user_info.get("start_weight")  # Skal være numerisk
+        start_weight = user_info.get("start_weight")  # Forventet numerisk værdi
         goal_weight  = user_info.get("goal_weight")
         goal_type    = user_info.get("goal_type", "stay at current weight")
     else:
@@ -709,13 +705,21 @@ def weight_progress():
     else:
         avg_change_per_week = None
 
+    # Beregn et passende label for gennemsnitlig ændring per uge
+    if goal_type.lower() == "lose weight":
+        avg_change_label = "Avg. Loss per Week"
+    elif goal_type.lower() == "gain weight":
+        avg_change_label = "Avg. Gain per Week"
+    elif goal_type.lower() == "stay at current weight":
+        avg_change_label = "Avg. Change per Week"
+    else:
+        avg_change_label = "Avg. Change per Week"
+
     # Beregn progress procent – hvor stor en del af det ønskede mål der er opnået
     if start_weight is not None and goal_weight is not None and current_weight is not None:
         if goal_type.lower() == "lose weight":
-            # Hvis fx start = 100, goal = 80, og current = 90, så er 100-90 = 10 tabt ud af 20 kg ønsket
             progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
         elif goal_type.lower() == "gain weight":
-            # Hvis fx start = 60, goal = 70, og current = 65, så er 65-60 = 5 taget på ud af 10 kg ønsket
             progress = ((current_weight - start_weight) / (goal_weight - start_weight)) * 100
         elif goal_type.lower() == "stay at current weight":
             progress = 0
@@ -752,10 +756,12 @@ def weight_progress():
         weight_lost=weight_change if weight_change is not None else default_text,
         weight_change_label=weight_change_label,
         avg_loss_per_week=avg_change_per_week if avg_change_per_week is not None else default_text,
-        progress=progress if progress is not None else 0,  # 0 kan bruges som standard for progress-baren
+        avg_change_label=avg_change_label,
+        progress=progress if progress is not None else 0,  # Standard for progress-baren
         weight_log=weight_log,
         graph_data=graph_data
     )
+
 
 @app.route("/calories")
 @login_required

@@ -80,7 +80,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Brug graph_data fra backend med | tojson | safe for at undgå editor-fejl
+        // Brug graph_data fra backend med tojson og safe for at undgå editorfejl
         let graphData = {{ graph_data | tojson | safe }};
         // Udtræk datoer og vægte fra graphData
         let dates = graphData.map(d => d.created_at);
