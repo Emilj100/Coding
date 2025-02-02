@@ -62,7 +62,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for entry in weight_log %}
+                    {# Brug filteret "reverse" for at vise de nyeste check-ins først #}
+                    {% for entry in weight_log | reverse %}
                     <tr>
                         <td>{{ entry.date }}</td>
                         <td>{{ entry.weight }}</td>
@@ -86,6 +87,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let graphData = {{ graph_data | tojson | safe }};
+        // Bemærk: Vi ændrer ikke rækkefølgen af graphData, så grafen forbliver som den er.
         let dates = graphData.map(d => d.created_at);
         let weights = graphData.map(d => d.weight);
 
@@ -114,4 +116,6 @@
     });
 </script>
 {% endblock %}
+
+
 
