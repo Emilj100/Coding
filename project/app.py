@@ -795,17 +795,16 @@ def calories():
         user_name = "User"
         calorie_goal = 0
 
-    # Beregn start og slut for den aktuelle uge.
-    # Eksempelvis: brug Python til at finde mandag og søndag for ugen
+    # Beregn start og slut for den aktuelle uge – men kun med data fra hele dage (dage før i dag)
     from datetime import datetime, timedelta
     today = datetime.today()
-    # Antag, at ugen starter mandag (weekday() = 0 for mandag)
     start_of_week = today - timedelta(days=today.weekday())
-    end_of_week = start_of_week + timedelta(days=6)
+    # Vi bruger i dag som ikke medtages, så slutdato er dagen før i dag, hvis i dag er en del af ugen.
+    end_of_week = today - timedelta(days=1)
     start_str = start_of_week.strftime("%Y-%m-%d")
     end_str = end_of_week.strftime("%Y-%m-%d")
 
-    # Hent aggregerede data for den aktuelle uge
+    # Hent aggregerede data for den aktuelle uge – men udeluk i dag (kun hele dage)
     daily_data = db.execute(
         """
         SELECT DATE(created_at) AS day,
@@ -814,14 +813,23 @@ def calories():
                SUM(carbohydrates) AS total_carbohydrates,
                SUM(fats) AS total_fats
         FROM food_log
-        WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ?
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND ?
         GROUP BY day
         ORDER BY day ASC
         """,
         user_id, start_str, end_str
     )
 
-    # Udregn nøgletal
+    # Konverter hver 'day' til ugedagsnavn og tilføj et nyt felt "weekday"
+    for row in daily_data:
+        try:
+            dt = datetime.strptime(row["day"], "%Y-%m-%d")
+            row["weekday"] = dt.strftime("%A")
+        except Exception:
+            row["weekday"] = row["day"]
+
+    # Udregn nøgletal baseret på de hele dage (dvs. udelukker i dag)
     if daily_data:
         total_calories_week = sum([row["total_calories"] for row in daily_data])
         average_daily_intake = round(total_calories_week / len(daily_data), 1)
@@ -831,26 +839,28 @@ def calories():
         average_daily_intake = "No data yet"
         avg_protein_intake = "No data yet"
 
-    # Beregn Planned vs. Actual for i dag (hvis data findes)
+    # For Planned vs. Actual: Her kan du vælge at bruge kun i gårs data eller data for i dag –
+    # men hvis du vil vente med at bruge i dag, så udeluk i dag.
     today_data = db.execute(
         "SELECT SUM(calories) AS today_calories FROM food_log WHERE user_id = ? AND DATE(created_at) = DATE('now')",
         user_id
     )
     today_calories = today_data[0]["today_calories"] if today_data and today_data[0]["today_calories"] is not None else 0
+    # Hvis der ikke er data for i dag, kan vi sætte planned_vs_actual = calorie_goal (eller 0) – her antages, at vi udelukker i dag.
     planned_vs_actual = calorie_goal - today_calories
 
-    # Beregn Best & Worst Day for ugen
+    # Best & Worst Day ud fra total_calories for de dage, der er med (brug weekday i stedet for day)
     best_day = min(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
     worst_day = max(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
 
     return render_template(
-        "calories.html",
+        "calorieinsights.html",
         user_name=user_name,
         average_daily_intake=average_daily_intake,
         planned_vs_actual=planned_vs_actual,
         calorie_goal=calorie_goal,
         avg_protein_intake=avg_protein_intake,
-        daily_data=daily_data,
+        daily_data=daily_data,         # Hver række indeholder nu 'day' og 'weekday'
         best_day=best_day,
         worst_day=worst_day,
         start_of_week=start_str,
