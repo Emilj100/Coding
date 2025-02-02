@@ -4,32 +4,53 @@
 
 {% block main %}
 <div class="container mt-4">
-    <div class="container mt-4">
-        <h2 class="mb-2 fw-bold">Optimize your weekly calorie intake, Emil! 🔥</h2>
-        <p class="text-muted">Statistics for this week's nutrition</p>
+    <div class="mt-4">
+        <h2 class="mb-2 fw-bold">Optimize your weekly calorie intake, {{ user_name | title }}! 🔥</h2>
+        <p class="text-muted">Nutrition statistics for the week ({{ start_of_week }} - {{ end_of_week }})</p>
     </div>
 
     <!-- Overview Cards -->
     <div class="row">
+        <!-- Average Daily Intake -->
         <div class="col-md-4">
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-fire fs-2 text-danger"></i>
                 <h5 class="mt-3">Average Daily Intake</h5>
-                <h3 class="fw-bold">2300 kcal</h3>
+                <h3 class="fw-bold">
+                    {% if average_daily_intake == "No data yet" %}
+                        {{ average_daily_intake }}
+                    {% else %}
+                        {{ average_daily_intake }} kcal
+                    {% endif %}
+                </h3>
             </div>
         </div>
+        <!-- Planned vs. Actual -->
         <div class="col-md-4">
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-clipboard-check fs-2 text-success"></i>
                 <h5 class="mt-3">Planned vs. Actual</h5>
-                <h3 class="fw-bold">-200 kcal deficit</h3>
+                <h3 class="fw-bold">
+                    {% if planned_vs_actual < 0 %}
+                        {{ planned_vs_actual }} kcal deficit
+                    {% else %}
+                        +{{ planned_vs_actual }} kcal surplus
+                    {% endif %}
+                </h3>
             </div>
         </div>
+        <!-- Average Protein Intake -->
         <div class="col-md-4">
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-basket fs-2 text-primary"></i>
                 <h5 class="mt-3">Avg. Protein Intake</h5>
-                <h3 class="fw-bold">150g/day</h3>
+                <h3 class="fw-bold">
+                    {% if avg_protein_intake == "No data yet" %}
+                        {{ avg_protein_intake }}
+                    {% else %}
+                        {{ avg_protein_intake }} g/day
+                    {% endif %}
+                </h3>
             </div>
         </div>
     </div>
@@ -41,15 +62,15 @@
             <div class="col-md-6">
                 <div class="p-3 border rounded shadow-sm">
                     <h6 class="fw-bold text-success">Best Day</h6>
-                    <p class="mb-0">Friday</p>
-                    <h4 class="fw-bold">2100 kcal</h4>
+                    <p class="mb-0">{{ best_day.day if best_day else 'N/A' }}</p>
+                    <h4 class="fw-bold">{{ best_day.total_calories if best_day else 'N/A' }} kcal</h4>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="p-3 border rounded shadow-sm">
                     <h6 class="fw-bold text-danger">Worst Day</h6>
-                    <p class="mb-0">Sunday</p>
-                    <h4 class="fw-bold">2600 kcal</h4>
+                    <p class="mb-0">{{ worst_day.day if worst_day else 'N/A' }}</p>
+                    <h4 class="fw-bold">{{ worst_day.total_calories if worst_day else 'N/A' }} kcal</h4>
                 </div>
             </div>
         </div>
@@ -58,7 +79,7 @@
     <!-- Graphs -->
     <div class="row mt-5">
         <div class="col-md-6">
-            <h5 class="fw-bold">Caloric Intake - Last 7 Days</h5>
+            <h5 class="fw-bold">Caloric Intake - Current Week</h5>
             <canvas id="calorieChart"></canvas>
         </div>
         <div class="col-md-6">
@@ -69,36 +90,39 @@
 </div>
 
 <script>
-    // Caloric Intake Bar Chart
+    // For grafen "Caloric Intake - Current Week"
+    const days = {{ daily_data | tojson | safe }}.map(d => d.day);
+    const calories = {{ daily_data | tojson | safe }}.map(d => d.total_calories);
+
     const calorieCtx = document.getElementById('calorieChart').getContext('2d');
     new Chart(calorieCtx, {
         type: 'bar',
         data: {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            labels: days,
             datasets: [{
                 label: 'Calories (kcal)',
-                data: [2500, 2400, 2300, 2250, 2200, 2150, 2100],
+                data: calories,
                 backgroundColor: '#007bff'
             }]
         }
     });
 
-    // Goal Line Chart
+    // Goal Chart: viser den faktiske indtagelse og den daglige målvægt som en konstant linje
     const goalCtx = document.getElementById('goalChart').getContext('2d');
     new Chart(goalCtx, {
         type: 'line',
         data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+            labels: days,
             datasets: [{
                 label: 'Actual Intake',
-                data: [2500, 2400, 2300, 2250, 2200, 2150, 2100],
+                data: calories,
                 borderColor: '#007bff',
                 backgroundColor: 'rgba(0, 123, 255, 0.2)',
                 fill: true,
                 tension: 0.3
             }, {
                 label: 'Calorie Goal',
-                data: [2400, 2400, 2400, 2400, 2400, 2400, 2400],
+                data: days.map(() => {{ calorie_goal | round(0) }}),
                 borderColor: '#ff6384',
                 borderDash: [5, 5],
                 tension: 0.3

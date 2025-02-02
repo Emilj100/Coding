@@ -608,7 +608,8 @@ def checkin():
             avg_energy = round(total_energy / count, 1)
             avg_sleep  = round(total_sleep / count, 1)
         else:
-            avg_weight = avg_energy = avg_sleep = 0
+            avg_weight = avg_energy = avg_sleep = "No data yet"
+
 
         return render_template(
             "checkin.html",
@@ -660,19 +661,22 @@ def weight_progress():
         elif goal_type.lower() == "gain weight":
             weight_change = round(current_weight - start_weight, 1)
         elif goal_type.lower() == "stay at current weight":
-            weight_change = 0
+            # Her beregner vi den faktiske afvigelse fra startvægten, som kan være både positiv eller negativ.
+            weight_change = round(current_weight - start_weight, 1)
         else:
             weight_change = None
     else:
         weight_change = None
 
     if weight_change is not None:
-        if goal_type.lower() == "lose weight":
-            weight_change_display = "-" + str(weight_change)
-        elif goal_type.lower() == "gain weight":
-            weight_change_display = "+" + str(weight_change)
+        if weight_change > 0:
+            # Hvis stigning (eller tab i tilfælde af lose, som burde være positivt)
+            sign = "-" if goal_type.lower() == "lose weight" else "+"
+            weight_change_display = sign + str(abs(weight_change))
         else:
-            weight_change_display = str(weight_change)
+            # Hvis der er et fald (eller negativ ændring ved gain)
+            sign = "-" if goal_type.lower() == "lose weight" else "+"
+            weight_change_display = sign + str(abs(weight_change))
     else:
         weight_change_display = default_text
 
@@ -687,7 +691,7 @@ def weight_progress():
         weight_change_label = "Weight Change"
 
     # Beregn gennemsnitlig ændring per uge baseret på hele perioden
-    if checkin_data and len(checkin_data) > 1 and start_weight is not None:
+    if checkin_data and start_weight is not None:
         first_entry = checkin_data[0]
         last_entry  = checkin_data[-1]
         try:
@@ -697,7 +701,7 @@ def weight_progress():
             first_date = last_date = datetime.now()
 
         diff_days = (last_date - first_date).days
-        # Hvis perioden er mindre end 7 dage, brug 1 uge
+        # Hvis perioden er mindre end 7 dage, antages det at dataene dækker 1 uge
         weeks = diff_days / 7 if diff_days >= 7 else 1
 
         if goal_type.lower() == "lose weight":
@@ -705,7 +709,7 @@ def weight_progress():
         elif goal_type.lower() == "gain weight":
             total_change = last_entry["weight"] - start_weight
         elif goal_type.lower() == "stay at current weight":
-            total_change = 0
+            total_change = last_entry["weight"] - start_weight
         else:
             total_change = 0
 
@@ -714,14 +718,16 @@ def weight_progress():
         avg_change_per_week = None
 
     if avg_change_per_week is not None:
-        if goal_type.lower() == "lose weight":
-            avg_change_display = "-" + str(avg_change_per_week)
-        elif goal_type.lower() == "gain weight":
-            avg_change_display = "+" + str(avg_change_per_week)
+        if avg_change_per_week > 0:
+            sign = "-" if goal_type.lower() == "lose weight" else "+"
+            avg_change_display = sign + str(abs(avg_change_per_week))
         else:
-            avg_change_display = str(avg_change_per_week)
+            sign = "-" if goal_type.lower() == "lose weight" else "+"
+            avg_change_display = sign + str(abs(avg_change_per_week))
     else:
         avg_change_display = default_text
+
+
 
     # Beregn progress procent – hvor stor en del af målet der er opnået
     if start_weight is not None and goal_weight is not None and current_weight is not None:
@@ -744,7 +750,11 @@ def weight_progress():
             change = "-"  # Ingen tidligere check-in
         else:
             prev_weight = checkin_data[i-1]["weight"]
-            change = round(entry["weight"] - prev_weight, 1)
+            diff = round(entry["weight"] - prev_weight, 1)
+            if diff > 0:
+                change = f"+{diff}"
+            else:
+                change = f"{diff}"
         weight_log.append({
             "date": entry["created_at"],
             "weight": entry["weight"],
@@ -771,11 +781,83 @@ def weight_progress():
         goal_weight=goal_weight if goal_weight is not None else default_text
     )
 
-@app.route("/calories")
+@app.route("/calories", methods=["GET"])
 @login_required
 def calories():
+    user_id = session.get("user_id")
 
-    return render_template("calories.html")
+    # Hent brugerens daglige kaloriemål og navn
+    user_data = db.execute("SELECT name, daily_calorie_goal FROM users WHERE id = ?", user_id)
+    if user_data:
+        user_name = user_data[0]["name"]
+        calorie_goal = user_data[0]["daily_calorie_goal"]
+    else:
+        user_name = "User"
+        calorie_goal = 0
+
+    # Beregn start og slut for den aktuelle uge.
+    # Eksempelvis: brug Python til at finde mandag og søndag for ugen
+    from datetime import datetime, timedelta
+    today = datetime.today()
+    # Antag, at ugen starter mandag (weekday() = 0 for mandag)
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+    start_str = start_of_week.strftime("%Y-%m-%d")
+    end_str = end_of_week.strftime("%Y-%m-%d")
+
+    # Hent aggregerede data for den aktuelle uge
+    daily_data = db.execute(
+        """
+        SELECT DATE(created_at) AS day,
+               SUM(calories) AS total_calories,
+               SUM(proteins) AS total_proteins,
+               SUM(carbohydrates) AS total_carbohydrates,
+               SUM(fats) AS total_fats
+        FROM food_log
+        WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ?
+        GROUP BY day
+        ORDER BY day ASC
+        """,
+        user_id, start_str, end_str
+    )
+
+    # Udregn nøgletal
+    if daily_data:
+        total_calories_week = sum([row["total_calories"] for row in daily_data])
+        average_daily_intake = round(total_calories_week / len(daily_data), 1)
+        total_proteins_week = sum([row["total_proteins"] for row in daily_data])
+        avg_protein_intake = round(total_proteins_week / len(daily_data), 1)
+    else:
+        average_daily_intake = "No data yet"
+        avg_protein_intake = "No data yet"
+
+    # Beregn Planned vs. Actual for i dag (hvis data findes)
+    today_data = db.execute(
+        "SELECT SUM(calories) AS today_calories FROM food_log WHERE user_id = ? AND DATE(created_at) = DATE('now')",
+        user_id
+    )
+    today_calories = today_data[0]["today_calories"] if today_data and today_data[0]["today_calories"] is not None else 0
+    planned_vs_actual = calorie_goal - today_calories
+
+    # Beregn Best & Worst Day for ugen
+    best_day = min(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
+    worst_day = max(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
+
+    return render_template(
+        "calories.html",
+        user_name=user_name,
+        average_daily_intake=average_daily_intake,
+        planned_vs_actual=planned_vs_actual,
+        calorie_goal=calorie_goal,
+        avg_protein_intake=avg_protein_intake,
+        daily_data=daily_data,
+        best_day=best_day,
+        worst_day=worst_day,
+        start_of_week=start_str,
+        end_of_week=end_str
+    )
+
+
 
 @app.route("/training")
 @login_required

@@ -13,7 +13,13 @@
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-person-fill fs-2 text-primary"></i>
                 <h6 class="fw-bold mt-2">Current Weight</h6>
-                <h3 class="fw-bold">{{ current_weight }} kg</h3>
+                <h3 class="fw-bold">
+                    {% if current_weight == "No data yet" %}
+                        {{ current_weight }}
+                    {% else %}
+                        {{ current_weight }} kg
+                    {% endif %}
+                </h3>
             </div>
         </div>
         <!-- Weight Change Card -->
@@ -21,7 +27,13 @@
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-graph-down fs-2 text-danger"></i>
                 <h6 class="fw-bold mt-2">{{ weight_change_label }}</h6>
-                <h3 class="fw-bold">{{ weight_lost }} kg</h3>
+                <h3 class="fw-bold">
+                    {% if weight_lost == "No data yet" %}
+                        {{ weight_lost }}
+                    {% else %}
+                        {{ weight_lost }} kg
+                    {% endif %}
+                </h3>
             </div>
         </div>
         <!-- Average Change per Week Card -->
@@ -29,7 +41,13 @@
             <div class="card text-center p-4 shadow-sm">
                 <i class="bi bi-clock-history fs-2 text-success"></i>
                 <h6 class="fw-bold mt-2">Avg. Change per Week</h6>
-                <h3 class="fw-bold">{{ avg_loss_per_week }} kg</h3>
+                <h3 class="fw-bold">
+                    {% if avg_loss_per_week == "No data yet" or avg_loss_per_week == "Not enough data" %}
+                        {{ avg_loss_per_week }}
+                    {% else %}
+                        {{ avg_loss_per_week }} kg
+                    {% endif %}
+                </h3>
             </div>
         </div>
     </div>
@@ -62,12 +80,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {# Brug filteret "reverse" for at vise de nyeste check-ins først #}
                     {% for entry in weight_log | reverse %}
                     <tr>
                         <td>{{ entry.date }}</td>
-                        <td>{{ entry.weight }}</td>
-                        <td>{{ entry.change }}</td>
+                        <td>{{ entry.weight }} kg</td>
+                        <td>{{ entry.change }}{% if entry.change != "-" %} kg{% endif %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -87,7 +104,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let graphData = {{ graph_data | tojson | safe }};
-        // Bemærk: Vi ændrer ikke rækkefølgen af graphData, så grafen forbliver som den er.
         let dates = graphData.map(d => d.created_at);
         let weights = graphData.map(d => d.weight);
 
@@ -116,6 +132,3 @@
     });
 </script>
 {% endblock %}
-
-
-
