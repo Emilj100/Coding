@@ -83,7 +83,7 @@
                 {% if training_history %}
                     {% for log in training_history %}
                     <tr>
-                        <td>{{ log.date }}</td>
+                        <td>{{ log.created_at }}</td>
                         <td>{{ log.day_name }}</td>
                         <td>{{ log.exercise_name }}</td>
                         <td>{{ log.sets }}</td>
