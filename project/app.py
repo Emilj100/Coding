@@ -997,12 +997,77 @@ def training():
     )
 
 
-
-@app.route("/settings")
+@app.route("/settings", methods=["GET", "POST"])
 @login_required
 def settings():
+    user_id = session.get("user_id")
 
-    return render_template("settings.html")
+    if request.method == "POST":
+        # Validate age
+        try:
+            age = int(request.form.get("age"))
+        except ValueError:
+            return render_template("settings.html", error="Please enter a valid number for age.")
+
+        # Validate gender
+        if request.form.get("gender") not in ["Male", "Female"]:
+            return render_template("settings.html", error="Please select a valid gender")
+
+        # Validate height, weight and goal weight
+        try:
+            height = float(request.form.get("height"))
+            weight = float(request.form.get("weight"))
+            goal_weight = float(request.form.get("goal_weight"))
+        except ValueError:
+            return render_template("settings.html", error="Height, weight, and goal weight must be numbers")
+
+        # Validate goal type
+        if request.form.get("goal_type") not in ["lose weight", "gain weight", "stay at current weight"]:
+            return render_template("settings.html", error="Please select a valid goal")
+
+        # Validate experience level
+        if request.form.get("experience_level") not in ["Beginner", "Intermediate", "Advanced"]:
+            return render_template("settings.html", error="Please select a valid experience level")
+
+        # Validate training days
+        try:
+            training_days = int(request.form.get("training_days"))
+            if not (1 <= training_days <= 7):
+                return render_template("settings.html", error="Training days must be between 1 and 7.")
+        except ValueError:
+            return render_template("settings.html", error="Training days must be a number")
+
+        # Opdater brugerens data i databasen
+        db.execute(
+            """
+            UPDATE users
+            SET age = ?,
+                gender = ?,
+                height = ?,
+                weight = ?,
+                goal_weight = ?,
+                goal_type = ?,
+                experience_level = ?,
+                training_days = ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+            """,
+            age,
+            request.form.get("gender"),
+            height,
+            weight,
+            goal_weight,
+            request.form.get("goal_type"),
+            request.form.get("experience_level"),
+            training_days,
+            user_id
+        )
+        return redirect("/settings")
+
+    # GET-request: Hent brugerens nuværende data for at præudfylde formularen
+    user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
+    user = user_data[0] if user_data else {}
+    return render_template("settings.html", user=user, error="")
 
 
 
