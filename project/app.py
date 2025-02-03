@@ -411,13 +411,14 @@ def traininglog():
         # Hent træningshistorik fra `TrainingLogs`, kun de sidste 7 dage
         training_history = db.execute(
             """
-            SELECT created_at, day_name, exercise_name, sets, reps, weight
+            SELECT DATE(created_at) AS created_at, day_name, exercise_name, sets, reps, weight
             FROM TrainingLogs
             WHERE user_id = ? AND DATE(created_at) >= DATE('now', '-7 days')
             ORDER BY DATE(created_at) DESC, id DESC
             """,
             user_id
         )
+
 
 
 
