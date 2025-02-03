@@ -876,18 +876,12 @@ def calories():
 def training():
     user_id = session.get("user_id")
 
-    # Beregn start og slut for "komplette" dage i den aktuelle uge.
-    # Vi antager, at ugen starter mandag.
+    # Beregn start og slut for den aktuelle uge (inkluder i dag)
     today = datetime.today()
-    # Hvis i dag er mandag, så brug sidste uge (da ingen fuldførte dage er i gang)
-    if today.weekday() == 0:
-        start_of_week = today - timedelta(days=7)
-    else:
-        start_of_week = today - timedelta(days=today.weekday())
-    # Slutdato: dagen før i dag (fuldførte dage)
-    end_of_week = today - timedelta(days=1)
+    start_of_week = today - timedelta(days=today.weekday())  # Mandag i denne uge
+    # Slutdato: i dag (fuld data, selvom dagen er i gang)
     start_str = start_of_week.strftime("%Y-%m-%d")
-    end_str   = end_of_week.strftime("%Y-%m-%d")
+    end_str   = datetime.now().strftime("%Y-%m-%d")  # Dagens dato (lokal tid)
 
     # Total sessions this week (antal rækker i TrainingLogs inden for perioden)
     sessions = db.execute(
@@ -895,9 +889,9 @@ def training():
         SELECT COUNT(*) AS session_count
         FROM TrainingLogs
         WHERE user_id = ?
-          AND DATE(created_at) BETWEEN ? AND ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
         """,
-        user_id, start_str, end_str
+        user_id, start_str
     )
     total_sessions = sessions[0]["session_count"] if sessions else 0
 
@@ -907,14 +901,13 @@ def training():
         SELECT SUM(sets) AS total_sets
         FROM TrainingLogs
         WHERE user_id = ?
-          AND DATE(created_at) BETWEEN ? AND ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
         """,
-        user_id, start_str, end_str
+        user_id, start_str
     )
     total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
 
-    # Average weight increase:
-    # Beregn gennemsnitlig vægt for hver øvelse i den aktuelle uge og sammenlign med forrige uge.
+    # Average weight increase: Beregn for hver øvelse i den aktuelle uge og sammenlign med forrige uge.
     # Forrige uge: fra (start_of_week - 7 dage) til (start_of_week - 1 dag)
     last_week_start = start_of_week - timedelta(days=7)
     last_week_end = start_of_week - timedelta(days=1)
@@ -926,10 +919,10 @@ def training():
         SELECT exercise_name, AVG(weight) AS avg_weight
         FROM TrainingLogs
         WHERE user_id = ?
-          AND DATE(created_at) BETWEEN ? AND ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
         GROUP BY exercise_name
         """,
-        user_id, start_str, end_str
+        user_id, start_str
     )
     last_weights = db.execute(
         """
@@ -950,20 +943,19 @@ def training():
     avg_weight_increase = round(sum(diffs) / len(diffs), 1) if diffs else 0
 
     # Volume per muscle group for den aktuelle uge:
-    # Vi joiner TrainingLogs med program_exercises (baseret på exercise_name og day_id) og summerer (weight * sets)
     volume_data = db.execute(
         """
         SELECT pe.muscle, SUM(tl.weight * tl.sets) AS total_volume
         FROM TrainingLogs tl
         JOIN program_exercises pe ON tl.exercise_name = pe.exercise_name AND tl.day_id = pe.day_id
         WHERE tl.user_id = ?
-          AND DATE(tl.created_at) BETWEEN ? AND ?
+          AND DATE(tl.created_at) BETWEEN ? AND DATE('now', 'localtime')
         GROUP BY pe.muscle
         """,
-        user_id, start_str, end_str
+        user_id, start_str
     )
 
-    # Training Frequency (sessioner per uge) for de sidste 4 uger:
+    # Training Frequency: Sessions per week for de sidste 4 uger (baseret på created_at)
     freq_data = db.execute(
         """
         SELECT strftime('%Y-%W', created_at) AS week, COUNT(*) AS sessions
@@ -987,17 +979,17 @@ def training():
         user_id
     )
 
-    # Sessions Overview: Vis en liste over sessioner (fuldførte dage) i den aktuelle uge
+    # Sessions Overview: Liste over sessioner (alle loggede dage) i den aktuelle uge
     sessions_overview = db.execute(
         """
         SELECT DATE(created_at) AS session_date, day_name, COUNT(*) AS exercises_count
         FROM TrainingLogs
         WHERE user_id = ?
-          AND DATE(created_at) BETWEEN ? AND ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
         GROUP BY DATE(created_at), day_name
         ORDER BY DATE(created_at) DESC
         """,
-        user_id, start_str, end_str
+        user_id, start_str
     )
 
     return render_template(
