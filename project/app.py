@@ -425,10 +425,6 @@ def traininglog():
         return render_template("traininglog.html", program_data=program_data, training_history=training_history)
 
 
-
-
-from datetime import datetime
-
 @app.route("/trainingsession", methods=["GET", "POST"])
 @login_required
 def trainingsession():
