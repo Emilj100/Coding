@@ -427,6 +427,8 @@ def traininglog():
 
 
 
+from datetime import datetime
+
 @app.route("/trainingsession", methods=["GET", "POST"])
 @login_required
 def trainingsession():
@@ -436,14 +438,7 @@ def trainingsession():
     if not day_id:
         return redirect("/traininglog")  # Hvis ingen dag er valgt, send brugeren tilbage
 
-    # 🔹 Intern funktion til at hente træningsdata
     def get_training_data(user_id, day_id):
-        """
-        Henter træningsdata for en given træningsdag inkl. sidste vægt fra LastSession.
-        Returnerer en liste af øvelser og dagens info.
-        """
-
-        # Hent dagens navn
         day_info = db.execute(
             """
             SELECT day_number, day_name
@@ -452,8 +447,6 @@ def trainingsession():
             """,
             day_id
         )
-
-        # Hent øvelsesdata inkl. seneste vægt fra LastSession
         exercises = db.execute(
             """
             SELECT
@@ -471,36 +464,32 @@ def trainingsession():
             """,
             user_id, day_id
         )
-
         if not day_info:
-            return None, None  # Hvis dag_id ikke findes
-
-        return exercises, day_info[0]  # Returner listen af øvelser og dagens info
+            return None, None
+        return exercises, day_info[0]
 
     if request.method == "POST":
-        exercises, day_info = get_training_data(user_id, day_id)  # Hent træningsdata
-
+        exercises, day_info = get_training_data(user_id, day_id)
         if not exercises or not day_info:
-            return redirect("/traininglog")  # Hvis dagen ikke findes, redirect
+            return redirect("/traininglog")
+
+        # Generer ét tidsstempel for hele sessionen
+        session_ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         for exercise in exercises:
             exercise_name = exercise["exercise_name"]
             weight = request.form.get(exercise_name, type=float)
-
             if weight is None:
-                continue  # Spring over, hvis brugeren ikke har indtastet en vægt
-
-            # Indsæt træningen i `TrainingLogs`
+                continue
+            # Indsæt træningen i TrainingLogs med det fælles tidsstempel
             db.execute(
                 """
-                INSERT INTO TrainingLogs (user_id, day_id, day_name, exercise_name, sets, reps, weight)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO TrainingLogs (user_id, day_id, day_name, exercise_name, sets, reps, weight, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """,
-                user_id, day_id, day_info["day_name"], exercise_name, exercise["sets"], exercise["reps"], weight
+                user_id, day_id, day_info["day_name"], exercise_name, exercise["sets"], exercise["reps"], weight, session_ts
             )
-
-
-            # Opdater eller indsæt i `LastSession`
+            # Opdater eller indsæt i LastSession
             last_session_exists = db.execute(
                 """
                 SELECT last_weight FROM LastSession
@@ -508,7 +497,6 @@ def trainingsession():
                 """,
                 user_id, day_id, exercise_name
             )
-
             if last_session_exists:
                 db.execute(
                     """
@@ -526,21 +514,14 @@ def trainingsession():
                     """,
                     user_id, day_id, exercise_name, weight
                 )
-
-        session.pop("day_id", None)  # Ryd sessionen efter træningen er afsluttet
+        session.pop("day_id", None)
         return redirect("/traininglog")
 
     else:
-        exercises, day_info = get_training_data(user_id, day_id)  # Hent træningsdata
-
+        exercises, day_info = get_training_data(user_id, day_id)
         if not exercises or not day_info:
-            return redirect("/traininglog")  # Hvis dagen ikke findes, redirect
-
-        return render_template(
-            "training-session.html",
-            training_data=exercises,
-            day_info=day_info
-        )
+            return redirect("/traininglog")
+        return render_template("training-session.html", training_data=exercises, day_info=day_info)
 
 
 
