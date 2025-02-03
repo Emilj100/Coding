@@ -850,18 +850,23 @@ def calories():
         start_of_week=start_str
     )
 
+from datetime import datetime, timedelta
+from flask import render_template, session, redirect
+
 @app.route("/training", methods=["GET"])
 @login_required
 def training():
     user_id = session.get("user_id")
 
-    # Beregn start og slut for den aktuelle uge (inkluder dagens data)
+    # Beregn start på ugen (mandag) og slut på ugen (søndag)
     today = datetime.today()
-    # Ugen starter mandag (hvis i dag er mandag, så er det dagens data med)
-    start_of_week = today - timedelta(days=today.weekday())
+    start_of_week = today - timedelta(days=today.weekday())  # Mandag i denne uge
+    end_of_week = start_of_week + timedelta(days=6)            # Søndag i denne uge
     start_str = start_of_week.strftime("%Y-%m-%d")
-    end_str   = datetime.now().strftime("%Y-%m-%d")  # Inkluderer i dag
+    # Til overskrift vises hele ugen (mandag til søndag)
+    end_str = end_of_week.strftime("%Y-%m-%d")
 
+    # Forespørgslerne bruger dog data indtil nu (DATE('now', 'localtime'))
     # Total sessions this week: Tæl distinkte sessioner baseret på created_at
     sessions = db.execute(
         """
@@ -886,8 +891,7 @@ def training():
     )
     total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
 
-    # Average weight increase:
-    # Beregn gennemsnitsvægt pr. øvelse for den aktuelle uge og sammenlign med forrige uge
+    # Average weight increase: Beregn gennemsnitsvægt pr. øvelse for den aktuelle uge og sammenlign med forrige uge
     last_week_start = start_of_week - timedelta(days=7)
     last_week_end   = start_of_week - timedelta(days=1)
     last_start_str  = last_week_start.strftime("%Y-%m-%d")
@@ -922,7 +926,6 @@ def training():
     avg_weight_increase = round(sum(diffs) / len(diffs), 1) if diffs else 0
 
     # Volume per muscle group for den aktuelle uge:
-    # Vi joiner TrainingLogs med program_exercises baseret på exercise_name og day_id
     volume_data = db.execute(
         """
         SELECT pe.muscle, SUM(tl.weight * tl.sets) AS total_volume
@@ -959,7 +962,7 @@ def training():
         user_id
     )
 
-    # Sessions Overview: Hent en liste over sessioner (gruppe efter created_at og day_name)
+    # Sessions Overview: Gruppe sessioner efter created_at og day_name
     sessions_overview = db.execute(
         """
         SELECT DATE(created_at) AS session_date, day_name, COUNT(*) AS exercises_count
@@ -984,7 +987,6 @@ def training():
         start_of_week=start_str,
         end_of_week=end_str
     )
-
 
 
 @app.route("/settings")
