@@ -8,7 +8,7 @@ from functools import wraps
 import re
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Configure application
 app = Flask(__name__)
@@ -872,11 +872,142 @@ def calories():
 
 
 
-@app.route("/training")
+
+@app.route("/training", methods=["GET"])
 @login_required
 def training():
+    user_id = session.get("user_id")
 
-    return render_template("training.html")
+    # Bestem start på den aktuelle uge (mandag) og slut for de komplette dage (i går)
+    today = datetime.today()
+    start_of_week = today - timedelta(days=today.weekday())  # Mandag i denne uge
+    end_of_week = today - timedelta(days=1)  # I går (sidste fuldførte dag)
+    start_str = start_of_week.strftime("%Y-%m-%d")
+    end_str = end_of_week.strftime("%Y-%m-%d")
+
+    # Total sessions this week (antal rækker i TrainingLogs for komplette dage)
+    sessions = db.execute(
+        """
+        SELECT COUNT(*) AS session_count
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime', '-1 day')
+        """,
+        user_id, start_str
+    )
+    total_sessions = sessions[0]["session_count"] if sessions else 0
+
+    # Total sets this week (sum af 'sets' for alle TrainingLogs i perioden)
+    sets_data = db.execute(
+        """
+        SELECT SUM(sets) AS total_sets
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime', '-1 day')
+        """,
+        user_id, start_str
+    )
+    total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
+
+    # Average weight increase: Beregn for hver øvelse, der forekommer både i den aktuelle uge og forrige uge
+    # Beregn datoerne for forrige uge:
+    last_week_end = start_of_week - timedelta(days=1)
+    last_week_start = start_of_week - timedelta(days=7)
+    last_start_str = last_week_start.strftime("%Y-%m-%d")
+    last_end_str = last_week_end.strftime("%Y-%m-%d")
+
+    current_weights = db.execute(
+        """
+        SELECT exercise_name, AVG(weight) AS avg_weight
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime', '-1 day')
+        GROUP BY exercise_name
+        """,
+        user_id, start_str
+    )
+    last_weights = db.execute(
+        """
+        SELECT exercise_name, AVG(weight) AS avg_weight
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND ?
+        GROUP BY exercise_name
+        """,
+        user_id, last_start_str, last_end_str
+    )
+    # Sammenlign øvelser, der findes i begge uger, og beregn forskellen
+    diffs = []
+    for cw in current_weights:
+        for lw in last_weights:
+            if cw["exercise_name"] == lw["exercise_name"] and cw["avg_weight"] is not None and lw["avg_weight"] is not None:
+                diff = cw["avg_weight"] - lw["avg_weight"]
+                diffs.append(diff)
+    avg_weight_increase = round(sum(diffs) / len(diffs), 1) if diffs else 0
+
+    # Volume per muscle group for den aktuelle uge:
+    volume_data = db.execute(
+        """
+        SELECT pe.muscle, SUM(tl.weight * tl.sets) AS total_volume
+        FROM TrainingLogs tl
+        JOIN program_exercises pe ON tl.exercise_name = pe.exercise_name AND tl.day_id = pe.day_id
+        WHERE tl.user_id = ?
+          AND DATE(tl.created_at) BETWEEN ? AND DATE('now', 'localtime', '-1 day')
+        GROUP BY pe.muscle
+        """,
+        user_id, start_str
+    )
+
+    # Training Frequency: Sessions per week for de sidste 4 uger
+    freq_data = db.execute(
+        """
+        SELECT strftime('%Y-%W', created_at) AS week, COUNT(*) AS sessions
+        FROM TrainingLogs
+        WHERE user_id = ?
+        GROUP BY week
+        ORDER BY week ASC
+        """,
+        user_id
+    )
+
+    # Progression Over Time: Gennemsnitlig vægt pr. uge
+    progression_data = db.execute(
+        """
+        SELECT strftime('%Y-%W', created_at) AS week, AVG(weight) AS avg_weight
+        FROM TrainingLogs
+        WHERE user_id = ?
+        GROUP BY week
+        ORDER BY week ASC
+        """,
+        user_id
+    )
+
+    # For en oversigt over træningssessioner for den aktuelle uge – vi henter alle loggede sessioner (kun komplette dage)
+    sessions_overview = db.execute(
+        """
+        SELECT DATE(created_at) AS session_date, day_name, COUNT(*) AS exercises_count
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime', '-1 day')
+        GROUP BY DATE(created_at), day_name
+        ORDER BY DATE(created_at) DESC
+        """,
+        user_id, start_str
+    )
+
+    return render_template(
+        "training.html",
+        total_sessions=total_sessions,
+        total_sets=total_sets,
+        avg_weight_increase=avg_weight_increase,
+        volume_data=volume_data,
+        freq_data=freq_data,
+        progression_data=progression_data,
+        sessions_overview=sessions_overview,
+        start_of_week=start_str,
+        end_of_week=end_str
+    )
+
 
 @app.route("/settings")
 @login_required
