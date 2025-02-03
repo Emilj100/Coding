@@ -491,11 +491,12 @@ def trainingsession():
             # Indsæt træningen i `TrainingLogs`
             db.execute(
                 """
-                INSERT INTO TrainingLogs (user_id, date, day_id, day_name, exercise_name, sets, reps, weight)
-                VALUES (?, DATE('now'), ?, ?, ?, ?, ?, ?)
+                INSERT INTO TrainingLogs (user_id, day_id, day_name, exercise_name, sets, reps, weight)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
                 user_id, day_id, day_info["day_name"], exercise_name, exercise["sets"], exercise["reps"], weight
             )
+
 
             # Opdater eller indsæt i `LastSession`
             last_session_exists = db.execute(
