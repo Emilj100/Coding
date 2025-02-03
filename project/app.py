@@ -520,13 +520,123 @@ def trainingsession():
         return render_template("training-session.html", training_data=exercises, day_info=day_info)
 
 
-
-
-@app.route("/dashboard")
+@app.route("/dashboard", methods=["GET"])
 @login_required
 def dashboard():
+    user_id = session.get("user_id")
 
-    return render_template("dashboard.html")
+    # Hent brugeroplysninger fra users-tabellen
+    user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
+    if not user_data:
+        return render_template("dashboard.html", error="User not found.", user={})
+    user = user_data[0]
+    user_name = user.get("name", "User")
+
+    # 1. Seneste Check-in Vægt (fra check_ins)
+    latest_checkin_data = db.execute(
+        "SELECT weight, created_at FROM check_ins WHERE user_id = ? ORDER BY created_at DESC LIMIT 1",
+        user_id
+    )
+    if latest_checkin_data:
+        latest_weight = latest_checkin_data[0]["weight"]
+    else:
+        latest_weight = "No data yet"
+
+    # 2. Average Caloric Intake for current week (samme som i calories-ruten)
+    today = datetime.today()
+    start_of_week = today - timedelta(days=today.weekday())  # Mandag
+    start_str = start_of_week.strftime("%Y-%m-%d")
+    daily_data = db.execute(
+        """
+        SELECT DATE(created_at) AS day,
+               SUM(calories) AS total_calories
+        FROM food_log
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
+          AND DATE(created_at) < DATE('now', 'localtime')
+        GROUP BY day
+        ORDER BY day ASC
+        """,
+        user_id, start_str
+    )
+    if daily_data:
+        total_calories_week = sum(row["total_calories"] for row in daily_data)
+        average_caloric_intake = round(total_calories_week / len(daily_data), 1)
+    else:
+        average_caloric_intake = "No data yet"
+
+    # 3. Workouts This Week (fra TrainingLogs)
+    sessions_data = db.execute(
+        """
+        SELECT COUNT(DISTINCT created_at) AS session_count
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
+        """,
+        user_id, start_str
+    )
+    total_sessions = sessions_data[0]["session_count"] if sessions_data else 0
+
+    # 4. Progress Towards Weight Goal
+    # Brug brugerens start_weight, goal_weight, goal_type og seneste check-in vægt
+    start_weight = user.get("start_weight")
+    goal_weight = user.get("goal_weight")
+    goal_type = user.get("goal_type", "stay at current weight")
+    # Hvis der ikke er check-in data, benyt den vægt, som er gemt i users-tabellen
+    current_weight = latest_weight if latest_weight != "No data yet" else user.get("weight")
+    progress = 0
+    if start_weight and goal_weight and current_weight:
+        if goal_type.lower() == "lose weight":
+            # F.eks.: Hvis start vægt er 100, goal 80 og nuværende 90, så er progress = ((100-90)/(100-80))*100 = 50%
+            progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
+        elif goal_type.lower() == "gain weight":
+            progress = ((current_weight - start_weight) / (goal_weight - start_weight)) * 100
+        elif goal_type.lower() == "stay at current weight":
+            progress = 0
+        progress = min(max(round(progress, 1), 0), 100)
+
+    # 5. Weight Progress Graph (Last 5 Check-ins)
+    checkin_history = db.execute(
+        "SELECT weight, DATE(created_at) as created_at FROM check_ins WHERE user_id = ? ORDER BY created_at ASC",
+        user_id
+    )
+    # Vi vælger de sidste 5 check-ins (hvis der er færre, benyt alle)
+    last_5_checkins = checkin_history[-5:] if len(checkin_history) >= 5 else checkin_history
+    # Vi laver labels som "Week 1", "Week 2", ... (evt. med datoer)
+    weight_labels = [f"Check-in {i+1}" for i in range(len(last_5_checkins))]
+    weight_values = [entry["weight"] for entry in last_5_checkins]
+
+    # 6. Caloric Intake Chart – Current Week
+    # Udtræk ugedage (brug fx weekday-navne) og total kalorier
+    calorie_days = []
+    calorie_values = []
+    for row in daily_data:
+        try:
+            dt = datetime.strptime(row["day"], "%Y-%m-%d")
+            weekday = dt.strftime("%A")
+        except Exception:
+            weekday = row["day"]
+        calorie_days.append(weekday)
+        calorie_values.append(row["total_calories"])
+
+    # Hent calorie goal fra brugeroplysninger (fra users-tabellen)
+    calorie_goal = user.get("daily_calorie_goal", 0)
+
+    return render_template(
+        "dashboard.html",
+        user_name=user_name,
+        latest_weight=latest_weight,
+        average_caloric_intake=average_caloric_intake,
+        total_sessions=total_sessions,
+        progress=progress,
+        weight_labels=weight_labels,
+        weight_values=weight_values,
+        calorie_days=calorie_days,
+        calorie_values=calorie_values,
+        calorie_goal=calorie_goal,
+        start_of_week=start_str  # til evt. visning af interval
+    )
+
 
 @app.route("/checkin", methods=["GET", "POST"])
 @login_required
