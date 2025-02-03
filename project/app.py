@@ -1002,42 +1002,98 @@ def training():
 def settings():
     user_id = session.get("user_id")
 
+    # Hent den nuværende brugerdata, så vi kan bruge eksisterende værdier
+    user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
+    if not user_data:
+        return render_template("settings.html", error="User not found.", user={})
+    user = user_data[0]
+
     if request.method == "POST":
-        # Validate age
+        # For hvert felt: hvis en ny værdi er sendt, benyt den, ellers behold den gamle værdi
+
+        # Age
+        age_input = request.form.get("age")
+        if age_input:
+            try:
+                age = int(age_input)
+            except ValueError:
+                return render_template("settings.html", error="Please enter a valid number for age.", user=user)
+        else:
+            age = user["age"]
+
+        # Gender
+        gender_input = request.form.get("gender")
+        if gender_input:
+            if gender_input not in ["Male", "Female"]:
+                return render_template("settings.html", error="Please select a valid gender", user=user)
+            gender = gender_input
+        else:
+            gender = user["gender"]
+
+        # Height, Weight og Goal Weight
+        height_input = request.form.get("height")
+        weight_input = request.form.get("weight")
+        goal_weight_input = request.form.get("goal_weight")
         try:
-            age = int(request.form.get("age"))
+            height = float(height_input) if height_input else float(user["height"])
+            weight = float(weight_input) if weight_input else float(user["weight"])
+            goal_weight = float(goal_weight_input) if goal_weight_input else float(user["goal_weight"])
         except ValueError:
-            return render_template("settings.html", error="Please enter a valid number for age.")
+            return render_template("settings.html", error="Height, weight, and goal weight must be numbers", user=user)
 
-        # Validate gender
-        if request.form.get("gender") not in ["Male", "Female"]:
-            return render_template("settings.html", error="Please select a valid gender")
+        # Goal Type
+        goal_type_input = request.form.get("goal_type")
+        if goal_type_input:
+            if goal_type_input not in ["lose weight", "gain weight", "stay at current weight"]:
+                return render_template("settings.html", error="Please select a valid goal", user=user)
+            goal_type = goal_type_input
+        else:
+            goal_type = user["goal_type"]
 
-        # Validate height, weight and goal weight
-        try:
-            height = float(request.form.get("height"))
-            weight = float(request.form.get("weight"))
-            goal_weight = float(request.form.get("goal_weight"))
-        except ValueError:
-            return render_template("settings.html", error="Height, weight, and goal weight must be numbers")
+        # Experience Level
+        experience_level_input = request.form.get("experience_level")
+        if experience_level_input:
+            if experience_level_input not in ["Beginner", "Intermediate", "Advanced"]:
+                return render_template("settings.html", error="Please select a valid experience level", user=user)
+            experience_level = experience_level_input
+        else:
+            experience_level = user["experience_level"]
 
-        # Validate goal type
-        if request.form.get("goal_type") not in ["lose weight", "gain weight", "stay at current weight"]:
-            return render_template("settings.html", error="Please select a valid goal")
+        # Training Days
+        training_days_input = request.form.get("training_days")
+        if training_days_input:
+            try:
+                training_days = int(training_days_input)
+                if not (1 <= training_days <= 7):
+                    return render_template("settings.html", error="Training days must be between 1 and 7.", user=user)
+            except ValueError:
+                return render_template("settings.html", error="Training days must be a number", user=user)
+        else:
+            training_days = user["training_days"]
 
-        # Validate experience level
-        if request.form.get("experience_level") not in ["Beginner", "Intermediate", "Advanced"]:
-            return render_template("settings.html", error="Please select a valid experience level")
+        # Udregn BMR ud fra de aktuelle værdier
+        if gender == "Male":
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+        else:
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
 
-        # Validate training days
-        try:
-            training_days = int(request.form.get("training_days"))
-            if not (1 <= training_days <= 7):
-                return render_template("settings.html", error="Training days must be between 1 and 7.")
-        except ValueError:
-            return render_template("settings.html", error="Training days must be a number")
+        # Udregn kalorieindtag baseret på træningsdage
+        if 1 <= training_days <= 3:
+            calorie_intake = bmr * 1.375
+        elif 4 <= training_days <= 5:
+            calorie_intake = bmr * 1.55
+        else:
+            calorie_intake = bmr * 1.725
 
-        # Opdater brugerens data i databasen
+        # Juster efter goal type
+        if goal_type == "lose weight":
+            calorie_intake = round(calorie_intake - 500)
+        elif goal_type == "gain weight":
+            calorie_intake = round(calorie_intake + 500)
+        else:
+            calorie_intake = round(calorie_intake)
+
+        # Opdater brugerens data, inklusiv det nye kalorieindtag
         db.execute(
             """
             UPDATE users
@@ -1049,24 +1105,25 @@ def settings():
                 goal_type = ?,
                 experience_level = ?,
                 training_days = ?,
+                daily_calorie_goal = ?,
                 updated_at = CURRENT_TIMESTAMP
             WHERE id = ?
             """,
             age,
-            request.form.get("gender"),
+            gender,
             height,
             weight,
             goal_weight,
-            request.form.get("goal_type"),
-            request.form.get("experience_level"),
+            goal_type,
+            experience_level,
             training_days,
+            calorie_intake,
             user_id
         )
+
         return redirect("/settings")
 
-    # GET-request: Hent brugerens nuværende data for at præudfylde formularen
-    user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
-    user = user_data[0] if user_data else {}
+    # GET-request: Returner den nuværende brugerdata med en tom error-besked
     return render_template("settings.html", user=user, error="")
 
 
