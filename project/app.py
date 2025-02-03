@@ -851,25 +851,28 @@ def calories():
     )
 
 
-
-
-
-@app.route("/traininganalytics", methods=["GET"])
+@app.route("/training", methods=["GET"])
 @login_required
-def training_analytics():
+def training():
     user_id = session.get("user_id")
 
-    
-
-    # Beregn start og slut for den aktuelle uge (brug mandag som start og mandag+6 dage som slut)
+    # Beregn start (mandag) og slut (mandag + 6 dage) for den aktuelle uge
     today = datetime.today()
     start_of_week = today - timedelta(days=today.weekday())  # Mandag i denne uge
-    # For overskrift: vis hele ugen (mandag til søndag)
+    # Her bruger vi for overskriften hele ugen: mandag til søndag
     end_of_week = start_of_week + timedelta(days=6)
     start_str = start_of_week.strftime("%Y-%m-%d")
     end_str = end_of_week.strftime("%Y-%m-%d")
 
-    # Total sessions this week: Tæl distinkte sessioner baseret på created_at
+    # Hjælpefunktion: Konverter en uge-kode (fx "2025-05") til et datointerval (fx "2025-02-03 - 2025-02-09")
+    def format_week_range(week_label):
+        # Vi antager formatet "YYYY-WW". Vi tilføjer "-1" for at få mandag.
+        dt = datetime.strptime(week_label + '-1', "%Y-%W-%w")
+        week_start = dt.strftime("%Y-%m-%d")
+        week_end = (dt + timedelta(days=6)).strftime("%Y-%m-%d")
+        return f"{week_start} - {week_end}"
+
+    # Total sessions this week: Tæl distinkte sessioner (baseret på created_at)
     sessions = db.execute(
         """
         SELECT COUNT(DISTINCT created_at) AS session_count
@@ -881,7 +884,7 @@ def training_analytics():
     )
     total_sessions = sessions[0]["session_count"] if sessions else 0
 
-    # Total sets this week: Summer 'sets' for alle loggede øvelser i perioden
+    # Total sets this week: Summer 'sets' for alle rækker i perioden
     sets_data = db.execute(
         """
         SELECT SUM(sets) AS total_sets
@@ -893,12 +896,11 @@ def training_analytics():
     )
     total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
 
-    # Average weight increase:
-    # For den aktuelle uge og forrige uge
+    # Average weight increase: Beregn for hver øvelse i den aktuelle uge og sammenlign med forrige uge.
     last_week_start = start_of_week - timedelta(days=7)
-    last_week_end = start_of_week - timedelta(days=1)
-    last_start_str = last_week_start.strftime("%Y-%m-%d")
-    last_end_str = last_week_end.strftime("%Y-%m-%d")
+    last_week_end   = start_of_week - timedelta(days=1)
+    last_start_str  = last_week_start.strftime("%Y-%m-%d")
+    last_end_str    = last_week_end.strftime("%Y-%m-%d")
 
     current_weights = db.execute(
         """
