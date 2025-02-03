@@ -871,6 +871,9 @@ def calories():
 
 
 
+from datetime import datetime, timedelta
+from flask import render_template, session, redirect
+
 @app.route("/training", methods=["GET"])
 @login_required
 def training():
@@ -879,14 +882,14 @@ def training():
     # Beregn start og slut for den aktuelle uge (inkluder i dag)
     today = datetime.today()
     start_of_week = today - timedelta(days=today.weekday())  # Mandag i denne uge
-    # Slutdato: i dag (fuld data, selvom dagen er i gang)
+    # Vi bruger i dag (lokal tid) som slutdato, så dagens data medtages
     start_str = start_of_week.strftime("%Y-%m-%d")
-    end_str   = datetime.now().strftime("%Y-%m-%d")  # Dagens dato (lokal tid)
+    end_str   = datetime.now().strftime("%Y-%m-%d")
 
-    # Total sessions this week (antal rækker i TrainingLogs inden for perioden)
+    # Total sessions this week: Tæl distinkte sessioner baseret på created_at
     sessions = db.execute(
         """
-        SELECT COUNT(*) AS session_count
+        SELECT COUNT(DISTINCT created_at) AS session_count
         FROM TrainingLogs
         WHERE user_id = ?
           AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
@@ -895,7 +898,7 @@ def training():
     )
     total_sessions = sessions[0]["session_count"] if sessions else 0
 
-    # Total sets this week (sum af 'sets' for alle TrainingLogs i perioden)
+    # Total sets this week (sum af 'sets' for alle loggede øvelser)
     sets_data = db.execute(
         """
         SELECT SUM(sets) AS total_sets
@@ -907,8 +910,7 @@ def training():
     )
     total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
 
-    # Average weight increase: Beregn for hver øvelse i den aktuelle uge og sammenlign med forrige uge.
-    # Forrige uge: fra (start_of_week - 7 dage) til (start_of_week - 1 dag)
+    # Average weight increase (sammenligning med forrige uge – se tidligere kode)
     last_week_start = start_of_week - timedelta(days=7)
     last_week_end = start_of_week - timedelta(days=1)
     last_start_str = last_week_start.strftime("%Y-%m-%d")
@@ -955,7 +957,7 @@ def training():
         user_id, start_str
     )
 
-    # Training Frequency: Sessions per week for de sidste 4 uger (baseret på created_at)
+    # Training Frequency for de sidste 4 uger (baseret på created_at)
     freq_data = db.execute(
         """
         SELECT strftime('%Y-%W', created_at) AS week, COUNT(*) AS sessions
@@ -979,15 +981,15 @@ def training():
         user_id
     )
 
-    # Sessions Overview: Liste over sessioner (alle loggede dage) i den aktuelle uge
+    # Sessions Overview: Gruppe sessioner efter created_at (så hver session kun tælles én gang)
     sessions_overview = db.execute(
         """
         SELECT DATE(created_at) AS session_date, day_name, COUNT(*) AS exercises_count
         FROM TrainingLogs
         WHERE user_id = ?
           AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
-        GROUP BY DATE(created_at), day_name
-        ORDER BY DATE(created_at) DESC
+        GROUP BY created_at, day_name
+        ORDER BY created_at DESC
         """,
         user_id, start_str
     )
@@ -1004,6 +1006,7 @@ def training():
         start_of_week=start_str,
         end_of_week=end_str
     )
+
 
 
 @app.route("/settings")
