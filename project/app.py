@@ -538,15 +538,16 @@ def checkin():
     user_id = session.get("user_id")
 
     if request.method == "POST":
-
         energy = request.form.get("energy")
         sleep = request.form.get("sleep")
 
+        # Valider og konverter vægt
         try:
             weight = float(request.form.get("weight"))
         except ValueError:
             return render_template("checkin.html", error="Weight must be a number")
 
+        # Valider energy
         try:
             energy = int(energy)
             if not 1 <= energy <= 10:
@@ -554,6 +555,7 @@ def checkin():
         except ValueError:
             return render_template("checkin.html", error="Energy must be a number between 1 and 10.")
 
+        # Valider sleep
         try:
             sleep = float(sleep)
             if not 0 <= sleep <= 24:
@@ -561,12 +563,53 @@ def checkin():
         except ValueError:
             return render_template("checkin.html", error="Sleep must be a number between 0 and 24.")
 
+        # Indsæt check-in data i check_ins tabellen
         db.execute(
             "INSERT INTO check_ins (user_id, weight, energy, sleep) VALUES (?, ?, ?, ?)",
             user_id, weight, energy, sleep
         )
 
-        return redirect("checkin")
+        # Hent eksisterende brugerdata fra users tabellen
+        user_data = db.execute("SELECT age, gender, height, training_days, goal_type FROM users WHERE id = ?", user_id)
+        if not user_data:
+            return render_template("checkin.html", error="User not found")
+        user = user_data[0]
+
+        # Udregn BMR med den nye vægt
+        age = user["age"]
+        gender = user["gender"]
+        height = float(user["height"])
+        training_days = int(user["training_days"])
+        goal_type = user["goal_type"]
+
+        if gender == "Male":
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+        else:
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+
+        # Udregn kalorieindtag baseret på antallet af træningsdage
+        if 1 <= training_days <= 3:
+            calorie_intake = bmr * 1.375
+        elif 4 <= training_days <= 5:
+            calorie_intake = bmr * 1.55
+        else:
+            calorie_intake = bmr * 1.725
+
+        # Juster kalorieindtaget ud fra goal_type
+        if goal_type == "lose weight":
+            calorie_intake = round(calorie_intake - 500)
+        elif goal_type == "gain weight":
+            calorie_intake = round(calorie_intake + 500)
+        else:
+            calorie_intake = round(calorie_intake)
+
+        # Opdater brugerens record med den nye vægt og det nye daglige kalorieindtag
+        db.execute(
+            "UPDATE users SET weight = ?, daily_calorie_goal = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+            weight, calorie_intake, user_id
+        )
+
+        return redirect("/checkin")
 
     else:
         checkin_data = db.execute(
@@ -593,7 +636,6 @@ def checkin():
             avg_sleep  = round(total_sleep / count, 1)
         else:
             avg_weight = avg_energy = avg_sleep = "No data yet"
-
 
         return render_template(
             "checkin.html",
