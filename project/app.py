@@ -1072,16 +1072,14 @@ def settings():
         else:
             gender = user["gender"]
 
-        # Height, Weight og Goal Weight
+        # Height og Goal Weight
         height_input = request.form.get("height")
-        weight_input = request.form.get("weight")
         goal_weight_input = request.form.get("goal_weight")
         try:
             height = float(height_input) if height_input else float(user["height"])
-            weight = float(weight_input) if weight_input else float(user["weight"])
             goal_weight = float(goal_weight_input) if goal_weight_input else float(user["goal_weight"])
         except ValueError:
-            return render_template("settings.html", error="Height, weight, and goal weight must be numbers", user=user)
+            return render_template("settings.html", error="Height and goal weight must be numbers", user=user)
 
         # Goal Type
         goal_type_input = request.form.get("goal_type")
@@ -1113,6 +1111,9 @@ def settings():
         else:
             training_days = user["training_days"]
 
+        # Brug eksisterende vægt fra databasen (brugeren opdaterer ikke vægt her)
+        weight = float(user["weight"])
+
         # Udregn BMR ud fra de aktuelle værdier
         if gender == "Male":
             bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
@@ -1135,14 +1136,14 @@ def settings():
         else:
             calorie_intake = round(calorie_intake)
 
-        # Opdater brugerens data, inklusiv det nye kalorieindtag
+        # Opdater brugerens data, inklusiv det nye kalorieindtag.
+        # Bemærk: Vægten forbliver uændret.
         db.execute(
             """
             UPDATE users
             SET age = ?,
                 gender = ?,
                 height = ?,
-                weight = ?,
                 goal_weight = ?,
                 goal_type = ?,
                 experience_level = ?,
@@ -1154,7 +1155,6 @@ def settings():
             age,
             gender,
             height,
-            weight,
             goal_weight,
             goal_type,
             experience_level,
