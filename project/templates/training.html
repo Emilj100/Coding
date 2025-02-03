@@ -88,7 +88,7 @@
 <script>
     // Training Frequency Chart
     const freqData = {{ freq_data | tojson | safe }};
-    const freqLabels = freqData.map(d => d.week_range);
+    const freqLabels = freqData.map(d => d.week_range); // Brug week_range til visning af interval
     const freqSessions = freqData.map(d => d.sessions);
 
     const freqCtx = document.getElementById('trainingFrequencyChart').getContext('2d');
@@ -106,7 +106,7 @@
 
     // Progression Over Time Chart (Average Weight per Week)
     const progData = {{ progression_data | tojson | safe }};
-    const progLabels = progData.map(d => d.week_range);
+    const progLabels = progData.map(d => d.week_range); // Brug week_range til visning af interval
     const progWeights = progData.map(d => d.avg_weight);
 
     const progCtx = document.getElementById('progressionChart').getContext('2d');
@@ -126,4 +126,5 @@
     });
 </script>
 {% endblock %}
+
 
