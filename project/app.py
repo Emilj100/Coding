@@ -856,23 +856,21 @@ def calories():
 def training():
     user_id = session.get("user_id")
 
-    # Beregn start (mandag) og slut (mandag + 6 dage) for den aktuelle uge
+    # Beregn start og slut for ugen (mandag til søndag)
     today = datetime.today()
     start_of_week = today - timedelta(days=today.weekday())  # Mandag i denne uge
-    # Her bruger vi for overskriften hele ugen: mandag til søndag
-    end_of_week = start_of_week + timedelta(days=6)
+    end_of_week = start_of_week + timedelta(days=6)            # Søndag i denne uge
     start_str = start_of_week.strftime("%Y-%m-%d")
     end_str = end_of_week.strftime("%Y-%m-%d")
 
-    # Hjælpefunktion: Konverter en uge-kode (fx "2025-05") til et datointerval (fx "2025-02-03 - 2025-02-09")
+    # Hjælpefunktion: konverter ugekode til datointerval
     def format_week_range(week_label):
-        # Vi antager formatet "YYYY-WW". Vi tilføjer "-1" for at få mandag.
         dt = datetime.strptime(week_label + '-1', "%Y-%W-%w")
         week_start = dt.strftime("%Y-%m-%d")
         week_end = (dt + timedelta(days=6)).strftime("%Y-%m-%d")
         return f"{week_start} - {week_end}"
 
-    # Total sessions this week: Tæl distinkte sessioner (baseret på created_at)
+    # Total sessions this week (tæl distinkte created_at)
     sessions = db.execute(
         """
         SELECT COUNT(DISTINCT created_at) AS session_count
@@ -884,7 +882,7 @@ def training():
     )
     total_sessions = sessions[0]["session_count"] if sessions else 0
 
-    # Total sets this week: Summer 'sets' for alle rækker i perioden
+    # Total sets this week
     sets_data = db.execute(
         """
         SELECT SUM(sets) AS total_sets
@@ -896,7 +894,7 @@ def training():
     )
     total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
 
-    # Average weight increase: Beregn for hver øvelse i den aktuelle uge og sammenlign med forrige uge.
+    # Average weight increase (sammenlign den aktuelle uge med forrige uge)
     last_week_start = start_of_week - timedelta(days=7)
     last_week_end   = start_of_week - timedelta(days=1)
     last_start_str  = last_week_start.strftime("%Y-%m-%d")
@@ -930,7 +928,7 @@ def training():
                 diffs.append(diff)
     avg_weight_increase = round(sum(diffs) / len(diffs), 1) if diffs else 0
 
-    # Volume per muscle group for den aktuelle uge:
+    # Volume per muscle group – udeluk "core"
     volume_data = db.execute(
         """
         SELECT pe.muscle, SUM(tl.weight * tl.sets) AS total_volume
@@ -938,12 +936,13 @@ def training():
         JOIN program_exercises pe ON tl.exercise_name = pe.exercise_name AND tl.day_id = pe.day_id
         WHERE tl.user_id = ?
           AND DATE(tl.created_at) BETWEEN ? AND DATE('now', 'localtime')
+          AND pe.muscle <> 'core'
         GROUP BY pe.muscle
         """,
         user_id, start_str
     )
 
-    # Training Frequency: Sessions per week for de sidste 4 uger
+    # Training Frequency (last 4 weeks)
     freq_data = db.execute(
         """
         SELECT strftime('%Y-%W', created_at) AS week, COUNT(DISTINCT created_at) AS sessions
@@ -957,7 +956,7 @@ def training():
     for row in freq_data:
         row["week_range"] = format_week_range(row["week"])
 
-    # Progression Over Time: Gennemsnitlig vægt pr. uge
+    # Progression Over Time (average weight per week)
     progression_data = db.execute(
         """
         SELECT strftime('%Y-%W', created_at) AS week, AVG(weight) AS avg_weight
