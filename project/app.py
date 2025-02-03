@@ -543,6 +543,7 @@ def dashboard():
         latest_weight = "No data yet"
 
     # 2. Average Caloric Intake for current week (samme som i calories-ruten)
+    from datetime import datetime, timedelta
     today = datetime.today()
     start_of_week = today - timedelta(days=today.weekday())  # Mandag
     start_str = start_of_week.strftime("%Y-%m-%d")
@@ -578,16 +579,14 @@ def dashboard():
     total_sessions = sessions_data[0]["session_count"] if sessions_data else 0
 
     # 4. Progress Towards Weight Goal
-    # Brug brugerens start_weight, goal_weight, goal_type og seneste check-in vægt
     start_weight = user.get("start_weight")
     goal_weight = user.get("goal_weight")
     goal_type = user.get("goal_type", "stay at current weight")
-    # Hvis der ikke er check-in data, benyt den vægt, som er gemt i users-tabellen
+    # Hvis der ikke er check-in data, benyt den gemte vægt
     current_weight = latest_weight if latest_weight != "No data yet" else user.get("weight")
     progress = 0
     if start_weight and goal_weight and current_weight:
         if goal_type.lower() == "lose weight":
-            # F.eks.: Hvis start vægt er 100, goal 80 og nuværende 90, så er progress = ((100-90)/(100-80))*100 = 50%
             progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
         elif goal_type.lower() == "gain weight":
             progress = ((current_weight - start_weight) / (goal_weight - start_weight)) * 100
@@ -595,19 +594,16 @@ def dashboard():
             progress = 0
         progress = min(max(round(progress, 1), 0), 100)
 
-    # 5. Weight Progress Graph (Last 5 Check-ins)
+    # 5. Weight Progress Graph – brug de seneste 10 check-ins (fra start til nu)
     checkin_history = db.execute(
         "SELECT weight, DATE(created_at) as created_at FROM check_ins WHERE user_id = ? ORDER BY created_at ASC",
         user_id
     )
-    # Vi vælger de sidste 5 check-ins (hvis der er færre, benyt alle)
-    last_5_checkins = checkin_history[-5:] if len(checkin_history) >= 5 else checkin_history
-    # Vi laver labels som "Week 1", "Week 2", ... (evt. med datoer)
-    weight_labels = [f"Check-in {i+1}" for i in range(len(last_5_checkins))]
-    weight_values = [entry["weight"] for entry in last_5_checkins]
+    graph_data = checkin_history[-10:] if len(checkin_history) >= 10 else checkin_history
+    weight_labels = [entry["created_at"] for entry in graph_data]
+    weight_values = [entry["weight"] for entry in graph_data]
 
     # 6. Caloric Intake Chart – Current Week
-    # Udtræk ugedage (brug fx weekday-navne) og total kalorier
     calorie_days = []
     calorie_values = []
     for row in daily_data:
@@ -618,8 +614,6 @@ def dashboard():
             weekday = row["day"]
         calorie_days.append(weekday)
         calorie_values.append(row["total_calories"])
-
-    # Hent calorie goal fra brugeroplysninger (fra users-tabellen)
     calorie_goal = user.get("daily_calorie_goal", 0)
 
     return render_template(
@@ -634,8 +628,9 @@ def dashboard():
         calorie_days=calorie_days,
         calorie_values=calorie_values,
         calorie_goal=calorie_goal,
-        start_of_week=start_str  # til evt. visning af interval
+        start_of_week=start_str
     )
+
 
 
 @app.route("/checkin", methods=["GET", "POST"])

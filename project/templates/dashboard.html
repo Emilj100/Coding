@@ -68,9 +68,9 @@
 
     <!-- Graphs -->
     <div class="row mt-5">
-        <!-- Weight Change Graph (Last 5 Check-ins) -->
+        <!-- Weight Progress Graph -->
         <div class="col-md-6">
-            <h5 class="fw-bold">Weight Change - Last 5 Check-ins</h5>
+            <h5 class="fw-bold">Weight Progress Over Time</h5>
             <canvas id="weightChart"></canvas>
         </div>
         <!-- Caloric Intake Graph - Current Week -->
@@ -84,7 +84,7 @@
 <!-- Include Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Weight Change Line Chart
+    // Weight Progress Line Chart
     const weightCtx = document.getElementById('weightChart').getContext('2d');
     new Chart(weightCtx, {
         type: 'line',
