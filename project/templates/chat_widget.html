@@ -7,7 +7,7 @@
 <!-- Chat Widget -->
 <div id="chat-widget">
     <header id="chat-header">
-        <span>AI Fitness Coach</span>
+        <span>Fitness Coach</span>
         <button id="chat-close" title="Close">&times;</button>
     </header>
     <div class="messages" id="chat-messages">
@@ -46,7 +46,7 @@
         justify-content: space-between;
         align-items: center;
         font-size: 1.1rem;
-        cursor: move;  /* evt. hvis du vil understrege muligheden for at flytte widget'en */
+        cursor: pointer;
     }
     #chat-widget header button#chat-close {
         background: transparent;
@@ -62,6 +62,29 @@
         padding: 10px;
         overflow-y: auto;
         background-color: #f9f9f9;
+    }
+    /* Enkel styling af beskedbobler */
+    .message {
+        max-width: 80%;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 15px;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+    /* Besked fra coach (venstre) */
+    .message.coach {
+        background-color: #e9ecef;
+        text-align: left;
+        border-bottom-left-radius: 0;
+    }
+    /* Besked fra user (højre) */
+    .message.user {
+        background-color: #007bff;
+        color: #fff;
+        text-align: right;
+        margin-left: auto;
+        border-bottom-right-radius: 0;
     }
     /* Footer */
     #chat-widget footer {
@@ -88,16 +111,16 @@
         background: #0056b3;
     }
 
-    /* Chat Toggle Button – bruger blå farver for konsistens */
+    /* Chat Toggle Button – blå farve */
     #chat-toggle {
         position: fixed;
         right: 20px;
         bottom: 20px;
         background-color: #007bff;
         color: #fff;
-        padding: 15px 20px;
+        padding: 20px 30px;
         border-radius: 50px;
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         cursor: pointer;
         z-index: 1100;
@@ -110,6 +133,10 @@
         opacity: 0;
         pointer-events: none;
     }
+    #chat-toggle i {
+        font-size: 2rem;
+        margin-right: 10px;
+    }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -117,16 +144,33 @@
     // Find elementer
     const chatToggle = document.getElementById('chat-toggle');
     const chatWidget = document.getElementById('chat-widget');
-    const chatHeader = document.getElementById('chat-header');
     const chatClose = document.getElementById('chat-close');
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
 
-    // Vis widget og skjul toggle-knappen
+    // Funktion til at tilføje beskeder med forskellige klasser alt efter sender
+    function addMessage(sender, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message');
+        if (sender === 'You') {
+            msgDiv.classList.add('user');
+        } else {
+            msgDiv.classList.add('coach');
+        }
+        msgDiv.innerHTML = text;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Vis widgeten og tilføj velkomstbesked, når toggle-knappen klikkes
     chatToggle.addEventListener('click', () => {
         chatWidget.style.display = 'flex';
         chatToggle.classList.add('hide');
+        // Tilføj velkomstbesked, hvis beskedområdet er tomt
+        if (chatMessages.children.length === 0) {
+            addMessage('Coach', 'Velkommen! Jeg er din AI Fitness Coach. Skriv dit spørgsmål, så hjælper jeg dig med træning og kost!');
+        }
     });
 
     // Luk widgeten via close-knappen
@@ -134,15 +178,6 @@
         chatWidget.style.display = 'none';
         chatToggle.classList.remove('hide');
     });
-
-    // Funktion til at tilføje beskeder i chatten
-    function addMessage(sender, text) {
-        const msgDiv = document.createElement('div');
-        msgDiv.style.marginBottom = '10px';
-        msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
 
     // Send besked ved klik
     chatSend.addEventListener('click', () => {
@@ -170,3 +205,4 @@
         }
     });
 </script>
+
