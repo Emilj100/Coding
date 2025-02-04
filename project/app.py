@@ -1,5 +1,4 @@
 import os
-
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
@@ -518,6 +517,56 @@ def trainingsession():
         if not exercises or not day_info:
             return redirect("/traininglog")
         return render_template("training-session.html", training_data=exercises, day_info=day_info)
+
+
+
+@app.route("/api/fitness_coach", methods=["POST"])
+@login_required
+def fitness_coach():
+    """Modtager en JSON-body med 'message' og returnerer et AI-svar."""
+    data = request.get_json()
+    user_message = data.get("message", "")
+
+    # Hvis du vil lave en prompt-streng, kan du stadig:
+    prompt = f"You are an expert fitness coach. Answer the following question in a friendly, helpful and concise manner:\n\nUser: {user_message}\nCoach:"
+
+    # Hent API-nøgle fra environment
+    OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+    if not OPENAI_API_KEY:
+        return jsonify({"reply": "No OpenAI API key found on the server."}), 500
+
+    # Forbered header og body til OpenAI
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {OPENAI_API_KEY}"
+    }
+    payload = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {"role": "system", "content": "You are a helpful AI fitness coach."},
+            {"role": "user", "content": user_message}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 150
+    }
+
+    # Kald OpenAI API
+    try:
+        openai_response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers=headers,
+            json=payload
+        )
+        openai_response.raise_for_status()  # kaster fejl, hvis status != 200
+
+        response_data = openai_response.json()
+        reply = response_data["choices"][0]["message"]["content"].strip()
+
+    except Exception as e:
+        print("Error calling OpenAI API:", e)
+        reply = "I'm sorry, I couldn't process your request at the moment."
+
+    return jsonify({"reply": reply})
 
 
 @app.route("/dashboard", methods=["GET"])
