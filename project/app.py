@@ -531,7 +531,7 @@ def fitness_coach():
     prompt = f"You are an expert fitness coach. Answer the following question in a friendly, helpful and concise manner:\n\nUser: {user_message}\nCoach:"
 
     # Hent API-nøgle fra environment
-    OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+    OPENAI_API_KEY = os.environ.get("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")
     if not OPENAI_API_KEY:
         return jsonify({"reply": "No OpenAI API key found on the server."}), 500
 
