@@ -543,7 +543,6 @@ def dashboard():
         latest_weight = "No data yet"
 
     # 2. Average Caloric Intake for current week (samme som i calories-ruten)
-    from datetime import datetime, timedelta
     today = datetime.today()
     start_of_week = today - timedelta(days=today.weekday())  # Mandag
     start_str = start_of_week.strftime("%Y-%m-%d")
