@@ -37,7 +37,8 @@
         overflow: hidden;
         font-family: 'Roboto', sans-serif;
     }
-    /* Header med blå gradient og en close-knap */
+
+    /* Header */
     #chat-widget header {
         background: linear-gradient(135deg, #007bff, #0056b3);
         color: #fff;
@@ -46,65 +47,70 @@
         justify-content: space-between;
         align-items: center;
         font-size: 1.1rem;
-        cursor: move;
     }
+
     #chat-widget header button#chat-close {
         background: transparent;
         border: none;
         color: #fff;
         font-size: 1.5rem;
-        line-height: 1;
         cursor: pointer;
     }
+
     /* Beskedområdet */
     #chat-widget .messages {
         flex: 1;
         padding: 10px;
         overflow-y: auto;
         background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
+
     /* Struktur for hver besked */
     .message {
-        margin-bottom: 10px;
-        display: block;
-    }
-    /* Den faktiske beskedboble – auto-tilpasset størrelse */
-    .message .bubble {
-        display: inline-block;
-        padding: 10px;
-        border-radius: 15px;
+        display: flex;
         max-width: 80%;
-        word-wrap: break-word;
-        font-size: 0.95rem;
-        line-height: 1.3;
     }
-    /* Coach beskeder – venstrestillet uden ekstra venstremargin */
+
+    /* Coach beskeder – venstrestillet */
     .message.coach {
-        text-align: left;
+        justify-content: flex-start;
     }
+
     .message.coach .bubble {
         background-color: #e9ecef;
         color: #333;
-        margin-right: auto;
-        margin-left: 0;
-        border-bottom-left-radius: 0;
+        border-radius: 15px;
+        padding: 10px;
+        word-wrap: break-word;
+        max-width: 100%;
+        border-bottom-left-radius: 5px;
     }
-    /* Bruger beskeder – højrestillet uden ekstra venstremargin */
+
+    /* Bruger beskeder – nu helt højrestillet */
     .message.user {
-        text-align: right;
+        justify-content: flex-end;
     }
+
     .message.user .bubble {
         background-color: #007bff;
         color: #fff;
-        margin-left: auto;
-        margin-right: 0;
-        border-bottom-right-radius: 0;
+        border-radius: 15px;
+        padding: 10px;
+        word-wrap: break-word;
+        max-width: 100%;
+        border-bottom-right-radius: 5px;
+        text-align: right; /* Tekst skal være til højre */
     }
+
     /* Footer */
     #chat-widget footer {
         display: flex;
         border-top: 1px solid #ddd;
     }
+
     #chat-widget footer input {
         flex: 1;
         border: none;
@@ -112,6 +118,7 @@
         font-size: 1rem;
         outline: none;
     }
+
     #chat-widget footer button {
         background: #007bff;
         color: #fff;
@@ -121,11 +128,12 @@
         cursor: pointer;
         transition: background 0.3s;
     }
+
     #chat-widget footer button:hover {
         background: #0056b3;
     }
 
-    /* Chat Toggle Button – gjort mindre */
+    /* Chat Toggle Button */
     #chat-toggle {
         position: fixed;
         right: 20px;
@@ -134,7 +142,7 @@
         color: #fff;
         padding: 10px 15px;
         border-radius: 50px;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         cursor: pointer;
         z-index: 1100;
@@ -143,10 +151,12 @@
         align-items: center;
         justify-content: center;
     }
+
     #chat-toggle.hide {
         opacity: 0;
         pointer-events: none;
     }
+
     #chat-toggle i {
         font-size: 1.4rem;
         margin-right: 5px;
@@ -163,7 +173,7 @@
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
 
-    // Funktion til at tilføje beskeder med container og boble
+    // Funktion til at tilføje beskeder
     function addMessage(sender, text) {
         const msgContainer = document.createElement('div');
         msgContainer.classList.add('message');
@@ -180,7 +190,7 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Når toggle-knappen klikkes: vis widget og tilføj velkomstbesked, hvis der ikke er nogen beskeder
+    // Når chat åbnes: vis velkomstbesked, hvis chatten er tom
     chatToggle.addEventListener('click', () => {
         chatWidget.style.display = 'flex';
         chatToggle.classList.add('hide');
@@ -189,7 +199,7 @@
         }
     });
 
-    // Luk widgeten via close-knappen
+    // Luk chatten
     chatClose.addEventListener('click', () => {
         chatWidget.style.display = 'none';
         chatToggle.classList.remove('hide');
@@ -213,7 +223,7 @@
             });
     });
 
-    // Mulighed for at sende besked med Enter-tasten
+    // Send besked ved Enter
     chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
