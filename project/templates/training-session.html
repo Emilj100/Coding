@@ -24,7 +24,7 @@
                     <td>{{ exercise.exercise_name }}</td>
                     <td>{{ exercise.sets }} x {{ exercise.reps }}</td>
                     <td>
-                        <input type="number" name="{{ exercise.exercise_name }}" class="form-control" placeholder="{{ exercise.weight }}" min="0" required>
+                        <input type="number" name="{{ exercise.exercise_name }}" class="form-control" value="{{ exercise.weight }}" min="0" required>
                     </td>
                 </tr>
                 {% endfor %}
