@@ -20,7 +20,7 @@
 </div>
 
 <style>
-    /* Chat Widget container (desktop/default) */
+    /* Chat Widget container */
     #chat-widget {
         position: fixed;
         right: 20px;
@@ -47,7 +47,7 @@
         justify-content: space-between;
         align-items: center;
         font-size: 1.1rem;
-        cursor: move; /* Kræver ekstra JS for reel “flytning”, men er fint som cursor */
+        cursor: move;
     }
     #chat-widget header button#chat-close {
         background: transparent;
@@ -62,7 +62,7 @@
     #chat-widget .messages {
         flex: 1;
         padding: 10px;
-        overflow-y: auto; /* Rul, hvis indholdet bliver for langt */
+        overflow-y: auto;
         background-color: #f9f9f9;
         display: flex;
         flex-direction: column;
@@ -131,12 +131,12 @@
         background: #0056b3;
     }
 
-    /* Chat Toggle Button (ikon i en cirkulær knap) */
+    /* Chat Toggle Button (kun ikon i større cirkulær knap) */
     #chat-toggle {
         position: fixed;
         right: 20px;
         bottom: 20px;
-        width: 60px;
+        width: 60px;             /* Større cirkel */
         height: 60px;
         background-color: #007bff;
         color: #fff;
@@ -148,7 +148,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.6rem;
+        font-size: 1.6rem;       /* Gør ikonet større */
     }
     #chat-toggle.hide {
         opacity: 0;
@@ -157,34 +157,6 @@
     #chat-toggle i {
         margin: 0;
         font-size: 1.6rem;
-    }
-
-    /* ========================
-       RESPONSIV TILPASNING
-       ========================
-       Hvis skærmen er under 600px i bredde, lader vi
-       chat-widget fylde det meste af skærmen (95% både i bredde og højde)
-       og placerer den fra top/venstre.
-       Toggle-knappen gøres lidt mindre og kommer længere ind på skærmen.
-    */
-    @media (max-width: 600px) {
-        #chat-widget {
-            top: 2.5%;           /* Flyt lidt ned fra top */
-            left: 2.5%;          /* Lidt ind fra venstre */
-            right: auto;
-            bottom: auto;
-            width: 95%;
-            height: 95%;
-            max-height: none;    /* Overstyr den gamle max-height */
-            position: fixed;     /* Forbliv øverst */
-        }
-        #chat-toggle {
-            width: 50px;         /* Lidt mindre knap */
-            height: 50px;
-            bottom: 10px;        /* Træk den ind på skærmen */
-            right: 10px;
-            font-size: 1.4rem;
-        }
     }
 </style>
 
@@ -215,7 +187,6 @@
 
         msgContainer.appendChild(bubble);
         chatMessages.appendChild(msgContainer);
-        // Scroll chatten helt ned
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
