@@ -1,5 +1,7 @@
 {# chat_widget.html #}
 <!-- Chat Toggle Button -->
+<!-- chat_widget.html -->
+<!-- Chat Toggle Button -->
 <div id="chat-toggle">
     <i class="bi bi-chat-dots-fill"></i> AI Fitness Coach
 </div>
@@ -38,7 +40,7 @@
         font-family: 'Roboto', sans-serif;
     }
 
-    /* Header */
+    /* Header med blå gradient og en close-knap */
     #chat-widget header {
         background: linear-gradient(135deg, #007bff, #0056b3);
         color: #fff;
@@ -47,13 +49,14 @@
         justify-content: space-between;
         align-items: center;
         font-size: 1.1rem;
+        cursor: move;
     }
-
     #chat-widget header button#chat-close {
         background: transparent;
         border: none;
         color: #fff;
         font-size: 1.5rem;
+        line-height: 1;
         cursor: pointer;
     }
 
@@ -68,41 +71,41 @@
         gap: 10px;
     }
 
-    /* Struktur for hver besked */
+    /* Hver besked-række */
     .message {
         display: flex;
-        max-width: 80%;
+        width: 100%; /* Fuld bredde i stedet for max-width: 80% */
+        margin-bottom: 10px; /* Lidt luft mellem beskeder */
     }
 
-    /* Coach beskeder – venstrestillet */
+    /* Coach-beskeder til venstre */
     .message.coach {
         justify-content: flex-start;
     }
-
     .message.coach .bubble {
         background-color: #e9ecef;
         color: #333;
         border-radius: 15px;
         padding: 10px;
         word-wrap: break-word;
-        max-width: 100%;
+        max-width: 80%; /* Boblen kan fylde op til 80% */
         border-bottom-left-radius: 5px;
+        margin-right: auto; /* Placér boblen til venstre */
     }
 
-    /* Bruger beskeder – nu helt højrestillet */
+    /* Bruger-beskeder til højre */
     .message.user {
         justify-content: flex-end;
     }
-
     .message.user .bubble {
         background-color: #007bff;
         color: #fff;
         border-radius: 15px;
         padding: 10px;
         word-wrap: break-word;
-        max-width: 100%;
+        max-width: 80%; /* Boblen kan fylde op til 80% */
         border-bottom-right-radius: 5px;
-        text-align: right; /* Tekst skal være til højre */
+        margin-left: auto; /* Placér boblen til højre */
     }
 
     /* Footer */
@@ -110,7 +113,6 @@
         display: flex;
         border-top: 1px solid #ddd;
     }
-
     #chat-widget footer input {
         flex: 1;
         border: none;
@@ -118,7 +120,6 @@
         font-size: 1rem;
         outline: none;
     }
-
     #chat-widget footer button {
         background: #007bff;
         color: #fff;
@@ -128,12 +129,11 @@
         cursor: pointer;
         transition: background 0.3s;
     }
-
     #chat-widget footer button:hover {
         background: #0056b3;
     }
 
-    /* Chat Toggle Button */
+    /* Chat Toggle Button – gjort mindre */
     #chat-toggle {
         position: fixed;
         right: 20px;
@@ -151,12 +151,10 @@
         align-items: center;
         justify-content: center;
     }
-
     #chat-toggle.hide {
         opacity: 0;
         pointer-events: none;
     }
-
     #chat-toggle i {
         font-size: 1.4rem;
         margin-right: 5px;
@@ -173,33 +171,37 @@
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
 
-    // Funktion til at tilføje beskeder
+    // Funktion til at tilføje beskeder med container og boble
     function addMessage(sender, text) {
         const msgContainer = document.createElement('div');
         msgContainer.classList.add('message');
+
         if (sender === 'You') {
             msgContainer.classList.add('user');
         } else {
             msgContainer.classList.add('coach');
         }
+
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
         bubble.innerHTML = text;
+
         msgContainer.appendChild(bubble);
         chatMessages.appendChild(msgContainer);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Når chat åbnes: vis velkomstbesked, hvis chatten er tom
+    // Når toggle-knappen klikkes: vis widget og tilføj velkomstbesked, hvis der ikke er nogen beskeder
     chatToggle.addEventListener('click', () => {
         chatWidget.style.display = 'flex';
         chatToggle.classList.add('hide');
+
         if (chatMessages.children.length === 0) {
             addMessage('Coach', 'Welcome! I am your AI Fitness Coach. Ask me anything about training and nutrition.');
         }
     });
 
-    // Luk chatten
+    // Luk widgeten via close-knappen
     chatClose.addEventListener('click', () => {
         chatWidget.style.display = 'none';
         chatToggle.classList.remove('hide');
@@ -209,6 +211,7 @@
     chatSend.addEventListener('click', () => {
         const message = chatInput.value.trim();
         if (!message) return;
+
         addMessage('You', message);
         chatInput.value = '';
 
@@ -223,7 +226,7 @@
             });
     });
 
-    // Send besked ved Enter
+    // Mulighed for at sende besked med Enter-tasten
     chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -231,8 +234,3 @@
         }
     });
 </script>
-
-
-
-
-
