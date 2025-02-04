@@ -1,7 +1,5 @@
-{# chat_widget.html #}
-<!-- Chat Toggle Button -->
 <!-- chat_widget.html -->
-<!-- Chat Toggle Button -->
+<!-- Chat Toggle Button (kun ikon) -->
 <div id="chat-toggle">
     <i class="bi bi-chat-dots-fill"></i>
 </div>
@@ -74,8 +72,8 @@
     /* Hver besked-række */
     .message {
         display: flex;
-        width: 100%; /* Fuld bredde i stedet for max-width: 80% */
-        margin-bottom: 10px; /* Lidt luft mellem beskeder */
+        width: 100%;
+        margin-bottom: 10px;
     }
 
     /* Coach-beskeder til venstre */
@@ -88,9 +86,9 @@
         border-radius: 15px;
         padding: 10px;
         word-wrap: break-word;
-        max-width: 80%; /* Boblen kan fylde op til 80% */
+        max-width: 80%;
         border-bottom-left-radius: 5px;
-        margin-right: auto; /* Placér boblen til venstre */
+        margin-right: auto;
     }
 
     /* Bruger-beskeder til højre */
@@ -103,9 +101,9 @@
         border-radius: 15px;
         padding: 10px;
         word-wrap: break-word;
-        max-width: 80%; /* Boblen kan fylde op til 80% */
+        max-width: 80%;
         border-bottom-right-radius: 5px;
-        margin-left: auto; /* Placér boblen til højre */
+        margin-left: auto;
     }
 
     /* Footer */
@@ -133,16 +131,16 @@
         background: #0056b3;
     }
 
-    /* Chat Toggle Button – gjort mindre */
+    /* Chat Toggle Button (kun ikon i større cirkulær knap) */
     #chat-toggle {
         position: fixed;
         right: 20px;
         bottom: 20px;
+        width: 60px;             /* Større cirkel */
+        height: 60px;
         background-color: #007bff;
         color: #fff;
-        padding: 10px 15px;
-        border-radius: 50px;
-        font-size: 1.2rem;
+        border-radius: 50%;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         cursor: pointer;
         z-index: 1100;
@@ -150,14 +148,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 1.6rem;       /* Gør ikonet større */
     }
     #chat-toggle.hide {
         opacity: 0;
         pointer-events: none;
     }
     #chat-toggle i {
-        font-size: 1.4rem;
-        margin-right: 5px;
+        margin: 0;
+        font-size: 1.6rem;
     }
 </style>
 
@@ -234,3 +233,4 @@
         }
     });
 </script>
+
