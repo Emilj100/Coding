@@ -1,0 +1,137 @@
+{# chat_widget.html #}
+<!-- Chat Toggle Button -->
+<div id="chat-toggle">
+    <i class="bi bi-chat-dots-fill"></i> Chat
+</div>
+
+<!-- Chat Widget -->
+<div id="chat-widget">
+    <header id="chat-header">AI Fitness Coach</header>
+    <div class="messages" id="chat-messages">
+        <!-- Chat messages vises her -->
+    </div>
+    <footer>
+        <input type="text" id="chat-input" placeholder="Type your message..." />
+        <button id="chat-send">Send</button>
+    </footer>
+</div>
+
+<style>
+    /* Styling til chat-widget – kan være samme som vist ovenfor */
+    #chat-widget {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 300px;
+        max-height: 400px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        display: none;
+        flex-direction: column;
+        z-index: 1050;
+    }
+    #chat-widget header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        cursor: pointer;
+    }
+    #chat-widget .messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+    }
+    #chat-widget footer {
+        display: flex;
+        border-top: 1px solid #ccc;
+    }
+    #chat-widget footer input {
+        flex: 1;
+        border: none;
+        padding: 10px;
+    }
+    #chat-widget footer button {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    /* Styling til chat-toggle knap */
+    #chat-toggle {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background-color: #28a745;
+        color: #fff;
+        padding: 15px 20px;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        cursor: pointer;
+        z-index: 1100;
+        transition: opacity 0.3s ease;
+    }
+    #chat-toggle.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    // JavaScript til chat-widget
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatWidget = document.getElementById('chat-widget');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+    const chatMessages = document.getElementById('chat-messages');
+
+    chatToggle.addEventListener('click', () => {
+        chatWidget.style.display = 'flex';
+        chatToggle.classList.add('hide');
+    });
+
+    // Luk widget'en ved klik på headeren
+    document.getElementById('chat-header').addEventListener('click', () => {
+        chatWidget.style.display = 'none';
+        chatToggle.classList.remove('hide');
+    });
+
+    function addMessage(sender, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.style.marginBottom = '10px';
+        msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatSend.addEventListener('click', () => {
+        const message = chatInput.value.trim();
+        if (!message) return;
+        addMessage('You', message);
+        chatInput.value = '';
+
+        axios.post('/api/fitness_coach', { message: message })
+            .then(response => {
+                const reply = response.data.reply;
+                addMessage('Coach', reply);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                addMessage('Coach', 'Sorry, something went wrong.');
+            });
+    });
+
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            chatSend.click();
+        }
+    });
+</script>
