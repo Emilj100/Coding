@@ -47,7 +47,7 @@
         justify-content: space-between;
         align-items: center;
         font-size: 1.1rem;
-        cursor: move;
+        cursor: move; /* Tillad evt. at “flytte” vinduet (kræver dog ekstra JS) */
     }
     #chat-widget header button#chat-close {
         background: transparent;
@@ -131,12 +131,12 @@
         background: #0056b3;
     }
 
-    /* Chat Toggle Button (kun ikon i større cirkulær knap) */
+    /* Chat Toggle Button (ikon i en cirkulær knap) */
     #chat-toggle {
         position: fixed;
         right: 20px;
         bottom: 20px;
-        width: 60px;             /* Større cirkel */
+        width: 60px;
         height: 60px;
         background-color: #007bff;
         color: #fff;
@@ -148,7 +148,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.6rem;       /* Gør ikonet større */
+        font-size: 1.6rem;
     }
     #chat-toggle.hide {
         opacity: 0;
@@ -157,6 +157,26 @@
     #chat-toggle i {
         margin: 0;
         font-size: 1.6rem;
+    }
+
+    /* Responsiv tilpasning:
+       Ved skærme under 600px i bredde
+       - Gør widgeten 90% bred, så den kan passe på små skærme
+       - Flyt evt. 'bottom'/'right' lidt, så der er plads */
+    @media (max-width: 600px) {
+        #chat-widget {
+            width: 90%;
+            max-height: 70vh;   /* Du kan vælge 70% af viewport-højden */
+            right: 5%;
+            bottom: 10px;
+        }
+        #chat-toggle {
+            width: 50px;       /* Lidt mindre toggle-knap for mobil */
+            height: 50px;
+            font-size: 1.4rem;
+            bottom: 10px;
+            right: 10px;
+        }
     }
 </style>
 
@@ -187,6 +207,7 @@
 
         msgContainer.appendChild(bubble);
         chatMessages.appendChild(msgContainer);
+        // Scroll chatten ned til bunden
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
@@ -233,4 +254,3 @@
         }
     });
 </script>
-
