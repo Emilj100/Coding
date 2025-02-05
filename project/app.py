@@ -595,10 +595,6 @@ def fitness_coach():
 
     return jsonify({"reply": reply})
 
-if __name__ == "__main__":
-    # Start serveren (kun til lokal udvikling)
-    app.run(debug=True)
-
 
 
 @app.route("/dashboard", methods=["GET"])
