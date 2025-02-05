@@ -109,20 +109,10 @@ p {
     color: white;
 }
 
-/* Sidebar hover-effekt uden tekst-understregning */
-.sidebar .nav-link {
-    transition: background-color 0.2s ease-in-out;
-}
-
-.sidebar .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    text-decoration: none !important;
-}
 
 
 
-
-/* Gør, at sidebaren mindst fylder hele viewport-højden, men den udvides, hvis indholdet er længere */
+/* Dashboard_layout.html sidebar */
 .sidebar {
     min-height: 100vh;
 }
@@ -145,4 +135,14 @@ p {
 /* Inverterer farven på lukkeknappen, så den bliver synlig på sort baggrund */
 .offcanvas.bg-black .btn-close {
     filter: invert(1);
+}
+
+/* Sidebar hover-effekt uden tekst-understregning */
+.sidebar .nav-link {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none !important;
 }
