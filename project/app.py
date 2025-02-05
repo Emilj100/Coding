@@ -546,7 +546,7 @@ def fitness_coach():
         "2. Generate personalized workout plans.\n"
         "3. Log and monitor their workouts (exercises, sets, reps, etc.).\n"
         "4. Receive meal plans matching their calorie needs.\n"
-        "5. Provide initial user data upon registration (weight, height, goals, desired weight).\n"
+        "5. Provide initial user data upon registration (name, email, password, age, weight, height, goal weight, gender, goal (lose weight, gain weight or maintain weight), Training experience level, ).\n"
         "6. See a personalized dashboard with weekly calorie intake, weight progress, workout frequency, and daily/weekly check-ins.\n\n"
         "Behavior and style:\n"
         "1. Always be clear, concise, and supportive.\n"
