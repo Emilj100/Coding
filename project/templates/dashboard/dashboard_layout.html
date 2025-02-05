@@ -19,6 +19,7 @@
   <link href="/static/styles.css" rel="stylesheet">
   <link href="/static/chat.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
@@ -145,8 +146,8 @@
     {% block main %}{% endblock %}
   </div>
 </div>
-{% include "chat_widget.html" %}
-<script src="/static/chat.js"></script>
+  {% include "chat_widget.html" %}
+  <script src="/static/chat.js"></script>
 </body>
 </html>
 
