@@ -1,5 +1,4 @@
-{% extends "dashboard_layout.html" %}
-
+{% extends "dashboard/dashboard_layout.html" %}
 {% block title %}Training Analytics{% endblock %}
 
 {% block main %}
@@ -85,45 +84,12 @@
     </div>
 </div>
 
+<!-- Minimal inline script for at gemme data til eksternt JS -->
 <script>
-    // Training Frequency Chart
-    const freqData = {{ freq_data | tojson | safe }};
-    const freqLabels = freqData.map(d => d.week_range); // Brug week_range til visning af interval
-    const freqSessions = freqData.map(d => d.sessions);
-
-    const freqCtx = document.getElementById('trainingFrequencyChart').getContext('2d');
-    new Chart(freqCtx, {
-        type: 'bar',
-        data: {
-            labels: freqLabels,
-            datasets: [{
-                label: 'Training Sessions',
-                data: freqSessions,
-                backgroundColor: '#007bff'
-            }]
-        }
-    });
-
-    // Progression Over Time Chart (Average Weight per Week)
-    const progData = {{ progression_data | tojson | safe }};
-    const progLabels = progData.map(d => d.week_range); // Brug week_range til visning af interval
-    const progWeights = progData.map(d => d.avg_weight);
-
-    const progCtx = document.getElementById('progressionChart').getContext('2d');
-    new Chart(progCtx, {
-        type: 'line',
-        data: {
-            labels: progLabels,
-            datasets: [{
-                label: 'Avg Weight (kg)',
-                data: progWeights,
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                fill: true,
-                tension: 0.3
-            }]
-        }
-    });
+    window.trainingData = {
+        freqData: {{ freq_data | tojson | safe }},
+        progressionData: {{ progression_data | tojson | safe }}
+    };
 </script>
 {% endblock %}
 

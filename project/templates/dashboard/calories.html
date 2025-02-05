@@ -1,5 +1,4 @@
-{% extends "dashboard_layout.html" %}
-
+{% extends "dashboard/dashboard_layout.html" %}
 {% block title %}Calorie Insights{% endblock %}
 
 {% block main %}
@@ -115,44 +114,12 @@
     </div>
 </div>
 
+<!-- Minimal inline script til at gemme data -->
 <script>
-    // Udtræk ugedage og kalorier fra daily_data (brug weekday)
-    const days = {{ daily_data | tojson | safe }}.map(d => d.weekday);
-    const calories = {{ daily_data | tojson | safe }}.map(d => d.total_calories);
-
-    const calorieCtx = document.getElementById('calorieChart').getContext('2d');
-    new Chart(calorieCtx, {
-        type: 'bar',
-        data: {
-            labels: days,
-            datasets: [{
-                label: 'Calories (kcal)',
-                data: calories,
-                backgroundColor: '#007bff'
-            }]
-        }
-    });
-
-    const goalCtx = document.getElementById('goalChart').getContext('2d');
-    new Chart(goalCtx, {
-        type: 'line',
-        data: {
-            labels: days,
-            datasets: [{
-                label: 'Actual Intake',
-                data: calories,
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                fill: true,
-                tension: 0.3
-            }, {
-                label: 'Calorie Goal',
-                data: days.map(() => {{ calorie_goal | round(0) }}),
-                borderColor: '#ff6384',
-                borderDash: [5, 5],
-                tension: 0.3
-            }]
-        }
-    });
+    window.calorieData = {
+        days: {{ daily_data | tojson | safe }}.map(d => d.weekday),
+        calories: {{ daily_data | tojson | safe }}.map(d => d.total_calories),
+        calorieGoal: {{ calorie_goal | round(0) }}
+    };
 </script>
 {% endblock %}

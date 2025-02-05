@@ -1,5 +1,4 @@
-{% extends "dashboard_layout.html" %}
-
+{% extends "dashboard/dashboard_layout.html" %}
 {% block title %}Dashboard Overview{% endblock %}
 
 {% block main %}
@@ -81,57 +80,14 @@
     </div>
 </div>
 
-<!-- Include Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Minimal inline script til at gemme data, så eksternt 'charts.js' kan bruge dem -->
 <script>
-    // Weight Progress Line Chart
-    const weightCtx = document.getElementById('weightChart').getContext('2d');
-    new Chart(weightCtx, {
-        type: 'line',
-        data: {
-            labels: {{ weight_labels | tojson | safe }},
-            datasets: [{
-                label: 'Weight (kg)',
-                data: {{ weight_values | tojson | safe }},
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            scales: {
-                y: { beginAtZero: false }
-            }
-        }
-    });
-
-    // Caloric Intake Bar Chart for Current Week
-    const calorieCtx = document.getElementById('calorieChart').getContext('2d');
-    new Chart(calorieCtx, {
-        type: 'bar',
-        data: {
-            labels: {{ calorie_days | tojson | safe }},
-            datasets: [{
-                label: 'Calories (kcal)',
-                data: {{ calorie_values | tojson | safe }},
-                backgroundColor: '#007bff'
-            },
-            {
-                label: 'Calorie Goal',
-                data: {{ calorie_days | tojson | safe }}.map(() => {{ calorie_goal | round(0) }}),
-                borderColor: '#ff6384',
-                borderDash: [5, 5],
-                type: 'line',
-                fill: false,
-                tension: 0.3
-            }]
-        },
-        options: {
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
+    window.dashboardData = {
+        weightLabels: {{ weight_labels | tojson | safe }},
+        weightValues: {{ weight_values | tojson | safe }},
+        calorieDays: {{ calorie_days | tojson | safe }},
+        calorieValues: {{ calorie_values | tojson | safe }},
+        calorieGoal: {{ calorie_goal | round(0) }}
+    };
 </script>
 {% endblock %}

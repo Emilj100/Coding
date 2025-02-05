@@ -594,7 +594,7 @@ def dashboard():
     # Hent brugeroplysninger fra users-tabellen
     user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
     if not user_data:
-        return render_template("dashboard.html", error="User not found.", user={})
+        return render_template("dashboard/dashboard.html", error="User not found.", user={})
     user = user_data[0]
     user_name = user.get("name", "User")
 
@@ -682,7 +682,7 @@ def dashboard():
     calorie_goal = user.get("daily_calorie_goal", 0)
 
     return render_template(
-        "dashboard.html",
+        "dashboard/dashboard.html",
         user_name=user_name,
         latest_weight=latest_weight,
         average_caloric_intake=average_caloric_intake,
@@ -711,7 +711,7 @@ def checkin():
         try:
             weight = float(request.form.get("weight"))
         except ValueError:
-            return render_template("checkin.html", error="Weight must be a number")
+            return render_template("dashboard/checkin.html", error="Weight must be a number")
 
         # Valider energy
         try:
@@ -719,7 +719,7 @@ def checkin():
             if not 1 <= energy <= 10:
                 raise ValueError
         except ValueError:
-            return render_template("checkin.html", error="Energy must be a number between 1 and 10.")
+            return render_template("dashboard/checkin.html", error="Energy must be a number between 1 and 10.")
 
         # Valider sleep
         try:
@@ -727,7 +727,7 @@ def checkin():
             if not 0 <= sleep <= 24:
                 raise ValueError
         except ValueError:
-            return render_template("checkin.html", error="Sleep must be a number between 0 and 24.")
+            return render_template("dashboard/checkin.html", error="Sleep must be a number between 0 and 24.")
 
         # Indsæt check-in data i check_ins tabellen
         db.execute(
@@ -738,7 +738,7 @@ def checkin():
         # Hent eksisterende brugerdata fra users tabellen
         user_data = db.execute("SELECT age, gender, height, training_days, goal_type FROM users WHERE id = ?", user_id)
         if not user_data:
-            return render_template("checkin.html", error="User not found")
+            return render_template("dashboard/checkin.html", error="User not found")
         user = user_data[0]
 
         # Udregn BMR med den nye vægt
@@ -804,7 +804,7 @@ def checkin():
             avg_weight = avg_energy = avg_sleep = "No data yet"
 
         return render_template(
-            "checkin.html",
+            "dashboard/checkin.html",
             avg_weight=avg_weight,
             avg_energy=avg_energy,
             avg_sleep=avg_sleep,
@@ -960,7 +960,7 @@ def weight_progress():
     graph_data = checkin_data[-10:] if len(checkin_data) >= 10 else checkin_data
 
     return render_template(
-        "weight.html",
+        "dashboard/weight.html",
         user_name=user_name,
         current_weight=current_weight if current_weight is not None else default_text,
         weight_lost=weight_change_display,
@@ -1031,7 +1031,7 @@ def calories():
         actual_intake = latest_day_data["total_calories"]
     else:
         actual_intake = 0
-    planned_vs_actual = calorie_goal - actual_intake
+    planned_vs_actual = round(calorie_goal - actual_intake)
 
     # Best & Worst Day: Brug de komplette dage (brug evt. ugedag i stedet for dato)
     from datetime import datetime
@@ -1046,7 +1046,7 @@ def calories():
     worst_day = max(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
 
     return render_template(
-        "calories.html",
+        "dashboard/calories.html",
         user_name=user_name,
         average_daily_intake=average_daily_intake,
         planned_vs_actual=planned_vs_actual,
@@ -1192,7 +1192,7 @@ def training():
     )
 
     return render_template(
-        "training.html",
+        "dashboard/training.html",
         total_sessions=total_sessions,
         total_sets=total_sets,
         avg_weight_increase=avg_weight_increase,
@@ -1213,7 +1213,7 @@ def settings():
     # Hent den nuværende brugerdata, så vi kan bruge eksisterende værdier
     user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
     if not user_data:
-        return render_template("settings.html", error="User not found.", user={})
+        return render_template("dashboard/settings.html", error="User not found.", user={})
     user = user_data[0]
 
     if request.method == "POST":
@@ -1225,7 +1225,7 @@ def settings():
             try:
                 age = int(age_input)
             except ValueError:
-                return render_template("settings.html", error="Please enter a valid number for age.", user=user)
+                return render_template("dashboard/settings.html", error="Please enter a valid number for age.", user=user)
         else:
             age = user["age"]
 
@@ -1233,7 +1233,7 @@ def settings():
         gender_input = request.form.get("gender")
         if gender_input:
             if gender_input not in ["Male", "Female"]:
-                return render_template("settings.html", error="Please select a valid gender", user=user)
+                return render_template("dashboard/settings.html", error="Please select a valid gender", user=user)
             gender = gender_input
         else:
             gender = user["gender"]
@@ -1245,13 +1245,13 @@ def settings():
             height = float(height_input) if height_input else float(user["height"])
             goal_weight = float(goal_weight_input) if goal_weight_input else float(user["goal_weight"])
         except ValueError:
-            return render_template("settings.html", error="Height and goal weight must be numbers", user=user)
+            return render_template("dashboard/settings.html", error="Height and goal weight must be numbers", user=user)
 
         # Goal Type
         goal_type_input = request.form.get("goal_type")
         if goal_type_input:
             if goal_type_input not in ["lose weight", "gain weight", "stay at current weight"]:
-                return render_template("settings.html", error="Please select a valid goal", user=user)
+                return render_template("dashboard/settings.html", error="Please select a valid goal", user=user)
             goal_type = goal_type_input
         else:
             goal_type = user["goal_type"]
@@ -1260,7 +1260,7 @@ def settings():
         experience_level_input = request.form.get("experience_level")
         if experience_level_input:
             if experience_level_input not in ["Beginner", "Intermediate", "Advanced"]:
-                return render_template("settings.html", error="Please select a valid experience level", user=user)
+                return render_template("dashboard/settings.html", error="Please select a valid experience level", user=user)
             experience_level = experience_level_input
         else:
             experience_level = user["experience_level"]
@@ -1271,9 +1271,9 @@ def settings():
             try:
                 training_days = int(training_days_input)
                 if not (1 <= training_days <= 7):
-                    return render_template("settings.html", error="Training days must be between 1 and 7.", user=user)
+                    return render_template("dashboard/settings.html", error="Training days must be between 1 and 7.", user=user)
             except ValueError:
-                return render_template("settings.html", error="Training days must be a number", user=user)
+                return render_template("dashboard/settings.html", error="Training days must be a number", user=user)
         else:
             training_days = user["training_days"]
 
@@ -1332,7 +1332,7 @@ def settings():
         return redirect("/settings")
 
     # GET-request: Returner den nuværende brugerdata med en tom error-besked
-    return render_template("settings.html", user=user, error="")
+    return render_template("dashboard/settings.html", user=user, error="")
 
 
 
