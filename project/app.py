@@ -527,9 +527,6 @@ def fitness_coach():
     data = request.get_json()
     user_message = data.get("message", "")
 
-    # Hvis du vil lave en prompt-streng, kan du stadig:
-    prompt = f"You are an expert fitness coach. Answer the following question in a friendly, helpful and concise manner:\n\nUser: {user_message}\nCoach:"
-
     # Hent API-nøgle fra environment
     OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
     if not OPENAI_API_KEY:
@@ -540,11 +537,36 @@ def fitness_coach():
         "Content-Type": "application/json",
         "Authorization": f"Bearer {OPENAI_API_KEY}"
     }
+
+    # System-prompt beskriver hjemmesidefunktioner og coach-rolle
+    system_prompt = (
+        "You are a friendly and knowledgeable AI Fitness Coach on an English-language health and fitness website. "
+        "The website allows users to:\n"
+        "1. Track their daily calorie intake.\n"
+        "2. Generate personalized workout plans.\n"
+        "3. Log and monitor their workouts (exercises, sets, reps, etc.).\n"
+        "4. Receive meal plans matching their calorie needs.\n"
+        "5. Provide initial user data upon registration (weight, height, goals, desired weight).\n"
+        "6. See a personalized dashboard with weekly calorie intake, weight progress, workout frequency, and daily/weekly check-ins.\n\n"
+        "Behavior and style:\n"
+        "1. Always be clear, concise, and supportive.\n"
+        "2. Provide helpful suggestions on training, nutrition, or goal-setting within your knowledge.\n"
+        "3. Avoid strict medical advice beyond general fitness.\n"
+        "4. Respond in English unless otherwise requested.\n"
+        "5. Keep answers relatively short and practical."
+    )
+
     payload = {
-        "model": "gpt-4o-mini",
+        "model": "gpt-4",  # Skift til fx "gpt-3.5-turbo" hvis du ønsker
         "messages": [
-            {"role": "system", "content": "You are a helpful AI fitness coach."},
-            {"role": "user", "content": user_message}
+            {
+                "role": "system",
+                "content": system_prompt
+            },
+            {
+                "role": "user",
+                "content": user_message
+            }
         ],
         "temperature": 0.7,
         "max_tokens": 150
@@ -567,6 +589,7 @@ def fitness_coach():
         reply = "I'm sorry, I couldn't process your request at the moment."
 
     return jsonify({"reply": reply})
+
 
 
 @app.route("/dashboard", methods=["GET"])
