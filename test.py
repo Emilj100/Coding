@@ -1,18 +1,15 @@
 import requests
-import json
 
-api_key = "71433d93ff0445e68f984bb19ca3048f"
-url = f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}"
+api_key = "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"  # Erstat med din egen nøgle
+url = "https://api.openai.com/v1/models"
 
-params = {
-    "timeFrame": "day",  # Kan være 'day' eller 'week'
-    "targetCalories": 2000,  # Brugerens daglige kalorimål
-    "diet": "vegetarian",  # Diætpræference, fx 'vegetarian', 'vegan', osv.
-    "exclude": "nuts, shellfish"  # Ingredienser, der skal undgås
+headers = {
+    "Authorization": f"Bearer {api_key}"
 }
 
-response = requests.get(url, params=params)
-
-# Konverter JSON-respons til tekst
-json_text = json.dumps(response.json(), indent=4)
-print(json_text)
+response = requests.get(url, headers=headers)
+if response.status_code == 200:
+    data = response.json()
+    print(data)
+else:
+    print(f"Fejl ved kaldet: {response.status_code}, {response.text}")
