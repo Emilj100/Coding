@@ -136,7 +136,7 @@
         position: fixed;
         right: 20px;
         bottom: 20px;
-        width: 60px;             /* Større cirkel */
+        width: 60px;
         height: 60px;
         background-color: #007bff;
         color: #fff;
@@ -148,7 +148,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.6rem;       /* Gør ikonet større */
+        font-size: 1.6rem;
     }
     #chat-toggle.hide {
         opacity: 0;
@@ -162,7 +162,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    // Find elementer
+    // Hent alle vigtige elementer
     const chatToggle = document.getElementById('chat-toggle');
     const chatWidget = document.getElementById('chat-widget');
     const chatClose = document.getElementById('chat-close');
@@ -170,7 +170,13 @@
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
 
-    // Funktion til at tilføje beskeder med container og boble
+    // Her gemmer vi hele samtalen i et array
+    // Ex: [{ sender: "You", text: "Hello" }, { sender: "Coach", text: "Hi there" }, ...]
+    let conversation = [];
+
+    /**
+     * Tilføj en besked i UI.
+     */
     function addMessage(sender, text) {
         const msgContainer = document.createElement('div');
         msgContainer.classList.add('message');
@@ -190,17 +196,94 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Når toggle-knappen klikkes: vis widget og tilføj velkomstbesked, hvis der ikke er nogen beskeder
+    /**
+     * Gem conversation-array i localStorage (som JSON).
+     */
+    function saveChatHistory() {
+        localStorage.setItem("chatHistory", JSON.stringify(conversation));
+    }
+
+    /**
+     * Indlæs chat-historik fra localStorage og genskab UI.
+     */
+    function loadChatHistory() {
+        const stored = localStorage.getItem("chatHistory");
+        if (stored) {
+            conversation = JSON.parse(stored);
+            conversation.forEach(msg => {
+                addMessage(msg.sender, msg.text);
+            });
+        }
+    }
+
+    /**
+     * Send brugerens besked til serveren, og modtag AI-svar.
+     * Vi inkluderer kun de seneste 10 beskeder i API-kaldet.
+     */
+    function sendToServer(userMessage) {
+        // Tilføj brugerens besked i conversation-array
+        conversation.push({ sender: "You", text: userMessage });
+        saveChatHistory();
+
+        // Vis i UI
+        addMessage("You", userMessage);
+        chatInput.value = '';
+
+        // Forbered 'messages' til OpenAI format
+        // 1) System prompt. Du kan holde den fast her, eller lade serveren om det.
+        const systemPrompt = {
+            role: "system",
+            content: "You are a friendly and knowledgeable AI Fitness Coach on an English-language health and fitness website."
+        };
+
+        // 2) Tag kun de sidste 10 beskeder fra conversation, omdøb dem til (role, content)
+        const recentConversation = conversation.slice(-10); // tag kun de sidste 10
+        const chatMessages = recentConversation.map(msg => {
+            if (msg.sender === "You") {
+                return { role: "user", content: msg.text };
+            } else {
+                return { role: "assistant", content: msg.text };
+            }
+        });
+
+        // 3) Payload der sendes til server
+        const payload = {
+            messages: [systemPrompt, ...chatMessages]
+        };
+
+        // Kald /api/fitness_coach med hele samtalen
+        axios.post('/api/fitness_coach', payload)
+            .then(response => {
+                const reply = response.data.reply;
+                // Tilføj coach-svar til conversation
+                conversation.push({ sender: "Coach", text: reply });
+                saveChatHistory();
+                addMessage("Coach", reply);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const errorMsg = 'Sorry, something went wrong.';
+                conversation.push({ sender: "Coach", text: errorMsg });
+                saveChatHistory();
+                addMessage("Coach", errorMsg);
+            });
+    }
+
+    // Når toggle-knappen klikkes: vis widget
     chatToggle.addEventListener('click', () => {
         chatWidget.style.display = 'flex';
         chatToggle.classList.add('hide');
 
-        if (chatMessages.children.length === 0) {
-            addMessage('Coach', 'Welcome! I am your AI Fitness Coach. Ask me anything about training and nutrition.');
+        // Hvis conversation er tom, giv evt. en velkomst
+        if (conversation.length === 0) {
+            const welcomeText = "Welcome! I am your AI Fitness Coach. Ask me anything about training and nutrition.";
+            conversation.push({ sender: "Coach", text: welcomeText });
+            saveChatHistory();
+            addMessage("Coach", welcomeText);
         }
     });
 
-    // Luk widgeten via close-knappen
+    // Luk widget
     chatClose.addEventListener('click', () => {
         chatWidget.style.display = 'none';
         chatToggle.classList.remove('hide');
@@ -210,26 +293,19 @@
     chatSend.addEventListener('click', () => {
         const message = chatInput.value.trim();
         if (!message) return;
-
-        addMessage('You', message);
-        chatInput.value = '';
-
-        axios.post('/api/fitness_coach', { message: message })
-            .then(response => {
-                const reply = response.data.reply;
-                addMessage('Coach', reply);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                addMessage('Coach', 'Sorry, something went wrong.');
-            });
+        sendToServer(message);
     });
 
-    // Mulighed for at sende besked med Enter-tasten
+    // Send besked ved Enter
     chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             chatSend.click();
         }
+    });
+
+    // Når siden loades, hent chat-historik fra localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+        loadChatHistory();
     });
 </script>
