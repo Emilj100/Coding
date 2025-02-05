@@ -521,7 +521,6 @@ def trainingsession():
 
 
 @app.route("/api/fitness_coach", methods=["POST"])
-@login_required
 def fitness_coach():
     """Modtager en JSON-body med 'message' og returnerer et AI-svar."""
     data = request.get_json()
