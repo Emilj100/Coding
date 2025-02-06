@@ -2,25 +2,27 @@
 {% block title %}Dashboard Overview{% endblock %}
 
 {% block main %}
-<!-- Ekstra CSS kun for mobil -->
+<!-- Ekstra CSS, der kun gælder på mobil -->
 <style>
   @media (max-width: 767.98px) {
-    /* Gør knapcontaineren til en kolonne med ekstra mellemrum */
-    .dashboard-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    /* Gør knapperne i .dashboard-buttons lige lange med ekstra margin */
+    .dashboard-buttons a {
+      width: 100%;
     }
-    /* Gør charts en smule større */
-    #weightChart,
-    #calorieChart {
-      height: 350px !important;
+    .dashboard-buttons a + a {
+      margin-top: 1rem;
+    }
+    /* Overskriv den Bootstrap-ratio, så diagrammerne bliver højere */
+    .mobile-chart {
+      --bs-aspect-ratio: 75%;
     }
   }
 </style>
 
 <div class="container mt-4">
-    <h2 class="mb-4 fw-bold">Hey, {{ user_name | title }}! Here’s your progress update for this week 🚀</h2>
+    <h2 class="mb-4 fw-bold">
+        Hey, {{ user_name | title }}! Here’s your progress update for this week 🚀
+    </h2>
 
     <!-- Overview Cards -->
     <div class="row">
@@ -87,12 +89,16 @@
         <!-- Weight Progress Graph -->
         <div class="col-md-6">
             <h5 class="fw-bold">Weight Progress Over Time</h5>
-            <canvas id="weightChart"></canvas>
+            <div class="ratio ratio-16x9 mobile-chart">
+              <canvas id="weightChart"></canvas>
+            </div>
         </div>
         <!-- Caloric Intake Graph - Current Week -->
         <div class="col-md-6">
             <h5 class="fw-bold">Caloric Intake - Current Week</h5>
-            <canvas id="calorieChart"></canvas>
+            <div class="ratio ratio-16x9 mobile-chart">
+              <canvas id="calorieChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
