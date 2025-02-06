@@ -2,6 +2,22 @@
 {% block title %}Calorie Insights{% endblock %}
 
 {% block main %}
+<!-- Ekstra CSS til mobilvisning -->
+<style>
+  @media (max-width: 767.98px) {
+    /* Hvis du har tabeller, skal de pakkes ind i en container med disse klasser */
+    .responsive-table {
+      font-size: 0.9rem;
+      /* evt. ekstra padding eller margin kan tilføjes her */
+    }
+    /* Gør diagrammerne større og med et pænere aspekt */
+    .mobile-chart {
+      /* Brug Bootstraps ratio-komponent med et lidt anderledes aspektforhold */
+      --bs-aspect-ratio: 75%;
+    }
+  }
+</style>
+
 <div class="container mt-4">
     <div class="mt-4">
         <h2 class="mb-2 fw-bold">Optimize your weekly calorie intake, {{ user_name | title }}! 🔥</h2>
@@ -60,7 +76,7 @@
     <div class="mt-4 p-4 bg-white rounded shadow-sm text-center">
         <h5 class="fw-bold">Best & Worst Day</h5>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-3 border rounded shadow-sm">
                     <h6 class="fw-bold text-success">Best Day</h6>
                     <p class="mb-0">
@@ -105,13 +121,26 @@
     <div class="row mt-5">
         <div class="col-md-6">
             <h5 class="fw-bold">Caloric Intake - Current Week</h5>
-            <canvas id="calorieChart"></canvas>
+            <div class="ratio ratio-16x9 mobile-chart">
+              <canvas id="calorieChart"></canvas>
+            </div>
         </div>
         <div class="col-md-6">
             <h5 class="fw-bold">Daily Intake vs. Goal</h5>
-            <canvas id="goalChart"></canvas>
+            <div class="ratio ratio-16x9 mobile-chart">
+              <canvas id="goalChart"></canvas>
+            </div>
         </div>
     </div>
+
+    <!--
+      Hvis du tilføjer tabeller i fremtiden, kan du pakke dem ind i en responsive container, f.eks.:
+      <div class="table-responsive responsive-table">
+          <table class="table table-striped table-sm">
+             ...
+          </table>
+      </div>
+    -->
 </div>
 
 <!-- Minimal inline script til at gemme data -->
