@@ -31,31 +31,6 @@
 
     <!-- Titel -->
     <title>{% block title %}{% endblock %}</title>
-
-    <!-- Undgå vandret scroll på mobil ved at skjule overskud (som i index) -->
-    <style>
-      html, body {
-        overflow-x: hidden;
-      }
-
-      /* Standard styling for desktop (og default) */
-      header a img {
-          max-height: 150px;
-      }
-
-      /* Ændringer kun for mindre skærme (under lg) */
-      @media (max-width: 991px) {
-        header .container {
-          padding-top: 0.5rem;
-          padding-bottom: 0.5rem;
-        }
-        /* Øger logoets størrelse og rykker det en smule ned */
-        header a img {
-          max-height: 120px;
-          margin-top: 0.5rem;
-        }
-      }
-    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">

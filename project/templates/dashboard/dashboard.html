@@ -2,22 +2,6 @@
 {% block title %}Dashboard Overview{% endblock %}
 
 {% block main %}
-<!-- Ekstra CSS, der kun gælder på mobil -->
-<style>
-  @media (max-width: 767.98px) {
-    /* Gør knapperne i .dashboard-buttons lige lange med ekstra margin */
-    .dashboard-buttons a {
-      width: 100%;
-    }
-    .dashboard-buttons a + a {
-      margin-top: 1rem;
-    }
-    /* Overskriv den Bootstrap-ratio, så diagrammerne bliver højere */
-    .mobile-chart {
-      --bs-aspect-ratio: 75%;
-    }
-  }
-</style>
 
 <div class="container mt-4">
     <h2 class="mb-4 fw-bold">

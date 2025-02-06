@@ -2,21 +2,7 @@
 {% block title %}Calorie Insights{% endblock %}
 
 {% block main %}
-<!-- Ekstra CSS til mobilvisning -->
-<style>
-  @media (max-width: 767.98px) {
-    /* Hvis du har tabeller, skal de pakkes ind i en container med disse klasser */
-    .responsive-table {
-      font-size: 0.9rem;
-      /* evt. ekstra padding eller margin kan tilføjes her */
-    }
-    /* Gør diagrammerne større og med et pænere aspekt */
-    .mobile-chart {
-      /* Brug Bootstraps ratio-komponent med et lidt anderledes aspektforhold */
-      --bs-aspect-ratio: 75%;
-    }
-  }
-</style>
+
 
 <div class="container mt-4">
     <div class="mt-4">
@@ -132,15 +118,6 @@
             </div>
         </div>
     </div>
-
-    <!--
-      Hvis du tilføjer tabeller i fremtiden, kan du pakke dem ind i en responsive container, f.eks.:
-      <div class="table-responsive responsive-table">
-          <table class="table table-striped table-sm">
-             ...
-          </table>
-      </div>
-    -->
 </div>
 
 <!-- Minimal inline script til at gemme data -->

@@ -146,3 +146,116 @@ p {
     background-color: rgba(255, 255, 255, 0.2);
     text-decoration: none !important;
 }
+
+
+
+/* CALORIES PAGE */
+@media (max-width: 767.98px) {
+    /* Hvis du har tabeller, skal de pakkes ind i en container med disse klasser */
+.responsive-table {
+      font-size: 0.9rem;
+      /* evt. ekstra padding eller margin kan tilføjes her */
+}
+    /* Gør diagrammerne større og med et pænere aspekt */
+.mobile-chart {
+      /* Brug Bootstraps ratio-komponent med et lidt anderledes aspektforhold */
+      --bs-aspect-ratio: 75%;
+    }
+}
+
+
+/* INDEX PAGE */
+.hero-img {
+    object-fit: cover;
+    max-height: 800px; /* for store skærme */
+  }
+
+/* Mindre skærme */
+@media (max-width: 768px) {
+/* Gør hero billedet længere – fx sæt en fast højde */
+.hero-img {
+    height: 600px !important;
+    object-fit: cover;
+}
+.hero-text h1 {
+    font-size: 1.8rem;
+}
+.hero-text p {
+    font-size: 1rem;
+}
+
+.slide-in-left .row,
+.slide-in-right .row {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Tving alle billeder i slide-in sektioner (og andre med mx-lg-auto) til at centrere sig */
+.slide-in-left img,
+.slide-in-right img,
+.img-fluid.mx-lg-auto,
+.d-block.mx-lg-auto {
+    display: block !important;
+    margin: 0 auto !important;
+}
+  }
+
+/* Ekstra spacing for hero sektion */
+.hero-wrapper {
+    margin-bottom: 3rem;
+}
+
+/* Sikrer at slide-in sektioner ikke skaber vandret scroll */
+.slide-in-left, .slide-in-right {
+    overflow: hidden;
+}
+
+
+/* DASHBOARD PAGE*/
+@media (max-width: 768px) {
+/* Gør knapperne i .dashboard-buttons lige lange med ekstra margin */
+.dashboard-buttons a {
+    width: 100%;
+}
+.dashboard-buttons a + a {
+    margin-top: 1rem;
+}
+/* Overskriv den Bootstrap-ratio, så diagrammerne bliver højere */
+.mobile-chart {
+    --bs-aspect-ratio: 75%;
+    }
+}
+
+
+/* TRAINING PAGE */
+@media (max-width: 768px) {
+    /* For at gøre diagrammerne højere på mobil – overskriv standard-aspektforholdet */
+    .mobile-chart {
+      --bs-aspect-ratio: 75%;
+    }
+  }
+
+
+/* LAYOUT.HTML */
+html, body {
+    overflow-x: hidden;
+}
+
+/* Standard styling for desktop (og default) */
+header a img {
+    max-height: 150px;
+}
+
+/* Ændringer kun for mindre skærme (under lg) */
+@media (max-width: 991px) {
+    header .container {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+/* Øger logoets størrelse og rykker det en smule ned */
+    header a img {
+      max-height: 120px;
+      margin-top: 0.5rem;
+    }
+  }

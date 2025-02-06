@@ -167,57 +167,93 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-    // ========== TRAINING PAGE ==========
-  document.addEventListener("DOMContentLoaded", () => {
-    // Tjek om der er trainingData
-    const trainData = window.trainingData;
-    if (trainData) {
-      // Tjek om disse elementer findes
-      const freqChartEl = document.getElementById('trainingFrequencyChart');
-      const progChartEl = document.getElementById('progressionChart');
+// ========== TRAINING PAGE ==========
+document.addEventListener("DOMContentLoaded", () => {
+  // Tjek om der er trainingData
+  const trainData = window.trainingData;
+  if (trainData) {
+    // Tjek om disse elementer findes
+    const freqChartEl = document.getElementById('trainingFrequencyChart');
+    const progChartEl = document.getElementById('progressionChart');
 
-      if (freqChartEl && progChartEl) {
-        // Extract data for frequency
-        const freqData = trainData.freqData;
-        const freqLabels = freqData.map(d => d.week_range);
-        const freqSessions = freqData.map(d => d.sessions);
+    if (freqChartEl && progChartEl) {
+      // Extract data for frequency (samme som før)
+      const freqData = trainData.freqData;
+      const freqLabels = freqData.map(d => d.week_range);
+      const freqSessions = freqData.map(d => d.sessions);
 
-        // Opret bar chart
-        new Chart(freqChartEl.getContext('2d'), {
-          type: 'bar',
-          data: {
-            labels: freqLabels,
-            datasets: [{
-              label: 'Training Sessions',
-              data: freqSessions,
-              backgroundColor: '#007bff'
-            }]
-          }
-        });
+      // Opret bar chart for training frequency
+      new Chart(freqChartEl.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: freqLabels,
+          datasets: [{
+            label: 'Training Sessions',
+            data: freqSessions,
+            backgroundColor: '#007bff'
+          }]
+        }
+      });
 
-        // Extract data for progression
-        const progData = trainData.progressionData;
-        const progLabels = progData.map(d => d.week_range);
-        const progWeights = progData.map(d => d.avg_weight);
+      // Extract data for progression (gennemsnitlig vægt per uge)
+      const progData = trainData.progressionData;
+      const progLabels = progData.map(d => d.week_range);
+      const progAvgWeights = progData.map(d => d.avg_weight);
 
-        // Opret line chart
-        new Chart(progChartEl.getContext('2d'), {
-          type: 'line',
-          data: {
-            labels: progLabels,
-            datasets: [{
-              label: 'Avg Weight (kg)',
-              data: progWeights,
-              borderColor: '#007bff',
-              backgroundColor: 'rgba(0, 123, 255, 0.2)',
-              fill: true,
-              tension: 0.3
-            }]
-          }
-        });
+      // Beregn vægtstigning uge for uge (dvs. forskellen fra forrige uge)
+      let weightIncreases = [];
+      for (let i = 1; i < progAvgWeights.length; i++) {
+        // Runder forskellen af til én decimal
+        weightIncreases.push(Number((progAvgWeights[i] - progAvgWeights[i - 1]).toFixed(1)));
       }
+      // Vi bruger de labels, der svarer til ugerne fra og med den 2. uge
+      const diffLabels = progLabels.slice(1);
+
+      // Opret bar chart for average weight increase (progression)
+      new Chart(progChartEl.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: diffLabels,
+          datasets: [{
+            label: 'Average Weight Increase (kg)',
+            data: weightIncreases,
+            backgroundColor: weightIncreases.map(diff => diff >= 0 ? '#28a745' : '#dc3545')
+            // Grøn for positive stigninger, rød for negative
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Weight Increase (kg)'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Week Range'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.parsed.y + ' kg';
+                }
+              }
+            }
+          }
+        }
+      });
     }
-  });
+  }
+});
 
 
     // ========== WEIGHT PAGE ==========

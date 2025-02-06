@@ -308,21 +308,8 @@ def calorietracker():
         elif action == "delete":  # Handling for deleting food
             food_id = request.form.get("food_id")
             db.execute("DELETE FROM food_log WHERE id = ? AND user_id = ?", food_id, user_id)
-
-            # Opdater makrodata og genindlæs siden
-            food_log = db.execute(
-                """
-                SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
-                FROM food_log
-                WHERE user_id = ? AND DATE(created_at) = DATE('now')
-                """,
-                user_id
-            )
-            macros = get_macros()
-            total_consumed = macros["total_calories"] if macros["total_calories"] else 0
-            remaining_calories = calorie_goal - total_consumed
-
             return redirect("/calorietracker")
+
 
     return render_template(
         "calorietracker.html",
@@ -417,9 +404,6 @@ def traininglog():
             """,
             user_id
         )
-
-
-
 
         return render_template("traininglog.html", program_data=program_data, training_history=training_history)
 
@@ -586,7 +570,7 @@ def fitness_coach():
 
 
 
-@app.route("/dashboard", methods=["GET"])
+@app.route("/dashboard")
 @login_required
 def dashboard():
     user_id = session.get("user_id")
@@ -973,7 +957,7 @@ def weight_progress():
         goal_weight=goal_weight if goal_weight is not None else default_text
     )
 
-@app.route("/calories", methods=["GET"])
+@app.route("/calories")
 @login_required
 def calories():
     user_id = session.get("user_id")
@@ -1059,7 +1043,7 @@ def calories():
     )
 
 
-@app.route("/training", methods=["GET"])
+@app.route("/training")
 @login_required
 def training():
     user_id = session.get("user_id")
@@ -1332,7 +1316,7 @@ def settings():
         return redirect("/settings")
 
     # GET-request: Returner den nuværende brugerdata med en tom error-besked
-    return render_template("dashboard/settings.html", user=user, error="")
+    return render_template("dashboard/settings.html", user=user, error=None)
 
 
 
@@ -1401,11 +1385,15 @@ def mealplan():
                 # Slet madplan og tilknyttede måltider
                 db.execute("DELETE FROM meal_plan_meals WHERE meal_plan_id = ?", plan_id)
                 db.execute("DELETE FROM meal_plans WHERE id = ? AND user_id = ?", plan_id, user_id)
+            # Redirect efter handling
+            return redirect("/mealplan")
 
         elif action == "add":
             # Valider "plan_name"
             if not request.form.get("plan_name"):
-                return render_template("mealplan.html", error="Please enter a meal plan name.")
+                # Her kan du evt. bruge flask.flash til at vise fejlbesked
+                flash("Please enter a meal plan name.", "error")
+                return redirect("/mealplan")
 
             # Hent brugerens kaloriebudget og mål
             user_data = db.execute("SELECT daily_calorie_goal, goal_type FROM users WHERE id = ?", user_id)[0]
@@ -1414,13 +1402,11 @@ def mealplan():
             MAX_CALORIES = 3443
             if calorie_goal > MAX_CALORIES:
                 calorie_goal = MAX_CALORIES  # Begræns til 3443 kalorier
-                error_message = (
+                flash(
                     "Your daily calorie goal exceeds the maximum we can generate a plan for (3440 kcal). "
-                    "We have created a plan with the highest available calorie value."
+                    "We have created a plan with the highest available calorie value.",
+                    "warning"
                 )
-            else:
-                error_message = None
-
             goal_type = user_data["goal_type"]
 
             # Beregn makronæringsstoffer for hele planen og fordel dem
@@ -1442,11 +1428,10 @@ def mealplan():
 
             for meal_type in meal_types:
                 url = "https://api.spoonacular.com/recipes/complexSearch"
-                # Tilpas params baseret på diet
                 params = {
                     "apiKey": api_key,
                     "type": meal_type,
-                    "minCalories": min(calorie_goal - 100, 1100),  # Fordel kalorierne på tre måltider
+                    "minCalories": min(calorie_goal - 100, 1100),
                     "maxCalories": min(calorie_goal + 100, 1300),
                     "addRecipeNutrition": True,
                     "number": 1,
@@ -1456,31 +1441,25 @@ def mealplan():
                     "minCarbs": meal_carbs,
                     "minFat": meal_fat
                 }
-
-
-
-
                 response = requests.get(url, params=params)
                 if response.status_code == 200:
                     result = response.json().get("results", [])
-
                     if result:
                         meal = result[0]
                         meals.append(meal)
                         offset += 1
-
-                        # Udtræk faktisk næringsindhold
                         nutrients = meal.get("nutrition", {}).get("nutrients", [])
                         total_calories += next((n["amount"] for n in nutrients if n["name"] == "Calories"), 0)
                         total_protein += next((n["amount"] for n in nutrients if n["name"] == "Protein"), 0)
                         total_carbs += next((n["amount"] for n in nutrients if n["name"] == "Carbohydrates"), 0)
                         total_fat += next((n["amount"] for n in nutrients if n["name"] == "Fat"), 0)
-
                 else:
-                    return render_template("mealplan.html", error=f"Failed to fetch {meal_type}. Try again.")
+                    flash(f"Failed to fetch {meal_type}. Try again.", "error")
+                    return redirect("/mealplan")
 
             if not meals or len(meals) != 3:
-                return render_template("mealplan.html", error="Could not generate a complete meal plan. Try again.")
+                flash("Could not generate a complete meal plan. Try again.", "error")
+                return redirect("/mealplan")
 
             # Indsæt madplan
             meal_plan_id = db.execute(
@@ -1500,12 +1479,11 @@ def mealplan():
                     """,
                     meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal.get("readyInMinutes", 0), meal["imageType"]
                 )
+            # Efter at have tilføjet madplanen, laver vi redirect til GET
+            return redirect("/mealplan")
 
-        # Hent opdaterede data
-        meal_plans, meals_by_plan = select_data(user_id)
-        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
+    # GET request:
+    meal_plans, meals_by_plan = select_data(user_id)
+    return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
 
-    else:  # GET request
-        meal_plans, meals_by_plan = select_data(user_id)
-        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
 
