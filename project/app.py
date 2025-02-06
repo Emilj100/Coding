@@ -1503,7 +1503,7 @@ def mealplan():
 
         # Hent opdaterede data
         meal_plans, meals_by_plan = select_data(user_id)
-        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan, error=error_message)
+        return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
 
     else:  # GET request
         meal_plans, meals_by_plan = select_data(user_id)
