@@ -90,23 +90,33 @@ def registerpart1():
 @app.route("/register-part2", methods=["GET", "POST"])
 def registerpart2():
     if request.method == "POST":
-
+        # Try to convert the 'age' input to an integer
         try:
             age = int(request.form.get("age"))
         except ValueError:
             return render_template("register-part2.html", error="Please enter a valid number for age.")
+
+        # Validate that the gender input is either "Male" or "Female"
         if not request.form.get("gender") in ["Male", "Female"]:
             return render_template("register-part2.html", error="Please select a valid gender")
+
+        # Try to convert 'height', 'weight', and 'goal_weight' to floats
         try:
             height = float(request.form.get("height"))
             weight = float(request.form.get("weight"))
             goal_weight = float(request.form.get("goal_weight"))
         except ValueError:
             return render_template("register-part2.html", error="Height, weight, and goal weight must be numbers")
+
+        # Ensure the goal type is valid
         if not request.form.get("goal_type") in ["lose weight", "gain weight", "stay at current weight"]:
             return render_template("register-part2.html", error="Please select a valid goal")
+
+        # Validate the experience level
         if not request.form.get("experience_level") in ["Beginner", "Intermediate", "Advanced"]:
             return render_template("register-part2.html", error="Please select a valid experience level")
+
+        # Validate that training days is an integer between 1 and 7
         try:
             training_days = int(request.form.get("training_days"))
             if not (1 <= training_days <= 7):
@@ -114,79 +124,98 @@ def registerpart2():
         except ValueError:
             return render_template("register-part2.html", error="Training days must be a number")
 
+        # Calculate the Basal Metabolic Rate (BMR) using the Mifflin-St Jeor Equation
         if request.form.get("gender") == "Male":
             bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
         else:
             bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+
+        # Adjust calorie intake based on the number of training days
         if (1 <= training_days <= 3):
             calorie_intake = bmr * 1.375
         elif (4 <= training_days <= 5):
             calorie_intake = bmr * 1.55
         else:
             calorie_intake = bmr * 1.725
+
+        # Further adjust calorie intake based on the user's goal type
         if request.form.get("goal_type") == "lose weight":
             calorie_intake = round(calorie_intake - 500)
         elif request.form.get("goal_type") == "gain weight":
             calorie_intake = round(calorie_intake + 500)
 
+        # Insert the new user into the database with all registration details
         try:
             user_id = db.execute(
                 """
                 INSERT INTO users (name, email, password, age, gender, height, weight, start_weight, goal_weight, goal_type, training_days, experience_level, daily_calorie_goal)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 session["name"].title(), session["email"], session["password"], age,
                 request.form.get("gender"), height, weight, weight, goal_weight,
                 request.form.get("goal_type"), training_days, request.form.get("experience_level"), calorie_intake
             )
-
+            # Store the new user's ID in the session
             session["user_id"] = user_id
 
         except ValueError:
+            # If an error occurs (e.g., duplicate email), redirect back to registration part1 with an error
             return render_template("register-part1.html", error="Email already exist")
 
+        # Remove temporary registration data from the session
         session.pop("name", None)
         session.pop("email", None)
         session.pop("password", None)
+
+        # Redirect to the homepage after successful registration
         return redirect("/")
 
+    # For GET requests, simply render the registration page for part 2
     return render_template("register-part2.html")
 
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    # Clear any existing session data on login attempt
     session.clear()
 
     if request.method == "POST":
-
+        # Retrieve email and password from the login form
         email = request.form.get("email")
         password = request.form.get("password")
 
-
+        # Validate that both email and password were provided
         if not email:
             return render_template("login.html", error="Must provide email")
         elif not password:
             return render_template("login.html", error="Must provide password")
 
+        # Query the database for a user with the provided email
         rows = db.execute("SELECT * FROM users WHERE email = ?", email)
 
+        # Check if exactly one user was found and verify the password hash
         if len(rows) != 1 or not check_password_hash(rows[0]["password"], password):
             return render_template("login.html", error="Invalid username and/or password")
 
+        # Store the user's ID in the session to mark them as logged in
         session["user_id"] = rows[0]["id"]
 
+        # Redirect the user to the homepage upon successful login
         return redirect("/")
 
     else:
+        # For GET requests, simply render the login page with no error message
         return render_template("login.html", error=None)
+
 
 @app.route("/logout")
 def logout():
-
+    # Clear the session to log the user out
     session.clear()
-
+    # Redirect to the homepage after logout
     return redirect("/")
+
 
 @app.route("/calorietracker", methods=["GET", "POST"])
 @login_required
