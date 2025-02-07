@@ -12,7 +12,7 @@ The project is structured as a full-stack web application with clearly defined b
 
 ### Key Features:
 
-1. User Registration and Login:
+1. **User Registration and Login:**
    The registration process is divided into two parts to collect user details in a structured manner. In the first part, users provide basic details such as name, email, and password. The second part collects additional data like age, gender, height, weight, goal weight, training days per week, and experience level. Passwords are securely handled using salted hash functions, and sessions are properly managed to keep users authenticated throughout their interactions.
 
 2. **Calorie Tracker:**
