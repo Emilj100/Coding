@@ -1,5 +1,5 @@
- /* Chat Widget container */
- #chat-widget {
+/* Chat Widget Container */
+#chat-widget {
     position: fixed;
     right: 20px;
     bottom: 20px;
@@ -16,7 +16,7 @@
     font-family: 'Roboto', sans-serif;
 }
 
-/* Header med blå gradient og en close-knap */
+/* Header with Blue Gradient and Close Button */
 #chat-widget header {
     background: linear-gradient(135deg, #007bff, #0056b3);
     color: #fff;
@@ -36,7 +36,7 @@
     cursor: pointer;
 }
 
-/* Beskedområdet */
+/* Message Area */
 #chat-widget .messages {
     flex: 1;
     padding: 10px;
@@ -47,14 +47,14 @@
     gap: 10px;
 }
 
-/* Hver besked-række */
+/* Each Message Row */
 .message {
     display: flex;
     width: 100%;
     margin-bottom: 10px;
 }
 
-/* Coach-beskeder til venstre */
+/* Coach Messages (Left-Aligned) */
 .message.coach {
     justify-content: flex-start;
 }
@@ -69,7 +69,7 @@
     margin-right: auto;
 }
 
-/* Bruger-beskeder til højre */
+/* User Messages (Right-Aligned) */
 .message.user {
     justify-content: flex-end;
 }
@@ -109,7 +109,7 @@
     background: #0056b3;
 }
 
-/* Chat Toggle Button (kun ikon i større cirkulær knap) */
+/* Chat Toggle Button (Icon in a Circular Button) */
 #chat-toggle {
     position: fixed;
     right: 20px;
