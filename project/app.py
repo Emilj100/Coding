@@ -883,21 +883,20 @@ def checkin():
 @app.route("/weight")
 @login_required
 def weight_progress():
-    # Retrieve the current user's ID from the session
     user_id = session.get("user_id")
 
-    # Fetch all check-ins for the user, sorted chronologically (oldest first)
+    # Hent alle check-ins for brugeren (sorteret kronologisk, ældste først)
     checkin_data = db.execute(
         "SELECT weight, date(created_at) as created_at FROM check_ins WHERE user_id = ? ORDER BY created_at ASC",
         user_id
     )
 
-    # Fetch user's info including name, start_weight, goal_weight, and goal_type
+    # Hent brugerens oplysninger inkl. navn, start_weight, goal_weight og goal_type
     user = db.execute("SELECT name, start_weight, goal_weight, goal_type FROM users WHERE id = ?", user_id)
     if user:
         user_info   = user[0]
         user_name   = user_info["name"]
-        start_weight = user_info.get("start_weight")  # Expected to be numeric
+        start_weight = user_info.get("start_weight")  # Skal være numerisk
         goal_weight  = user_info.get("goal_weight")
         goal_type    = user_info.get("goal_type", "stay at current weight")
     else:
@@ -906,7 +905,7 @@ def weight_progress():
         goal_weight = None
         goal_type = "stay at current weight"
 
-    # Determine the current weight from the latest check-in, if available
+    # Bestem current weight ud fra den seneste check-in
     if checkin_data:
         current_weight = checkin_data[-1]["weight"]
     else:
@@ -914,34 +913,33 @@ def weight_progress():
 
     default_text = "No data yet"
 
-    # Calculate overall weight change (to be displayed in the central card)
+    # Beregn vægtændring (det, der skal vises i det midterste kort)
     if start_weight is not None and current_weight is not None:
         if goal_type.lower() == "lose weight":
             weight_change = round(start_weight - current_weight, 1)
         elif goal_type.lower() == "gain weight":
             weight_change = round(current_weight - start_weight, 1)
         elif goal_type.lower() == "stay at current weight":
-            # For maintaining weight, calculate the absolute change (could be positive or negative)
+            # Her beregner vi den faktiske afvigelse fra startvægten, som kan være både positiv eller negativ.
             weight_change = round(current_weight - start_weight, 1)
         else:
             weight_change = None
     else:
         weight_change = None
 
-    # Format the weight change for display with a proper sign
     if weight_change is not None:
         if weight_change > 0:
-            # For a weight increase; use '-' if the goal is to lose weight, '+' otherwise
+            # Hvis stigning (eller tab i tilfælde af lose, som burde være positivt)
             sign = "-" if goal_type.lower() == "lose weight" else "+"
             weight_change_display = sign + str(abs(weight_change))
         else:
-            # For a weight decrease (or negative change when gaining)
+            # Hvis der er et fald (eller negativ ændring ved gain)
             sign = "-" if goal_type.lower() == "lose weight" else "+"
             weight_change_display = sign + str(abs(weight_change))
     else:
         weight_change_display = default_text
 
-    # Choose an appropriate label based on the goal type
+    # Vælg et passende label afhængig af måltypen
     if goal_type.lower() == "lose weight":
         weight_change_label = "Weight Lost"
     elif goal_type.lower() == "gain weight":
@@ -951,7 +949,7 @@ def weight_progress():
     else:
         weight_change_label = "Weight Change"
 
-    # Calculate the average weekly change based on the entire period
+    # Beregn gennemsnitlig ændring per uge baseret på hele perioden
     if checkin_data and start_weight is not None:
         first_entry = checkin_data[0]
         last_entry  = checkin_data[-1]
@@ -962,7 +960,7 @@ def weight_progress():
             first_date = last_date = datetime.now()
 
         diff_days = (last_date - first_date).days
-        # Assume the data covers 1 week if the period is less than 7 days
+        # Hvis perioden er mindre end 7 dage, antages det at dataene dækker 1 uge
         weeks = diff_days / 7 if diff_days >= 7 else 1
 
         if goal_type.lower() == "lose weight":
@@ -978,7 +976,6 @@ def weight_progress():
     else:
         avg_change_per_week = None
 
-    # Format the average change per week for display with the correct sign
     if avg_change_per_week is not None:
         if avg_change_per_week > 0:
             sign = "-" if goal_type.lower() == "lose weight" else "+"
@@ -989,11 +986,27 @@ def weight_progress():
     else:
         avg_change_display = default_text
 
-    # Build a weight log by comparing each check-in with the previous one
+
+
+    # Beregn progress procent – hvor stor en del af målet der er opnået
+    if start_weight is not None and goal_weight is not None and current_weight is not None:
+        if goal_type.lower() == "lose weight":
+            progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
+        elif goal_type.lower() == "gain weight":
+            progress = ((current_weight - start_weight) / (goal_weight - start_weight)) * 100
+        elif goal_type.lower() == "stay at current weight":
+            progress = 0
+        else:
+            progress = 0
+        progress = min(max(round(progress, 1), 0), 100)
+    else:
+        progress = None
+
+    # Beregn weight log: Sammenlign hvert check-in med det foregående for at udregne ændringen
     weight_log = []
     for i, entry in enumerate(checkin_data):
         if i == 0:
-            change = "-"  # No previous check-in for the first entry
+            change = "-"  # Ingen tidligere check-in
         else:
             prev_weight = checkin_data[i-1]["weight"]
             diff = round(entry["weight"] - prev_weight, 1)
@@ -1006,14 +1019,13 @@ def weight_progress():
             "weight": entry["weight"],
             "change": change
         })
-    # Limit the weight log to the 10 most recent check-ins
+    # Begræns weight log til de 10 seneste check-ins
     if len(weight_log) > 10:
         weight_log = weight_log[-10:]
 
-    # Select graph data: use the last 10 check-ins if available, otherwise all check-ins
+    # Vælg grafdata: de 10 seneste check-ins (hvis der er mindst 10)
     graph_data = checkin_data[-10:] if len(checkin_data) >= 10 else checkin_data
 
-    # Render the weight progress dashboard template with all calculated metrics and data
     return render_template(
         "dashboard/weight.html",
         user_name=user_name,
@@ -1027,7 +1039,6 @@ def weight_progress():
         start_weight=start_weight if start_weight is not None else default_text,
         goal_weight=goal_weight if goal_weight is not None else default_text
     )
-
 
 @app.route("/calories")
 @login_required
