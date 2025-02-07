@@ -49,30 +49,42 @@ def after_request(response):
 
 @app.route("/")
 def index():
+    # Render the homepage template when the root URL is accessed
     return render_template("index.html")
+
 
 @app.route("/register-part1", methods=["GET", "POST"])
 def registerpart1():
+    # If the form is submitted via POST, process the registration data
     if request.method == "POST":
-
+        # Get the email input from the form
         email = request.form.get("email")
 
+        # Validate form fields and return the form with an error message if any check fails
         if not request.form.get("name"):
+            # Name field must not be empty
             return render_template("register-part1.html", error="Must provide Name")
         elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            # Email must match a simple regex pattern to be considered valid
             return render_template("register-part1.html", error="Must provide valid email")
         elif not request.form.get("password") or not len(request.form.get("password")) >= 8:
+            # Password must be provided and be at least 8 characters long
             return render_template("register-part1.html", error="Password must be at least 8 characters long")
         elif request.form.get("password") != request.form.get("confirm_password"):
+            # Confirm that the password and its confirmation match
             return render_template("register-part1.html", error="Passwords must match")
 
+        # Store the user's name, email, and hashed password in the session for use in later registration steps
         session["name"] = request.form.get("name")
         session["email"] = request.form.get("email")
         session["password"] = generate_password_hash(request.form.get("password"))
 
+        # Redirect the user to the next registration step
         return redirect("/register-part2")
 
+    # For GET requests, simply render the registration form template
     return render_template("register-part1.html")
+
 
 
 @app.route("/register-part2", methods=["GET", "POST"])
