@@ -220,9 +220,10 @@ def logout():
 @app.route("/calorietracker", methods=["GET", "POST"])
 @login_required
 def calorietracker():
+    # Retrieve the current user's ID from the session
     user_id = session["user_id"]
 
-    # Fetch food log for the current day
+    # Fetch the food log for the current day from the database
     food_log = db.execute(
         """
         SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
@@ -232,7 +233,7 @@ def calorietracker():
         user_id
     )
 
-    # Fetch macros and calculate remaining calories
+    # Define a helper function to retrieve macro nutrient totals for the current day
     def get_macros():
         return db.execute(
             """
@@ -246,16 +247,19 @@ def calorietracker():
             user_id
         )[0]
 
+    # Get the macros and calculate total calories consumed and remaining calories
     macros = get_macros()
     calorie_goal = db.execute("SELECT daily_calorie_goal FROM users WHERE id = ?", user_id)[0]["daily_calorie_goal"]
     total_consumed = macros["total_calories"] if macros["total_calories"] else 0
     remaining_calories = calorie_goal - total_consumed
 
     if request.method == "POST":
+        # Determine which action was submitted from the form (add or delete)
         action = request.form.get("action")
 
-        if action == "add":  # Handling for adding food
+        if action == "add":  # Handling for adding food items
             food_query = request.form.get("food")
+            # API credentials for Nutritionix
             API_KEY = "6158963245cf646896228de0c3d0ba3a"
             APP_ID = "584633a6"
 
@@ -268,18 +272,19 @@ def calorietracker():
             data = {"query": food_query}
             response = requests.post(url, headers=headers, json=data)
 
-            failed_items = []  # Items not recognized
+            failed_items = []  # Initialize list for items not recognized by the API
 
             if response.status_code == 200:
                 nutrition_data = response.json()
 
                 if "foods" in nutrition_data and nutrition_data["foods"]:
+                    # Extract the recognized food names in lowercase for comparison
                     recognized_foods = [food["food_name"].lower() for food in nutrition_data["foods"]]
 
-                    # Inputvarer splittet på komma
+                    # Split the user input by commas and trim whitespace
                     input_items = [item.strip().lower() for item in food_query.split(",")]
 
-                    # Indsæt genkendte fødevarer i databasen
+                    # Insert each recognized food item into the food_log table
                     for food in nutrition_data["foods"]:
                         try:
                             db.execute(
@@ -288,7 +293,7 @@ def calorietracker():
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                                 """,
                                 user_id,
-                                food["food_name"].title(),
+                                food["food_name"].title(),  # Capitalize food name for consistency
                                 food["serving_qty"],
                                 food["serving_unit"],
                                 food["nf_calories"],
@@ -297,19 +302,19 @@ def calorietracker():
                                 food["nf_total_fat"]
                             )
                         except Exception:
-                            pass  # Ignorer fejl under tilføjelse af fødevarer
+                            pass  # Ignore errors during insertion
 
-                    # Tjek for ikke-genkendte varer
+                    # Identify any input items that were not recognized by the API
                     failed_items = [
                         item for item in input_items
                         if not any(recognized_food in item for recognized_food in recognized_foods)
                     ]
                 else:
-                    # Ingen fødevarer blev genkendt
+                    # If no foods were recognized in the API response, consider all items as failed
                     failed_items = [item.strip() for item in food_query.split(",")]
 
             else:
-                # API call failed
+                # If the API call fails, render the page with an error message
                 return render_template(
                     "calorietracker.html",
                     food_log=food_log,
@@ -320,12 +325,12 @@ def calorietracker():
                     error="No valid food items were recognized. Please try again with specific food descriptions."
                 )
 
-            # Kun vis fejlbesked, hvis der er varer, der fejlede
+            # Set an error message if there are any failed items to process
             error = None
             if failed_items:
                 error = f"The following items could not be processed: {', '.join(failed_items)}."
 
-            # Opdater makrodata og food log efter tilføjelser
+            # Refresh food log and macros data after adding the food items
             food_log = db.execute(
                 """
                 SELECT id, food_name, serving_qty, serving_unit, calories, proteins, carbohydrates, fats
@@ -338,7 +343,7 @@ def calorietracker():
             total_consumed = macros["total_calories"] if macros["total_calories"] else 0
             remaining_calories = calorie_goal - total_consumed
 
-            # Always render the updated page
+            # Render the calorietracker page with updated data and any error message
             return render_template(
                 "calorietracker.html",
                 food_log=food_log,
@@ -349,12 +354,14 @@ def calorietracker():
                 error=error
             )
 
-        elif action == "delete":  # Handling for deleting food
+        elif action == "delete":  # Handling for deleting a food item
             food_id = request.form.get("food_id")
+            # Delete the specified food item from the database
             db.execute("DELETE FROM food_log WHERE id = ? AND user_id = ?", food_id, user_id)
+            # Redirect to the calorietracker page to refresh data after deletion
             return redirect("/calorietracker")
 
-
+    # For GET requests, render the calorietracker page with the current food log and macros
     return render_template(
         "calorietracker.html",
         food_log=food_log,
@@ -363,6 +370,7 @@ def calorietracker():
         remaining_calories=round(remaining_calories),
         calorie_goal=round(calorie_goal)
     )
+
 
 
 @app.route("/traininglog", methods=["GET", "POST"])
