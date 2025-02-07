@@ -376,20 +376,18 @@ def calorietracker():
 @app.route("/traininglog", methods=["GET", "POST"])
 @login_required
 def traininglog():
+    # Retrieve the current user's ID from the session
     user_id = session["user_id"]
 
     if request.method == "POST":
-        # Hent day_id fra formen
+        # Get the selected day_id from the form submission
         day_id = request.form.get("day_id")
-
-        # Gem day_id i sessionen
+        # Store the day_id in the session for later use in the training session
         session["day_id"] = day_id
-
-        # Redirect til trainingsession
+        # Redirect the user to the training session page
         return redirect("/trainingsession")
-
     else:
-        # Hent brugerdata
+        # For GET requests, first retrieve the user's training preferences
         user_data = db.execute(
             """
             SELECT training_days, experience_level
@@ -399,7 +397,7 @@ def traininglog():
             user_id
         )
 
-        # Hent programdata med sidste vægt fra LastSession
+        # Retrieve program data including the last recorded weight (if available) for each exercise
         raw_program_data = db.execute(
             """
             SELECT
@@ -429,7 +427,7 @@ def traininglog():
             user_id, user_data[0]["training_days"], user_data[0]["experience_level"]
         )
 
-        # Gruppér dataen efter day_number
+        # Group the program data by day number for easier rendering in the template
         program_data = {}
         for row in raw_program_data:
             day_number = row["day_number"]
@@ -446,7 +444,7 @@ def traininglog():
                 "weight": row["weight"]
             })
 
-        # Hent træningshistorik fra `TrainingLogs`, kun de sidste 7 dage
+        # Fetch training history from the last 7 days for display
         training_history = db.execute(
             """
             SELECT DATE(created_at) AS created_at, day_name, exercise_name, sets, reps, weight
@@ -457,19 +455,24 @@ def traininglog():
             user_id
         )
 
+        # Render the training log page with the program data and training history
         return render_template("traininglog.html", program_data=program_data, training_history=training_history)
 
 
 @app.route("/trainingsession", methods=["GET", "POST"])
 @login_required
 def trainingsession():
+    # Retrieve current user's ID and the selected day_id from the session
     user_id = session["user_id"]
     day_id = session.get("day_id")
 
+    # If no day_id is stored, redirect back to the training log page
     if not day_id:
-        return redirect("/traininglog")  # Hvis ingen dag er valgt, send brugeren tilbage
+        return redirect("/traininglog")
 
+    # Helper function to retrieve training data (exercises and day info) for the given day_id
     def get_training_data(user_id, day_id):
+        # Fetch day information (day number and name)
         day_info = db.execute(
             """
             SELECT day_number, day_name
@@ -478,6 +481,7 @@ def trainingsession():
             """,
             day_id
         )
+        # Fetch exercises for the day, including the last recorded weight if available
         exercises = db.execute(
             """
             SELECT
@@ -500,19 +504,21 @@ def trainingsession():
         return exercises, day_info[0]
 
     if request.method == "POST":
+        # Get the training data (exercises and day information) for the selected day
         exercises, day_info = get_training_data(user_id, day_id)
         if not exercises or not day_info:
             return redirect("/traininglog")
 
-        # Generer ét tidsstempel for hele sessionen
+        # Generate a common timestamp for the entire training session
         session_ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        # Loop through each exercise and record the entered weight
         for exercise in exercises:
             exercise_name = exercise["exercise_name"]
             weight = request.form.get(exercise_name, type=float)
             if weight is None:
-                continue
-            # Indsæt træningen i TrainingLogs med det fælles tidsstempel
+                continue  # Skip if no weight is provided for this exercise
+            # Insert a new record in the TrainingLogs table with the shared timestamp
             db.execute(
                 """
                 INSERT INTO TrainingLogs (user_id, day_id, day_name, exercise_name, sets, reps, weight, created_at)
@@ -520,7 +526,7 @@ def trainingsession():
                 """,
                 user_id, day_id, day_info["day_name"], exercise_name, exercise["sets"], exercise["reps"], weight, session_ts
             )
-            # Opdater eller indsæt i LastSession
+            # Check if a record exists in LastSession for the given exercise
             last_session_exists = db.execute(
                 """
                 SELECT last_weight FROM LastSession
@@ -529,6 +535,7 @@ def trainingsession():
                 user_id, day_id, exercise_name
             )
             if last_session_exists:
+                # Update the existing record with the new weight
                 db.execute(
                     """
                     UPDATE LastSession
@@ -538,6 +545,7 @@ def trainingsession():
                     weight, user_id, day_id, exercise_name
                 )
             else:
+                # Insert a new record in LastSession if one does not exist
                 db.execute(
                     """
                     INSERT INTO LastSession (user_id, day_id, exercise_name, last_weight)
@@ -545,13 +553,16 @@ def trainingsession():
                     """,
                     user_id, day_id, exercise_name, weight
                 )
+        # Remove the day_id from session once the training session is completed
         session.pop("day_id", None)
+        # Redirect back to the training log page after recording the session
         return redirect("/traininglog")
-
     else:
+        # For GET requests, fetch the training data for the selected day
         exercises, day_info = get_training_data(user_id, day_id)
         if not exercises or not day_info:
             return redirect("/traininglog")
+        # Render the training session page with the exercises and day info
         return render_template("training-session.html", training_data=exercises, day_info=day_info)
 
 
