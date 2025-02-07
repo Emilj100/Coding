@@ -5,11 +5,14 @@
 {% endblock %}
 
 {% block main %}
+<!-- Training Session Header -->
 <div class="container my-5">
     <h2 class="text-center mb-4">Training Session: Day {{ day_info.day_number }} - {{ day_info.day_name }}</h2>
     <p class="text-center text-muted">Log the weights you used for each exercise below.</p>
 
+    <!-- Training Session Form -->
     <form action="/trainingsession" method="post">
+        <!-- Exercises Table -->
         <table class="table table-striped">
             <thead class="table-dark">
                 <tr>
@@ -19,6 +22,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Exercises Table Rows -->
                 {% for exercise in training_data %}
                 <tr>
                     <td>{{ exercise.exercise_name }}</td>
@@ -31,11 +35,11 @@
             </tbody>
         </table>
 
+        <!-- End Training Button -->
         <div class="text-center mt-5">
             <button type="submit" class="btn btn-danger btn-lg">End Training</button>
         </div>
     </form>
 </div>
-
-
 {% endblock %}
+
