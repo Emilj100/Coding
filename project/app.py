@@ -1279,16 +1279,17 @@ def training():
 @app.route("/settings", methods=["GET", "POST"])
 @login_required
 def settings():
+    # Retrieve the current user's ID from the session
     user_id = session.get("user_id")
 
-    # Hent den nuværende brugerdata, så vi kan bruge eksisterende værdier
+    # Fetch the current user data so that existing values can be used if no new value is provided
     user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
     if not user_data:
         return render_template("dashboard/settings.html", error="User not found.", user={})
     user = user_data[0]
 
     if request.method == "POST":
-        # For hvert felt: hvis en ny værdi er sendt, benyt den, ellers behold den gamle værdi
+        # For each field: if a new value is provided, use it; otherwise, keep the existing value
 
         # Age
         age_input = request.form.get("age")
@@ -1309,7 +1310,7 @@ def settings():
         else:
             gender = user["gender"]
 
-        # Height og Goal Weight
+        # Height and Goal Weight
         height_input = request.form.get("height")
         goal_weight_input = request.form.get("goal_weight")
         try:
@@ -1348,16 +1349,16 @@ def settings():
         else:
             training_days = user["training_days"]
 
-        # Brug eksisterende vægt fra databasen (brugeren opdaterer ikke vægt her)
+        # Use the existing weight from the database (the user does not update their weight here)
         weight = float(user["weight"])
 
-        # Udregn BMR ud fra de aktuelle værdier
+        # Calculate BMR based on the current values using the Mifflin-St Jeor equation
         if gender == "Male":
             bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
         else:
             bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
 
-        # Udregn kalorieindtag baseret på træningsdage
+        # Calculate calorie intake based on the number of training days
         if 1 <= training_days <= 3:
             calorie_intake = bmr * 1.375
         elif 4 <= training_days <= 5:
@@ -1365,7 +1366,7 @@ def settings():
         else:
             calorie_intake = bmr * 1.725
 
-        # Juster efter goal type
+        # Adjust the calorie intake based on the goal type
         if goal_type == "lose weight":
             calorie_intake = round(calorie_intake - 500)
         elif goal_type == "gain weight":
@@ -1373,8 +1374,8 @@ def settings():
         else:
             calorie_intake = round(calorie_intake)
 
-        # Opdater brugerens data, inklusiv det nye kalorieindtag.
-        # Bemærk: Vægten forbliver uændret.
+        # Update the user's data in the database, including the new calorie intake.
+        # Note: The weight remains unchanged.
         db.execute(
             """
             UPDATE users
@@ -1402,7 +1403,7 @@ def settings():
 
         return redirect("/settings")
 
-    # GET-request: Returner den nuværende brugerdata med en tom error-besked
+    # GET-request: Return the current user data with an empty error message
     return render_template("dashboard/settings.html", user=user, error=None)
 
 
