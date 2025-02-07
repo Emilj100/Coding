@@ -10,33 +10,36 @@ import json
 from datetime import datetime, timedelta
 
 
+# Initialize the Flask application
 app = Flask(__name__)
 
-
+# Configure session settings: sessions are not permanent and stored in the filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# Initialize the database connection using the SQLite database file "health.db"
 db = SQL("sqlite:///health.db")
 
 def login_required(f):
     """
-    Decorate routes to require login.
-
-    https://flask.palletsprojects.com/en/latest/patterns/viewdecorators/
+    Decorator to require user login for protected routes.
+    If the user is not logged in (i.e., "user_id" is not in session),
+    they are redirected to the login page.
+    Reference: https://flask.palletsprojects.com/en/latest/patterns/viewdecorators/
     """
-
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        # Check if "user_id" exists in the session; if not, redirect to login page
         if session.get("user_id") is None:
             return redirect("/login")
+        # Otherwise, execute the original route function
         return f(*args, **kwargs)
-
     return decorated_function
 
 @app.after_request
 def after_request(response):
-    """Ensure responses aren't cached"""
+    """Set response headers to disable caching, ensuring users always get fresh content."""
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
