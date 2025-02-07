@@ -1,4 +1,4 @@
-// Animationer
+// Animationer på index siden
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.querySelectorAll(".fade-in-immediate");
     elements.forEach(element => {
