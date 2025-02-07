@@ -1,4 +1,4 @@
-/* Generelle settings for skrift og knapper */
+/* General settings for fonts and buttons */
 .nav-link:hover {
     text-decoration: underline !important;
 }
@@ -21,8 +21,7 @@ p {
     border-color: black;
 }
 
-/* Animationer */
-
+/* Animations */
 .section {
     opacity: 0;
     transform: translateY(20px);
@@ -53,31 +52,31 @@ p {
 
 .slide-in-left, .slide-in-right {
     opacity: 0;
-    transform: translateX(100px); /* Standard position for højre */
+    transform: translateX(100px); /* Default position for right */
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* Slide-in fra venstre */
+/* Slide-in from the left */
 .slide-in-left {
-    transform: translateX(-100px); /* Flytter elementet til venstre */
+    transform: translateX(-100px); /* Moves the element to the left */
 }
 
 .slide-in-left.visible {
     opacity: 1;
-    transform: translateX(0); /* Elementet glider ind fra venstre */
+    transform: translateX(0); /* Element slides in from the left */
 }
 
-/* Slide-in fra højre */
+/* Slide-in from the right */
 .slide-in-right {
-    transform: translateX(100px); /* Flytter elementet til højre */
+    transform: translateX(100px); /* Moves the element to the right */
 }
 
 .slide-in-right.visible {
     opacity: 1;
-    transform: translateX(0); /* Elementet glider ind fra højre */
+    transform: translateX(0); /* Element slides in from the right */
 }
 
-/* Login side */
+/* Login page */
 .form-signin {
     padding-right: 100px;
     padding-left: 100px;
@@ -85,7 +84,7 @@ p {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Centrerer indholdet i boksen */
+    text-align: center; /* Centers the content in the box */
 }
 
 .form-container {
@@ -96,8 +95,7 @@ p {
     background-color: #f8f9fa;
 }
 
-/* Traininglog side */
-
+/* Training log page */
 .start-training-btn {
     background-color: #388e3c;
     color: white;
@@ -105,39 +103,36 @@ p {
 }
 
 .start-training-btn:hover {
-    background-color: #2e7d32; /* Mørkere grøn for hover */
+    background-color: #2e7d32; /* Darker green on hover */
     color: white;
 }
-
-
-
 
 /* Dashboard_layout.html sidebar */
 .sidebar {
     min-height: 100vh;
 }
-/* Offcanvas styling: sort baggrund og hvid tekst */
+/* Offcanvas styling: black background and white text */
 .offcanvas.bg-black {
     background-color: #000;
 }
 .offcanvas.bg-black .nav-link {
     color: #fff;
 }
-/* Overskriv active state for mobile offcanvas, så dashboard overview (og andre aktive links) bliver blå */
+/* Override active state for mobile offcanvas so that dashboard overview (and other active links) become blue */
 .offcanvas.bg-black .nav-link.active {
-    background-color: #0d6efd; /* Bootstrap's primære blå */
+    background-color: #0d6efd; /* Bootstrap's primary blue */
     color: #fff;
 }
-/* Hover-effekt for links i offcanvas */
+/* Hover effect for links in offcanvas */
 .offcanvas.bg-black .nav-link:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
-/* Inverterer farven på lukkeknappen, så den bliver synlig på sort baggrund */
+/* Invert the color of the close button so it is visible on a black background */
 .offcanvas.bg-black .btn-close {
     filter: invert(1);
 }
 
-/* Sidebar hover-effekt uden tekst-understregning */
+/* Sidebar hover effect without text underline */
 .sidebar .nav-link {
     transition: background-color 0.2s ease-in-out;
 }
@@ -147,115 +142,109 @@ p {
     text-decoration: none !important;
 }
 
-
-
 /* CALORIES PAGE */
 @media (max-width: 767.98px) {
-    /* Hvis du har tabeller, skal de pakkes ind i en container med disse klasser */
-.responsive-table {
-      font-size: 0.9rem;
-      /* evt. ekstra padding eller margin kan tilføjes her */
-}
-    /* Gør diagrammerne større og med et pænere aspekt */
-.mobile-chart {
-      /* Brug Bootstraps ratio-komponent med et lidt anderledes aspektforhold */
-      --bs-aspect-ratio: 75%;
+    /* If you have tables, wrap them in a container with these classes */
+    .responsive-table {
+        font-size: 0.9rem;
+        /* Optionally extra padding or margin can be added here */
+    }
+    /* Make charts larger with a nicer aspect ratio */
+    .mobile-chart {
+        /* Use Bootstrap's ratio component with a slightly different aspect ratio */
+        --bs-aspect-ratio: 75%;
     }
 }
-
 
 /* INDEX PAGE */
 .hero-img {
     object-fit: cover;
-    max-height: 800px; /* for store skærme */
-  }
+    max-height: 800px; /* for large screens */
+}
 
-/* Mindre skærme */
+/* Smaller screens */
 @media (max-width: 768px) {
-/* Gør hero billedet længere – fx sæt en fast højde */
-.hero-img {
-    height: 600px !important;
-    object-fit: cover;
-}
-.hero-text h1 {
-    font-size: 1.8rem;
-}
-.hero-text p {
-    font-size: 1rem;
+    /* Make the hero image taller – for example, set a fixed height */
+    .hero-img {
+        height: 600px !important;
+        object-fit: cover;
+    }
+    .hero-text h1 {
+        font-size: 1.8rem;
+    }
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .slide-in-left .row,
+    .slide-in-right .row {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Force all images in slide-in sections (and others with mx-lg-auto) to center */
+    .slide-in-left img,
+    .slide-in-right img,
+    .img-fluid.mx-lg-auto,
+    .d-block.mx-lg-auto {
+        display: block !important;
+        margin: 0 auto !important;
+    }
 }
 
-.slide-in-left .row,
-.slide-in-right .row {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-/* Tving alle billeder i slide-in sektioner (og andre med mx-lg-auto) til at centrere sig */
-.slide-in-left img,
-.slide-in-right img,
-.img-fluid.mx-lg-auto,
-.d-block.mx-lg-auto {
-    display: block !important;
-    margin: 0 auto !important;
-}
-  }
-
-/* Ekstra spacing for hero sektion */
+/* Extra spacing for hero section */
 .hero-wrapper {
     margin-bottom: 3rem;
 }
 
-/* Sikrer at slide-in sektioner ikke skaber vandret scroll */
+/* Prevent slide-in sections from causing horizontal scroll */
 .slide-in-left, .slide-in-right {
     overflow: hidden;
 }
 
-
-/* DASHBOARD PAGE*/
+/* DASHBOARD PAGE */
 @media (max-width: 768px) {
-/* Gør knapperne i .dashboard-buttons lige lange med ekstra margin */
-.dashboard-buttons a {
-    width: 100%;
-}
-.dashboard-buttons a + a {
-    margin-top: 1rem;
-}
-/* Overskriv den Bootstrap-ratio, så diagrammerne bliver højere */
-.mobile-chart {
-    --bs-aspect-ratio: 75%;
+    /* Make buttons in .dashboard-buttons full width with extra margin */
+    .dashboard-buttons a {
+        width: 100%;
+    }
+    .dashboard-buttons a + a {
+        margin-top: 1rem;
+    }
+    /* Override the Bootstrap ratio so that charts become taller */
+    .mobile-chart {
+        --bs-aspect-ratio: 75%;
     }
 }
-
 
 /* TRAINING PAGE */
 @media (max-width: 768px) {
-    /* For at gøre diagrammerne højere på mobil – overskriv standard-aspektforholdet */
+    /* To make charts taller on mobile – override the default aspect ratio */
     .mobile-chart {
-      --bs-aspect-ratio: 75%;
+        --bs-aspect-ratio: 75%;
     }
-  }
-
+}
 
 /* LAYOUT.HTML */
 html, body {
     overflow-x: hidden;
 }
 
-/* Standard styling for desktop (og default) */
+/* Standard styling for desktop (and default) */
 header a img {
     max-height: 150px;
 }
 
-/* Ændringer kun for mindre skærme (under lg) */
+/* Changes only for smaller screens (below lg) */
 @media (max-width: 991px) {
     header .container {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
-/* Øger logoets størrelse og rykker det en smule ned */
+    /* Increase logo size and move it slightly downward */
     header a img {
-      max-height: 120px;
-      margin-top: 0.5rem;
+        max-height: 120px;
+        margin-top: 0.5rem;
     }
-  }
+}

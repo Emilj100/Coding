@@ -120,7 +120,7 @@
     </div>
 </div>
 
-<!-- Minimal inline script til at gemme data -->
+<!-- Minimal inline script to save data -->
 <script>
     window.calorieData = {
         days: {{ daily_data | tojson | safe }}.map(d => d.weekday),
