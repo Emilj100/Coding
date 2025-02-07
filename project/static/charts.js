@@ -197,81 +197,89 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ========== TRAINING PAGE ==========
+// Wait until the DOM is fully loaded before executing the training page code
 document.addEventListener("DOMContentLoaded", () => {
-  // Tjek om der er trainingData
+  // Check if training data is available on the global window object
   const trainData = window.trainingData;
   if (trainData) {
-    // Tjek om disse elementer findes
+    // Get the chart elements for training frequency and progression from the DOM
     const freqChartEl = document.getElementById('trainingFrequencyChart');
     const progChartEl = document.getElementById('progressionChart');
 
     if (freqChartEl && progChartEl) {
-      // Extract data for frequency (samme som før)
+      // ===== Training Frequency Chart =====
+      // Extract frequency data from the training data
       const freqData = trainData.freqData;
+      // Map week range values to use as chart labels
       const freqLabels = freqData.map(d => d.week_range);
+      // Extract the number of training sessions per week
       const freqSessions = freqData.map(d => d.sessions);
 
-      // Opret bar chart for training frequency
+      // Create a bar chart for training frequency using Chart.js
       new Chart(freqChartEl.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: freqLabels,
+          labels: freqLabels, // X-axis labels representing week ranges
           datasets: [{
-            label: 'Training Sessions',
-            data: freqSessions,
-            backgroundColor: '#007bff'
+            label: 'Training Sessions', // Dataset label
+            data: freqSessions,           // Data points: number of sessions per week
+            backgroundColor: '#007bff'    // Bar color (blue)
           }]
         }
       });
 
-      // Extract data for progression (gennemsnitlig vægt per uge)
+      // ===== Progression Chart =====
+      // Extract progression data (average weight per week) from the training data
       const progData = trainData.progressionData;
+      // Map week range values to use as chart labels
       const progLabels = progData.map(d => d.week_range);
+      // Extract the average weight for each week
       const progAvgWeights = progData.map(d => d.avg_weight);
 
-      // Beregn vægtstigning uge for uge (dvs. forskellen fra forrige uge)
+      // Calculate week-over-week weight change (difference between consecutive weeks)
       let weightIncreases = [];
       for (let i = 1; i < progAvgWeights.length; i++) {
-        // Runder forskellen af til én decimal
+        // Compute the difference and round to one decimal place
         weightIncreases.push(Number((progAvgWeights[i] - progAvgWeights[i - 1]).toFixed(1)));
       }
-      // Vi bruger de labels, der svarer til ugerne fra og med den 2. uge
+      // Use labels corresponding to weeks starting from the second week
       const diffLabels = progLabels.slice(1);
 
-      // Opret bar chart for average weight increase (progression)
+      // Create a bar chart for average weight increase (progression) using Chart.js
       new Chart(progChartEl.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: diffLabels,
+          labels: diffLabels, // X-axis labels representing week ranges starting from the second week
           datasets: [{
-            label: 'Average Weight Increase (kg)',
-            data: weightIncreases,
+            label: 'Average Weight Increase (kg)', // Dataset label
+            data: weightIncreases,                  // Data points: calculated week-over-week weight differences
+            // Set bar color: green for positive increases, red for negative differences
             backgroundColor: weightIncreases.map(diff => diff >= 0 ? '#28a745' : '#dc3545')
-            // Grøn for positive stigninger, rød for negative
           }]
         },
         options: {
           scales: {
             y: {
-              beginAtZero: true,
+              beginAtZero: true, // Start the y-axis at zero
               title: {
                 display: true,
-                text: 'Weight Increase (kg)'
+                text: 'Weight Increase (kg)' // y-axis title
               }
             },
             x: {
               title: {
                 display: true,
-                text: 'Week Range'
+                text: 'Week Range' // x-axis title
               }
             }
           },
           plugins: {
             legend: {
-              display: false
+              display: false // Hide the legend for this chart
             },
             tooltip: {
               callbacks: {
+                // Customize tooltip to display the weight increase followed by 'kg'
                 label: function(context) {
                   return context.parsed.y + ' kg';
                 }
@@ -285,95 +293,108 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-    // ========== WEIGHT PAGE ==========
-  document.addEventListener("DOMContentLoaded", () => {
-    // Tjek weightData
-    const wData = window.weightData;
-    if (wData) {
-      const weightChartEl = document.getElementById('weightChart');
-      if (weightChartEl) {
-        const graphData = wData.graphData || [];
-        const dates = graphData.map(d => d.created_at);
-        const weights = graphData.map(d => d.weight);
+   // ========== WEIGHT PAGE ==========
+// Wait until the DOM content is fully loaded before executing the code
+document.addEventListener("DOMContentLoaded", () => {
+  // Check if weight data is available on the global window object
+  const wData = window.weightData;
+  if (wData) {
+    // Get the canvas element where the weight chart will be rendered
+    const weightChartEl = document.getElementById('weightChart');
+    if (weightChartEl) {
+      // Retrieve graph data or use an empty array if not available
+      const graphData = wData.graphData || [];
+      // Extract dates from the graph data for the x-axis labels
+      const dates = graphData.map(d => d.created_at);
+      // Extract weight values from the graph data for the y-axis data points
+      const weights = graphData.map(d => d.weight);
 
-        new Chart(weightChartEl.getContext('2d'), {
-          type: 'line',
-          data: {
-            labels: dates,
-            datasets: [{
-              label: 'Weight (kg)',
-              data: weights,
-              borderColor: '#007bff',
-              backgroundColor: 'rgba(0, 123, 255, 0.2)',
-              fill: true,
-              tension: 0.3
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: { beginAtZero: false }
+      // Create a line chart using Chart.js to display weight over time
+      new Chart(weightChartEl.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: dates, // X-axis labels (dates)
+          datasets: [{
+            label: 'Weight (kg)',  // Label for the dataset
+            data: weights,         // Weight values for each date
+            borderColor: '#007bff', // Color of the line
+            backgroundColor: 'rgba(0, 123, 255, 0.2)', // Fill color under the line
+            fill: true,            // Enable filling under the line
+            tension: 0.3           // Smoothness of the line curve
+          }]
+        },
+        options: {
+          responsive: true,            // Make the chart responsive
+          maintainAspectRatio: false,  // Allow the chart to adjust its aspect ratio
+          scales: {
+            y: { beginAtZero: false }  // Y-axis will not force start at zero
+          }
+        }
+      });
+    }
+  }
+});
+
+// ========== CALORIETRACKER PAGE ==========
+// This section sets up a pie chart for the calorietracker page
+
+// Wait until the DOM content is fully loaded before executing the code
+document.addEventListener("DOMContentLoaded", () => {
+  let nutritionPieChart; // Variable to hold the Chart.js instance for the nutrition pie chart
+
+  // Initialize the pie chart when the nutrition tab is activated (using Bootstrap tab event)
+  document.querySelector('#nutrition-tab').addEventListener('shown.bs.tab', () => {
+    // Get the 2D drawing context of the canvas element for the nutrition pie chart
+    const ctx = document.getElementById('nutritionPieChart').getContext('2d');
+
+    // Retrieve macronutrient values from the DOM, provided via Jinja templating
+    const macroData = {
+      proteins: parseFloat(document.getElementById('macro-proteins').textContent) || 0,
+      carbohydrates: parseFloat(document.getElementById('macro-carbohydrates').textContent) || 0,
+      fats: parseFloat(document.getElementById('macro-fats').textContent) || 0
+    };
+
+    // If the nutrition pie chart is not already initialized, create it
+    if (!nutritionPieChart) {
+      // Prepare the data object for the pie chart
+      const data = {
+        labels: ['Proteins', 'Carbohydrates', 'Fats'],
+        datasets: [{
+          data: [macroData.proteins, macroData.carbohydrates, macroData.fats],
+          backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
+          hoverOffset: 4
+        }]
+      };
+
+      // Create a new pie chart using Chart.js
+      nutritionPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+          responsive: true, // Make the chart responsive
+          plugins: {
+            legend: {
+              position: 'top', // Position the legend at the top
+            },
+            tooltip: {
+              callbacks: {
+                // Customize the tooltip label to show the value with one decimal place followed by "g"
+                label: function(tooltipItem) {
+                  return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(1) + ' g';
+                }
+              }
             }
           }
-        });
-      }
+        }
+      });
+    } else {
+      // If the chart already exists, update its data with the new macronutrient values
+      nutritionPieChart.data.datasets[0].data = [
+        macroData.proteins,
+        macroData.carbohydrates,
+        macroData.fats
+      ];
+      nutritionPieChart.update(); // Refresh the chart to reflect the new data
     }
   });
-
-    // ========== CALORIETRACKER PAGE ==========
- // Pie chart til calorietracker
- document.addEventListener("DOMContentLoaded", () => {
-    let nutritionPieChart;
-
-    // Initialiser pie chart, når fanen aktiveres
-    document.querySelector('#nutrition-tab').addEventListener('shown.bs.tab', () => {
-        const ctx = document.getElementById('nutritionPieChart').getContext('2d');
-
-        // Hent makronæringsstoffer fra data, der sendes via Jinja
-        const macroData = {
-            proteins: parseFloat(document.getElementById('macro-proteins').textContent) || 0,
-            carbohydrates: parseFloat(document.getElementById('macro-carbohydrates').textContent) || 0,
-            fats: parseFloat(document.getElementById('macro-fats').textContent) || 0
-        };
-
-        if (!nutritionPieChart) { // Initialiser kun chartet én gang
-            const data = {
-                labels: ['Proteins', 'Carbohydrates', 'Fats'],
-                datasets: [{
-                    data: [macroData.proteins, macroData.carbohydrates, macroData.fats],
-                    backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
-                    hoverOffset: 4
-                }]
-            };
-
-            nutritionPieChart = new Chart(ctx, {
-                type: 'pie',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(tooltipItem) {
-                                    return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(1) + ' g';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        } else {
-            // Opdater data, hvis chartet allerede er initialiseret
-            nutritionPieChart.data.datasets[0].data = [
-                macroData.proteins,
-                macroData.carbohydrates,
-                macroData.fats
-            ];
-            nutritionPieChart.update();
-        }
-    });
 });
