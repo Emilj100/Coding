@@ -57,16 +57,13 @@ The project is structured as a full-stack web application with clearly defined b
 Several design choices were made to enhance both the functionality and security of the project:
 
 - **Session Management and Security:**
-  Sessions are stored in the filesystem, and sensitive data is managed securely. User sessions are cleared upon login and logout to avoid stale data. In a production environment, additional measures such as setting a strong `SECRET_KEY`, and configuring cookie attributes like `SESSION_COOKIE_SECURE`, `SESSION_COOKIE_HTTPONLY`, and `SESSION_COOKIE_SAMESITE` would further strengthen security.
+  Sessions are stored in the filesystem, and sensitive data is managed securely. User sessions are cleared upon login and logout to avoid stale data. Additional cookie security settings can be configured to further protect sessions.
 
 - **Input Validation:**
   Input validation is implemented rigorously across all forms. Regular expressions are used for email validation, numeric checks ensure valid input for weight, age, and other metrics, and logical checks confirm that fields like training days fall within acceptable ranges. These measures help prevent both accidental user errors and malicious inputs.
 
 - **Password Security:**
   Passwords are hashed using industry-standard methods before being stored in the database, ensuring that even if the database were compromised, raw passwords would not be exposed.
-
-- **API Key Management:**
-  While API keys for external services such as Spoonacular and Nutritionix are currently hardcoded for simplicity, it is recommended to store these keys in environment variables in a production setting to prevent accidental exposure.
 
 - **Error Handling:**
   The project implements basic error handling by validating user inputs and providing informative error messages. This not only enhances the user experience but also helps prevent unintended behavior during data processing.
@@ -77,6 +74,6 @@ While the current implementation meets the project requirements, several areas c
 - **CSRF Protection:** Integrating CSRF tokens into forms would help prevent cross-site request forgery attacks.
 - **Enhanced UI/UX:** Additional client-side validation and a more polished interface could be implemented for an even better user experience.
 - **Scalability:** For larger deployments, migrating from SQLite to a more robust database solution and enhancing session management could be beneficial.
-- **API Key Management:** Moving all sensitive API credentials to environment variables or a secure configuration file is recommended.
 
 In summary, the Health & Fitness Tracker is a robust and feature-rich application that allows users to manage every aspect of their fitness journey. With thoughtful design, comprehensive input validation, secure session management, and the use of modern UI frameworks like Bootstrap, this project provides a solid foundation for further development and potential real-world deployment.
+
