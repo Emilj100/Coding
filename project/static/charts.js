@@ -66,123 +66,135 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-    // ========== CHECKIN PAGE ==========
-    const chData = window.checkinData;
-    if (chData) {
-      // Tjek om "energySleepChart" og "checkin-cards" findes
-      const chartEl = document.getElementById('energySleepChart');
-      const cardsEl = document.getElementById('checkin-cards');
-      if (chartEl && cardsEl) {
-        // Tag de seneste 6 data
-        let recentData = chData.slice(-6).reverse();
+   // ========== CHECKIN PAGE ==========
+// This block handles the Checkin Page functionality.
+// It displays recent checkin entries as cards and creates a bar chart for energy and sleep.
 
-        // Rendre checkin-kort
-        cardsEl.innerHTML = "";
-        recentData.forEach(entry => {
-          const cardHTML = `
-            <div class="col-md-4">
-              <div class="card p-3 mb-3 shadow-sm">
-                <h5>${entry.created_at}</h5>
-                <p><strong>Weight:</strong> ${entry.weight} kg</p>
-                <p><strong>Energy:</strong> ${entry.energy}/10</p>
-                <p><strong>Sleep:</strong> ${entry.sleep} hours</p>
-              </div>
-            </div>`;
-          cardsEl.innerHTML += cardHTML;
-        });
+document.addEventListener("DOMContentLoaded", () => {
+  // Retrieve checkin data from the global window object
+  const chData = window.checkinData;
+  if (chData) {
+    // Check if the elements for the energy/sleep chart and checkin cards exist on the page
+    const chartEl = document.getElementById('energySleepChart');
+    const cardsEl = document.getElementById('checkin-cards');
+    if (chartEl && cardsEl) {
+      // Extract the most recent 6 checkin entries and reverse their order so that the oldest appears first
+      let recentData = chData.slice(-6).reverse();
 
-        // Opret chart
-        const dates = recentData.map(d => d.created_at);
-        const energyLevels = recentData.map(d => d.energy);
-        const sleepHours = recentData.map(d => d.sleep);
+      // Render the checkin cards by clearing any existing content and adding new card HTML for each entry
+      cardsEl.innerHTML = "";
+      recentData.forEach(entry => {
+        const cardHTML = `
+          <div class="col-md-4">
+            <div class="card p-3 mb-3 shadow-sm">
+              <h5>${entry.created_at}</h5>
+              <p><strong>Weight:</strong> ${entry.weight} kg</p>
+              <p><strong>Energy:</strong> ${entry.energy}/10</p>
+              <p><strong>Sleep:</strong> ${entry.sleep} hours</p>
+            </div>
+          </div>`;
+        cardsEl.innerHTML += cardHTML;
+      });
 
-        new Chart(chartEl.getContext('2d'), {
-          type: 'bar',
-          data: {
-            labels: dates,
-            datasets: [
-              {
-                label: 'Energy Level',
-                data: energyLevels,
-                backgroundColor: '#ffca28'
-              },
-              {
-                label: 'Sleep (hrs)',
-                data: sleepHours,
-                backgroundColor: '#007bff'
-              }
-            ]
-          }
-        });
-      }
-    }
-  });
+      // Prepare data for the chart by mapping dates, energy levels, and sleep hours from the recent checkin data
+      const dates = recentData.map(d => d.created_at);
+      const energyLevels = recentData.map(d => d.energy);
+      const sleepHours = recentData.map(d => d.sleep);
 
-
-
-    // ========== DASHBOARD PAGE ==========
-  document.addEventListener("DOMContentLoaded", () => {
-    const dbData = window.dashboardData;
-    if (dbData) {
-      // Tjek om elementer findes
-      const weightChartEl = document.getElementById('weightChart');
-      const calorieChartEl = document.getElementById('calorieChart');
-
-      if (weightChartEl) {
-        new Chart(weightChartEl.getContext('2d'), {
-          type: 'line',
-          data: {
-            labels: dbData.weightLabels,
-            datasets: [
-              {
-                label: 'Weight (kg)',
-                data: dbData.weightValues,
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                fill: true,
-                tension: 0.3
-              }
-            ]
-          },
-          options: {
-            scales: {
-              y: { beginAtZero: false }
+      // Create a bar chart using Chart.js to display Energy Level and Sleep (in hours)
+      new Chart(chartEl.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: dates, // X-axis labels (dates of checkins)
+          datasets: [
+            {
+              label: 'Energy Level',       // Dataset for energy levels
+              data: energyLevels,           // Energy values for each date
+              backgroundColor: '#ffca28'     // Bar color for energy levels
+            },
+            {
+              label: 'Sleep (hrs)',         // Dataset for sleep hours
+              data: sleepHours,             // Sleep hours for each date
+              backgroundColor: '#007bff'     // Bar color for sleep
             }
-          }
-        });
-      }
-
-      if (calorieChartEl) {
-        new Chart(calorieChartEl.getContext('2d'), {
-          type: 'bar',
-          data: {
-            labels: dbData.calorieDays,
-            datasets: [
-              {
-                label: 'Calories (kcal)',
-                data: dbData.calorieValues,
-                backgroundColor: '#007bff'
-              },
-              {
-                label: 'Calorie Goal',
-                data: dbData.calorieDays.map(() => dbData.calorieGoal),
-                borderColor: '#ff6384',
-                borderDash: [5, 5],
-                type: 'line',
-                fill: false,
-                tension: 0.3
-              }
-            ]
-          },
-          options: {
-            scales: {
-              y: { beginAtZero: true }
-            }
-          }
-        });
-      }
+          ]
+        }
+      });
     }
-  });
+  }
+});
+
+
+// ========== DASHBOARD PAGE ==========
+// This block handles the Dashboard Page functionality.
+// It creates a line chart for weight tracking and a combined bar/line chart for calories vs. calorie goal.
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Retrieve dashboard data from the global window object
+  const dbData = window.dashboardData;
+  if (dbData) {
+    // Check if the elements for the weight and calorie charts exist on the page
+    const weightChartEl = document.getElementById('weightChart');
+    const calorieChartEl = document.getElementById('calorieChart');
+
+    // If the weight chart element is available, create a line chart for weight data
+    if (weightChartEl) {
+      new Chart(weightChartEl.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: dbData.weightLabels, // X-axis labels for the weight chart (e.g., dates)
+          datasets: [
+            {
+              label: 'Weight (kg)',             // Dataset label for weight
+              data: dbData.weightValues,          // Weight values for each label
+              borderColor: '#007bff',             // Color of the line
+              backgroundColor: 'rgba(0, 123, 255, 0.2)', // Fill color under the line
+              fill: true,                         // Enable fill under the line
+              tension: 0.3                        // Curve tension for smooth lines
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: false }  // Y-axis will not necessarily start at zero (better for weight data)
+          }
+        }
+      });
+    }
+
+    // If the calorie chart element is available, create a combined chart for calories
+    if (calorieChartEl) {
+      new Chart(calorieChartEl.getContext('2d'), {
+        type: 'bar', // Base chart type is bar
+        data: {
+          labels: dbData.calorieDays, // X-axis labels for the calorie chart (e.g., days)
+          datasets: [
+            {
+              label: 'Calories (kcal)',       // Dataset for actual calorie intake
+              data: dbData.calorieValues,       // Calorie values for each day
+              backgroundColor: '#007bff'        // Bar color for calorie intake
+            },
+            {
+              label: 'Calorie Goal',           // Dataset for the daily calorie goal
+              data: dbData.calorieDays.map(() => dbData.calorieGoal), // Map the same calorie goal for each day
+              borderColor: '#ff6384',           // Line color for the calorie goal
+              borderDash: [5, 5],               // Dashed line pattern for the calorie goal line
+              type: 'line',                    // Render this dataset as a line
+              fill: false,                     // Do not fill the area under the goal line
+              tension: 0.3                     // Curve tension for smooth line appearance
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true }  // Y-axis starts at zero for calorie values
+          }
+        }
+      });
+    }
+  }
+});
+
 
 // ========== TRAINING PAGE ==========
 document.addEventListener("DOMContentLoaded", () => {
