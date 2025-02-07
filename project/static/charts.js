@@ -1,53 +1,70 @@
 // static/charts.js
 
+// Wait until the DOM is fully loaded before executing the code
 document.addEventListener("DOMContentLoaded", () => {
-    // ========== CALORIES PAGE ==========
-    const calData = window.calorieData;
-    if (calData) {
-      // Tjek om "calorieChart" findes:
-      const calChartEl = document.getElementById('calorieChart');
-      const goalChartEl = document.getElementById('goalChart');
-      if (calChartEl && goalChartEl) {
-        // Opret to charts
-        const calorieCtx = calChartEl.getContext('2d');
-        new Chart(calorieCtx, {
-          type: 'bar',
-          data: {
-            labels: calData.days,
-            datasets: [{
-              label: 'Calories (kcal)',
-              data: calData.calories,
-              backgroundColor: '#007bff'
-            }]
-          }
-        });
+  // ========= CALORIES PAGE =========
+  // Retrieve the calorie data from the global window object
+  const calData = window.calorieData;
 
-        const goalCtx = goalChartEl.getContext('2d');
-        new Chart(goalCtx, {
-          type: 'line',
-          data: {
-            labels: calData.days,
-            datasets: [
-              {
-                label: 'Actual Intake',
-                data: calData.calories,
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                fill: true,
-                tension: 0.3
-              },
-              {
-                label: 'Calorie Goal',
-                data: calData.days.map(() => calData.calorieGoal),
-                borderColor: '#ff6384',
-                borderDash: [5, 5],
-                tension: 0.3
-              }
-            ]
-          }
-        });
-      }
+  // Proceed only if calorie data exists
+  if (calData) {
+    // Check if the elements for the charts exist in the DOM
+    const calChartEl = document.getElementById('calorieChart');
+    const goalChartEl = document.getElementById('goalChart');
+
+    if (calChartEl && goalChartEl) {
+      // Create two charts: one for calorie intake and one for calorie goals
+
+      // --- Bar Chart for Calories ---
+      // Get the 2D drawing context from the calorie chart element
+      const calorieCtx = calChartEl.getContext('2d');
+      // Create a new bar chart using the Chart.js library
+      new Chart(calorieCtx, {
+        type: 'bar', // Set the chart type to bar
+        data: {
+          // Use the days from the calorie data as the labels on the x-axis
+          labels: calData.days,
+          datasets: [{
+            label: 'Calories (kcal)', // Label for the dataset
+            data: calData.calories,     // Calorie values for each day
+            backgroundColor: '#007bff'  // Bar color
+          }]
+        }
+      });
+
+      // --- Line Chart for Calorie Goals ---
+      // Get the 2D drawing context from the goal chart element
+      const goalCtx = goalChartEl.getContext('2d');
+      // Create a new line chart using the Chart.js library
+      new Chart(goalCtx, {
+        type: 'line', // Set the chart type to line
+        data: {
+          // Use the same days for the x-axis labels
+          labels: calData.days,
+          datasets: [
+            {
+              label: 'Actual Intake',    // Label for the actual calorie intake dataset
+              data: calData.calories,      // Calorie intake values
+              borderColor: '#007bff',      // Line color for actual intake
+              backgroundColor: 'rgba(0, 123, 255, 0.2)', // Fill color under the line
+              fill: true,                  // Fill the area under the line
+              tension: 0.3                 // Curve tension for smoothness
+            },
+            {
+              label: 'Calorie Goal',       // Label for the calorie goal dataset
+              // For each day, map the calorie goal value (same goal for each day)
+              data: calData.days.map(() => calData.calorieGoal),
+              borderColor: '#ff6384',       // Line color for calorie goal
+              borderDash: [5, 5],           // Dashed line style
+              tension: 0.3                 // Curve tension for smoothness
+            }
+          ]
+        }
+      });
     }
+  }
+});
+
 
     // ========== CHECKIN PAGE ==========
     const chData = window.checkinData;
