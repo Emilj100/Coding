@@ -1411,15 +1411,20 @@ def settings():
 @app.route("/mealplan", methods=["GET", "POST"])
 @login_required
 def mealplan():
+    # Get the current logged-in user's ID from the session
     user_id = session["user_id"]
 
-    # Maksimale grænser for makronæringsstoffer
+    # Define maximum allowed values for macronutrients
     MAX_PROTEIN = 125
     MAX_CARBS = 250
     MAX_FAT = 87
 
     def select_data(user_id):
-        # Hent alle madplaner
+        """
+        Retrieve meal plans and their associated meals for the given user.
+        """
+
+        # Fetch all meal plans for the current user, ordered by creation date (most recent first)
         meal_plans = db.execute(
             """
             SELECT id, name, calories, protein, carbohydrates, fat
@@ -1430,7 +1435,7 @@ def mealplan():
             user_id
         )
 
-        # Hent alle måltider for de madplaner
+        # Fetch all meals linked to the user's meal plans
         meals = db.execute(
             """
             SELECT meal_id, meal_plan_id, title, source_url, ready_in_minutes, imagetype
@@ -1440,7 +1445,7 @@ def mealplan():
             user_id
         )
 
-        # Organiser måltiderne pr. madplan
+        # Organize meals by their corresponding meal plan ID for easier access
         meals_by_plan = {}
         for meal in meals:
             meal_plan_id = meal["meal_plan_id"]
@@ -1451,7 +1456,14 @@ def mealplan():
         return meal_plans, meals_by_plan
 
     def calculate_macronutrients(calorie_goal, goal_type):
-        """Beregner minimum protein, kulhydrat og fedt baseret på mål og kalorieindtag."""
+        """
+        Calculate minimum amounts of protein, carbohydrates, and fat based on the user's calorie goal and goal type.
+        - For weight loss, use a 35/30/35 split.
+        - For muscle gain, use a 40/40/20 split.
+        - For maintenance, use a 30/40/30 split.
+
+        Each macronutrient is then capped at its maximum value.
+        """
         if goal_type == "weight_loss":
             protein_ratio, carb_ratio, fat_ratio = 0.35, 0.30, 0.35
         elif goal_type == "muscle_gain":
@@ -1459,37 +1471,45 @@ def mealplan():
         else:  # maintenance
             protein_ratio, carb_ratio, fat_ratio = 0.30, 0.40, 0.30
 
-        protein = min(calorie_goal * protein_ratio / 4, MAX_PROTEIN)  # 1 gram protein = 4 kcal
-        carbs = min(calorie_goal * carb_ratio / 4, MAX_CARBS)        # 1 gram kulhydrat = 4 kcal
-        fat = min(calorie_goal * fat_ratio / 9, MAX_FAT)             # 1 gram fedt = 9 kcal
+        # Convert calorie percentages to grams:
+        # - 1 gram of protein or carbohydrates provides 4 kcal.
+        # - 1 gram of fat provides 9 kcal.
+        protein = min(calorie_goal * protein_ratio / 4, MAX_PROTEIN)
+        carbs = min(calorie_goal * carb_ratio / 4, MAX_CARBS)
+        fat = min(calorie_goal * fat_ratio / 9, MAX_FAT)
         return round(protein), round(carbs), round(fat)
 
+    # Handle POST requests for adding or deleting meal plans
     if request.method == "POST":
         action = request.form.get("action")
 
         if action == "delete":
+            # Retrieve the meal plan ID from the form data
             plan_id = request.form.get("plan_id")
             if plan_id:
-                # Slet madplan og tilknyttede måltider
+                # First, delete all meals associated with this meal plan
                 db.execute("DELETE FROM meal_plan_meals WHERE meal_plan_id = ?", plan_id)
+                # Then, delete the meal plan itself (ensuring it belongs to the current user)
                 db.execute("DELETE FROM meal_plans WHERE id = ? AND user_id = ?", plan_id, user_id)
-            # Redirect efter handling
+            # Redirect back to the meal plan page after deletion
             return redirect("/mealplan")
 
         elif action == "add":
-            # Valider "plan_name"
+            # Validate that a meal plan name has been provided
             if not request.form.get("plan_name"):
-                # Her kan du evt. bruge flask.flash til at vise fejlbesked
+                # Use flash to display an error message to the user
                 flash("Please enter a meal plan name.", "error")
                 return redirect("/mealplan")
 
-            # Hent brugerens kaloriebudget og mål
+            # Retrieve the user's daily calorie goal and goal type from the database
             user_data = db.execute("SELECT daily_calorie_goal, goal_type FROM users WHERE id = ?", user_id)[0]
             calorie_goal = user_data["daily_calorie_goal"]
 
+            # Define the maximum calorie value that can be handled
             MAX_CALORIES = 3443
             if calorie_goal > MAX_CALORIES:
-                calorie_goal = MAX_CALORIES  # Begræns til 3443 kalorier
+                # Cap the calorie goal and inform the user via a warning message
+                calorie_goal = MAX_CALORIES
                 flash(
                     "Your daily calorie goal exceeds the maximum we can generate a plan for (3440 kcal). "
                     "We have created a plan with the highest available calorie value.",
@@ -1497,14 +1517,17 @@ def mealplan():
                 )
             goal_type = user_data["goal_type"]
 
-            # Beregn makronæringsstoffer for hele planen og fordel dem
+            # Calculate total macronutrients for the entire meal plan
             total_protein, total_carbs, total_fat = calculate_macronutrients(calorie_goal, goal_type)
+            # Distribute approximately 70% of one-third of each macronutrient to each meal
             meal_protein = round(total_protein / 3 * 0.70)
             meal_carbs = round(total_carbs / 3 * 0.70)
             meal_fat = round(total_fat / 3 * 0.70)
+            # Divide the total calorie goal equally among three meals
             calorie_goal = calorie_goal / 3
 
-            # Spoonacular API-opkald for morgenmad, frokost og aftensmad
+            # Set up parameters for calling the Spoonacular API to fetch recipes
+            # The plan includes breakfast, lunch, and dinner (using 'main course' for lunch and dinner)
             api_key = "71433d93ff0445e68f984bb19ca3048f"
             meal_types = ["breakfast", "main course", "main course"]
             meals = []
@@ -1512,17 +1535,19 @@ def mealplan():
             total_protein = 0
             total_carbs = 0
             total_fat = 0
-            offset = 0
+            offset = 0  # Offset is used to fetch different meals for each API call
 
+            # Loop through each meal type and fetch one meal that meets the nutritional criteria
             for meal_type in meal_types:
                 url = "https://api.spoonacular.com/recipes/complexSearch"
                 params = {
                     "apiKey": api_key,
                     "type": meal_type,
+                    # Set a calorie range around the target for each meal (with some buffer)
                     "minCalories": min(calorie_goal - 100, 1100),
                     "maxCalories": min(calorie_goal + 100, 1300),
                     "addRecipeNutrition": True,
-                    "number": 1,
+                    "number": 1,  # Fetch one recipe per meal type
                     "offset": offset,
                     "instructionsRequired": True,
                     "minProtein": meal_protein,
@@ -1533,23 +1558,27 @@ def mealplan():
                 if response.status_code == 200:
                     result = response.json().get("results", [])
                     if result:
+                        # Select the first (and only) recipe result
                         meal = result[0]
                         meals.append(meal)
-                        offset += 1
+                        offset += 1  # Increase offset to get a different meal for the next API call
+                        # Extract nutrient details from the recipe and accumulate the totals
                         nutrients = meal.get("nutrition", {}).get("nutrients", [])
                         total_calories += next((n["amount"] for n in nutrients if n["name"] == "Calories"), 0)
                         total_protein += next((n["amount"] for n in nutrients if n["name"] == "Protein"), 0)
                         total_carbs += next((n["amount"] for n in nutrients if n["name"] == "Carbohydrates"), 0)
                         total_fat += next((n["amount"] for n in nutrients if n["name"] == "Fat"), 0)
                 else:
+                    # If the API request fails, notify the user and redirect back to the meal plan page
                     flash(f"Failed to fetch {meal_type}. Try again.", "error")
                     return redirect("/mealplan")
 
+            # Ensure that exactly three meals have been retrieved to form a complete meal plan
             if not meals or len(meals) != 3:
                 flash("Could not generate a complete meal plan. Try again.", "error")
                 return redirect("/mealplan")
 
-            # Indsæt madplan
+            # Insert the new meal plan into the database and obtain its generated ID
             meal_plan_id = db.execute(
                 """
                 INSERT INTO meal_plans (user_id, name, calories, protein, carbohydrates, fat)
@@ -1558,7 +1587,7 @@ def mealplan():
                 user_id, request.form.get("plan_name"), round(total_calories), round(total_protein), round(total_carbs), round(total_fat)
             )
 
-            # Indsæt måltider
+            # Insert each individual meal associated with this meal plan into the database
             for meal in meals:
                 db.execute(
                     """
@@ -1567,11 +1596,13 @@ def mealplan():
                     """,
                     meal["id"], meal_plan_id, meal["title"], meal["sourceUrl"], meal.get("readyInMinutes", 0), meal["imageType"]
                 )
-            # Efter at have tilføjet madplanen, laver vi redirect til GET
+            # After adding the meal plan and its meals, redirect to the GET view of the meal plan page
             return redirect("/mealplan")
 
-    # GET request:
+    # For GET requests, retrieve the user's meal plans and their corresponding meals
     meal_plans, meals_by_plan = select_data(user_id)
+    # Render the mealplan HTML template, passing the retrieved data for display
     return render_template("mealplan.html", meal_plans=meal_plans, meals_by_plan=meals_by_plan)
+
 
 
