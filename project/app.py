@@ -569,14 +569,13 @@ def trainingsession():
 
 @app.route("/api/fitness_coach", methods=["POST"])
 def fitness_coach():
-
+    # Retrieve the JSON payload sent by the client
     data = request.get_json()
 
-    # Hent hele messages-listen fra klientsiden
-    # (fx 0..10 beskeder, plus en client-side system prompt, hvis du vil).
+    # Extract the list of messages from the payload (e.g., chat history)
     messages = data.get("messages", [])
 
-    # Din system-prompt – f.eks. en mere detaljeret beskrivelse af sidens funktioner:
+    # Define the system prompt that instructs the AI on its role and behavior
     system_prompt = (
         "You are a friendly and knowledgeable AI Fitness Coach on an English-language health and fitness website. "
         "The website allows users to:\n"
@@ -594,43 +593,48 @@ def fitness_coach():
         "5. Keep answers relatively short and practical."
     )
 
-    # Vi indsætter system-prompten øverst i messages-listen,
-    # så OpenAI altid får at vide, hvordan den skal opføre sig.
+    # Insert the system prompt at the beginning of the messages list
     messages.insert(0, {"role": "system", "content": system_prompt})
 
-    # Hent din OpenAI API-nøgle fra environment-variabel
+    # Get the OpenAI API key from environment variables
     OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
     if not OPENAI_API_KEY:
         return jsonify({"reply": "No OpenAI API key found on the server."}), 500
 
-    # Forbered API-kald
+    # Prepare headers for the OpenAI API request
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {OPENAI_API_KEY}"
     }
 
+    # Prepare the payload for the chat completion request
     payload = {
-        "model": "gpt-4",  # Skift til fx "gpt-3.5-turbo" hvis du ønsker
+        "model": "gpt-4",  # Use the GPT-4 model; change to "gpt-3.5-turbo" if desired
         "messages": messages,
         "temperature": 0.7,
         "max_tokens": 150
     }
 
     try:
+        # Make a POST request to the OpenAI Chat Completions endpoint
         openai_response = requests.post(
             "https://api.openai.com/v1/chat/completions",
             headers=headers,
             json=payload
         )
-        openai_response.raise_for_status()  # Fejl hvis status != 200
+        # Raise an error if the request did not succeed
+        openai_response.raise_for_status()
+        # Parse the JSON response from OpenAI
         response_data = openai_response.json()
+        # Extract the reply from the response and strip extra whitespace
         reply = response_data["choices"][0]["message"]["content"].strip()
     except Exception as e:
+        # Print the error for debugging and set a default error reply
         print("Error calling OpenAI API:", e)
         reply = "I'm sorry, I couldn't process your request at the moment."
 
+    # Return the reply as a JSON response to the client
     return jsonify({"reply": reply})
-
 
 
 @app.route("/dashboard")
