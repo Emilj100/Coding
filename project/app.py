@@ -640,16 +640,18 @@ def fitness_coach():
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    # Get the current user's ID from the session
     user_id = session.get("user_id")
 
-    # Hent brugeroplysninger fra users-tabellen
+    # Fetch the user's data from the "users" table
     user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
     if not user_data:
+        # If no user is found, render the dashboard with an error message
         return render_template("dashboard/dashboard.html", error="User not found.", user={})
     user = user_data[0]
     user_name = user.get("name", "User")
 
-    # 1. Seneste Check-in Vægt (fra check_ins)
+    # 1. Latest Check-in Weight from the "check_ins" table
     latest_checkin_data = db.execute(
         "SELECT weight, created_at FROM check_ins WHERE user_id = ? ORDER BY created_at DESC LIMIT 1",
         user_id
@@ -659,10 +661,12 @@ def dashboard():
     else:
         latest_weight = "No data yet"
 
-    # 2. Average Caloric Intake for current week (samme som i calories-ruten)
+    # 2. Average Caloric Intake for the current week
     today = datetime.today()
-    start_of_week = today - timedelta(days=today.weekday())  # Mandag
+    # Determine the start of the week (Monday)
+    start_of_week = today - timedelta(days=today.weekday())
     start_str = start_of_week.strftime("%Y-%m-%d")
+    # Query the food_log for daily calories from the start of the week until now
     daily_data = db.execute(
         """
         SELECT DATE(created_at) AS day,
@@ -682,7 +686,7 @@ def dashboard():
     else:
         average_caloric_intake = "No data yet"
 
-    # 3. Workouts This Week (fra TrainingLogs)
+    # 3. Workouts This Week (from TrainingLogs)
     sessions_data = db.execute(
         """
         SELECT COUNT(DISTINCT created_at) AS session_count
@@ -694,11 +698,11 @@ def dashboard():
     )
     total_sessions = sessions_data[0]["session_count"] if sessions_data else 0
 
-    # 4. Progress Towards Weight Goal
+    # 4. Progress Towards Weight Goal calculation
     start_weight = user.get("start_weight")
     goal_weight = user.get("goal_weight")
     goal_type = user.get("goal_type", "stay at current weight")
-    # Hvis der ikke er check-in data, benyt den gemte vægt
+    # Use the latest check-in weight if available, otherwise use the stored weight
     current_weight = latest_weight if latest_weight != "No data yet" else user.get("weight")
     progress = 0
     if start_weight and goal_weight and current_weight:
@@ -708,30 +712,35 @@ def dashboard():
             progress = ((current_weight - start_weight) / (goal_weight - start_weight)) * 100
         elif goal_type.lower() == "stay at current weight":
             progress = 0
+        # Ensure the progress percentage is between 0 and 100 and round it
         progress = min(max(round(progress, 1), 0), 100)
 
-    # 5. Weight Progress Graph – brug de seneste 10 check-ins (fra start til nu)
+    # 5. Weight Progress Graph – use the last 10 check-ins (chronologically from start to now)
     checkin_history = db.execute(
         "SELECT weight, DATE(created_at) as created_at FROM check_ins WHERE user_id = ? ORDER BY created_at ASC",
         user_id
     )
+    # If there are 10 or more check-ins, use the last 10; otherwise, use all available data
     graph_data = checkin_history[-10:] if len(checkin_history) >= 10 else checkin_history
     weight_labels = [entry["created_at"] for entry in graph_data]
     weight_values = [entry["weight"] for entry in graph_data]
 
-    # 6. Caloric Intake Chart – Current Week
+    # 6. Caloric Intake Chart – prepare data for the current week
     calorie_days = []
     calorie_values = []
     for row in daily_data:
         try:
             dt = datetime.strptime(row["day"], "%Y-%m-%d")
+            # Format the date to display the weekday name
             weekday = dt.strftime("%A")
         except Exception:
             weekday = row["day"]
         calorie_days.append(weekday)
         calorie_values.append(row["total_calories"])
+    # Retrieve the user's daily calorie goal
     calorie_goal = user.get("daily_calorie_goal", 0)
 
+    # Render the dashboard template with all the calculated metrics and graph data
     return render_template(
         "dashboard/dashboard.html",
         user_name=user_name,
@@ -746,6 +755,7 @@ def dashboard():
         calorie_goal=calorie_goal,
         start_of_week=start_str
     )
+
 
 
 
