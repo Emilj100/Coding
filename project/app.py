@@ -1043,9 +1043,10 @@ def weight_progress():
 @app.route("/calories")
 @login_required
 def calories():
+    # Retrieve the current user's ID from the session
     user_id = session.get("user_id")
 
-    # Hent brugerens daglige kalorie-mål og navn
+    # Fetch the user's daily calorie goal and name from the "users" table
     user_data = db.execute("SELECT name, daily_calorie_goal FROM users WHERE id = ?", user_id)
     if user_data:
         user_name = user_data[0]["name"]
@@ -1056,14 +1057,11 @@ def calories():
 
     from datetime import datetime, timedelta
     today = datetime.today()
-    # Beregn start på ugen (antag at ugen starter mandag)
+    # Calculate the start of the week (assuming Monday as the first day)
     start_of_week = today - timedelta(days=today.weekday())
     start_str = start_of_week.strftime("%Y-%m-%d")
 
-    # I stedet for at beregne en fast slutdato (f.eks. i går) kan vi bruge:
-    # Vi henter alle data, hvor datoen er før i dag
-    # Dette sikrer, at kun fuldførte dage medtages.
-
+    # Retrieve daily nutrition data from the food_log for complete days (i.e., before today)
     daily_data = db.execute(
         """
         SELECT DATE(created_at) AS day,
@@ -1081,8 +1079,7 @@ def calories():
         user_id, start_str
     )
 
-    # Hvis der kun er data fra en del af ugen (f.eks. kun én hel dag), så bruges denne dag.
-    # Udregn nøgletal for de dage, der er komplette (dvs. før i dag)
+    # Calculate average daily intake and average protein intake for the week
     if daily_data:
         total_calories_week = sum([row["total_calories"] for row in daily_data])
         average_daily_intake = round(total_calories_week / len(daily_data), 1)
@@ -1092,7 +1089,7 @@ def calories():
         average_daily_intake = "No data yet"
         avg_protein_intake = "No data yet"
 
-    # Planned vs. Actual: Her kan du f.eks. udregne for den seneste fuldførte dag (det vil sige den seneste dag i daily_data)
+    # Calculate Planned vs. Actual calories for the latest complete day
     if daily_data:
         latest_day_data = daily_data[-1]
         actual_intake = latest_day_data["total_calories"]
@@ -1100,7 +1097,7 @@ def calories():
         actual_intake = 0
     planned_vs_actual = round(calorie_goal - actual_intake)
 
-    # Best & Worst Day: Brug de komplette dage (brug evt. ugedag i stedet for dato)
+    # Add a weekday label to each row in daily_data for display purposes
     from datetime import datetime
     for row in daily_data:
         try:
@@ -1109,9 +1106,11 @@ def calories():
         except Exception:
             row["weekday"] = row["day"]
 
+    # Identify the day with the lowest and highest calorie consumption
     best_day = min(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
     worst_day = max(daily_data, key=lambda row: row["total_calories"]) if daily_data else None
 
+    # Render the calories dashboard template with the calculated values and data
     return render_template(
         "dashboard/calories.html",
         user_name=user_name,
@@ -1129,23 +1128,25 @@ def calories():
 @app.route("/training")
 @login_required
 def training():
+    # Retrieve the current user's ID from the session
     user_id = session.get("user_id")
 
-    # Beregn start og slut for ugen (mandag til søndag)
+    from datetime import datetime, timedelta
     today = datetime.today()
-    start_of_week = today - timedelta(days=today.weekday())  # Mandag i denne uge
-    end_of_week = start_of_week + timedelta(days=6)            # Søndag i denne uge
+    # Calculate start (Monday) and end (Sunday) of the current week
+    start_of_week = today - timedelta(days=today.weekday())  # Monday of this week
+    end_of_week = start_of_week + timedelta(days=6)            # Sunday of this week
     start_str = start_of_week.strftime("%Y-%m-%d")
     end_str = end_of_week.strftime("%Y-%m-%d")
 
-    # Hjælpefunktion: konverter ugekode til datointerval
+    # Helper function: Convert a week label (e.g., "2023-14") to a date range string
     def format_week_range(week_label):
         dt = datetime.strptime(week_label + '-1', "%Y-%W-%w")
         week_start = dt.strftime("%Y-%m-%d")
         week_end = (dt + timedelta(days=6)).strftime("%Y-%m-%d")
         return f"{week_start} - {week_end}"
 
-    # Total sessions this week (tæl distinkte created_at)
+    # Retrieve total training sessions for the current week by counting distinct timestamps
     sessions = db.execute(
         """
         SELECT COUNT(DISTINCT created_at) AS session_count
@@ -1157,7 +1158,7 @@ def training():
     )
     total_sessions = sessions[0]["session_count"] if sessions else 0
 
-    # Total sets this week
+    # Retrieve total sets performed this week
     sets_data = db.execute(
         """
         SELECT SUM(sets) AS total_sets
@@ -1169,7 +1170,7 @@ def training():
     )
     total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
 
-    # Average weight increase (sammenlign den aktuelle uge med forrige uge)
+    # Calculate average weight increase: compare average weights for each exercise between the current and previous week
     last_week_start = start_of_week - timedelta(days=7)
     last_week_end   = start_of_week - timedelta(days=1)
     last_start_str  = last_week_start.strftime("%Y-%m-%d")
@@ -1196,6 +1197,7 @@ def training():
         user_id, last_start_str, last_end_str
     )
     diffs = []
+    # Compare each exercise's average weight in the current week with last week
     for cw in current_weights:
         for lw in last_weights:
             if cw["exercise_name"] == lw["exercise_name"] and cw["avg_weight"] is not None and lw["avg_weight"] is not None:
@@ -1203,7 +1205,7 @@ def training():
                 diffs.append(diff)
     avg_weight_increase = round(sum(diffs) / len(diffs), 1) if diffs else 0
 
-    # Volume per muscle group – udeluk "core"
+    # Calculate total training volume per muscle group, excluding the "core" group
     volume_data = db.execute(
         """
         SELECT pe.muscle, SUM(tl.weight * tl.sets) AS total_volume
@@ -1217,7 +1219,7 @@ def training():
         user_id, start_str
     )
 
-    # Training Frequency (last 4 weeks)
+    # Retrieve training frequency for the last 4 weeks
     freq_data = db.execute(
         """
         SELECT strftime('%Y-%W', created_at) AS week, COUNT(DISTINCT created_at) AS sessions
@@ -1229,9 +1231,10 @@ def training():
         user_id
     )
     for row in freq_data:
+        # Convert the week code to a human-readable date range
         row["week_range"] = format_week_range(row["week"])
 
-    # Progression Over Time (average weight per week)
+    # Retrieve progression data: average weight per week
     progression_data = db.execute(
         """
         SELECT strftime('%Y-%W', created_at) AS week, AVG(weight) AS avg_weight
@@ -1245,7 +1248,7 @@ def training():
     for row in progression_data:
         row["week_range"] = format_week_range(row["week"])
 
-    # Sessions Overview: Gruppe sessioner efter created_at og day_name
+    # Group session data by date and day_name for an overview of training sessions
     sessions_overview = db.execute(
         """
         SELECT DATE(created_at) AS session_date, day_name, COUNT(*) AS exercises_count
@@ -1258,6 +1261,7 @@ def training():
         user_id, start_str
     )
 
+    # Render the training dashboard template with all calculated metrics and chart data
     return render_template(
         "dashboard/training.html",
         total_sessions=total_sessions,
@@ -1270,6 +1274,7 @@ def training():
         start_of_week=start_str,
         end_of_week=end_str
     )
+
 
 
 @app.route("/settings", methods=["GET", "POST"])
