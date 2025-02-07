@@ -885,18 +885,18 @@ def checkin():
 def weight_progress():
     user_id = session.get("user_id")
 
-    # Hent alle check-ins for brugeren (sorteret kronologisk, ældste først)
+    # Fetch all check-ins for the user (ordered chronologically, oldest first)
     checkin_data = db.execute(
         "SELECT weight, date(created_at) as created_at FROM check_ins WHERE user_id = ? ORDER BY created_at ASC",
         user_id
     )
 
-    # Hent brugerens oplysninger inkl. navn, start_weight, goal_weight og goal_type
+    # Fetch the user's information including name, start_weight, goal_weight, and goal_type
     user = db.execute("SELECT name, start_weight, goal_weight, goal_type FROM users WHERE id = ?", user_id)
     if user:
         user_info   = user[0]
         user_name   = user_info["name"]
-        start_weight = user_info.get("start_weight")  # Skal være numerisk
+        start_weight = user_info.get("start_weight")  # Expected to be numeric
         goal_weight  = user_info.get("goal_weight")
         goal_type    = user_info.get("goal_type", "stay at current weight")
     else:
@@ -905,7 +905,7 @@ def weight_progress():
         goal_weight = None
         goal_type = "stay at current weight"
 
-    # Bestem current weight ud fra den seneste check-in
+    # Determine current weight from the most recent check-in
     if checkin_data:
         current_weight = checkin_data[-1]["weight"]
     else:
@@ -913,14 +913,14 @@ def weight_progress():
 
     default_text = "No data yet"
 
-    # Beregn vægtændring (det, der skal vises i det midterste kort)
+    # Calculate weight change (to be displayed in the central card)
     if start_weight is not None and current_weight is not None:
         if goal_type.lower() == "lose weight":
             weight_change = round(start_weight - current_weight, 1)
         elif goal_type.lower() == "gain weight":
             weight_change = round(current_weight - start_weight, 1)
         elif goal_type.lower() == "stay at current weight":
-            # Her beregner vi den faktiske afvigelse fra startvægten, som kan være både positiv eller negativ.
+            # Calculate the actual deviation from the starting weight, which can be both positive or negative.
             weight_change = round(current_weight - start_weight, 1)
         else:
             weight_change = None
@@ -929,17 +929,17 @@ def weight_progress():
 
     if weight_change is not None:
         if weight_change > 0:
-            # Hvis stigning (eller tab i tilfælde af lose, som burde være positivt)
+            # If there is an increase (or a loss in case of "lose weight", which should be positive)
             sign = "-" if goal_type.lower() == "lose weight" else "+"
             weight_change_display = sign + str(abs(weight_change))
         else:
-            # Hvis der er et fald (eller negativ ændring ved gain)
+            # If there is a decrease (or negative change for "gain weight")
             sign = "-" if goal_type.lower() == "lose weight" else "+"
             weight_change_display = sign + str(abs(weight_change))
     else:
         weight_change_display = default_text
 
-    # Vælg et passende label afhængig af måltypen
+    # Choose an appropriate label based on the goal type
     if goal_type.lower() == "lose weight":
         weight_change_label = "Weight Lost"
     elif goal_type.lower() == "gain weight":
@@ -949,7 +949,7 @@ def weight_progress():
     else:
         weight_change_label = "Weight Change"
 
-    # Beregn gennemsnitlig ændring per uge baseret på hele perioden
+    # Calculate the average change per week based on the entire period of check-ins
     if checkin_data and start_weight is not None:
         first_entry = checkin_data[0]
         last_entry  = checkin_data[-1]
@@ -960,7 +960,7 @@ def weight_progress():
             first_date = last_date = datetime.now()
 
         diff_days = (last_date - first_date).days
-        # Hvis perioden er mindre end 7 dage, antages det at dataene dækker 1 uge
+        # If the period is less than 7 days, assume the data covers 1 week
         weeks = diff_days / 7 if diff_days >= 7 else 1
 
         if goal_type.lower() == "lose weight":
@@ -986,9 +986,7 @@ def weight_progress():
     else:
         avg_change_display = default_text
 
-
-
-    # Beregn progress procent – hvor stor en del af målet der er opnået
+    # Calculate progress percentage – how much of the goal has been achieved
     if start_weight is not None and goal_weight is not None and current_weight is not None:
         if goal_type.lower() == "lose weight":
             progress = ((start_weight - current_weight) / (start_weight - goal_weight)) * 100
@@ -1002,11 +1000,11 @@ def weight_progress():
     else:
         progress = None
 
-    # Beregn weight log: Sammenlign hvert check-in med det foregående for at udregne ændringen
+    # Calculate the weight log: compare each check-in with the previous one to compute the change
     weight_log = []
     for i, entry in enumerate(checkin_data):
         if i == 0:
-            change = "-"  # Ingen tidligere check-in
+            change = "-"  # No previous check-in
         else:
             prev_weight = checkin_data[i-1]["weight"]
             diff = round(entry["weight"] - prev_weight, 1)
@@ -1019,11 +1017,11 @@ def weight_progress():
             "weight": entry["weight"],
             "change": change
         })
-    # Begræns weight log til de 10 seneste check-ins
+    # Limit the weight log to the 10 most recent check-ins
     if len(weight_log) > 10:
         weight_log = weight_log[-10:]
 
-    # Vælg grafdata: de 10 seneste check-ins (hvis der er mindst 10)
+    # Select graph data: use the last 10 check-ins (if there are at least 10)
     graph_data = checkin_data[-10:] if len(checkin_data) >= 10 else checkin_data
 
     return render_template(
@@ -1039,6 +1037,7 @@ def weight_progress():
         start_weight=start_weight if start_weight is not None else default_text,
         goal_weight=goal_weight if goal_weight is not None else default_text
     )
+
 
 @app.route("/calories")
 @login_required
