@@ -8,11 +8,11 @@ The Health & Fitness Tracker is a comprehensive web-based application designed t
 
 ## Project Overview
 
-The project is structured as a full-stack web application with clearly defined backend and frontend components. The backend, written in Python using Flask, handles user authentication, session management, data validation, and interactions with an SQLite database via CS50’s SQL module. On the frontend, Jinja2 templates render the user interface, while custom CSS and JavaScript provide styling and interactivity.
+The project is structured as a full-stack web application with clearly defined backend and frontend components. The backend, written in Python using Flask, handles user authentication, session management, data validation, and interactions with an SQLite database via CS50’s SQL module. On the frontend, Jinja2 templates render the user interface, while custom CSS and JavaScript, in combination with Bootstrap, provide styling and interactivity.
 
 ### Key Features:
 
-1. **User Registration and Login:**
+1. User Registration and Login:
    The registration process is divided into two parts to collect user details in a structured manner. In the first part, users provide basic details such as name, email, and password. The second part collects additional data like age, gender, height, weight, goal weight, training days per week, and experience level. Passwords are securely handled using salted hash functions, and sessions are properly managed to keep users authenticated throughout their interactions.
 
 2. **Calorie Tracker:**
@@ -45,9 +45,9 @@ The project is structured as a full-stack web application with clearly defined b
 
 - **Static Folder (CSS & JS):**
   - **CSS Files:**
-    Custom styles for the application, including styling for forms, buttons, tables, dashboards, and animations.
+    Custom styles for the application, including styling for forms, buttons, tables, dashboards, and animations. The project also leverages Bootstrap for responsive design and pre-built UI components.
   - **JavaScript Files:**
-    Provide client-side interactivity, including dynamic updates to charts, chat widget functionalities, and form validations. For example, `chat.js` handles the interaction with the AI fitness coach.
+    Provide client-side interactivity, including dynamic updates to charts, chat widget functionalities, and form validations. For example, `chat.js` handles the interaction with the AI fitness coach, and Bootstrap’s JavaScript components enhance the UI behavior.
 
 - **Database (SQLite):**
   The SQLite database (health.db) stores all user data, training logs, food logs, check-ins, meal plans, and other relevant information. Parameterized queries are used throughout to ensure protection against SQL injection.
@@ -79,4 +79,4 @@ While the current implementation meets the project requirements, several areas c
 - **Scalability:** For larger deployments, migrating from SQLite to a more robust database solution and enhancing session management could be beneficial.
 - **API Key Management:** Moving all sensitive API credentials to environment variables or a secure configuration file is recommended.
 
-In summary, the Health & Fitness Tracker is a robust and feature-rich application that allows users to manage every aspect of their fitness journey. With thoughtful design, comprehensive input validation, and secure session management, this project provides a solid foundation for further development and potential real-world deployment.
+In summary, the Health & Fitness Tracker is a robust and feature-rich application that allows users to manage every aspect of their fitness journey. With thoughtful design, comprehensive input validation, secure session management, and the use of modern UI frameworks like Bootstrap, this project provides a solid foundation for further development and potential real-world deployment.
