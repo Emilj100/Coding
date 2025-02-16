@@ -202,11 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check if training data is available on the global window object
   const trainData = window.trainingData;
   if (trainData) {
-    // Get the chart elements for training frequency and progression from the DOM
+    // Get the chart element for training frequency from the DOM
     const freqChartEl = document.getElementById('trainingFrequencyChart');
-    const progChartEl = document.getElementById('progressionChart');
 
-    if (freqChartEl && progChartEl) {
+    if (freqChartEl) {
       // ===== Training Frequency Chart =====
       // Extract frequency data from the training data
       const freqData = trainData.freqData;
@@ -227,70 +226,10 @@ document.addEventListener("DOMContentLoaded", () => {
           }]
         }
       });
-
-      // ===== Progression Chart =====
-      // Extract progression data (average weight per week) from the training data
-      const progData = trainData.progressionData;
-      // Map week range values to use as chart labels
-      const progLabels = progData.map(d => d.week_range);
-      // Extract the average weight for each week
-      const progAvgWeights = progData.map(d => d.avg_weight);
-
-      // Calculate week-over-week weight change (difference between consecutive weeks)
-      let weightIncreases = [];
-      for (let i = 1; i < progAvgWeights.length; i++) {
-        // Compute the difference and round to one decimal place
-        weightIncreases.push(Number((progAvgWeights[i] - progAvgWeights[i - 1]).toFixed(1)));
-      }
-      // Use labels corresponding to weeks starting from the second week
-      const diffLabels = progLabels.slice(1);
-
-      // Create a bar chart for average weight increase (progression) using Chart.js
-      new Chart(progChartEl.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: diffLabels, // X-axis labels representing week ranges starting from the second week
-          datasets: [{
-            label: 'Average Weight Increase (kg)', // Dataset label
-            data: weightIncreases,                  // Data points: calculated week-over-week weight differences
-            // Set bar color: green for positive increases, red for negative differences
-            backgroundColor: weightIncreases.map(diff => diff >= 0 ? '#28a745' : '#dc3545')
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true, // Start the y-axis at zero
-              title: {
-                display: true,
-                text: 'Weight Increase (kg)' // y-axis title
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Week Range' // x-axis title
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              display: false // Hide the legend for this chart
-            },
-            tooltip: {
-              callbacks: {
-                // Customize tooltip to display the weight increase followed by 'kg'
-                label: function(context) {
-                  return context.parsed.y + ' kg';
-                }
-              }
-            }
-          }
-        }
-      });
     }
   }
 });
+
 
 
    // ========== WEIGHT PAGE ==========
