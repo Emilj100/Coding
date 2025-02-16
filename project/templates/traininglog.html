@@ -25,8 +25,10 @@
                     <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="collapse" data-bs-target="#day-{{ day_number }}">
                         View Exercises
                     </button>
-                    <!-- Start Training Form -->
+                    <!-- Start Training Form with CSRF Protection -->
                     <form action="/traininglog" method="POST" class="d-inline">
+                        <!-- Include CSRF token to protect against cross-site request forgery -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="day_id" value="{{ day_data.day_id }}">
                         <button type="submit" class="btn btn-sm btn-success">Start Training</button>
                     </form>

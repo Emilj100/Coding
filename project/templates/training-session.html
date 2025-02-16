@@ -12,6 +12,9 @@
 
     <!-- Training Session Form -->
     <form action="/trainingsession" method="post">
+        <!-- CSRF Token: Ensures the form is protected against CSRF attacks -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <!-- Exercises Table -->
         <table class="table table-striped">
             <thead class="table-dark">
@@ -22,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Exercises Table Rows -->
+                <!-- Loop through each exercise in training_data and display as table rows -->
                 {% for exercise in training_data %}
                 <tr>
                     <td>{{ exercise.exercise_name }}</td>
