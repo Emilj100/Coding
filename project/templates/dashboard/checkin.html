@@ -52,6 +52,9 @@
     <div class="card p-4 mt-4 shadow-sm">
         <h4 class="fw-bold mb-3">New Check-in</h4>
         <form id="checkin-form" method="post" action="/checkin">
+            <!-- CSRF token for protection -->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
             <div class="mb-3">
                 <label for="weight" class="form-label">Current Weight (kg)</label>
                 <input type="number" step="0.1" class="form-control" id="weight" name="weight" required>
