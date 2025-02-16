@@ -17,7 +17,10 @@
         <div class="card-body">
             <h4 class="card-title text-center mb-4">Customize Your Meal Plan</h4>
             <form action="/mealplan" method="post">
+                <!-- CSRF token for protection -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+                <!-- Hidden field to indicate the form action -->
                 <input type="hidden" name="action" value="add">
 
                 <!-- Plan Name (Required) -->
@@ -60,7 +63,10 @@
                         <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#plan-{{ plan.id }}">
                             View Meals
                         </button>
+                        <!-- Delete Meal Plan Form with CSRF Protection -->
                         <form action="/mealplan" method="post" style="display: inline;">
+                            <!-- CSRF token for protection -->
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="plan_id" value="{{ plan.id }}">
                             <button class="btn btn-sm btn-danger" type="submit">
@@ -93,6 +99,5 @@
     </div>
     {% endfor %}
 </div>
-
 
 {% endblock %}
