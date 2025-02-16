@@ -1169,6 +1169,40 @@ def training():
     )
     total_sets = sets_data[0]["total_sets"] if sets_data and sets_data[0]["total_sets"] is not None else 0
 
+    # Beregn gennemsnitlig vægtstigning baseret på træningsloggene: sammenlign nuværende uge med sidste uge
+    last_week_start = start_of_week - timedelta(days=7)
+    last_week_end   = start_of_week - timedelta(days=1)
+    last_start_str  = last_week_start.strftime("%Y-%m-%d")
+    last_end_str    = last_week_end.strftime("%Y-%m-%d")
+
+    current_weights = db.execute(
+        """
+        SELECT exercise_name, AVG(weight) AS avg_weight
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND DATE('now', 'localtime')
+        GROUP BY exercise_name
+        """,
+        user_id, start_str
+    )
+    last_weights = db.execute(
+        """
+        SELECT exercise_name, AVG(weight) AS avg_weight
+        FROM TrainingLogs
+        WHERE user_id = ?
+          AND DATE(created_at) BETWEEN ? AND ?
+        GROUP BY exercise_name
+        """,
+        user_id, last_start_str, last_end_str
+    )
+    diffs = []
+    for cw in current_weights:
+        for lw in last_weights:
+            if cw["exercise_name"] == lw["exercise_name"] and cw["avg_weight"] is not None and lw["avg_weight"] is not None:
+                diff = cw["avg_weight"] - lw["avg_weight"]
+                diffs.append(diff)
+    avg_weight_increase = round(sum(diffs) / len(diffs), 1) if diffs else 0
+
     # Calculate total training volume per muscle group, excluding the "core" group
     volume_data = db.execute(
         """
@@ -1195,7 +1229,6 @@ def training():
         user_id
     )
     for row in freq_data:
-        # Convert the week code to a human-readable date range
         row["week_range"] = format_week_range(row["week"])
 
     # Group session data by date and day_name for an overview of training sessions
@@ -1211,11 +1244,11 @@ def training():
         user_id, start_str
     )
 
-    # Render the training dashboard template with the calculated metrics and chart data (only frequency)
     return render_template(
         "dashboard/training.html",
         total_sessions=total_sessions,
         total_sets=total_sets,
+        avg_weight_increase=avg_weight_increase,
         volume_data=volume_data,
         freq_data=freq_data,
         sessions_overview=sessions_overview,

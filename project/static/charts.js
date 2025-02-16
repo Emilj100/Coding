@@ -207,22 +207,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (freqChartEl) {
       // ===== Training Frequency Chart =====
-      // Extract frequency data from the training data
       const freqData = trainData.freqData;
-      // Map week range values to use as chart labels
       const freqLabels = freqData.map(d => d.week_range);
-      // Extract the number of training sessions per week
       const freqSessions = freqData.map(d => d.sessions);
 
       // Create a bar chart for training frequency using Chart.js
       new Chart(freqChartEl.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: freqLabels, // X-axis labels representing week ranges
+          labels: freqLabels,
           datasets: [{
-            label: 'Training Sessions', // Dataset label
-            data: freqSessions,           // Data points: number of sessions per week
-            backgroundColor: '#007bff'    // Bar color (blue)
+            label: 'Training Sessions',
+            data: freqSessions,
+            backgroundColor: '#007bff'
           }]
         }
       });
