@@ -8,7 +8,11 @@
     {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
+    <!-- Form for updating personal settings -->
     <form method="post" action="/settings">
+        <!-- CSRF token for protection -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <!-- Update Personal Information -->
         <h5>Update Personal Information</h5>
         <div class="mb-3">
