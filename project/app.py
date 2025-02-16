@@ -8,6 +8,16 @@ import re
 import requests
 import json
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+load_dotenv()  # Læs variabler fra .env-filen
+
+# Nu kan du hente dine API-nøgler med os.environ.get()
+spoonacular_api_key = os.environ.get("SPOONACULAR_API_KEY")
+nutritionix_api_key = os.environ.get("NUTRITIONIX_API_KEY")
+nutritionix_app_id = os.environ.get("NUTRITIONIX_APP_ID")
+openai_api_key = os.environ.get("OPENAI_API_KEY")
+
 
 
 # Initialize the Flask application
