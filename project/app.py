@@ -9,6 +9,9 @@ import requests
 import json
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from flask_wtf import CSRFProtect
+
+
 
 load_dotenv("private.env")
 
@@ -26,7 +29,12 @@ app.secret_key = os.environ.get("SECRET_KEY")
 # Configure session settings: sessions are not permanent and stored in the filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
 Session(app)
+csrf = CSRFProtect(app)
 
 # Initialize the database connection using the SQLite database file "health.db"
 db = SQL("sqlite:///health.db")
