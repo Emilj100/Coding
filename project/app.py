@@ -15,7 +15,7 @@ load_dotenv()  # Læs variabler fra .env-filen
 # Nu kan du hente dine API-nøgler med os.environ.get()
 spoonacular_api_key = os.environ.get("SPOONACULAR_API_KEY")
 nutritionix_api_key = os.environ.get("NUTRITIONIX_API_KEY")
-nutritionix_app_id = os.environ.get("NUTRITIONIX_APP_ID")
+nutritionix_api_id = os.environ.get("NUTRITIONIX_API_ID")
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 
 
@@ -269,14 +269,11 @@ def calorietracker():
 
         if action == "add":  # Handling for adding food items
             food_query = request.form.get("food")
-            # API credentials for Nutritionix
-            API_KEY = "6158963245cf646896228de0c3d0ba3a"
-            APP_ID = "584633a6"
 
             url = "https://trackapi.nutritionix.com/v2/natural/nutrients"
             headers = {
-                "x-app-id": APP_ID,
-                "x-app-key": API_KEY,
+                "x-app-id": nutritionix_api_id,
+                "x-app-key": nutritionix_api_key,
                 "Content-Type": "application/json"
             }
             data = {"query": food_query}
