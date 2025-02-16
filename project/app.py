@@ -1518,7 +1518,6 @@ def mealplan():
 
             # Set up parameters for calling the Spoonacular API to fetch recipes
             # The plan includes breakfast, lunch, and dinner (using 'main course' for lunch and dinner)
-            api_key = "71433d93ff0445e68f984bb19ca3048f"
             meal_types = ["breakfast", "main course", "main course"]
             meals = []
             total_calories = 0
@@ -1531,7 +1530,7 @@ def mealplan():
             for meal_type in meal_types:
                 url = "https://api.spoonacular.com/recipes/complexSearch"
                 params = {
-                    "apiKey": api_key,
+                    "apiKey": spoonacular_api_key,
                     "type": meal_type,
                     # Set a calorie range around the target for each meal (with some buffer)
                     "minCalories": min(calorie_goal - 100, 1100),
