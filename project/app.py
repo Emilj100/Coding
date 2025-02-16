@@ -18,10 +18,10 @@ nutritionix_api_key = os.environ.get("NUTRITIONIX_API_KEY")
 nutritionix_api_id = os.environ.get("NUTRITIONIX_API_ID")
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 
-print(f"dette er secret key {os.urandom(24)}")
 
 # Initialize the Flask application
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY")
 
 # Configure session settings: sessions are not permanent and stored in the filesystem
 app.config["SESSION_PERMANENT"] = False
