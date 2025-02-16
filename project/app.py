@@ -10,7 +10,7 @@ import json
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-load_dotenv()  # Læs variabler fra .env-filen
+load_dotenv("private.env")
 
 # Nu kan du hente dine API-nøgler med os.environ.get()
 spoonacular_api_key = os.environ.get("SPOONACULAR_API_KEY")
