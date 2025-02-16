@@ -11,6 +11,9 @@ const chatMessages = document.getElementById('chat-messages');     // Container 
 // Global array to store the conversation history
 let conversation = [];
 
+// Retrieve CSRF token from the meta tag in the HTML head
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 /**
  * Adds a new chat message to the UI.
  * @param {string} sender - The sender of the message ("You" or "Coach").
@@ -97,25 +100,30 @@ function sendToServer(userMessage) {
         messages: [systemPrompt, ...chatMessages]
     };
 
-    // Send the payload to the server via an axios POST request to the /api/fitness_coach endpoint
-    axios.post('/api/fitness_coach', payload)
-        .then(response => {
-            // Extract the AI's reply from the response data
-            const reply = response.data.reply;
-            // Add the coach's reply to the conversation and save it
-            conversation.push({ sender: "Coach", text: reply });
-            saveChatHistory();
-            // Display the coach's reply in the UI
-            addMessage("Coach", reply);
-        })
-        .catch(error => {
-            // Log the error and inform the user that something went wrong
-            console.error('Error:', error);
-            const errorMsg = 'Sorry, something went wrong.';
-            conversation.push({ sender: "Coach", text: errorMsg });
-            saveChatHistory();
-            addMessage("Coach", errorMsg);
-        });
+    // Send the payload to the server via an axios POST request to the /api/fitness_coach endpoint.
+    // The CSRF token is included in the request headers.
+    axios.post('/api/fitness_coach', payload, {
+        headers: {
+            "X-CSRFToken": csrfToken
+        }
+    })
+    .then(response => {
+        // Extract the AI's reply from the response data
+        const reply = response.data.reply;
+        // Add the coach's reply to the conversation and save it
+        conversation.push({ sender: "Coach", text: reply });
+        saveChatHistory();
+        // Display the coach's reply in the UI
+        addMessage("Coach", reply);
+    })
+    .catch(error => {
+        // Log the error and inform the user that something went wrong
+        console.error('Error:', error);
+        const errorMsg = 'Sorry, something went wrong.';
+        conversation.push({ sender: "Coach", text: errorMsg });
+        saveChatHistory();
+        addMessage("Coach", errorMsg);
+    });
 }
 
 // Add event listeners once the DOM content is fully loaded
