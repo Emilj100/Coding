@@ -46,7 +46,9 @@
     <div class="card shadow-sm border-0">
         <div class="card-body">
             <h4 class="card-title text-center mb-4">Add Food</h4>
+            <!-- Form to add food; CSRF token is included for protection -->
             <form action="/calorietracker" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="action" value="add">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="E.g. '250g chicken, 1 banana'" aria-label="Food input" name="food" required>
@@ -84,7 +86,9 @@
                             {{ food.food_name }} {{ food.serving_qty }} {{ food.serving_unit }}
                             <div>
                                 <span class="badge bg-success rounded-pill me-2">Kcal {{ food.calories }}</span>
+                                <!-- Delete Food Form with CSRF token -->
                                 <form action="/calorietracker" method="post" style="display: inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="food_id" value="{{ food.id }}">
                                     <button class="btn btn-sm btn-danger" type="submit">
