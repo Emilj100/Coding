@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 load_dotenv("private.env")
 
-# Nu kan du hente dine API-nøgler med os.environ.get()
+# API keys
 spoonacular_api_key = os.environ.get("SPOONACULAR_API_KEY")
 nutritionix_api_key = os.environ.get("NUTRITIONIX_API_KEY")
 nutritionix_api_id = os.environ.get("NUTRITIONIX_API_ID")
