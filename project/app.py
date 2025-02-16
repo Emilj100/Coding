@@ -18,7 +18,7 @@ nutritionix_api_key = os.environ.get("NUTRITIONIX_API_KEY")
 nutritionix_api_id = os.environ.get("NUTRITIONIX_API_ID")
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 
-
+print(f"dette er secret key {os.urandom(24)}")
 
 # Initialize the Flask application
 app = Flask(__name__)
