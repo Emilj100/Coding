@@ -12,32 +12,44 @@ from dotenv import load_dotenv
 from flask_wtf import CSRFProtect
 
 
-
+# Load environment variables from the "private.env" file
 load_dotenv("private.env")
 
-# API keys
+
+# Retrieve API keys from environment variables
 spoonacular_api_key = os.environ.get("SPOONACULAR_API_KEY")
 nutritionix_api_key = os.environ.get("NUTRITIONIX_API_KEY")
-nutritionix_api_id = os.environ.get("NUTRITIONIX_API_ID")
-openai_api_key = os.environ.get("OPENAI_API_KEY")
-
+nutritionix_api_id  = os.environ.get("NUTRITIONIX_API_ID")
+openai_api_key      = os.environ.get("OPENAI_API_KEY")
 
 # Initialize the Flask application
 app = Flask(__name__)
+
+# Set the secret key used for securely signing session cookies and CSRF tokens.
+# This should be a strong, randomly generated string and is loaded from the environment.
 app.secret_key = os.environ.get("SECRET_KEY")
 
-# Configure session settings: sessions are not permanent and stored in the filesystem
+# Configure session settings:
+# - Sessions are not permanent (they expire when the browser is closed)
+# - Sessions are stored in the filesystem (useful for development or small deployments)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+
+# Enhance cookie security:
+# - SESSION_COOKIE_SECURE: Ensures cookies are only sent over HTTPS.
+# - SESSION_COOKIE_HTTPONLY: Prevents JavaScript from accessing the cookies.
+# - SESSION_COOKIE_SAMESITE: Helps protect against CSRF attacks by controlling how cookies are sent with cross-site requests.
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
+# Initialize server-side session management and CSRF protection.
 Session(app)
 csrf = CSRFProtect(app)
 
-# Initialize the database connection using the SQLite database file "health.db"
+# Initialize the database connection using an SQLite database.
 db = SQL("sqlite:///health.db")
+
 
 def login_required(f):
     """
