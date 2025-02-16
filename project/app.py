@@ -604,19 +604,18 @@ def fitness_coach():
     messages.insert(0, {"role": "system", "content": system_prompt})
 
     # Get the OpenAI API key from environment variables
-    OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-    if not OPENAI_API_KEY:
+    if not openai_api_key:
         return jsonify({"reply": "No OpenAI API key found on the server."}), 500
 
     # Prepare headers for the OpenAI API request
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {OPENAI_API_KEY}"
+        "Authorization": f"Bearer {openai_api_key}"
     }
 
     # Prepare the payload for the chat completion request
     payload = {
-        "model": "gpt-4",  # Use the GPT-4 model; change to "gpt-3.5-turbo" if desired
+        "model": "gpt-4",  # Use the GPT-4 model
         "messages": messages,
         "temperature": 0.7,
         "max_tokens": 150
