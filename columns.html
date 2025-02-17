@@ -7,37 +7,30 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous">
         <style>
-            #grid {
-                background-color: green;
-                display: grid;
+            .row > div {
                 padding: 20px;
-                grid-column-gap: 20px;
-                grid-row-gap: 10px;
-                grid-template-columns: 200px 200px auto;
-            }
-
-            .grid-item {
-                background-color: white;
-                font-size: 20px;
-                padding: 20px;
+                background-color: teal;
+                border: 2px solid black;
             }
 
         </style>
     </head>
     <body>
-        <div id="grid">
-            <div class="grid-item">1</div>
-            <div class="grid-item">2</div>
-            <div class="grid-item">3</div>
-            <div class="grid-item">4</div>
-            <div class="grid-item">5</div>
-            <div class="grid-item">6</div>
-            <div class="grid-item">7</div>
-            <div class="grid-item">8</div>
-            <div class="grid-item">9</div>
-            <div class="grid-item">10</div>
-            <div class="grid-item">11</div>
-            <div class="grid-item">12</div>
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    This is a section
+                </div>
+                <div class="col-3">
+                    This is another section
+                </div>
+                <div class="col-3">
+                    This is a third section
+                </div>
+                <div class="col-3">
+                    This is a fourth section
+                </div>
+            </div>
         </div>
     </body>
 </html>
