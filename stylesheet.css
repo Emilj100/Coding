@@ -29,7 +29,7 @@ label {
 input[type="text"] {
     width: 400px;
     padding: 8px;
-    border-radius: 40px;
+    border-radius: 10px;
 }
 
 input[type="submit"] {
