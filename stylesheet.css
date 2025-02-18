@@ -82,3 +82,11 @@ input[type="text"] {
 .lucky:hover {
     background-color: #666;
 }
+
+/* ======== Google logo ======== */
+
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 250px;
+}
