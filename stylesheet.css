@@ -6,6 +6,8 @@
     margin: 0;
 }
 
+/* ======== Links ======== */
+
 .links {
     position: absolute;
     top: 10px;
@@ -23,14 +25,14 @@
     text-decoration: underline;
 }
 
+/* ======== Form ======== */
+
 
 .form-container {
     text-align: center;
 }
 
-.buttons {
-    margin-top: 10px;
-}
+/* ======== Input ======== */
 
 label {
     display: block;
@@ -42,6 +44,13 @@ input[type="text"] {
     width: 400px;
     padding: 8px;
     border-radius: 10px;
+}
+
+
+/* ======== Buttons ======== */
+
+.buttons {
+    margin-top: 10px;
 }
 
 .search {
