@@ -90,3 +90,21 @@ input[type="text"] {
     margin: 0 auto 20px;
     width: 250px;
 }
+
+
+:root {
+	--bg-primary: #202124;
+	--bg-secondary: #303134;
+	--fg-primary: #e8eaed;
+	--fg-secondary: #969ba1;
+	--btn-accent: #5f6368;
+	--blue-accent: #2a6af6;
+	--font-sans: 'roboto', sans-serif;
+}
+
+body {
+	background-color: var(--bg-primary);
+	min-height: 100vh;
+}
+
+
