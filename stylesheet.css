@@ -46,3 +46,18 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #357ae8;
 }
+
+.lucky {
+    background-color: gray;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 20px;
+}
+
+.lucky:hover {
+    background-color: white;
+}
