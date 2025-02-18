@@ -1,24 +1,76 @@
+<!-- Advanced search side -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Hello!</title>
-        <style>
-            @media (min-width: 600px) {
-                body {
-                    background-color: red;
-                }
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Search</title>
+    <style>
+        /* Sørg for at containeren er centreret, men at indholdet i den er venstrejusteret */
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
 
-            @media (max-width: 599px) {
-                body {
-                    background-color: blue;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Welcome to My Web page!</h1>
-    </body>
+        .field {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        /* Styling af Advanced Search-knappen */
+        input[type="submit"] {
+            background-color: #4285F4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Link oppe i højre for at gå tilbage til den normale søgeside -->
+    <div style="position: absolute; top: 0; right: 0;">
+        <a href="search.html">Google Search</a>
+    </div>
+
+    <div class="container">
+        <form action="https://www.google.com/search">
+            <div class="field">
+                <label for="q">Find pages with… “all these words:”</label>
+                <input type="text" id="q" name="q">
+            </div>
+            <div class="field">
+                <label for="as_epq">Find pages with… “this exact word or phrase:”</label>
+                <input type="text" id="as_epq" name="as_epq">
+            </div>
+            <div class="field">
+                <label for="as_oq">Find pages with… “any of these words:”</label>
+                <input type="text" id="as_oq" name="as_oq">
+            </div>
+            <div class="field">
+                <label for="as_eq">Find pages with… “none of these words:”</label>
+                <input type="text" id="as_eq" name="as_eq">
+            </div>
+            <input type="submit" value="Advanced Search">
+        </form>
+    </div>
+</body>
 </html>
-
 
